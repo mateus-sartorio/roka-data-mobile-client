@@ -1,0 +1,1 @@
+['Carimbo de data/hora', 'O morador é cadastrado no projeto?', 'Número de identificação da residência ou nome do morador', 'Data da coleta', 'Quantidade de resíduo coletado em KG\n\n(insira o valor utilizando vírgula)', 'Justificativa de não colaboração', 'Unnamed: 6']
