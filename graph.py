@@ -1,25 +1,36 @@
-import sys
-import calendar
 import pandas
 import math
 import matplotlib.pyplot as plt
 
-dict_meses = {
-    '1': 'janeiro',
-    '2': 'fevereiro',
-    '3': 'março',
-    '4': 'abril',
-    '5': 'maio',
-    '6': 'junho',
-    '7': 'julho',
-    '8': 'agosto',
-    '9': 'setembro',
-    '10': 'outubro',
-    '11': 'novembro',
-    '12': 'dezembro'
-}
+from meses import dict_meses
+from links import links
 
-def inicializa_identificacao_residencias(dicionario_moradores, data_frame, mes_int_arg):
+def plota_grafico(data, titulo, peso_maximo):
+    ticks = list(range(0, int(peso_maximo) + 5, 5))
+    data_plotavel = pandas.DataFrame(data)
+    data_plotavel.plot(kind='bar', x='id', title=titulo)
+    plt.ylabel('Peso (kg)')
+    plt.xlabel('Residência')
+    plt.xticks(rotation=90)
+    plt.grid(True)
+    plt.yticks(ticks=ticks)
+    plt.subplots_adjust(bottom=0.2)
+    plt.show()
+
+def cria_data_dict(dicionario_moradores):
+    data = {'id': [], 'peso': []}
+    peso_maximo = 0
+    for key, value in dicionario_moradores.items():
+        if value > peso_maximo:
+            peso_maximo = value
+        
+        data['id'].append(key)
+        data['peso'].append(value)
+
+    return data, peso_maximo
+
+def inicializa_identificacao_residencias(data_frame, mes_inicial, mes_final):
+    dicionario_moradores = {}
     for _, row in data_frame.iterrows():
         data_e_hora = row['Carimbo de data/hora']
         
@@ -27,7 +38,7 @@ def inicializa_identificacao_residencias(dicionario_moradores, data_frame, mes_i
             mes = data_e_hora[3:5]
             mes_int = int(mes)
 
-            if mes_int != mes_int_arg:
+            if (mes_inicial != -1) and (mes_int < mes_inicial or mes_int > mes_final):
                 continue
         except:
             continue
@@ -45,7 +56,9 @@ def inicializa_identificacao_residencias(dicionario_moradores, data_frame, mes_i
         nome_parsed = nome_parsed[0:15]
         dicionario_moradores[nome_parsed] = 0
 
-def calcula_soma_pesos_residencias(dicionario_moradores, data_frame, mes_int_arg):
+    return dicionario_moradores
+
+def calcula_soma_pesos_residencias(dicionario_moradores, data_frame, mes_inicial, mes_final):
     for _, row in data_frame.iterrows():
         data_e_hora = row['Carimbo de data/hora']
         
@@ -53,7 +66,7 @@ def calcula_soma_pesos_residencias(dicionario_moradores, data_frame, mes_int_arg
             mes = data_e_hora[3:5]
             mes_int = int(mes)
 
-            if mes_int != mes_int_arg:
+            if (mes_inicial != -1) and (mes_int < mes_inicial or mes_int > mes_final):
                 continue
         except:
             continue
@@ -76,81 +89,91 @@ def calcula_soma_pesos_residencias(dicionario_moradores, data_frame, mes_int_arg
         nome_parsed = nome_parsed[0:15]
         dicionario_moradores[nome_parsed] += peso
 
-def cria_data_dict(dicionario_moradores):
-    data = {'id': [], 'peso': []}
-    for key, value in dicionario_moradores.items():
-        data['id'].append(key)
-        data['peso'].append(value)
+def plota_ambos():
+    df2022 = pandas.read_csv(links['2022'])
+    
+    dicionario_moradores_2022 = inicializa_identificacao_residencias(df2022, -1, -1)
+    calcula_soma_pesos_residencias(dicionario_moradores_2022, df2022, -1, -1)
+    
+    df2023 = pandas.read_csv(links['2023'])
+    dicionario_moradores_2023 = inicializa_identificacao_residencias(df2023, -1, -1)
+    calcula_soma_pesos_residencias(dicionario_moradores_2023, df2023, -1, -1)
 
-    return data
+    data2022, peso_maximo_2022 = cria_data_dict(dicionario_moradores_2022)
+    data2023, peso_maximo_2023 = cria_data_dict(dicionario_moradores_2023)
 
-df = pandas.read_csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vRDwsNJ7ECerA3SXYh3vr_04xxc4ek_fqR070Pxb_2oBf2EJ62DW35NpEl-IJUAnNZv9ySBUEIB7WlL/pub?output=csv')
-moradores_dict = {}
-inicializa_identificacao_residencias(moradores_dict, df, int(sys.argv[1]))
-calcula_soma_pesos_residencias(moradores_dict, df, int(sys.argv[1]))
+    d1 = {}
+    for index, id in enumerate(data2022['id']):
+        d1[id] = data2022['peso'][index]
 
-df2 = pandas.read_csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQzjDbWR4NjkH0wnjbUHlrkGtcFiv-FJUfx3_mCwFGG3h1HM1wxbgMklvF3Q8ZQdwVL6xPc0NkH9zfM/pub?output=csv')
-moradores_dict_2 = {}
-inicializa_identificacao_residencias(moradores_dict_2, df2, int(sys.argv[2]))
-calcula_soma_pesos_residencias(moradores_dict_2, df2, int(sys.argv[2]))
+    d2 = {}
+    for index, id in enumerate(data2023['id']):
+        d2[id] = data2023['peso'][index]
 
-data1 = cria_data_dict(moradores_dict)
-data2 = cria_data_dict(moradores_dict_2)
+    todas_resisdencias = (d1 | d2).keys()
+    data_combinada = {'id': [], '2022': [], '2023': []}
 
-d1 = {}
-for index, id in enumerate(data1['id']):
-    d1[id] = data1['peso'][index]
+    for key in todas_resisdencias:
+        data_combinada['id'].append(key)
+        
+        peso2022 = 0
+        peso2023 = 0
+        
+        try:
+            peso2022 = d1[key]
+        except:
+            peso2022 = 0
 
-d2 = {}
-for index, id in enumerate(data2['id']):
-    d2[id] = data2['peso'][index]
+        try:
+            peso2023 = d2[key]
+        except:
+            peso2023 = 0
 
-# todas_resisdencias = (d1 | d2).keys()
-# data_combinada = {'id': [], '2022': [], '2023': []}
-# for key in todas_resisdencias:
-#     data_combinada['id'].append(key)
-#     
-#     peso2022 = 0
-#     peso2023 = 0
-#     
-#     try:
-#         peso2022 = d1[key]
-#     except:
-#         peso2022 = 0
+        data_combinada['2022'].append(peso2022)
+        data_combinada['2023'].append(peso2023)
+    
+    plota_grafico(data_combinada, 'Peso de plástico coletado por residência', max(peso_maximo_2022, peso_maximo_2023))
 
-#     try:
-#         peso2023 = d2[key]
-#     except:
-#         peso2023 = 0
-#     
-#     data_combinada['2022'].append(peso2022)
-#     data_combinada['2023'].append(peso2023)
+def plota_ano(ano, link):
+    mes_inicial = -1
+    mes_final = -1
+    while True:
+        resposta = input('Deseja escolher um mes especifico? [s/n]: ')
+        if resposta == 's':
+            mes_inicial = int(input('Qual o mes inicial?: '))
+            mes_final = int(input('Qual o mes final?: '))
+            break
+        elif resposta == 'n':
+            mes_inicial = -1
+            mes_final = -1
+            break
+        else:
+            print('Por favor insira uma resposta valida (s ou n)')           
 
-# data_plotavel = pandas.DataFrame(data_combinada)
-# data_plotavel.plot(kind='bar', x='id', title='Peso de plástico por morador')
-# plt.ylabel('Peso (kg)')
-# plt.xlabel('Residência')
-# plt.xticks(rotation=90)
-# plt.grid(True)
-# plt.yticks(ticks=[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60])
-# plt.subplots_adjust(bottom=0.2)
+    df = pandas.read_csv(link)
 
-data_plotavel = pandas.DataFrame(data1)
-data_plotavel.plot(kind='bar', x='id', title=f'Peso de plástico por morador em {dict_meses[sys.argv[1]]} de 2022')
-plt.ylabel('Peso (kg)')
-plt.xlabel('Residência')
-plt.xticks(rotation=90)
-plt.grid(True)
-plt.yticks(ticks=[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60])
-plt.subplots_adjust(bottom=0.2)
+    dicionario_moradores = inicializa_identificacao_residencias(df, mes_inicial, mes_final)
+    calcula_soma_pesos_residencias(dicionario_moradores, df, mes_inicial, mes_final)
+    
+    data, peso_maximo = cria_data_dict(dicionario_moradores)
 
-data_plotavel = pandas.DataFrame(data2)
-data_plotavel.plot(kind='bar', x='id', title=f'Peso de plástico por morador em {dict_meses[sys.argv[2]]} de 2023')
-plt.ylabel('Peso (kg)')
-plt.xlabel('Residência')
-plt.xticks(rotation=90)
-plt.grid(True)
-plt.yticks(ticks=[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60])
-plt.subplots_adjust(bottom=0.2)
+    if mes_final == mes_inicial and mes_inicial > 0:
+        plota_grafico(data, f'Peso de plástico por morador em {dict_meses[mes_inicial]} de {ano}', peso_maximo)
+    elif mes_inicial > 0:
+        plota_grafico(data, f'Peso de platico por morador entre {dict_meses[mes_inicial]} e {dict_meses[mes_final]} de {ano}', peso_maximo)
+    else:
+        plota_grafico(data, f'Peso de plastico por morador em {ano}', peso_maximo)
 
-plt.show()
+while True:
+    resposta = input('Qual ano você quer? 2022, 2023 ou ambos?: ')
+    if resposta == 'ambos':
+        plota_ambos()
+        break
+    elif resposta == '2022':
+        plota_ano('2022', links['2022'])
+        break
+    elif resposta == '2023':
+        plota_ano('2023', links['2023'])
+        break
+    else:
+        print('Por favor insira uma resposta válida (2022, 2023 ou ambos)')
