@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_19_023718) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_19_190450) do
+  create_table "collects", force: :cascade do |t|
+    t.date "collected_on"
+    t.decimal "ammount"
+    t.integer "resident_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["resident_id"], name: "index_collects_on_resident_id"
+  end
+
   create_table "residents", force: :cascade do |t|
     t.string "name"
     t.integer "situation"
@@ -30,4 +39,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_19_023718) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "collects", "residents"
 end
