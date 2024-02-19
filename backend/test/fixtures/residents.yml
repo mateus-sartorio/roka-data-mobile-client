@@ -1,0 +1,33 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  situation: 1
+  roka_id: 1
+  has_plaque: false
+  registration_year: 1
+  address: MyString
+  reference_point: MyString
+  lives_in_JN: false
+  phone: MyString
+  is_on_whatsapp_group: false
+  birthdate: 2024-02-18
+  profession: MyString
+  residents_in_the_house: 1
+  observations: MyString
+
+two:
+  name: MyString
+  situation: 1
+  roka_id: 1
+  has_plaque: false
+  registration_year: 1
+  address: MyString
+  reference_point: MyString
+  lives_in_JN: false
+  phone: MyString
+  is_on_whatsapp_group: false
+  birthdate: 2024-02-18
+  profession: MyString
+  residents_in_the_house: 1
+  observations: MyString

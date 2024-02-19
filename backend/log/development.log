@@ -1,0 +1,74 @@
+Started GET "/" for 127.0.0.1 at 2024-02-18 23:21:27 -0300
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /usr/share/gems/gems/railties-7.0.8/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /usr/share/gems/gems/railties-7.0.8/lib/rails/templates/rails/welcome/index.html.erb (Duration: 1.2ms | Allocations: 633)
+Completed 200 OK in 14ms (Views: 4.3ms | ActiveRecord: 0.0ms | Allocations: 7378)
+
+
+  [1m[35m (8.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (5.4ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateResidents (20240219023718)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "residents" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "situation" integer, "roka_id" integer, "has_plaque" boolean, "registration_year" integer, "address" varchar, "reference_point" varchar, "lives_in_JN" boolean, "phone" varchar, "is_on_whatsapp_group" boolean, "birthdate" date, "profession" varchar, "residents_in_the_house" integer, "observations" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240219023718"]]
+  [1m[36mTRANSACTION (4.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2024-02-19 02:38:58.755396"], ["updated_at", "2024-02-19 02:38:58.755396"]]
+  [1m[36mTRANSACTION (4.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mResident Create (0.4ms)[0m  [1m[32mINSERT INTO "residents" ("name", "situation", "roka_id", "has_plaque", "registration_year", "address", "reference_point", "lives_in_JN", "phone", "is_on_whatsapp_group", "birthdate", "profession", "residents_in_the_house", "observations", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["name", "a"], ["situation", nil], ["roka_id", nil], ["has_plaque", nil], ["registration_year", nil], ["address", nil], ["reference_point", nil], ["lives_in_JN", nil], ["phone", nil], ["is_on_whatsapp_group", nil], ["birthdate", nil], ["profession", nil], ["residents_in_the_house", nil], ["observations", nil], ["created_at", "2024-02-19 02:40:44.774488"], ["updated_at", "2024-02-19 02:40:44.774488"]]
+  [1m[36mTRANSACTION (21.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+Started GET "/" for 127.0.0.1 at 2024-02-18 23:44:30 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /usr/share/gems/gems/railties-7.0.8/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /usr/share/gems/gems/railties-7.0.8/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.8ms | Allocations: 489)
+Completed 200 OK in 42ms (Views: 4.0ms | ActiveRecord: 0.0ms | Allocations: 4256)
+
+
+Started GET "/resident" for 127.0.0.1 at 2024-02-18 23:44:38 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/resident"):
+  
+Started GET "/residents" for 127.0.0.1 at 2024-02-18 23:44:48 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/residents"):
+  
+Started GET "/resident" for 127.0.0.1 at 2024-02-18 23:44:51 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/resident"):
+  
+Started GET "/resident" for 127.0.0.1 at 2024-02-18 23:46:26 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActionController::RoutingError (No route matches [GET] "/resident"):
+  
+Started GET "/resident" for 127.0.0.1 at 2024-02-18 23:46:29 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/resident"):
+  
+Started GET "/resident" for 127.0.0.1 at 2024-02-18 23:47:47 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActionController::RoutingError (No route matches [GET] "/resident"):
+  
+Started GET "/resident" for 127.0.0.1 at 2024-02-18 23:47:49 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/resident"):
+  
+Started GET "/residents" for 127.0.0.1 at 2024-02-18 23:47:54 -0300
+  
+ActionController::RoutingError (uninitialized constant ResidentsController):
+  
+Started GET "/residents" for 127.0.0.1 at 2024-02-18 23:50:49 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 39ms (Views: 15.8ms | ActiveRecord: 0.7ms | Allocations: 13226)
+
+
