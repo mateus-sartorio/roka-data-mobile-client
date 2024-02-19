@@ -434,3 +434,355 @@ Processing by CollectsController#create as */*
 Completed 201 Created in 26ms (Views: 0.5ms | ActiveRecord: 7.1ms | Allocations: 6088)
 
 
+Started GET "/residents/1" for ::1 at 2024-02-19 18:57:54 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActionController::RoutingError (No route matches [GET] "/residents/1"):
+  
+Started GET "/residents" for ::1 at 2024-02-19 18:58:02 -0300
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 25ms (Views: 15.6ms | ActiveRecord: 1.1ms | Allocations: 13852)
+
+
+Started GET "/residents" for ::1 at 2024-02-19 18:58:32 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 32ms (Views: 14.3ms | ActiveRecord: 0.8ms | Allocations: 13876)
+
+
+Started GET "/residents" for ::1 at 2024-02-19 19:03:36 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 24ms (Views: 15.5ms | ActiveRecord: 0.9ms | Allocations: 13875)
+
+
+Started POST "/residents" for ::1 at 2024-02-19 19:03:40 -0300
+Processing by ResidentsController#create as */*
+  Parameters: {"name"=>"Valmir", "situation"=>"ativo", "roka_id"=>3, "has_plaque"=>true, "registration_year"=>2022, "address"=>"JN", "reference_point"=>"JN", "lives_in_JN"=>true, "phone"=>"992877594", "is_on_whatsapp_group"=>false, "birthdate"=>"1990-10-10", "profession"=>"youtuber", "residents_in_the_house"=>2, "observations"=>"cuidado", "created_at"=>"2024-02-19T02:40:44.774Z", "updated_at"=>"2024-02-19T02:40:44.774Z", "resident"=>{"name"=>"Valmir", "situation"=>"ativo", "roka_id"=>3, "has_plaque"=>true, "registration_year"=>2022, "address"=>"JN", "reference_point"=>"JN", "lives_in_JN"=>true, "phone"=>"992877594", "is_on_whatsapp_group"=>false, "birthdate"=>"1990-10-10", "profession"=>"youtuber", "residents_in_the_house"=>2, "observations"=>"cuidado", "created_at"=>"2024-02-19T02:40:44.774Z", "updated_at"=>"2024-02-19T02:40:44.774Z"}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:10:in `create'
+  [1m[36mResident Create (0.5ms)[0m  [1m[32mINSERT INTO "residents" ("name", "situation", "roka_id", "has_plaque", "registration_year", "address", "reference_point", "lives_in_JN", "phone", "is_on_whatsapp_group", "birthdate", "profession", "residents_in_the_house", "observations", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Valmir"], ["situation", 0], ["roka_id", 3], ["has_plaque", 1], ["registration_year", 2022], ["address", "JN"], ["reference_point", "JN"], ["lives_in_JN", 1], ["phone", "992877594"], ["is_on_whatsapp_group", 0], ["birthdate", "1990-10-10"], ["profession", "youtuber"], ["residents_in_the_house", 2], ["observations", "cuidado"], ["created_at", "2024-02-19 02:40:44.774000"], ["updated_at", "2024-02-19 02:40:44.774000"]]
+  ↳ app/controllers/residents_controller.rb:10:in `create'
+  [1m[36mTRANSACTION (8.9ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:10:in `create'
+Completed 201 Created in 17ms (Views: 0.4ms | ActiveRecord: 9.4ms | Allocations: 3731)
+
+
+Started GET "/residents" for ::1 at 2024-02-19 19:03:42 -0300
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 3ms (Views: 2.1ms | ActiveRecord: 0.1ms | Allocations: 1116)
+
+
+Started PUT "/residents/1" for ::1 at 2024-02-19 19:03:55 -0300
+Processing by ResidentsController#update as */*
+  Parameters: {"name"=>"Jamir", "situation"=>"ativo", "roka_id"=>3, "has_plaque"=>true, "registration_year"=>2022, "address"=>"JN", "reference_point"=>"JN", "lives_in_JN"=>true, "phone"=>"992877594", "is_on_whatsapp_group"=>false, "birthdate"=>nil, "profession"=>"youtuber", "residents_in_the_house"=>2, "observations"=>"cuidado", "created_at"=>"2024-02-19T02:40:44.774Z", "updated_at"=>"2024-02-19T02:40:44.774Z", "id"=>"1", "resident"=>{"name"=>"Jamir", "situation"=>"ativo", "roka_id"=>3, "has_plaque"=>true, "registration_year"=>2022, "address"=>"JN", "reference_point"=>"JN", "lives_in_JN"=>true, "phone"=>"992877594", "is_on_whatsapp_group"=>false, "birthdate"=>nil, "profession"=>"youtuber", "residents_in_the_house"=>2, "observations"=>"cuidado", "created_at"=>"2024-02-19T02:40:44.774Z", "updated_at"=>"2024-02-19T02:40:44.774Z"}}
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", nil], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:28:in `update'
+Completed 404 Not Found in 5ms (ActiveRecord: 0.3ms | Allocations: 3476)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find Resident with 'id'={:id=>"1"}):
+  
+app/controllers/residents_controller.rb:28:in `update'
+Started GET "/residents/1" for ::1 at 2024-02-19 19:04:50 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/residents/1"):
+  
+Started GET "/residents/1" for ::1 at 2024-02-19 19:05:53 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActionController::RoutingError (No route matches [GET] "/residents/1"):
+  
+Started GET "/residents/1" for ::1 at 2024-02-19 19:07:28 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActionController::RoutingError (No route matches [GET] "/residents/1"):
+  
+Started POST "/residents" for ::1 at 2024-02-19 19:16:22 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#create as */*
+  Parameters: {"name"=>"Nalmir", "situation"=>"ativo", "roka_id"=>5, "has_plaque"=>true, "registration_year"=>2022, "address"=>"JN", "reference_point"=>"JN", "lives_in_JN"=>true, "phone"=>"992877594", "is_on_whatsapp_group"=>false, "birthdate"=>nil, "profession"=>"youtuber", "residents_in_the_house"=>2, "observations"=>"cuidado", "created_at"=>"2024-02-19T02:40:44.774Z", "updated_at"=>"2024-02-19T02:40:44.774Z", "resident"=>{"name"=>"Nalmir", "situation"=>"ativo", "roka_id"=>5, "has_plaque"=>true, "registration_year"=>2022, "address"=>"JN", "reference_point"=>"JN", "lives_in_JN"=>true, "phone"=>"992877594", "is_on_whatsapp_group"=>false, "birthdate"=>nil, "profession"=>"youtuber", "residents_in_the_house"=>2, "observations"=>"cuidado", "created_at"=>"2024-02-19T02:40:44.774Z", "updated_at"=>"2024-02-19T02:40:44.774Z"}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:10:in `create'
+  [1m[36mResident Create (0.5ms)[0m  [1m[32mINSERT INTO "residents" ("name", "situation", "roka_id", "has_plaque", "registration_year", "address", "reference_point", "lives_in_JN", "phone", "is_on_whatsapp_group", "birthdate", "profession", "residents_in_the_house", "observations", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Nalmir"], ["situation", 0], ["roka_id", 5], ["has_plaque", 1], ["registration_year", 2022], ["address", "JN"], ["reference_point", "JN"], ["lives_in_JN", 1], ["phone", "992877594"], ["is_on_whatsapp_group", 0], ["birthdate", nil], ["profession", "youtuber"], ["residents_in_the_house", 2], ["observations", "cuidado"], ["created_at", "2024-02-19 02:40:44.774000"], ["updated_at", "2024-02-19 02:40:44.774000"]]
+  ↳ app/controllers/residents_controller.rb:10:in `create'
+  [1m[36mTRANSACTION (5.8ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:10:in `create'
+Completed 201 Created in 27ms (Views: 0.6ms | ActiveRecord: 7.0ms | Allocations: 13901)
+
+
+Started GET "/residents/1" for ::1 at 2024-02-19 19:19:51 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActionController::RoutingError (No route matches [GET] "/residents/1"):
+  
+Started GET "/residents/1" for ::1 at 2024-02-19 19:20:55 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mResident Load (0.4ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+Completed 200 OK in 31ms (Views: 0.8ms | ActiveRecord: 1.1ms | Allocations: 15508)
+
+
+Started DELETE "/residents/1" for ::1 at 2024-02-19 19:48:28 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#destroy as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:41:in `destroy'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:43:in `destroy'
+  [1m[36mResident Destroy (0.8ms)[0m  [1m[31mDELETE FROM "residents" WHERE "residents"."id" = ?[0m  [["id", 1]]
+  ↳ app/controllers/residents_controller.rb:43:in `destroy'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mrollback transaction[0m
+  ↳ app/controllers/residents_controller.rb:43:in `destroy'
+Completed 500 Internal Server Error in 28ms (ActiveRecord: 2.1ms | Allocations: 17668)
+
+
+  
+ActiveRecord::InvalidForeignKey (SQLite3::ConstraintException: FOREIGN KEY constraint failed):
+  
+app/controllers/residents_controller.rb:43:in `destroy'
+Started DELETE "/residents/1" for ::1 at 2024-02-19 19:48:32 -0300
+Processing by ResidentsController#destroy as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:41:in `destroy'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:43:in `destroy'
+  [1m[36mResident Destroy (0.9ms)[0m  [1m[31mDELETE FROM "residents" WHERE "residents"."id" = ?[0m  [["id", 1]]
+  ↳ app/controllers/residents_controller.rb:43:in `destroy'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mrollback transaction[0m
+  ↳ app/controllers/residents_controller.rb:43:in `destroy'
+Completed 500 Internal Server Error in 5ms (ActiveRecord: 1.3ms | Allocations: 3048)
+
+
+  
+ActiveRecord::InvalidForeignKey (SQLite3::ConstraintException: FOREIGN KEY constraint failed):
+  
+app/controllers/residents_controller.rb:43:in `destroy'
+Started GET "/residents" for ::1 at 2024-02-19 19:49:23 -0300
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 4ms (Views: 2.9ms | ActiveRecord: 0.2ms | Allocations: 1733)
+
+
+Started GET "/residents/1" for ::1 at 2024-02-19 19:49:36 -0300
+Processing by ResidentsController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+Completed 200 OK in 3ms (Views: 0.8ms | ActiveRecord: 0.2ms | Allocations: 756)
+
+
+Started GET "/residents/2" for ::1 at 2024-02-19 19:49:49 -0300
+Processing by ResidentsController#show as */*
+  Parameters: {"id"=>"2"}
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+Completed 200 OK in 2ms (Views: 0.5ms | ActiveRecord: 0.1ms | Allocations: 764)
+
+
+Started GET "/residents/1" for ::1 at 2024-02-19 19:49:54 -0300
+Processing by ResidentsController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+Completed 200 OK in 2ms (Views: 0.4ms | ActiveRecord: 0.1ms | Allocations: 762)
+
+
+Started GET "/residents/3" for ::1 at 2024-02-19 19:50:06 -0300
+Processing by ResidentsController#show as */*
+  Parameters: {"id"=>"3"}
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+Completed 200 OK in 3ms (Views: 0.7ms | ActiveRecord: 0.1ms | Allocations: 762)
+
+
+Started DELETE "/residents/1" for ::1 at 2024-02-19 19:50:52 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#destroy as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:41:in `destroy'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:45:in `destroy'
+  [1m[36mResident Destroy (1.1ms)[0m  [1m[31mDELETE FROM "residents" WHERE "residents"."id" = ?[0m  [["id", 1]]
+  ↳ app/controllers/residents_controller.rb:45:in `destroy'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mrollback transaction[0m
+  ↳ app/controllers/residents_controller.rb:45:in `destroy'
+Completed 500 Internal Server Error in 37ms (ActiveRecord: 2.5ms | Allocations: 17687)
+
+
+  
+ActiveRecord::InvalidForeignKey (SQLite3::ConstraintException: FOREIGN KEY constraint failed):
+  
+app/controllers/residents_controller.rb:45:in `destroy'
+Started DELETE "/residents/1" for ::1 at 2024-02-19 19:52:07 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#destroy as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:41:in `destroy'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:45:in `destroy'
+  [1m[36mResident Destroy (0.8ms)[0m  [1m[31mDELETE FROM "residents" WHERE "residents"."id" = ?[0m  [["id", 1]]
+  ↳ app/controllers/residents_controller.rb:45:in `destroy'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mrollback transaction[0m
+  ↳ app/controllers/residents_controller.rb:45:in `destroy'
+Completed 500 Internal Server Error in 27ms (ActiveRecord: 1.9ms | Allocations: 17681)
+
+
+  
+ActiveRecord::InvalidForeignKey (SQLite3::ConstraintException: FOREIGN KEY constraint failed):
+  
+app/controllers/residents_controller.rb:45:in `destroy'
+Started DELETE "/residents/1" for ::1 at 2024-02-19 19:52:38 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#destroy as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:41:in `destroy'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:45:in `destroy'
+  [1m[36mResident Destroy (0.8ms)[0m  [1m[31mDELETE FROM "residents" WHERE "residents"."id" = ?[0m  [["id", 1]]
+  ↳ app/controllers/residents_controller.rb:45:in `destroy'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mrollback transaction[0m
+  ↳ app/controllers/residents_controller.rb:45:in `destroy'
+Completed 500 Internal Server Error in 27ms (ActiveRecord: 1.8ms | Allocations: 17673)
+
+
+  
+ActiveRecord::InvalidForeignKey (SQLite3::ConstraintException: FOREIGN KEY constraint failed):
+  
+app/controllers/residents_controller.rb:45:in `destroy'
+Started DELETE "/residents/1" for ::1 at 2024-02-19 19:52:51 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#destroy as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:41:in `destroy'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:45:in `destroy'
+  [1m[36mResident Destroy (0.8ms)[0m  [1m[31mDELETE FROM "residents" WHERE "residents"."id" = ?[0m  [["id", 1]]
+  ↳ app/controllers/residents_controller.rb:45:in `destroy'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mrollback transaction[0m
+  ↳ app/controllers/residents_controller.rb:45:in `destroy'
+Completed 500 Internal Server Error in 28ms (ActiveRecord: 2.1ms | Allocations: 17673)
+
+
+  
+ActiveRecord::InvalidForeignKey (SQLite3::ConstraintException: FOREIGN KEY constraint failed):
+  
+app/controllers/residents_controller.rb:45:in `destroy'
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started DELETE "/residents/1" for ::1 at 2024-02-19 19:56:53 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#destroy as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:41:in `destroy'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:45:in `destroy'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1]]
+  ↳ app/controllers/residents_controller.rb:45:in `destroy'
+  [1m[36mCollect Destroy (0.5ms)[0m  [1m[31mDELETE FROM "collects" WHERE "collects"."id" = ?[0m  [["id", 1]]
+  ↳ app/controllers/residents_controller.rb:45:in `destroy'
+  [1m[36mResident Destroy (0.3ms)[0m  [1m[31mDELETE FROM "residents" WHERE "residents"."id" = ?[0m  [["id", 1]]
+  ↳ app/controllers/residents_controller.rb:45:in `destroy'
+  [1m[36mTRANSACTION (5.9ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:45:in `destroy'
+Completed 200 OK in 52ms (Views: 0.3ms | ActiveRecord: 8.2ms | Allocations: 26134)
+
+
+Started GET "/residents" for ::1 at 2024-02-19 19:57:01 -0300
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 4ms (Views: 3.1ms | ActiveRecord: 0.2ms | Allocations: 1405)
+
+
+Started POST "/residents" for ::1 at 2024-02-19 19:57:11 -0300
+Processing by ResidentsController#create as */*
+  Parameters: {"name"=>"Jamir", "situation"=>"ativo", "roka_id"=>2, "has_plaque"=>true, "registration_year"=>2022, "address"=>"JN", "reference_point"=>"JN", "lives_in_JN"=>true, "phone"=>"992877594", "is_on_whatsapp_group"=>false, "birthdate"=>nil, "profession"=>"youtuber", "residents_in_the_house"=>2, "observations"=>"cuidado", "created_at"=>"2024-02-19T02:40:44.774Z", "updated_at"=>"2024-02-19T02:40:44.774Z", "resident"=>{"name"=>"Jamir", "situation"=>"ativo", "roka_id"=>2, "has_plaque"=>true, "registration_year"=>2022, "address"=>"JN", "reference_point"=>"JN", "lives_in_JN"=>true, "phone"=>"992877594", "is_on_whatsapp_group"=>false, "birthdate"=>nil, "profession"=>"youtuber", "residents_in_the_house"=>2, "observations"=>"cuidado", "created_at"=>"2024-02-19T02:40:44.774Z", "updated_at"=>"2024-02-19T02:40:44.774Z"}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mResident Create (0.8ms)[0m  [1m[32mINSERT INTO "residents" ("name", "situation", "roka_id", "has_plaque", "registration_year", "address", "reference_point", "lives_in_JN", "phone", "is_on_whatsapp_group", "birthdate", "profession", "residents_in_the_house", "observations", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Jamir"], ["situation", 0], ["roka_id", 2], ["has_plaque", 1], ["registration_year", 2022], ["address", "JN"], ["reference_point", "JN"], ["lives_in_JN", 1], ["phone", "992877594"], ["is_on_whatsapp_group", 0], ["birthdate", nil], ["profession", "youtuber"], ["residents_in_the_house", 2], ["observations", "cuidado"], ["created_at", "2024-02-19 02:40:44.774000"], ["updated_at", "2024-02-19 02:40:44.774000"]]
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (7.6ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+Completed 201 Created in 20ms (Views: 1.4ms | ActiveRecord: 8.5ms | Allocations: 3452)
+
+
+Started GET "/residents" for ::1 at 2024-02-19 19:57:16 -0300
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 4ms (Views: 2.9ms | ActiveRecord: 0.2ms | Allocations: 1314)
+
+
+Started PUT "/residents/1" for ::1 at 2024-02-19 19:58:51 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#update as */*
+  Parameters: {"name"=>"Jamir", "situation"=>"ativo", "roka_id"=>3, "has_plaque"=>true, "registration_year"=>2022, "address"=>"JN", "reference_point"=>"JN", "lives_in_JN"=>true, "phone"=>"992877594", "is_on_whatsapp_group"=>false, "birthdate"=>nil, "profession"=>"youtuber", "residents_in_the_house"=>2, "observations"=>"cuidado", "created_at"=>"2024-02-19T02:40:44.774Z", "updated_at"=>"2024-02-19T02:40:44.774Z", "id"=>"1", "resident"=>{"name"=>"Jamir", "situation"=>"ativo", "roka_id"=>3, "has_plaque"=>true, "registration_year"=>2022, "address"=>"JN", "reference_point"=>"JN", "lives_in_JN"=>true, "phone"=>"992877594", "is_on_whatsapp_group"=>false, "birthdate"=>nil, "profession"=>"youtuber", "residents_in_the_house"=>2, "observations"=>"cuidado", "created_at"=>"2024-02-19T02:40:44.774Z", "updated_at"=>"2024-02-19T02:40:44.774Z"}}
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.4ms | Allocations: 1776)
+
+
+  
+NoMethodError (undefined method `update' for nil:NilClass):
+  
+app/controllers/residents_controller.rb:23:in `update'
+Started GET "/residents" for ::1 at 2024-02-19 19:59:56 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 29ms (Views: 14.9ms | ActiveRecord: 0.9ms | Allocations: 14327)
+
+
+Started PUT "/residents/1" for ::1 at 2024-02-19 20:00:13 -0300
+Processing by ResidentsController#update as */*
+  Parameters: {"name"=>"Jamir", "situation"=>"ativo", "roka_id"=>3, "has_plaque"=>true, "registration_year"=>1990, "address"=>"JN", "reference_point"=>"JN", "lives_in_JN"=>true, "phone"=>"992877594", "is_on_whatsapp_group"=>false, "birthdate"=>nil, "profession"=>"youtuber", "residents_in_the_house"=>2, "observations"=>"cuidado", "created_at"=>"2024-02-19T02:40:44.774Z", "updated_at"=>"2024-02-19T02:40:44.774Z", "id"=>"1", "resident"=>{"name"=>"Jamir", "situation"=>"ativo", "roka_id"=>3, "has_plaque"=>true, "registration_year"=>1990, "address"=>"JN", "reference_point"=>"JN", "lives_in_JN"=>true, "phone"=>"992877594", "is_on_whatsapp_group"=>false, "birthdate"=>nil, "profession"=>"youtuber", "residents_in_the_house"=>2, "observations"=>"cuidado", "created_at"=>"2024-02-19T02:40:44.774Z", "updated_at"=>"2024-02-19T02:40:44.774Z"}}
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+Completed 404 Not Found in 13ms (ActiveRecord: 0.3ms | Allocations: 6900)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find Resident with 'id'=1):
+  
+app/controllers/residents_controller.rb:23:in `update'
+Started PUT "/residents/4" for ::1 at 2024-02-19 20:00:28 -0300
+Processing by ResidentsController#update as */*
+  Parameters: {"name"=>"Jamir", "situation"=>"ativo", "roka_id"=>3, "has_plaque"=>true, "registration_year"=>1990, "address"=>"JN", "reference_point"=>"JN", "lives_in_JN"=>true, "phone"=>"992877594", "is_on_whatsapp_group"=>false, "birthdate"=>nil, "profession"=>"youtuber", "residents_in_the_house"=>2, "observations"=>"cuidado", "created_at"=>"2024-02-19T02:40:44.774Z", "updated_at"=>"2024-02-19T02:40:44.774Z", "id"=>"4", "resident"=>{"name"=>"Jamir", "situation"=>"ativo", "roka_id"=>3, "has_plaque"=>true, "registration_year"=>1990, "address"=>"JN", "reference_point"=>"JN", "lives_in_JN"=>true, "phone"=>"992877594", "is_on_whatsapp_group"=>false, "birthdate"=>nil, "profession"=>"youtuber", "residents_in_the_house"=>2, "observations"=>"cuidado", "created_at"=>"2024-02-19T02:40:44.774Z", "updated_at"=>"2024-02-19T02:40:44.774Z"}}
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mResident Update (0.6ms)[0m  [1m[33mUPDATE "residents" SET "situation" = ?, "roka_id" = ?, "registration_year" = ?, "updated_at" = ? WHERE "residents"."id" = ?[0m  [["situation", 0], ["roka_id", 3], ["registration_year", 1990], ["updated_at", "2024-02-19 23:00:28.716863"], ["id", 4]]
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mTRANSACTION (9.0ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+Completed 200 OK in 23ms (Views: 0.5ms | ActiveRecord: 9.8ms | Allocations: 4201)
+
+
+Started GET "/residents" for ::1 at 2024-02-19 20:00:33 -0300
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 4ms (Views: 3.2ms | ActiveRecord: 0.2ms | Allocations: 1314)
+
+

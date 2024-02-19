@@ -4,13 +4,40 @@ class ResidentsController < ApplicationController
     render json: residents
   end
 
-  def create
-    @resident = Resident.new(resident_params)
+  def show
+    resident = Resident.find(params[:id])
+    render json: resident
+  end
 
-    if @resident.save
-      render json: @resident, status: :created
+  def create
+    resident = Resident.new(resident_params)
+
+    if resident.save
+      render json: resident, status: :created
     else
-      render json: @resident.errors, status: :unprocessable_entity
+      render json: resident.errors, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    resident = Resident.find(params[:id])
+
+    if resident.update(resident_params)
+      render json: resident, status: :ok
+    else
+      render json: resident.errors, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    resident = Resident.find(params[:id])
+
+    puts resident.name
+    
+    if resident.destroy
+      render json: { message: "Resident successfully deleted" }, status: :ok
+    else
+      render json: { error: "Failed to delete resident" }, status: :unprocessable_entity
     end
   end
 
