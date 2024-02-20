@@ -5,5 +5,5 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   resources :residents, only: [:index, :show, :create, :update, :destroy]
-  resources :collects, only: [:index, :create]
+  resources :collects, only: [:index, :show, :create, :update, :destroy]
 end
