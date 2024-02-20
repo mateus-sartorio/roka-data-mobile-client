@@ -786,3 +786,285 @@ Processing by ResidentsController#index as */*
 Completed 200 OK in 4ms (Views: 3.2ms | ActiveRecord: 0.2ms | Allocations: 1314)
 
 
+Started GET "/collects" for ::1 at 2024-02-19 20:06:24 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by CollectsController#index as */*
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 10ms (Views: 1.2ms | ActiveRecord: 0.2ms | Allocations: 3855)
+
+
+Started GET "/collects" for ::1 at 2024-02-19 20:07:16 -0300
+Processing by CollectsController#index as */*
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 3ms (Views: 2.1ms | ActiveRecord: 0.3ms | Allocations: 704)
+
+
+Started DELETE "/residents/1" for ::1 at 2024-02-19 20:07:28 -0300
+Processing by ResidentsController#destroy as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mResident Load (0.6ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:33:in `destroy'
+Completed 404 Not Found in 16ms (ActiveRecord: 1.8ms | Allocations: 4819)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find Resident with 'id'=1):
+  
+app/controllers/residents_controller.rb:33:in `destroy'
+Started GET "/residents" for ::1 at 2024-02-19 20:07:53 -0300
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 17ms (Views: 16.0ms | ActiveRecord: 0.2ms | Allocations: 10149)
+
+
+Started GET "/residents" for ::1 at 2024-02-19 20:12:02 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 23ms (Views: 16.0ms | ActiveRecord: 0.8ms | Allocations: 14328)
+
+
+Started GET "/residents" for ::1 at 2024-02-19 20:12:27 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 25ms (Views: 15.6ms | ActiveRecord: 1.4ms | Allocations: 14329)
+
+
+Started GET "/residents" for ::1 at 2024-02-19 20:17:08 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 24ms (Views: 16.0ms | ActiveRecord: 0.9ms | Allocations: 14331)
+
+
+Started GET "/residents/2" for ::1 at 2024-02-19 20:17:22 -0300
+Processing by ResidentsController#show as */*
+  Parameters: {"id"=>"2"}
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+Completed 500 Internal Server Error in 10ms (ActiveRecord: 0.2ms | Allocations: 3849)
+
+
+  
+ActiveRecord::AssociationNotFoundError (Association named 'collects' was not found on Resident; perhaps you misspelled it?):
+  
+app/controllers/residents_controller.rb:8:in `show'
+Started GET "/residents/2" for ::1 at 2024-02-19 20:18:48 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#show as */*
+  Parameters: {"id"=>"2"}
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+Completed 500 Internal Server Error in 24ms (ActiveRecord: 0.9ms | Allocations: 15643)
+
+
+  
+NoMethodError (undefined method `collects' for #<Resident id: 2, name: "Valmir", situation: 0, roka_id: 3, has_plaque: true, registration_year: 2022, address: "JN", reference_point: "JN", lives_in_JN: true, phone: "992877594", is_on_whatsapp_group: false, birthdate: "1990-10-10", profession: "youtuber", residents_in_the_house: 2, observations: "cuidado", created_at: "2024-02-19 02:40:44.774000000 +0000", updated_at: "2024-02-19 02:40:44.774000000 +0000">):
+  
+app/controllers/residents_controller.rb:9:in `show'
+Started GET "/residents" for ::1 at 2024-02-19 21:08:21 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 22ms (Views: 13.3ms | ActiveRecord: 0.9ms | Allocations: 14327)
+
+
+Started GET "/residents/2" for ::1 at 2024-02-19 21:08:26 -0300
+Processing by ResidentsController#show as */*
+  Parameters: {"id"=>"2"}
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+Completed 500 Internal Server Error in 4ms (ActiveRecord: 0.2ms | Allocations: 3017)
+
+
+  
+NoMethodError (undefined method `collects' for #<Resident id: 2, name: "Valmir", situation: 0, roka_id: 3, has_plaque: true, registration_year: 2022, address: "JN", reference_point: "JN", lives_in_JN: true, phone: "992877594", is_on_whatsapp_group: false, birthdate: "1990-10-10", profession: "youtuber", residents_in_the_house: 2, observations: "cuidado", created_at: "2024-02-19 02:40:44.774000000 +0000", updated_at: "2024-02-19 02:40:44.774000000 +0000">):
+  
+app/controllers/residents_controller.rb:9:in `show'
+Started GET "/residents/2" for ::1 at 2024-02-19 21:10:49 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#show as */*
+  Parameters: {"id"=>"2"}
+  [1m[36mResident Load (0.4ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+Completed 500 Internal Server Error in 25ms (ActiveRecord: 1.0ms | Allocations: 15612)
+
+
+  
+ActiveRecord::AssociationNotFoundError (Association named 'collects' was not found on Resident; perhaps you misspelled it?):
+  
+app/controllers/residents_controller.rb:8:in `show'
+Started GET "/residents/2" for ::1 at 2024-02-19 21:11:05 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#show as */*
+  Parameters: {"id"=>"2"}
+  [1m[36mResident Load (0.4ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 2]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+Completed 500 Internal Server Error in 46ms (ActiveRecord: 2.3ms | Allocations: 21036)
+
+
+  
+NoMethodError (undefined method `collects' for #<Resident id: 2, name: "Valmir", situation: 0, roka_id: 3, has_plaque: true, registration_year: 2022, address: "JN", reference_point: "JN", lives_in_JN: true, phone: "992877594", is_on_whatsapp_group: false, birthdate: "1990-10-10", profession: "youtuber", residents_in_the_house: 2, observations: "cuidado", created_at: "2024-02-19 02:40:44.774000000 +0000", updated_at: "2024-02-19 02:40:44.774000000 +0000">):
+  
+app/controllers/residents_controller.rb:9:in `show'
+Started POST "/collects" for ::1 at 2024-02-19 21:14:13 -0300
+Processing by CollectsController#create as */*
+  Parameters: {"collected_on"=>"2024-02-15", "resident_id"=>2, "ammount"=>10.1, "collect"=>{"collected_on"=>"2024-02-15", "ammount"=>10.1, "resident_id"=>2}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mCollect Create (1.0ms)[0m  [1m[32mINSERT INTO "collects" ("collected_on", "ammount", "resident_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["collected_on", "2024-02-15"], ["ammount", 10.1], ["resident_id", 2], ["created_at", "2024-02-20 00:14:13.498424"], ["updated_at", "2024-02-20 00:14:13.498424"]]
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (9.3ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+Completed 201 Created in 39ms (Views: 0.6ms | ActiveRecord: 11.1ms | Allocations: 9138)
+
+
+Started GET "/residents" for ::1 at 2024-02-19 21:14:18 -0300
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 3ms (Views: 2.4ms | ActiveRecord: 0.2ms | Allocations: 1465)
+
+
+Started GET "/residents" for ::1 at 2024-02-19 21:15:55 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 29ms (Views: 20.1ms | ActiveRecord: 1.1ms | Allocations: 14327)
+
+
+Started GET "/residents/2" for ::1 at 2024-02-19 21:20:15 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#show as */*
+  Parameters: {"id"=>"2"}
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 2]]
+  ↳ app/controllers/residents_controller.rb:10:in `puts'
+Completed 200 OK in 40ms (Views: 1.6ms | ActiveRecord: 2.3ms | Allocations: 20251)
+
+
+Started GET "/residents/2" for ::1 at 2024-02-19 21:28:57 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#show as */*
+  Parameters: {"id"=>"2"}
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 2]]
+  ↳ app/controllers/residents_controller.rb:10:in `puts'
+Completed 200 OK in 43ms (Views: 0.5ms | ActiveRecord: 2.2ms | Allocations: 20439)
+
+
+Started GET "/residents/2" for ::1 at 2024-02-19 21:37:52 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#show as */*
+  Parameters: {"id"=>"2"}
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 2]]
+  ↳ app/controllers/residents_controller.rb:10:in `puts'
+Completed 500 Internal Server Error in 36ms (ActiveRecord: 1.8ms | Allocations: 19995)
+
+
+  
+NameError (undefined local variable or method `c' for #<ResidentsController:0x0000000000b0e0>):
+  
+app/controllers/residents_controller.rb:11:in `show'
+Started GET "/residents/2" for ::1 at 2024-02-19 21:40:15 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#show as */*
+  Parameters: {"id"=>"2"}
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 2]]
+  ↳ app/controllers/residents_controller.rb:10:in `puts'
+Completed 200 OK in 35ms (Views: 0.6ms | ActiveRecord: 1.6ms | Allocations: 20492)
+
+
+Started GET "/residents/2" for ::1 at 2024-02-19 21:40:54 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#show as */*
+  Parameters: {"id"=>"2"}
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 2]]
+  ↳ app/controllers/residents_controller.rb:10:in `puts'
+Completed 200 OK in 35ms (Views: 0.9ms | ActiveRecord: 2.0ms | Allocations: 20256)
+
+
+Started GET "/residents/2" for ::1 at 2024-02-19 21:43:38 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#show as */*
+  Parameters: {"id"=>"2"}
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+Completed 500 Internal Server Error in 30ms (ActiveRecord: 1.0ms | Allocations: 16000)
+
+
+  
+NoMethodError (undefined method `collects' for #<Resident id: 2, name: "Valmir", situation: 0, roka_id: 3, has_plaque: true, registration_year: 2022, address: "JN", reference_point: "JN", lives_in_JN: true, phone: "992877594", is_on_whatsapp_group: false, birthdate: "1990-10-10", profession: "youtuber", residents_in_the_house: 2, observations: "cuidado", created_at: "2024-02-19 02:40:44.774000000 +0000", updated_at: "2024-02-19 02:40:44.774000000 +0000">):
+  
+app/models/resident.rb:5:in `as_json'
+app/controllers/residents_controller.rb:9:in `show'
+Started GET "/residents/2" for ::1 at 2024-02-19 21:44:40 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#show as */*
+  Parameters: {"id"=>"2"}
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+  [1m[36mCollect Load (0.4ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 2]]
+  ↳ app/models/resident.rb:5:in `as_json'
+Completed 200 OK in 41ms (Views: 15.2ms | ActiveRecord: 1.8ms | Allocations: 23846)
+
+
+Started POST "/collects" for ::1 at 2024-02-19 21:45:39 -0300
+Processing by CollectsController#create as */*
+  Parameters: {"collected_on"=>"2024-02-30", "resident_id"=>2, "ammount"=>4.2, "collect"=>{"collected_on"=>"2024-02-30", "ammount"=>4.2, "resident_id"=>2}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mCollect Create (1.0ms)[0m  [1m[32mINSERT INTO "collects" ("collected_on", "ammount", "resident_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["collected_on", nil], ["ammount", 4.2], ["resident_id", 2], ["created_at", "2024-02-20 00:45:39.287860"], ["updated_at", "2024-02-20 00:45:39.287860"]]
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (7.5ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+Completed 201 Created in 21ms (Views: 0.4ms | ActiveRecord: 8.6ms | Allocations: 5740)
+
+
+Started POST "/collects" for ::1 at 2024-02-19 21:45:58 -0300
+Processing by CollectsController#create as */*
+  Parameters: {"collected_on"=>"2024-01-27", "resident_id"=>2, "ammount"=>4.2, "collect"=>{"collected_on"=>"2024-01-27", "ammount"=>4.2, "resident_id"=>2}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mCollect Create (0.4ms)[0m  [1m[32mINSERT INTO "collects" ("collected_on", "ammount", "resident_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["collected_on", "2024-01-27"], ["ammount", 4.2], ["resident_id", 2], ["created_at", "2024-02-20 00:45:58.025303"], ["updated_at", "2024-02-20 00:45:58.025303"]]
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (9.0ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+Completed 201 Created in 16ms (Views: 0.4ms | ActiveRecord: 9.7ms | Allocations: 2962)
+
+
+Started GET "/residents/2" for ::1 at 2024-02-19 21:46:05 -0300
+Processing by ResidentsController#show as */*
+  Parameters: {"id"=>"2"}
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:8:in `show'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 2]]
+  ↳ app/models/resident.rb:5:in `as_json'
+Completed 200 OK in 4ms (Views: 2.3ms | ActiveRecord: 0.3ms | Allocations: 1811)
+
+
