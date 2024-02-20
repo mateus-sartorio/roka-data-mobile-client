@@ -1,2 +1,3 @@
 # roka-statistics
-An statistics application for enactus' project roka.
+
+An statistics application for Enactus' project Roka.
