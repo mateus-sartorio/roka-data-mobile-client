@@ -32,8 +32,6 @@ class CollectsController < ApplicationController
   def destroy
     collect = Collect.find(params[:id])
 
-    puts collect.name
-
     if collect.destroy
       render json: { message: "Collect successfully deleted" }, status: :ok
     else

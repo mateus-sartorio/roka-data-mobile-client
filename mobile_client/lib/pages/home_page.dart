@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:mobile_client/components/bottom_navbar.dart';
 import 'package:mobile_client/data/database.dart';
-import 'package:mobile_client/models/resident.dart';
 import 'package:mobile_client/pages/collects_page.dart';
+import 'package:mobile_client/pages/create_collect_page.dart';
+import 'package:mobile_client/pages/create_resident_page.dart';
 import 'package:mobile_client/pages/residents_page.dart';
-import 'package:mobile_client/pages/upload_page.dart';
-import 'package:mobile_client/store/global_state.dart';
-import 'package:provider/provider.dart';
+import 'package:mobile_client/pages/cloud_sync_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -23,7 +22,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    if (_myBox.get("LOCALSTORAGE") == null) {
+    _myBox.clear();
+    if (_myBox.get("RESIDENTS") == null) {
       if (kDebugMode) {
         print("nice");
       }
@@ -32,13 +32,9 @@ class _HomePageState extends State<HomePage> {
       db.loadData();
     }
 
-    setStoreState(db.residents);
+    // setStoreState(db.residents);
 
     super.initState();
-  }
-
-  void setStoreState(List<Resident> residents) {
-    Provider.of<GlobalState>(context, listen: false).setState(residents);
   }
 
   int _selectedIndex = 0;
@@ -48,14 +44,36 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  final List<Widget> _pages = [
-    const ResidentsPage(),
-    const UploadPage(),
-    const CollectsPage(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _pages = [
+      const ResidentsPage(),
+      const CloudSyncPage(),
+      const CollectsPage(),
+    ];
+
+    final List<Widget?> _floatingActionButtons = [
+      FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const CreateResidentPage()));
+        },
+        child: const Icon(Icons.add),
+      ),
+      null,
+      FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const CreateCollectPage()));
+        },
+        child: const Icon(Icons.add),
+      )
+    ];
+
     return Scaffold(
       bottomNavigationBar:
           BottomNavbar(onTabChange: (index) => navigateBottomBar(index)),
@@ -91,10 +109,10 @@ class _HomePageState extends State<HomePage> {
               title: Text("Sobre"),
             ),
           ),
-
           //other pages
         ]),
       ),
+      floatingActionButton: _floatingActionButtons[_selectedIndex],
     );
   }
 }

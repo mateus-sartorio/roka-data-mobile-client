@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/data/database.dart';
-import 'package:mobile_client/store/global_state.dart';
-import 'package:provider/provider.dart';
 
 class ResidentsPage extends StatefulWidget {
   const ResidentsPage({Key? key}) : super(key: key);
@@ -15,13 +14,20 @@ class _ResidentsPageState extends State<ResidentsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<GlobalState>(
-      builder: (context, value, child) => ListView.builder(
-          itemCount: value.residents.length,
-          itemBuilder: (context, index) => Center(
-                child: Text(
-                    "${value.residents[index].name} - ${value.residents[index].rokaId}"),
-              )),
-    );
+    return ValueListenableBuilder(
+        valueListenable: Hive.box('globalDatabase').listenable(),
+        builder: (context, Box box, _) {
+          final value = box.get("RESIDENTS");
+          return ListView.builder(
+              itemCount: value?.length ?? 0,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(value?[index]?.name ?? ""),
+                  onTap: () {},
+                  leading: const Icon(Icons.person),
+                  trailing: const Icon(Icons.assignment),
+                );
+              });
+        });
   }
 }

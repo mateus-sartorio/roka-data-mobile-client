@@ -31,8 +31,6 @@ class ResidentsController < ApplicationController
 
   def destroy
     resident = Resident.find(params[:id])
-
-    puts resident.name
     
     if resident.destroy
       render json: { message: "Resident successfully deleted" }, status: :ok

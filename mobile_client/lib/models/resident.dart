@@ -9,51 +9,51 @@ class Resident extends HiveObject {
   @HiveField(0)
   int id;
 
-  @HiveField(6)
+  @HiveField(1)
   String name;
 
-  @HiveField(1)
+  @HiveField(2)
   String address;
+
+  @HiveField(3)
+  String referencePoint;
+
+  @HiveField(4)
+  bool livesInJN;
+
+  @HiveField(5)
+  String profession;
 
   // DateTime birthdate;
 
-  @HiveField(3)
-  bool hasPlaque;
-
-  @HiveField(4)
-  bool isOnWhatsappGroup;
-
-  @HiveField(5)
-  bool livesInJN;
-
-  @HiveField(8)
+  @HiveField(6)
   String phone;
 
+  @HiveField(7)
+  bool isOnWhatsappGroup;
+
+  @HiveField(8)
+  bool hasPlaque;
+
   @HiveField(9)
-  String profession;
-
-  @HiveField(10)
-  String referencePoint;
-
-  @HiveField(11)
   int registrationYear;
 
-  @HiveField(12)
+  @HiveField(10)
   int residentsInTheHouse;
 
-  @HiveField(13)
+  @HiveField(11)
   int rokaId;
 
-  @HiveField(14)
+  @HiveField(12)
   Situation situation;
 
-  @HiveField(7)
+  @HiveField(13)
   String observations;
 
-  @HiveField(15)
+  @HiveField(14)
   bool isNew;
 
-  @HiveField(2)
+  @HiveField(15)
   List<Collect> collects;
 
   Resident(
