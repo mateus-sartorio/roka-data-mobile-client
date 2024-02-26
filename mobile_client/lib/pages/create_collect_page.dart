@@ -5,7 +5,8 @@ import 'package:mobile_client/models/collect.dart';
 import 'package:mobile_client/models/resident.dart';
 
 class CreateCollectPage extends StatefulWidget {
-  const CreateCollectPage({Key? key}) : super(key: key);
+  final Collect? collect;
+  const CreateCollectPage({Key? key, this.collect}) : super(key: key);
 
   @override
   State<CreateCollectPage> createState() => _CreateCollectPageState();

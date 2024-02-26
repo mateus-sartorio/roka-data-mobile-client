@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:mobile_client/pages/create_collect_page.dart';
 
 class CollectsPage extends StatefulWidget {
   const CollectsPage({Key? key}) : super(key: key);
@@ -23,9 +24,15 @@ class _CollectsPageState extends State<CollectsPage> {
                 String weight = collects?[index]?.ammount.toString() ?? "";
                 return ListTile(
                   title: Text("${residentName} - ${weight} kg"),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CreateCollectPage(collect: collects?[index])));
+                  },
                   leading: const Icon(Icons.person),
-                  trailing: const Icon(Icons.assignment),
+                  trailing: const Icon(Icons.edit),
                 );
               });
         });

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:mobile_client/components/bottom_navbar.dart';
 import 'package:mobile_client/data/database.dart';
+import 'package:mobile_client/pages/about.dart';
 import 'package:mobile_client/pages/collects_page.dart';
 import 'package:mobile_client/pages/create_collect_page.dart';
 import 'package:mobile_client/pages/create_resident_page.dart';
@@ -94,19 +95,31 @@ class _HomePageState extends State<HomePage> {
               icon: const Icon(Icons.menu),
             ),
           )),
-      drawer: const Drawer(
+      drawer: Drawer(
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
           // logo
+          DrawerHeader(child: Image.asset("assets/images/logo.png")),
 
           Padding(
-            padding: EdgeInsets.all(8.0),
-            child: ListTile(leading: Icon(Icons.home), title: Text("Home")),
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text("Home"),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const HomePage()));
+              },
+            ),
           ),
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: ListTile(
-              leading: Icon(Icons.info),
-              title: Text("Sobre"),
+              leading: const Icon(Icons.info),
+              title: const Text("Sobre"),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const About()));
+              },
             ),
           ),
           //other pages

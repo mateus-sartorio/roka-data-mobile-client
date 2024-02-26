@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/data/database.dart';
+import 'package:mobile_client/pages/resident_page.dart';
 
 class ResidentsPage extends StatefulWidget {
   const ResidentsPage({Key? key}) : super(key: key);
@@ -23,7 +24,13 @@ class _ResidentsPageState extends State<ResidentsPage> {
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text(value?[index]?.name ?? ""),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ResidentPage(resident: value?[index])));
+                  },
                   leading: const Icon(Icons.person),
                   trailing: const Icon(Icons.assignment),
                 );
