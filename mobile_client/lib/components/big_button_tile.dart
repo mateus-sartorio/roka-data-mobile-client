@@ -3,19 +3,20 @@ import 'package:flutter/material.dart';
 class BigButtonTile extends StatelessWidget {
   final Widget content;
   final Function()? onPressed;
+  final Color color;
   final bool isSolid;
 
   const BigButtonTile(
       {Key? key,
       required this.content,
       required this.onPressed,
+      required this.color,
       required this.isSolid})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Color? backgroundColor = isSolid ? Colors.black : Colors.transparent;
-    Color? textColor = isSolid ? Colors.white : Colors.black;
+    Color? backgroundColor = isSolid ? color : Colors.transparent;
 
     return ElevatedButton(
         style: ElevatedButton.styleFrom(

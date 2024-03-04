@@ -22,6 +22,9 @@ class About extends StatelessWidget {
                 icon: const Icon(Icons.arrow_back_outlined),
               ),
             )),
-        body: const Text("Sobre a Roka"));
+        body: const Center(
+          child: Text("Sobre a Roka...",
+              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25)),
+        ));
   }
 }

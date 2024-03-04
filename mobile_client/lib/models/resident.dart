@@ -24,36 +24,43 @@ class Resident extends HiveObject {
   @HiveField(5)
   String profession;
 
-  // DateTime birthdate;
-
   @HiveField(6)
-  String phone;
+  DateTime birthdate;
 
   @HiveField(7)
-  bool isOnWhatsappGroup;
+  String phone;
 
   @HiveField(8)
-  bool hasPlaque;
+  bool isOnWhatsappGroup;
 
   @HiveField(9)
-  int registrationYear;
+  bool hasPlaque;
 
   @HiveField(10)
-  int residentsInTheHouse;
+  int registrationYear;
 
   @HiveField(11)
-  int rokaId;
+  int residentsInTheHouse;
 
   @HiveField(12)
-  Situation situation;
+  int rokaId;
 
   @HiveField(13)
-  String observations;
+  Situation situation;
 
   @HiveField(14)
-  bool isNew;
+  String observations;
 
   @HiveField(15)
+  bool isNew;
+
+  @HiveField(16)
+  bool wasModified;
+
+  @HiveField(17)
+  bool isMarkedForRemoval;
+
+  @HiveField(18)
   List<Collect> collects;
 
   Resident(
@@ -72,5 +79,8 @@ class Resident extends HiveObject {
       required this.residentsInTheHouse,
       required this.rokaId,
       required this.situation,
-      required this.isNew});
+      required this.isNew,
+      required this.birthdate,
+      required this.isMarkedForRemoval,
+      required this.wasModified});
 }

@@ -21,7 +21,10 @@ class BottomNavbar extends StatelessWidget {
           tabBorderRadius: 15,
           tabs: const [
             GButton(icon: Icons.home, text: "Residentes"),
-            GButton(icon: Icons.cloud_sync),
+            GButton(
+              icon: Icons.cloud_sync,
+              text: "Sincronizar",
+            ),
             GButton(
               icon: Icons.shopping_bag_rounded,
               text: "Coleta",

@@ -18,60 +18,69 @@ class ResidentAdapter extends TypeAdapter<Resident> {
     };
     return Resident(
       id: fields[0] as int,
-      address: fields[1] as String,
-      collects: (fields[2] as List).cast<Collect>(),
-      hasPlaque: fields[3] as bool,
-      isOnWhatsappGroup: fields[4] as bool,
-      livesInJN: fields[5] as bool,
-      name: fields[6] as String,
-      observations: fields[7] as String,
-      phone: fields[8] as String,
-      profession: fields[9] as String,
-      referencePoint: fields[10] as String,
-      registrationYear: fields[11] as int,
-      residentsInTheHouse: fields[12] as int,
-      rokaId: fields[13] as int,
-      situation: fields[14] as Situation,
+      address: fields[2] as String,
+      collects: (fields[18] as List).cast<Collect>(),
+      hasPlaque: fields[9] as bool,
+      isOnWhatsappGroup: fields[8] as bool,
+      livesInJN: fields[4] as bool,
+      name: fields[1] as String,
+      observations: fields[14] as String,
+      phone: fields[7] as String,
+      profession: fields[5] as String,
+      referencePoint: fields[3] as String,
+      registrationYear: fields[10] as int,
+      residentsInTheHouse: fields[11] as int,
+      rokaId: fields[12] as int,
+      situation: fields[13] as Situation,
       isNew: fields[15] as bool,
+      birthdate: fields[6] as DateTime,
+      isMarkedForRemoval: fields[17] as bool,
+      wasModified: fields[16] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Resident obj) {
     writer
-      ..writeByte(16)
+      ..writeByte(19)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.address)
-      ..writeByte(2)
-      ..write(obj.collects)
-      ..writeByte(3)
-      ..write(obj.hasPlaque)
-      ..writeByte(4)
-      ..write(obj.isOnWhatsappGroup)
-      ..writeByte(5)
-      ..write(obj.livesInJN)
-      ..writeByte(6)
       ..write(obj.name)
-      ..writeByte(7)
-      ..write(obj.observations)
-      ..writeByte(8)
-      ..write(obj.phone)
-      ..writeByte(9)
-      ..write(obj.profession)
-      ..writeByte(10)
+      ..writeByte(2)
+      ..write(obj.address)
+      ..writeByte(3)
       ..write(obj.referencePoint)
-      ..writeByte(11)
+      ..writeByte(4)
+      ..write(obj.livesInJN)
+      ..writeByte(5)
+      ..write(obj.profession)
+      ..writeByte(6)
+      ..write(obj.birthdate)
+      ..writeByte(7)
+      ..write(obj.phone)
+      ..writeByte(8)
+      ..write(obj.isOnWhatsappGroup)
+      ..writeByte(9)
+      ..write(obj.hasPlaque)
+      ..writeByte(10)
       ..write(obj.registrationYear)
-      ..writeByte(12)
+      ..writeByte(11)
       ..write(obj.residentsInTheHouse)
-      ..writeByte(13)
+      ..writeByte(12)
       ..write(obj.rokaId)
-      ..writeByte(14)
+      ..writeByte(13)
       ..write(obj.situation)
+      ..writeByte(14)
+      ..write(obj.observations)
       ..writeByte(15)
-      ..write(obj.isNew);
+      ..write(obj.isNew)
+      ..writeByte(16)
+      ..write(obj.wasModified)
+      ..writeByte(17)
+      ..write(obj.isMarkedForRemoval)
+      ..writeByte(18)
+      ..write(obj.collects);
   }
 
   @override

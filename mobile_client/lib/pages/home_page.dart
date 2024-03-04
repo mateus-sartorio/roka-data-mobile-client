@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/components/bottom_navbar.dart';
 import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/pages/about.dart';
@@ -23,17 +24,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _myBox.clear();
     if (_myBox.get("RESIDENTS") == null) {
-      if (kDebugMode) {
-        print("nice");
-      }
       db.fetchDataFromBackend();
-    } else {
-      db.loadData();
     }
-
-    // setStoreState(db.residents);
 
     super.initState();
   }
@@ -47,19 +40,21 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _pages = [
+    final List<Widget> pages = [
       const ResidentsPage(),
       const CloudSyncPage(),
       const CollectsPage(),
     ];
 
-    final List<Widget?> _floatingActionButtons = [
+    final List<Widget?> floatingActionButtons = [
       FloatingActionButton(
         onPressed: () {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const CreateResidentPage()));
+                  builder: (context) => const CreateResidentPage(
+                        text: "Cadastrar novo residente",
+                      )));
         },
         child: const Icon(Icons.add),
       ),
@@ -69,7 +64,9 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const CreateCollectPage()));
+                  builder: (context) => const CreateCollectPage(
+                        text: "Cadastrar nova coleta",
+                      )));
         },
         child: const Icon(Icons.add),
       )
@@ -78,14 +75,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       bottomNavigationBar:
           BottomNavbar(onTabChange: (index) => navigateBottomBar(index)),
-      body: _pages[_selectedIndex],
+      body: SafeArea(child: pages[_selectedIndex]),
       appBar: AppBar(
           centerTitle: true,
           title: const Text(
             "♻️ Roka",
             style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
           ),
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           elevation: 0,
           leading: Builder(
             builder: (context) => IconButton(
@@ -125,7 +122,7 @@ class _HomePageState extends State<HomePage> {
           //other pages
         ]),
       ),
-      floatingActionButton: _floatingActionButtons[_selectedIndex],
+      floatingActionButton: floatingActionButtons[_selectedIndex],
     );
   }
 }

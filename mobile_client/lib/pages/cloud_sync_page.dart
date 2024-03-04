@@ -8,6 +8,7 @@ class CloudSyncPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: BigButtonTile(
+          color: Colors.black,
           content: const Row(mainAxisSize: MainAxisSize.min, children: [
             Icon(
               Icons.cloud_sync,

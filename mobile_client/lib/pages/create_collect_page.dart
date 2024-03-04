@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/components/big_button_tile.dart';
 import 'package:mobile_client/data/database.dart';
+import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/collect.dart';
 import 'package:mobile_client/models/resident.dart';
 
 class CreateCollectPage extends StatefulWidget {
   final Collect? collect;
-  const CreateCollectPage({Key? key, this.collect}) : super(key: key);
+  final String text;
+
+  const CreateCollectPage({Key? key, this.collect, required this.text})
+      : super(key: key);
 
   @override
   State<CreateCollectPage> createState() => _CreateCollectPageState();
@@ -16,10 +21,30 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
   GlobalDatabase db = GlobalDatabase();
 
   Resident? selectedResident;
-  DateTime? date;
+  DateTime? selectedDate;
+  bool isNewCollect = true;
 
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
+
+  @override
+  void initState() {
+    if (widget.collect != null) {
+      selectedDate = widget.collect?.collectedOn;
+      selectedResident = db.getResidentById(widget.collect?.residentId ?? -1);
+      _weightController.text = widget.collect?.ammount.toString() ?? "";
+      isNewCollect = false;
+    } else {
+      selectedDate = DateTime.now();
+    }
+
+    List<String> dayMonthYear =
+        selectedDate.toString().split(" ")[0].split("-");
+    _dateController.text =
+        "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+
+    super.initState();
+  }
 
   Future<void> _selectDate() async {
     DateTime? picked = await showDatePicker(
@@ -30,21 +55,85 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
 
     if (picked != null) {
       setState(() {
-        _dateController.text = picked.toString().split(" ")[0];
-        date = picked;
+        List<String> dayMonthYear = picked.toString().split(" ")[0].split("-");
+        _dateController.text =
+            "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+        selectedDate = picked;
       });
     }
   }
 
-  Future<void> saveNewCollect() async {
+  void saveNewCollect() {
     Collect newCollect = Collect(
         ammount: double.parse(_weightController.text),
-        collectedOn: date!,
+        collectedOn: selectedDate!,
         id: -1,
         residentId: (selectedResident?.id)!,
         isNew: true);
 
-    db.saveNewCollect(newCollect);
+    if (isNewCollect) {
+      db.saveNewCollect(newCollect);
+    } else {
+      db.updateCollect(newCollect);
+    }
+
+    Navigator.pop(context);
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          Future.delayed(const Duration(milliseconds: 1000), () {
+            Navigator.of(context).pop(true);
+          });
+
+          return AlertDialog(
+            title: const Text(
+              "Coleta salva com sucesso",
+              style: TextStyle(fontSize: 14),
+            ),
+            surfaceTintColor: Colors.transparent,
+            elevation: 0.0,
+            alignment: Alignment.bottomCenter,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          );
+        });
+  }
+
+  void deleteCollect() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return DialogBox(
+          title: "Tem certeza que deseja apagar esta coleta?",
+          onSave: () {
+            db.deleteCollect((selectedResident?.id)!);
+            Navigator.of(context).pop(true);
+            Navigator.of(context).pop(true);
+            showDialog(
+                context: context,
+                builder: (context) {
+                  Future.delayed(const Duration(milliseconds: 1000), () {
+                    Navigator.of(context).pop(true);
+                  });
+
+                  return AlertDialog(
+                    title: const Text(
+                      "Coleta removida com sucesso",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    surfaceTintColor: Colors.transparent,
+                    elevation: 0.0,
+                    alignment: Alignment.bottomCenter,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                  );
+                });
+          },
+          onCancel: () => Navigator.of(context).pop(true),
+        );
+      },
+    );
   }
 
   @override
@@ -53,7 +142,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
       appBar: AppBar(
           centerTitle: true,
           title: const Text(
-            "♻️ Cadastrar nova coleta",
+            "♻️ Dados de coleta",
             style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.transparent,
@@ -66,56 +155,122 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
               icon: const Icon(Icons.arrow_back_outlined),
             ),
           )),
-      body: Center(
-        child: FractionallySizedBox(
-          widthFactor: 0.8,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              TextField(
-                controller: _dateController,
-                readOnly: true,
-                decoration: const InputDecoration(
-                    labelText: "Data",
-                    filled: true,
-                    prefix: Icon(Icons.calendar_today),
-                    enabledBorder:
-                        OutlineInputBorder(borderSide: BorderSide.none),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue))),
-                onTap: _selectDate,
-              ),
-              DropdownButtonFormField<Resident>(
-                decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            const BorderSide(width: 3, color: Colors.blue))),
-                onChanged: (item) => selectedResident = item,
-                value: selectedResident,
-                items: db.residents
-                    .map((e) => DropdownMenuItem(value: e, child: Text(e.name)))
-                    .toList(),
-              ),
-              TextField(
-                controller: _weightController,
-                decoration: const InputDecoration(
-                    hintText: "Peso [kg]", border: OutlineInputBorder()),
-              ),
-              BigButtonTile(
-                  content: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text("Salvar localmente",
-                          style: TextStyle(color: Colors.white)),
-                      Icon(Icons.save, color: Colors.white),
-                    ],
+      body: ValueListenableBuilder(
+        valueListenable: Hive.box('globalDatabase').listenable(),
+        builder: (context, Box box, _) {
+          final residents = box.get("RESIDENTS");
+
+          List<DropdownMenuItem<Resident>> residentsDropdownList = [];
+          for (dynamic r in residents) {
+            residentsDropdownList.add(DropdownMenuItem<Resident>(
+                value: r as Resident, child: Text(r.name)));
+          }
+
+          return Center(
+            child: FractionallySizedBox(
+              widthFactor: 0.8,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 15),
+                    child: Text(
+                      widget.text,
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w900, fontSize: 25),
+                    ),
                   ),
-                  onPressed: saveNewCollect,
-                  isSolid: true)
-            ],
-          ),
-        ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextField(
+                    controller: _dateController,
+                    readOnly: true,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "Data",
+                        prefix: Padding(
+                          padding: EdgeInsets.only(
+                              left: 0, right: 10, bottom: 0, top: 0),
+                          child: Icon(
+                            Icons.calendar_month,
+                          ),
+                        ),
+                        prefixStyle: TextStyle()),
+                    onTap: _selectDate,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  DropdownButtonFormField<Resident>(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "Morador",
+                      prefix: Padding(
+                        padding: EdgeInsets.only(
+                            left: 0, right: 10, bottom: 0, top: 0),
+                        child: Icon(
+                          Icons.person,
+                        ),
+                      ),
+                    ),
+                    onChanged: (item) => selectedResident = item,
+                    value: selectedResident,
+                    items: residentsDropdownList,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  TextField(
+                    controller: _weightController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      hintText: "Peso [kg]",
+                      border: OutlineInputBorder(),
+                      labelText: "Peso [kg]",
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  BigButtonTile(
+                      color: Colors.black,
+                      content: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.save, color: Colors.white),
+                          Text("  Salvar localmente",
+                              style: TextStyle(color: Colors.white)),
+                        ],
+                      ),
+                      onPressed: saveNewCollect,
+                      isSolid: true),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Visibility(
+                    visible: !isNewCollect,
+                    child: BigButtonTile(
+                        color: Colors.red,
+                        content: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.delete, color: Colors.white),
+                            Text("  Apagar",
+                                style: TextStyle(color: Colors.white)),
+                          ],
+                        ),
+                        onPressed: deleteCollect,
+                        isSolid: true),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
