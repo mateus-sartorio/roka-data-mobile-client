@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:mobile_client/enums/situation.dart';
@@ -52,97 +51,128 @@ class GlobalDatabase {
         residents.add(resident);
       }
 
-      // const String collectsBackendEndpoint = "http://10.0.2.2:3000/collects";
-      // Uri collectsUri = Uri.parse(collectsBackendEndpoint);
-
-      // final Response collectsResponse = await http.get(collectsUri);
-      // List<dynamic> collectsResponseBody = jsonDecode(collectsResponse.body);
-
-      // List<Collect> collects = [];
-      // for (dynamic collectMapObject in collectsResponseBody) {
-      //   Collect collect = Collect(
-      //       id: collectMapObject["id"],
-      //       ammount: double.parse(collectMapObject["ammount"]),
-      //       collectedOn: DateTime.parse(collectMapObject["collected_on"]),
-      //       residentId: collectMapObject["resident_id"],
-      //       isNew: false);
-
-      //   collects.add(collect);
-      // }
-
       _myBox.put("RESIDENTS", residents);
     } catch (e) {
-      // TODO: treat any problema that may occur with the HTTP request
-      if (kDebugMode) {
-        print("deu bosta ao salvar");
-        print(e);
-      }
+      throw Exception(e);
     }
   }
 
-  // // load the data from the database
-  // void loadData() {
-  //   List<dynamic> residentsDynamicList = _myBox.get("RESIDENTS");
-  //   List<Resident> residentsList = [];
-  //   for (dynamic resident in residentsDynamicList) {
-  //     residentsList.add(resident as Resident);
-  //   }
+  Future<void> uploadDataToBackend() async {
+    try {
+      List<dynamic> residentsList = _myBox.get("RESIDENTS") ?? [];
+      for (dynamic r in residentsList) {
+        if (r.wasModified && !r.isNew && !r.isMarkedForRemoval) {
+          print("${r.name} was updated");
+          updateResidentOnBackend(r as Resident);
+        } else if (r.isNew && !r.isMarkedForRemoval) {
+          print("${r.name} was created");
+          createNewResidentOnBackend(r as Resident);
+        } else if (r.isMarkedForRemoval) {
+          print("${r.name} was deleted");
+          deleteResidentInTheBackend(r as Resident);
+        }
+      }
 
-  //   List<dynamic> collectsDynamicList = _myBox.get("COLLECTS");
-  //   List<Collect> collectsList = [];
-  //   for (dynamic collect in collectsDynamicList) {
-  //     collectsList.add(collect as Collect);
-  //   }
+      List<dynamic> collectsList = _myBox.get("COLLECTS") ?? [];
+      for (dynamic c in collectsList) {
+        createNewCollectOnBackend(c as Collect);
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
-  //   residents = residentsList;
-  //   collects = collectsList;
-  // }
+  Future<void> updateResidentOnBackend(Resident resident) async {
+    String backendRoute = "http://10.0.2.2:3000/residents/${resident.id}";
+    Uri uri = Uri.parse(backendRoute);
 
-  // Future<void> saveNewCollect(Collect collect) async {
-  //   const String backendRoute = "http://10.0.2.2:3000/collects";
-  //   Uri uri = Uri.parse(backendRoute);
+    Map data = {
+      "name": resident.name,
+      "roka_id": resident.rokaId,
+      "has_plaque": resident.hasPlaque,
+      "registration_year": resident.registrationYear,
+      "address": resident.address,
+      "reference_point": resident.referencePoint,
+      "lives_in_JN": resident.livesInJN,
+      "phone": resident.phone,
+      "is_on_whatsapp_group": resident.isOnWhatsappGroup,
+      "birthdate": resident.birthdate.toString(),
+      "profession": resident.profession,
+      "residents_in_the_house": resident.residentsInTheHouse,
+      "observations": resident.observations
+    };
 
-  //   Map data = {
-  //     "collected_on": collect.collectedOn.toIso8601String(),
-  //     "resident_id": collect.residentId,
-  //     "ammount": collect.ammount
-  //   };
+    var body = json.encode(data);
 
-  //   var body = json.encode(data);
+    try {
+      await http.put(uri,
+          headers: {"Content-Type": "application/json"}, body: body);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
-  //   try {
-  //     await http.post(uri,
-  //         headers: {"Content-Type": "application/json"}, body: body);
-  //   } catch (e) {
-  //     // TODO: treat any problema that may occur with the HTTP request
-  //     if (kDebugMode) {
-  //       print("deu bosta");
-  //     }
-  //   }
-  // }
+  Future<void> createNewResidentOnBackend(Resident resident) async {
+    const String backendRoute = "http://10.0.2.2:3000/residents";
+    Uri uri = Uri.parse(backendRoute);
 
-  //   Future<void> updateCollect(Collect collect) async {
-  //   const String backendRoute = "http://10.0.2.2:3000/collects";
-  //   Uri uri = Uri.parse(backendRoute);
+    Map data = {
+      "name": resident.name,
+      "roka_id": resident.rokaId,
+      "has_plaque": resident.hasPlaque,
+      "registration_year": resident.registrationYear,
+      "address": resident.address,
+      "reference_point": resident.referencePoint,
+      "lives_in_JN": resident.livesInJN,
+      "phone": resident.phone,
+      "is_on_whatsapp_group": resident.isOnWhatsappGroup,
+      "birthdate": resident.birthdate.toString(),
+      "profession": resident.profession,
+      "residents_in_the_house": resident.residentsInTheHouse,
+      "observations": resident.observations,
+      "situation": "ativo"
+    };
 
-  //   Map data = {
-  //     "collected_on": collect.collectedOn.toIso8601String(),
-  //     "resident_id": collect.residentId,
-  //     "ammount": collect.ammount
-  //   };
+    var body = json.encode(data);
 
-  //   var body = json.encode(data);
+    try {
+      await http.post(uri,
+          headers: {"Content-Type": "application/json"}, body: body);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
-  //   try {
-  //     await http.post(uri,
-  //         headers: {"Content-Type": "application/json"}, body: body);
-  //   } catch (e) {
-  //     // TODO: treat any problema that may occur with the HTTP request
-  //     if (kDebugMode) {
-  //       print("deu bosta");
-  //     }
-  //   }
-  // }
+  Future<void> deleteResidentInTheBackend(Resident resident) async {
+    String backendRoute = "http://10.0.2.2:3000/residents/${resident.id}";
+    Uri uri = Uri.parse(backendRoute);
+
+    try {
+      await http.delete(uri);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> createNewCollectOnBackend(Collect collect) async {
+    const String backendRoute = "http://10.0.2.2:3000/collects";
+    Uri uri = Uri.parse(backendRoute);
+
+    Map data = {
+      "collected_on": collect.collectedOn.toIso8601String(),
+      "resident_id": collect.residentId,
+      "ammount": collect.ammount
+    };
+
+    var body = json.encode(data);
+
+    try {
+      await http.post(uri,
+          headers: {"Content-Type": "application/json"}, body: body);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
   void saveNewResident(Resident resident) {
     List<dynamic> residentsList = _myBox.get("RESIDENTS") ?? [];
@@ -173,7 +203,6 @@ class GlobalDatabase {
         r.isMarkedForRemoval = resident.isMarkedForRemoval;
         r.wasModified = true;
         r.isNew = resident.isNew;
-
         break;
       }
     }
@@ -206,8 +235,8 @@ class GlobalDatabase {
           situation: resident.situation,
           birthdate: resident.birthdate,
           isMarkedForRemoval: true,
-          wasModified: false,
-          isNew: true,
+          wasModified: resident.wasModified,
+          isNew: resident.isNew,
         );
       }
     }).toList();

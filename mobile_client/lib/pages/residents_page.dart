@@ -102,8 +102,8 @@ class _ResidentsPageState extends State<ResidentsPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Visibility(
-                                  visible: (residents[index]?.isNew &&
-                                      !residents[index]?.isMarkedForRemoval),
+                                  visible: residents[index]?.isNew &&
+                                      !residents[index]?.isMarkedForRemoval,
                                   child: Container(
                                     decoration: BoxDecoration(
                                         color:
@@ -113,7 +113,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                     child: const Text(
                                       "NOVO",
                                       style: TextStyle(
-                                        fontSize: 13,
+                                        fontSize: 10,
                                       ),
                                     ),
                                   ),
@@ -129,7 +129,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                     child: const Text(
                                       "REMOVIDO",
                                       style: TextStyle(
-                                        fontSize: 13,
+                                        fontSize: 10,
                                       ),
                                     ),
                                   ),
@@ -146,7 +146,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                     child: const Text(
                                       "MODIFICADO",
                                       style: TextStyle(
-                                        fontSize: 13,
+                                        fontSize: 10,
                                       ),
                                     ),
                                   ),

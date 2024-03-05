@@ -25,6 +25,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
   bool isNewResident = true;
   bool wasModified = false;
   bool isMarkedForRemoval = false;
+  bool isBeingCreated = true;
 
   bool livesInJN = false;
   bool isOnWhatsappGroup = false;
@@ -54,7 +55,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
       _referencePointController.text = widget.resident?.referencePoint ?? "";
       _referencePointController.text = widget.resident?.referencePoint ?? "";
       livesInJN = widget.resident?.livesInJN ?? false;
-      _referencePointController.text = widget.resident?.profession ?? "";
+      _referencePointController.text = widget.resident?.referencePoint ?? "";
       _phoneController.text = widget.resident?.phone ?? "";
       isOnWhatsappGroup = widget.resident?.isOnWhatsappGroup ?? false;
       hasPlaque = widget.resident?.hasPlaque ?? false;
@@ -64,9 +65,11 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
           widget.resident?.residentsInTheHouse.toString() ?? "";
       _rokaIdController.text = widget.resident?.rokaId.toString() ?? "";
       _observationsController.text = widget.resident?.observations ?? "";
+      _occupationController.text = widget.resident?.profession ?? "";
       isNewResident = false;
       wasModified = widget.resident?.wasModified ?? false;
       isMarkedForRemoval = widget.resident?.isMarkedForRemoval ?? false;
+      isBeingCreated = false;
     } else {
       selectedDate = DateTime.now();
     }
@@ -97,9 +100,9 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
         rokaId: int.parse(_rokaIdController.text),
         situation: Situation.active,
         birthdate: selectedDate ?? DateTime.now(),
-        isNew: true,
+        isNew: isNewResident,
         isMarkedForRemoval: false,
-        wasModified: false);
+        wasModified: isBeingCreated ? false : true);
 
     if (isNewResident) {
       db.saveNewResident(newResident);
@@ -212,7 +215,8 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                   height: 15,
                 ),
                 Visibility(
-                  visible: isNewResident && !isMarkedForRemoval,
+                  visible:
+                      !isBeingCreated && isNewResident && !isMarkedForRemoval,
                   child: Container(
                     decoration: BoxDecoration(
                         color: Colors.green[300],
@@ -227,22 +231,32 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                   ),
                 ),
                 Visibility(
-                  visible: isMarkedForRemoval,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.green[300],
-                        borderRadius: BorderRadius.circular(8)),
-                    padding: const EdgeInsets.all(5.0),
-                    child: const Text(
-                      "REMOVIDO",
-                      style: TextStyle(
-                        fontSize: 13,
+                  visible: !isBeingCreated && isMarkedForRemoval,
+                  child: Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(8)),
+                        padding: const EdgeInsets.all(5.0),
+                        child: const Text(
+                          "REMOVIDO",
+                          style: TextStyle(
+                            fontSize: 13,
+                          ),
+                        ),
                       ),
-                    ),
+                      IconButton(
+                          onPressed: saveNewResident,
+                          icon: const Icon(Icons.restore))
+                    ],
                   ),
                 ),
                 Visibility(
-                  visible: !isNewResident && !isMarkedForRemoval && wasModified,
+                  visible: !isBeingCreated &&
+                      !isNewResident &&
+                      !isMarkedForRemoval &&
+                      wasModified,
                   child: Container(
                     decoration: BoxDecoration(
                         color: Colors.green[300],
@@ -261,7 +275,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                 ),
                 const Text(
                   "Informações básicas",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                 ),
                 const SizedBox(
                   height: 15,
@@ -322,7 +336,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                 ),
                 const Text(
                   "Informações internas da Roka",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                 ),
                 const SizedBox(
                   height: 15,
@@ -404,7 +418,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                 ),
                 const Text(
                   "Informações adicionais",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                 ),
                 const SizedBox(
                   height: 15,

@@ -1,7 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/components/bottom_navbar.dart';
 import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/pages/about.dart';
@@ -19,15 +16,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _myBox = Hive.box('globalDatabase');
   GlobalDatabase db = GlobalDatabase();
 
   @override
   void initState() {
-    if (_myBox.get("RESIDENTS") == null) {
-      db.fetchDataFromBackend();
-    }
-
     super.initState();
   }
 
