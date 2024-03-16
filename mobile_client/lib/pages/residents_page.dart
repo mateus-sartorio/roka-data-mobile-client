@@ -155,13 +155,13 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                   residents?[index]?.name ?? "",
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 20),
+                                      fontSize: 18),
                                 ),
                                 Text(
-                                  "Rokete nº ${residents?[index]?.rokaId ?? ""}",
+                                  "ROKETE Nº ${residents?[index]?.rokaId ?? ""}",
                                   style: const TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w500),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400),
                                 ),
                               ],
                             ),
@@ -175,6 +175,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                             },
                             leading: const Icon(
                               Icons.person,
+                              size: 30,
                             ),
                             trailing: const Icon(
                               Icons.chevron_right,

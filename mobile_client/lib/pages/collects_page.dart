@@ -84,8 +84,20 @@ class _CollectsPageState extends State<CollectsPage> {
                                   collects?[index].residentId ?? -1)
                               ?.name ??
                           "";
+
                       String weight =
                           collects?[index]?.ammount.toString() ?? "";
+
+                      List<String> dayMonthYear = collects?[index]
+                              ?.collectedOn
+                              .toString()
+                              .split(" ")[0]
+                              .split("-") ??
+                          ["", "", ""];
+
+                      String date =
+                          "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+
                       return Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 15.0),
@@ -106,14 +118,23 @@ class _CollectsPageState extends State<CollectsPage> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.0)),
                             // tileColor: Theme.of(context).highlightColor,
-                            title: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
-                                  residentName,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      residentName,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 17),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    Text(date,
+                                        style: const TextStyle(fontSize: 13)),
+                                  ],
                                 ),
                                 Text(
                                   "${weight.toString().replaceAll(".", ",")} kg",
@@ -133,6 +154,7 @@ class _CollectsPageState extends State<CollectsPage> {
                             },
                             leading: const Icon(
                               Icons.shopping_bag,
+                              size: 30,
                             ),
                             trailing: const Icon(
                               Icons.chevron_right,

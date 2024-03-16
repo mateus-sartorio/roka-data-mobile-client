@@ -86,7 +86,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     Resident newResident = Resident(
         id: Random().nextInt(1000000),
         address: _addressController.text,
-        collects: [],
+        collects: widget.resident?.collects ?? [],
         hasPlaque: hasPlaque,
         isOnWhatsappGroup: isOnWhatsappGroup,
         livesInJN: livesInJN,
@@ -102,9 +102,12 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
         birthdate: selectedDate ?? DateTime.now(),
         isNew: isNewResident,
         isMarkedForRemoval: false,
-        wasModified: isBeingCreated ? false : true);
+        wasModified: isNewResident ? false : true);
+
+    print("what");
 
     if (isNewResident) {
+      print("save");
       db.saveNewResident(newResident);
     } else {
       db.updateResident(newResident);
@@ -219,7 +222,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                       !isBeingCreated && isNewResident && !isMarkedForRemoval,
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.green[300],
+                        color: Theme.of(context).primaryColorLight,
                         borderRadius: BorderRadius.circular(8)),
                     padding: const EdgeInsets.all(5.0),
                     child: const Text(

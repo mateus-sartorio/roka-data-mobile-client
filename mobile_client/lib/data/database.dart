@@ -77,6 +77,9 @@ class GlobalDatabase {
       for (dynamic c in collectsList) {
         createNewCollectOnBackend(c as Collect);
       }
+
+      _myBox.put("COLLECTS", []);
+      fetchDataFromBackend();
     } catch (e) {
       throw Exception(e);
     }
@@ -184,7 +187,7 @@ class GlobalDatabase {
     List<dynamic> residentsList = _myBox.get("RESIDENTS") ?? [];
 
     for (dynamic r in residentsList) {
-      if (r.name == resident.name) {
+      if (r.id == resident.id) {
         r.address = resident.address;
         r.collects = resident.collects;
         r.hasPlaque = resident.hasPlaque;
@@ -201,8 +204,9 @@ class GlobalDatabase {
         r.situation = resident.situation;
         r.birthdate = resident.birthdate;
         r.isMarkedForRemoval = resident.isMarkedForRemoval;
-        r.wasModified = true;
+        r.wasModified = resident.wasModified;
         r.isNew = resident.isNew;
+        print("what bro");
         break;
       }
     }
