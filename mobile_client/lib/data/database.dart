@@ -51,24 +51,21 @@ class GlobalDatabase {
         residents.add(resident);
       }
 
-      _myBox.put("RESIDENTS", residents);
+      await _myBox.put("RESIDENTS", residents);
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<void> uploadDataToBackend() async {
+  Future<void> syncDataWithBackend() async {
     try {
       List<dynamic> residentsList = _myBox.get("RESIDENTS") ?? [];
       for (dynamic r in residentsList) {
         if (r.wasModified && !r.isNew && !r.isMarkedForRemoval) {
-          print("${r.name} was updated");
           updateResidentOnBackend(r as Resident);
         } else if (r.isNew && !r.isMarkedForRemoval) {
-          print("${r.name} was created");
           createNewResidentOnBackend(r as Resident);
         } else if (r.isMarkedForRemoval) {
-          print("${r.name} was deleted");
           deleteResidentInTheBackend(r as Resident);
         }
       }
@@ -78,8 +75,7 @@ class GlobalDatabase {
         createNewCollectOnBackend(c as Collect);
       }
 
-      _myBox.put("COLLECTS", []);
-      fetchDataFromBackend();
+      await _myBox.put("COLLECTS", []);
     } catch (e) {
       throw Exception(e);
     }
@@ -90,6 +86,7 @@ class GlobalDatabase {
     Uri uri = Uri.parse(backendRoute);
 
     Map data = {
+      "id": resident.id,
       "name": resident.name,
       "roka_id": resident.rokaId,
       "has_plaque": resident.hasPlaque,
@@ -120,6 +117,7 @@ class GlobalDatabase {
     Uri uri = Uri.parse(backendRoute);
 
     Map data = {
+      "id": resident.id,
       "name": resident.name,
       "roka_id": resident.rokaId,
       "has_plaque": resident.hasPlaque,
@@ -206,7 +204,6 @@ class GlobalDatabase {
         r.isMarkedForRemoval = resident.isMarkedForRemoval;
         r.wasModified = resident.wasModified;
         r.isNew = resident.isNew;
-        print("what bro");
         break;
       }
     }
@@ -214,7 +211,7 @@ class GlobalDatabase {
     _myBox.put("RESIDENTS", residentsList);
   }
 
-  void deleteResident(int id) {
+  void deleteResident(int id, bool forReal) {
     List<dynamic> residentsList = _myBox.get("RESIDENTS") ?? [];
 
     List<dynamic> filteredList = residentsList.map((resident) {
@@ -236,9 +233,9 @@ class GlobalDatabase {
           registrationYear: resident.registrationYear,
           residentsInTheHouse: resident.residentsInTheHouse,
           rokaId: resident.rokaId,
-          situation: resident.situation,
+          situation: forReal ? resident.situation : Situation.inactive,
           birthdate: resident.birthdate,
-          isMarkedForRemoval: true,
+          isMarkedForRemoval: forReal ? true : false,
           wasModified: resident.wasModified,
           isNew: resident.isNew,
         );

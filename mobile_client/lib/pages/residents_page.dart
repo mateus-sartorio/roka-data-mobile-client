@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/data/database.dart';
+import 'package:mobile_client/enums/situation.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/pages/create_resident_page.dart';
 
@@ -20,9 +21,9 @@ class _ResidentsPageState extends State<ResidentsPage> {
       context: context,
       builder: (context) {
         return DialogBox(
-          title: "Tem certeza que deseja apagar este residente?",
+          title: "Tem certeza que deseja desativar este residente?",
           onSave: () {
-            db.deleteResident(residentId);
+            db.deleteResident(residentId, false);
             Navigator.of(context).pop(true);
 
             showDialog(
@@ -34,7 +35,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
 
                   return AlertDialog(
                     title: const Text(
-                      "Residente removido com sucesso :(",
+                      "Residente desativado :(",
                       style: TextStyle(fontSize: 14),
                     ),
                     surfaceTintColor: Colors.transparent,
@@ -72,13 +73,104 @@ class _ResidentsPageState extends State<ResidentsPage> {
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                 child: Text(
                   "Residentes",
-                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25),
+                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 22),
                 ),
               ),
               Expanded(
                 child: ListView.builder(
                     itemCount: residents?.length ?? 0,
                     itemBuilder: (context, index) {
+                      int roketeDisplayNumber = residents?[index]?.rokaId ?? 0;
+
+                      Container tag = Container();
+                      bool showTag = false;
+                      if (residents[index]?.isMarkedForRemoval) {
+                        tag = Container(
+                          decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(8)),
+                          padding: const EdgeInsets.all(5.0),
+                          child: const Text(
+                            "MARCADO PARA REMOÇÃO",
+                            style: TextStyle(
+                              fontSize: 8,
+                            ),
+                          ),
+                        );
+
+                        showTag = true;
+                      } else if (residents[index]?.situation ==
+                          Situation.inactive) {
+                        tag = Container(
+                          decoration: BoxDecoration(
+                              color: Colors.orange,
+                              borderRadius: BorderRadius.circular(8)),
+                          padding: const EdgeInsets.all(5.0),
+                          child: const Text(
+                            "INATIVO",
+                            style: TextStyle(
+                              fontSize: 8,
+                            ),
+                          ),
+                        );
+
+                        showTag = true;
+                      } else if (residents[index]?.situation ==
+                          Situation.noContact) {
+                        tag = Container(
+                          decoration: BoxDecoration(
+                              color: Colors.orange,
+                              borderRadius: BorderRadius.circular(8)),
+                          padding: const EdgeInsets.all(5.0),
+                          child: const Text(
+                            "SEM CONTATO",
+                            style: TextStyle(
+                              fontSize: 8,
+                            ),
+                          ),
+                        );
+
+                        showTag = true;
+                      } else if (residents[index]?.isNew) {
+                        tag = Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColorLight,
+                              borderRadius: BorderRadius.circular(8)),
+                          padding: const EdgeInsets.all(5.0),
+                          child: const Text(
+                            "SALVO LOCALMENTE",
+                            style: TextStyle(
+                              fontSize: 8,
+                            ),
+                          ),
+                        );
+
+                        showTag = true;
+                      } else if (residents[index]?.wasModified) {
+                        tag = Container(
+                          decoration: BoxDecoration(
+                              color: Colors.green[300],
+                              borderRadius: BorderRadius.circular(8)),
+                          padding: const EdgeInsets.all(5.0),
+                          child: const Text(
+                            "MODIFICADO",
+                            style: TextStyle(
+                              fontSize: 8,
+                            ),
+                          ),
+                        );
+
+                        showTag = true;
+                      }
+
+                      String roketeDisplayNumberString = "";
+                      if (roketeDisplayNumber > 0) {
+                        roketeDisplayNumberString =
+                            "ROKETE Nº ${residents?[index]?.rokaId ?? ""}";
+                      } else {
+                        roketeDisplayNumberString = "ROKETE SEM IDENTIFICAÇÃO";
+                      }
+
                       return Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 15.0),
@@ -101,56 +193,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Visibility(
-                                  visible: residents[index]?.isNew &&
-                                      !residents[index]?.isMarkedForRemoval,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color:
-                                            Theme.of(context).primaryColorLight,
-                                        borderRadius: BorderRadius.circular(8)),
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: const Text(
-                                      "NOVO",
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Visibility(
-                                  visible:
-                                      (residents[index]?.isMarkedForRemoval),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        borderRadius: BorderRadius.circular(8)),
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: const Text(
-                                      "REMOVIDO",
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Visibility(
-                                  visible: (!residents[index]?.isNew &&
-                                      !residents[index]?.isMarkedForRemoval &&
-                                      residents[index]?.wasModified),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.green[300],
-                                        borderRadius: BorderRadius.circular(8)),
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: const Text(
-                                      "MODIFICADO",
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                Visibility(visible: showTag, child: tag),
                                 Text(
                                   residents?[index]?.name ?? "",
                                   style: const TextStyle(
@@ -158,9 +201,9 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                       fontSize: 18),
                                 ),
                                 Text(
-                                  "ROKETE Nº ${residents?[index]?.rokaId ?? ""}",
+                                  roketeDisplayNumberString,
                                   style: const TextStyle(
-                                      fontSize: 12,
+                                      fontSize: 10,
                                       fontWeight: FontWeight.w400),
                                 ),
                               ],

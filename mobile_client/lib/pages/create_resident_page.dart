@@ -1,11 +1,10 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:mobile_client/components/big_button_tile.dart';
 import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/enums/situation.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/resident.dart';
+import 'package:mobile_client/utils/integer_id_generator.dart';
 
 class CreateResidentPage extends StatefulWidget {
   final Resident? resident;
@@ -31,9 +30,12 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
   bool isOnWhatsappGroup = false;
   bool hasPlaque = false;
   String selectedSituation = "Ativo";
+  String _previousPhoneNumberString = "";
 
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _neighborhoodController = TextEditingController();
+  final TextEditingController _streetController = TextEditingController();
+  final TextEditingController _houseNumberController = TextEditingController();
   final TextEditingController _referencePointController =
       TextEditingController();
   final TextEditingController _occupationController = TextEditingController();
@@ -51,21 +53,56 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     if (widget.resident != null) {
       selectedDate = widget.resident?.birthdate;
       _nameController.text = widget.resident?.name ?? "";
-      _addressController.text = widget.resident?.address ?? "";
+
+      List<String> addressTokens =
+          widget.resident?.address.split(",") ?? ["", "", ""];
+
+      _neighborhoodController.text = addressTokens[0];
+      _streetController.text = addressTokens[1];
+      _houseNumberController.text = addressTokens[2];
+
       _referencePointController.text = widget.resident?.referencePoint ?? "";
       _referencePointController.text = widget.resident?.referencePoint ?? "";
+
       livesInJN = widget.resident?.livesInJN ?? false;
+
       _referencePointController.text = widget.resident?.referencePoint ?? "";
       _phoneController.text = widget.resident?.phone ?? "";
+
       isOnWhatsappGroup = widget.resident?.isOnWhatsappGroup ?? false;
+
+      Situation residentSituation =
+          widget.resident?.situation ?? Situation.active;
+      if (residentSituation == Situation.active) {
+        selectedSituation = "Ativo";
+      } else if (residentSituation == Situation.inactive) {
+        selectedSituation = "Inativo";
+      } else if (residentSituation == Situation.noContact) {
+        selectedSituation = "Sem contato";
+      }
+
       hasPlaque = widget.resident?.hasPlaque ?? false;
+
       _registrationYearController.text =
           widget.resident?.registrationYear.toString() ?? "";
+      if (_registrationYearController.text == "0") {
+        _registrationYearController.text = "";
+      }
+
       _residentsInTheHouseController.text =
           widget.resident?.residentsInTheHouse.toString() ?? "";
+      if (_residentsInTheHouseController.text == "0") {
+        _residentsInTheHouseController.text = "";
+      }
+
       _rokaIdController.text = widget.resident?.rokaId.toString() ?? "";
+      if (_rokaIdController.text == "0") {
+        _rokaIdController.text = "";
+      }
+
       _observationsController.text = widget.resident?.observations ?? "";
       _occupationController.text = widget.resident?.profession ?? "";
+
       isNewResident = false;
       wasModified = widget.resident?.wasModified ?? false;
       isMarkedForRemoval = widget.resident?.isMarkedForRemoval ?? false;
@@ -82,10 +119,126 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     super.initState();
   }
 
+  void onPhoneChange(String value) {
+    String newValue = "";
+
+    if (value.length < _previousPhoneNumberString.length) {
+      newValue = value;
+    } else if (value.length == 1) {
+      newValue = "($value";
+    } else if (value.length == 3) {
+      newValue = "$value) ";
+    } else if (value.length == 10) {
+      newValue = "$value-";
+    } else if (value.length > 15) {
+      newValue = _previousPhoneNumberString;
+    } else {
+      newValue = value;
+    }
+
+    setState(() {
+      _phoneController.text = newValue;
+      _previousPhoneNumberString = newValue;
+    });
+  }
+
+  void warnInvalidRegistrationData(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+            title: Text(
+              message,
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            ),
+            contentPadding:
+                const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
+            children: [
+              MaterialButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: const Text(
+                    "Ok",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  )),
+            ]);
+      },
+    );
+  }
+
+  bool isFormDataOk() {
+    RegExp phoneNumberPattern = RegExp(r'\(\d{2}\) \d{5}-\d{4}');
+    RegExp isNumberPattern = RegExp(r'\d+');
+    RegExp registrationYearPattern = RegExp(r'20\d{2}');
+    RegExp neighborhoodPattern1 = RegExp(r'^bairro ', caseSensitive: false);
+    RegExp streetPattern1 = RegExp(r'^rua ', caseSensitive: false);
+
+    if (_nameController.text.isEmpty) {
+      warnInvalidRegistrationData("Nome completo do morador é obrigatório");
+      return false;
+    } else if (_phoneController.text.isEmpty) {
+      warnInvalidRegistrationData("Número de telefone é obrigatório.");
+      return false;
+    } else if (!phoneNumberPattern.hasMatch(_phoneController.text)) {
+      warnInvalidRegistrationData(
+          "Formato inválido para número de telofone ( (XX) XXXXX-XX ).");
+      return false;
+    } else if (_neighborhoodController.text.isEmpty) {
+      warnInvalidRegistrationData("Bairro é obrigatório.");
+      return false;
+    } else if (neighborhoodPattern1.hasMatch(_neighborhoodController.text)) {
+      warnInvalidRegistrationData(
+          "Não precisa digitar \"${_neighborhoodController.text.split(" ")[0]}\" antes do nome do bairro.");
+      return false;
+    } else if (_streetController.text.isEmpty) {
+      warnInvalidRegistrationData("Rua é obrigatória.");
+      return false;
+    } else if (streetPattern1.hasMatch(_streetController.text)) {
+      warnInvalidRegistrationData(
+          "Não precisa digitar \"${_streetController.text.split(" ")[0]}\" antes do nome da rua.");
+      return false;
+    } else if (_houseNumberController.text.isEmpty) {
+      warnInvalidRegistrationData("Número da residência é obrigatório.");
+      return false;
+    } else if (!isNumberPattern.hasMatch(_houseNumberController.text)) {
+      warnInvalidRegistrationData(
+          "Formato inválido para o número da residência.");
+    } else if (_rokaIdController.text.isNotEmpty &&
+        !isNumberPattern.hasMatch(_rokaIdController.text)) {
+      warnInvalidRegistrationData("Id da Roka inválido.");
+      return false;
+    } else if (_registrationYearController.text.isNotEmpty &&
+        !registrationYearPattern.hasMatch(_registrationYearController.text)) {
+      warnInvalidRegistrationData("Ano de cadastro inválido (20XX).");
+      return false;
+    } else if (_residentsInTheHouseController.text.isNotEmpty &&
+        !isNumberPattern.hasMatch(_residentsInTheHouseController.text)) {
+      warnInvalidRegistrationData("Quantidade de residentes na casa inválido.");
+      return false;
+    }
+
+    return true;
+  }
+
   void saveNewResident() {
+    if (!isFormDataOk()) {
+      return;
+    }
+
+    int id = widget.resident?.id ?? generateIntegerId();
+
+    Situation situation = Situation.active;
+    if (selectedSituation == "Ativo") {
+      situation = Situation.active;
+    } else if (selectedSituation == "Inativo") {
+      situation = Situation.inactive;
+    } else if (selectedSituation == "Sem contato") {
+      situation = Situation.noContact;
+    }
+
     Resident newResident = Resident(
-        id: Random().nextInt(1000000),
-        address: _addressController.text,
+        id: id,
+        address:
+            "${_neighborhoodController.text},${_streetController.text},${_houseNumberController.text}",
         collects: widget.resident?.collects ?? [],
         hasPlaque: hasPlaque,
         isOnWhatsappGroup: isOnWhatsappGroup,
@@ -95,19 +248,17 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
         phone: _phoneController.text,
         profession: _occupationController.text,
         referencePoint: _referencePointController.text,
-        registrationYear: int.parse(_registrationYearController.text),
-        residentsInTheHouse: int.parse(_residentsInTheHouseController.text),
-        rokaId: int.parse(_rokaIdController.text),
-        situation: Situation.active,
+        registrationYear: int.tryParse(_registrationYearController.text) ?? 0,
+        residentsInTheHouse:
+            int.tryParse(_residentsInTheHouseController.text) ?? 0,
+        rokaId: int.tryParse(_rokaIdController.text) ?? 0,
+        situation: situation,
         birthdate: selectedDate ?? DateTime.now(),
-        isNew: isNewResident,
+        isNew: widget.resident?.isNew ?? isNewResident,
         isMarkedForRemoval: false,
         wasModified: isNewResident ? false : true);
 
-    print("what");
-
     if (isNewResident) {
-      print("save");
       db.saveNewResident(newResident);
     } else {
       db.updateResident(newResident);
@@ -141,9 +292,10 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
       context: context,
       builder: (context) {
         return DialogBox(
-          title: "Tem certeza que deseja remover este residente?",
+          title:
+              "Tem certeza que deseja remover este residente? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
           onSave: () {
-            db.deleteResident((widget.resident?.id)!);
+            db.deleteResident((widget.resident?.id)!, true);
             Navigator.of(context).pop(true);
             Navigator.of(context).pop(true);
             showDialog(
@@ -189,6 +341,87 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget tag = Container();
+    bool showTag = false;
+    if (widget.resident?.isMarkedForRemoval ?? false) {
+      tag = Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.red, borderRadius: BorderRadius.circular(8)),
+            padding: const EdgeInsets.all(5.0),
+            child: const Text(
+              "MARCADO PARA REMOÇÃO",
+              style: TextStyle(
+                fontSize: 10,
+              ),
+            ),
+          ),
+          IconButton(
+              onPressed: saveNewResident, icon: const Icon(Icons.restore))
+        ],
+      );
+
+      showTag = true;
+    } else if (widget.resident?.situation == Situation.inactive) {
+      tag = Container(
+        decoration: BoxDecoration(
+            color: Colors.orange, borderRadius: BorderRadius.circular(8)),
+        padding: const EdgeInsets.all(5.0),
+        child: const Text(
+          "INATIVO",
+          style: TextStyle(
+            fontSize: 10,
+          ),
+        ),
+      );
+
+      showTag = true;
+    } else if (widget.resident?.situation == Situation.noContact) {
+      tag = Container(
+        decoration: BoxDecoration(
+            color: Colors.orange, borderRadius: BorderRadius.circular(8)),
+        padding: const EdgeInsets.all(5.0),
+        child: const Text(
+          "SEM CONTATO",
+          style: TextStyle(
+            fontSize: 10,
+          ),
+        ),
+      );
+
+      showTag = true;
+    } else if (widget.resident?.isNew ?? false) {
+      tag = Container(
+        decoration: BoxDecoration(
+            color: Theme.of(context).primaryColorLight,
+            borderRadius: BorderRadius.circular(8)),
+        padding: const EdgeInsets.all(5.0),
+        child: const Text(
+          "SALVO LOCALMENTE",
+          style: TextStyle(
+            fontSize: 10,
+          ),
+        ),
+      );
+
+      showTag = true;
+    } else if (wasModified) {
+      tag = Container(
+        decoration: BoxDecoration(
+            color: Colors.green[300], borderRadius: BorderRadius.circular(8)),
+        padding: const EdgeInsets.all(5.0),
+        child: const Text(
+          "MODIFICADO",
+          style: TextStyle(
+            fontSize: 10,
+          ),
+        ),
+      );
+
+      showTag = true;
+    }
+
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
@@ -217,62 +450,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                 const SizedBox(
                   height: 15,
                 ),
-                Visibility(
-                  visible:
-                      !isBeingCreated && isNewResident && !isMarkedForRemoval,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColorLight,
-                        borderRadius: BorderRadius.circular(8)),
-                    padding: const EdgeInsets.all(5.0),
-                    child: const Text(
-                      "NOVO",
-                      style: TextStyle(
-                        fontSize: 13,
-                      ),
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: !isBeingCreated && isMarkedForRemoval,
-                  child: Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(8)),
-                        padding: const EdgeInsets.all(5.0),
-                        child: const Text(
-                          "REMOVIDO",
-                          style: TextStyle(
-                            fontSize: 13,
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                          onPressed: saveNewResident,
-                          icon: const Icon(Icons.restore))
-                    ],
-                  ),
-                ),
-                Visibility(
-                  visible: !isBeingCreated &&
-                      !isNewResident &&
-                      !isMarkedForRemoval &&
-                      wasModified,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.green[300],
-                        borderRadius: BorderRadius.circular(8)),
-                    padding: const EdgeInsets.all(5.0),
-                    child: const Text(
-                      "MODIFICADO",
-                      style: TextStyle(
-                        fontSize: 13,
-                      ),
-                    ),
-                  ),
-                ),
+                Visibility(visible: showTag, child: tag),
                 const SizedBox(
                   height: 15,
                 ),
@@ -295,12 +473,53 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                   height: 15,
                 ),
                 TextField(
-                    controller: _addressController,
+                    controller: _phoneController,
+                    keyboardType: TextInputType.phone,
+                    onChanged: (String value) => onPhoneChange(value),
+                    decoration: const InputDecoration(
+                      hintText: "Telefone",
+                      border: OutlineInputBorder(),
+                      labelText: "Telefone",
+                    )),
+                const SizedBox(
+                  height: 30,
+                ),
+                const Text(
+                  "Endereço",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                TextField(
+                    controller: _neighborhoodController,
                     keyboardType: TextInputType.streetAddress,
                     decoration: const InputDecoration(
-                      hintText: "Endereço",
+                      hintText: "Bairro",
                       border: OutlineInputBorder(),
-                      labelText: "Endereço",
+                      labelText: "Bairro",
+                    )),
+                const SizedBox(
+                  height: 15,
+                ),
+                TextField(
+                    controller: _streetController,
+                    keyboardType: TextInputType.streetAddress,
+                    decoration: const InputDecoration(
+                      hintText: "Rua",
+                      border: OutlineInputBorder(),
+                      labelText: "Rua",
+                    )),
+                const SizedBox(
+                  height: 15,
+                ),
+                TextField(
+                    controller: _houseNumberController,
+                    keyboardType: TextInputType.streetAddress,
+                    decoration: const InputDecoration(
+                      hintText: "Número da residência",
+                      border: OutlineInputBorder(),
+                      labelText: "Número da residência",
                     )),
                 const SizedBox(
                   height: 15,
@@ -325,17 +544,6 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                 ),
                 const SizedBox(
                   height: 15,
-                ),
-                TextField(
-                    controller: _phoneController,
-                    keyboardType: TextInputType.phone,
-                    decoration: const InputDecoration(
-                      hintText: "Telefone",
-                      border: OutlineInputBorder(),
-                      labelText: "Telefone",
-                    )),
-                const SizedBox(
-                  height: 30,
                 ),
                 const Text(
                   "Informações internas da Roka",
@@ -493,8 +701,9 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.delete, color: Colors.white),
-                            Text("  Removar residente",
-                                style: TextStyle(color: Colors.white)),
+                            Text("  Removar permanentemente",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 12)),
                           ],
                         ),
                         onPressed: deleteResident,

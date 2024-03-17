@@ -61,7 +61,7 @@ class _CollectsPageState extends State<CollectsPage> {
           if ((collects?.length ?? 0) == 0) {
             return const Center(
                 child: Text(
-              "Nenhuma coleta :(",
+              "Nenhuma coleta ainda :(",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ));
           }
@@ -72,7 +72,7 @@ class _CollectsPageState extends State<CollectsPage> {
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                 child: Text(
                   "Coletas",
-                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25),
+                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 22),
                 ),
               ),
               Expanded(

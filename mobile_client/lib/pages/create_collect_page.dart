@@ -5,6 +5,7 @@ import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/collect.dart';
 import 'package:mobile_client/models/resident.dart';
+import 'package:mobile_client/utils/integer_id_generator.dart';
 
 class CreateCollectPage extends StatefulWidget {
   final Collect? collect;
@@ -31,7 +32,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
   void initState() {
     if (widget.collect != null) {
       selectedDate = widget.collect?.collectedOn;
-      selectedResident = db.getResidentById(widget.collect?.residentId ?? -1);
+      selectedResident = db.getResidentById(widget.collect?.residentId ?? 0);
       _weightController.text = widget.collect?.ammount.toString() ?? "";
       isNewCollect = false;
     } else {
@@ -63,11 +64,50 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
     }
   }
 
+  void warnInvalidRegistrationData(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+            title: Text(
+              message,
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            ),
+            contentPadding:
+                const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
+            children: [
+              MaterialButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: const Text(
+                    "Ok",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  )),
+            ]);
+      },
+    );
+  }
+
+  bool isFormOk() {
+    RegExp decimalPattern = RegExp(r'^\d+(?:[.,]\d{1,2})?$');
+
+    if (!decimalPattern.hasMatch(_weightController.text)) {
+      warnInvalidRegistrationData(
+          "Peso inválido (deve ser um número decimal com no máximo duas casas decimais, separado por \".\" ou \",\")");
+      return false;
+    }
+
+    return true;
+  }
+
   void saveNewCollect() {
+    if (!isFormOk()) {
+      return;
+    }
+
     Collect newCollect = Collect(
-        ammount: double.parse(_weightController.text),
+        ammount: double.parse(_weightController.text.replaceAll(",", ".")),
         collectedOn: selectedDate!,
-        id: -1,
+        id: generateIntegerId(),
         residentId: (selectedResident?.id)!,
         isNew: true);
 

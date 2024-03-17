@@ -60,7 +60,8 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
 
   void syncData() async {
     try {
-      await db.uploadDataToBackend();
+      await db.syncDataWithBackend();
+      await Future.delayed(const Duration(seconds: 1));
       await db.fetchDataFromBackend();
       showSuccessMessage();
     } catch (e) {
