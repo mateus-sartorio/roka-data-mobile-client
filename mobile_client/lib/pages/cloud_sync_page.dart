@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mobile_client/components/big_button_tile.dart';
 import 'package:mobile_client/data/database.dart';
 
@@ -71,21 +72,30 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: BigButtonTile(
-          color: Colors.black,
-          content: const Row(mainAxisSize: MainAxisSize.min, children: [
-            Icon(
-              Icons.cloud_sync,
-              color: Colors.white,
-            ),
-            Text(
-              "   Sincronizar dados",
-              style: TextStyle(color: Colors.white),
-            ),
-          ]),
-          onPressed: syncData,
-          isSolid: true),
+    return Animate(
+      effects: const [
+        SlideEffect(
+          begin: Offset(0, 1),
+          end: Offset(0, 0),
+          duration: Duration(milliseconds: 100),
+        )
+      ],
+      child: Center(
+        child: BigButtonTile(
+            color: Colors.black,
+            content: const Row(mainAxisSize: MainAxisSize.min, children: [
+              Icon(
+                Icons.cloud_sync,
+                color: Colors.white,
+              ),
+              Text(
+                "   Sincronizar dados",
+                style: TextStyle(color: Colors.white),
+              ),
+            ]),
+            onPressed: syncData,
+            isSolid: true),
+      ),
     );
   }
 }
