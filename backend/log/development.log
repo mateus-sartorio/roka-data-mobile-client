@@ -14318,3 +14318,1285 @@ Processing by ReceiptsController#show as JSON
 Completed 200 OK in 8ms (Views: 4.8ms | ActiveRecord: 0.2ms | Allocations: 1543)
 
 
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 13:18:17 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.7ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (3.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 31ms (Views: 24.5ms | ActiveRecord: 4.7ms | Allocations: 1813)
+
+
+Started PUT "/residents/1" for 127.0.0.1 at 2024-03-18 13:40:05 -0300
+Started POST "/residents" for 127.0.0.1 at 2024-03-18 13:40:05 -0300
+Processing by ResidentsController#create as HTML
+  Parameters: {"id"=>636905086152481603, "name"=>"a", "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"a,a,1", "reference_point"=>"", "lives_in_JN"=>false, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-18 13:39:16.189521", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "situation"=>"ativo", "resident"=>{"id"=>636905086152481603, "name"=>"a", "situation"=>"ativo", "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"a,a,1", "reference_point"=>"", "lives_in_JN"=>false, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-18 13:39:16.189521", "profession"=>"", "residents_in_the_house"=>0, "observations"=>""}}
+Processing by ResidentsController#update as HTML
+  Parameters: {"id"=>"1", "name"=>"Jamir", "roka_id"=>2, "situation"=>1, "has_plaque"=>true, "registration_year"=>2022, "address"=>"JN", "reference_point"=>"JN", "lives_in_JN"=>true, "phone"=>"992877594", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-18 13:18:13.943", "profession"=>"youtuber", "residents_in_the_house"=>2, "observations"=>"cuidado", "resident"=>{"id"=>"1", "name"=>"Jamir", "situation"=>1, "roka_id"=>2, "has_plaque"=>true, "registration_year"=>2022, "address"=>"JN", "reference_point"=>"JN", "lives_in_JN"=>true, "phone"=>"992877594", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-18 13:18:13.943", "profession"=>"youtuber", "residents_in_the_house"=>2, "observations"=>"cuidado"}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mResident Create (1.1ms)[0m  [1m[32mINSERT INTO "residents" ("id", "name", "situation", "roka_id", "has_plaque", "registration_year", "address", "reference_point", "lives_in_JN", "phone", "is_on_whatsapp_group", "birthdate", "profession", "residents_in_the_house", "observations", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["id", 636905086152481603], ["name", "a"], ["situation", 0], ["roka_id", 0], ["has_plaque", 0], ["registration_year", 0], ["address", "a,a,1"], ["reference_point", ""], ["lives_in_JN", 0], ["phone", "(11) 11111-1111"], ["is_on_whatsapp_group", 0], ["birthdate", "2024-03-18"], ["profession", ""], ["residents_in_the_house", 0], ["observations", ""], ["created_at", "2024-03-18 16:40:05.414808"], ["updated_at", "2024-03-18 16:40:05.414808"]]
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+  [1m[36mTRANSACTION (4.9ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mCollect Load (0.4ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 636905086152481603]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mResident Update (5.4ms)[0m  [1m[33mUPDATE "residents" SET "situation" = ?, "birthdate" = ?, "updated_at" = ? WHERE "residents"."id" = ?[0m  [["situation", 1], ["birthdate", "2024-03-18"], ["updated_at", "2024-03-18 16:40:05.440433"], ["id", 1]]
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mTRANSACTION (4.2ms)[0m  [1m[36mcommit transaction[0m
+Completed 201 Created in 55ms (Views: 10.9ms | ActiveRecord: 7.3ms | Allocations: 6053)
+
+
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 63ms (Views: 1.9ms | ActiveRecord: 10.4ms | Allocations: 7856)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 13:40:07 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 636905086152481603]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 6ms (Views: 4.9ms | ActiveRecord: 0.4ms | Allocations: 2561)
+
+
+Started GET "/residents" for ::1 at 2024-03-18 13:40:27 -0300
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 636905086152481603]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 4ms (Views: 3.8ms | ActiveRecord: 0.3ms | Allocations: 2493)
+
+
+Started DELETE "/residents/1" for ::1 at 2024-03-18 13:40:36 -0300
+Processing by ResidentsController#destroy as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:33:in `destroy'
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:35:in `destroy'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1]]
+  ↳ app/controllers/residents_controller.rb:35:in `destroy'
+  [1m[36mResident Destroy (1.3ms)[0m  [1m[31mDELETE FROM "residents" WHERE "residents"."id" = ?[0m  [["id", 1]]
+  ↳ app/controllers/residents_controller.rb:35:in `destroy'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  ↳ app/controllers/residents_controller.rb:35:in `destroy'
+Completed 500 Internal Server Error in 33ms (ActiveRecord: 1.7ms | Allocations: 4056)
+
+
+  
+ActiveRecord::InvalidForeignKey (SQLite3::ConstraintException: FOREIGN KEY constraint failed):
+  
+app/controllers/residents_controller.rb:35:in `destroy'
+Started GET "/residents" for ::1 at 2024-03-18 13:42:18 -0300
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 636905086152481603]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 4ms (Views: 3.2ms | ActiveRecord: 0.2ms | Allocations: 2493)
+
+
+Started DELETE "/residents/636905086152481603" for ::1 at 2024-03-18 13:42:28 -0300
+Processing by ResidentsController#destroy as */*
+  Parameters: {"id"=>"636905086152481603"}
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 636905086152481603], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:33:in `destroy'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:35:in `destroy'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 636905086152481603]]
+  ↳ app/controllers/residents_controller.rb:35:in `destroy'
+  [1m[36mResident Destroy (0.3ms)[0m  [1m[31mDELETE FROM "residents" WHERE "residents"."id" = ?[0m  [["id", 636905086152481603]]
+  ↳ app/controllers/residents_controller.rb:35:in `destroy'
+  [1m[36mTRANSACTION (7.6ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:35:in `destroy'
+Completed 200 OK in 12ms (Views: 0.1ms | ActiveRecord: 8.1ms | Allocations: 2930)
+
+
+Started DELETE "/residents/1" for ::1 at 2024-03-18 13:42:35 -0300
+Processing by ResidentsController#destroy as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:33:in `destroy'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:35:in `destroy'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1]]
+  ↳ app/controllers/residents_controller.rb:35:in `destroy'
+  [1m[36mResident Destroy (1.0ms)[0m  [1m[31mDELETE FROM "residents" WHERE "residents"."id" = ?[0m  [["id", 1]]
+  ↳ app/controllers/residents_controller.rb:35:in `destroy'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mrollback transaction[0m
+  ↳ app/controllers/residents_controller.rb:35:in `destroy'
+Completed 500 Internal Server Error in 7ms (ActiveRecord: 1.6ms | Allocations: 3886)
+
+
+  
+ActiveRecord::InvalidForeignKey (SQLite3::ConstraintException: FOREIGN KEY constraint failed):
+  
+app/controllers/residents_controller.rb:35:in `destroy'
+  [1m[35m (5.1ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (7.4ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateResidents (20240219023718)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "residents" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "situation" integer, "roka_id" integer, "has_plaque" boolean, "registration_year" integer, "address" varchar, "reference_point" varchar, "lives_in_JN" boolean, "phone" varchar, "is_on_whatsapp_group" boolean, "birthdate" date, "profession" varchar, "residents_in_the_house" integer, "observations" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240219023718"]]
+  [1m[36mTRANSACTION (4.1ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateCollects (20240219190450)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "collects" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "collected_on" date, "ammount" decimal, "resident_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_dcf2ba4729"
+FOREIGN KEY ("resident_id")
+  REFERENCES "residents" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_collects_on_resident_id" ON "collects" ("resident_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240219190450"]]
+  [1m[36mTRANSACTION (4.0ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateCurrencyHandouts (20240318024034)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "currency_handouts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "start_date" date, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240318024034"]]
+  [1m[36mTRANSACTION (3.4ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateReceipts (20240318151427)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "receipts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "handout_date" date, "value" decimal, "resident_id" integer NOT NULL, "currency_handout_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_2ddc7f3807"
+FOREIGN KEY ("resident_id")
+  REFERENCES "residents" ("id")
+, CONSTRAINT "fk_rails_96ffea0dfe"
+FOREIGN KEY ("currency_handout_id")
+  REFERENCES "currency_handouts" ("id")
+)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_receipts_on_resident_id" ON "receipts" ("resident_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_receipts_on_currency_handout_id" ON "receipts" ("currency_handout_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240318151427"]]
+  [1m[36mTRANSACTION (3.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2024-03-18 16:43:15.548071"], ["updated_at", "2024-03-18 16:43:15.548071"]]
+  [1m[36mTRANSACTION (3.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 13:43:27 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 9ms (Views: 1.3ms | ActiveRecord: 0.2ms | Allocations: 4743)
+
+
+Started POST "/residents" for 127.0.0.1 at 2024-03-18 13:46:26 -0300
+Processing by ResidentsController#create as HTML
+  Parameters: {"id"=>1063688422590800493, "name"=>"Legal", "roka_id"=>1, "has_plaque"=>false, "registration_year"=>2024, "address"=>"Jesus de Nazareth,Pio XII,103", "reference_point"=>"Casa", "lives_in_JN"=>true, "phone"=>"(22) 22222-2222", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-18 13:45:08.604102", "profession"=>"Jogador de League of Legends", "residents_in_the_house"=>1, "observations"=>"Gente fina", "situation"=>"ativo", "resident"=>{"id"=>1063688422590800493, "name"=>"Legal", "situation"=>"ativo", "roka_id"=>1, "has_plaque"=>false, "registration_year"=>2024, "address"=>"Jesus de Nazareth,Pio XII,103", "reference_point"=>"Casa", "lives_in_JN"=>true, "phone"=>"(22) 22222-2222", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-18 13:45:08.604102", "profession"=>"Jogador de League of Legends", "residents_in_the_house"=>1, "observations"=>"Gente fina"}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mResident Create (1.0ms)[0m  [1m[32mINSERT INTO "residents" ("id", "name", "situation", "roka_id", "has_plaque", "registration_year", "address", "reference_point", "lives_in_JN", "phone", "is_on_whatsapp_group", "birthdate", "profession", "residents_in_the_house", "observations", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["id", 1063688422590800493], ["name", "Legal"], ["situation", 0], ["roka_id", 1], ["has_plaque", 0], ["registration_year", 2024], ["address", "Jesus de Nazareth,Pio XII,103"], ["reference_point", "Casa"], ["lives_in_JN", 1], ["phone", "(22) 22222-2222"], ["is_on_whatsapp_group", 0], ["birthdate", "2024-03-18"], ["profession", "Jogador de League of Legends"], ["residents_in_the_house", 1], ["observations", "Gente fina"], ["created_at", "2024-03-18 16:46:26.189144"], ["updated_at", "2024-03-18 16:46:26.189144"]]
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (6.0ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 201 Created in 35ms (Views: 12.1ms | ActiveRecord: 8.3ms | Allocations: 17930)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 13:46:28 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 3ms (Views: 2.4ms | ActiveRecord: 0.2ms | Allocations: 1652)
+
+
+Started PUT "/residents/1063688422590800493" for 127.0.0.1 at 2024-03-18 13:46:38 -0300
+Processing by ResidentsController#update as HTML
+  Parameters: {"id"=>"1063688422590800493", "name"=>"Legal", "roka_id"=>1, "situation"=>1, "has_plaque"=>false, "registration_year"=>2024, "address"=>"Jesus de Nazareth,Pio XII,103", "reference_point"=>"Casa", "lives_in_JN"=>true, "phone"=>"(22) 22222-2222", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-18 00:00:00.000", "profession"=>"Jogador de League of Legends", "residents_in_the_house"=>1, "observations"=>"Gente fina", "resident"=>{"id"=>"1063688422590800493", "name"=>"Legal", "situation"=>1, "roka_id"=>1, "has_plaque"=>false, "registration_year"=>2024, "address"=>"Jesus de Nazareth,Pio XII,103", "reference_point"=>"Casa", "lives_in_JN"=>true, "phone"=>"(22) 22222-2222", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-18 00:00:00.000", "profession"=>"Jogador de League of Legends", "residents_in_the_house"=>1, "observations"=>"Gente fina"}}
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1063688422590800493], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mResident Update (0.3ms)[0m  [1m[33mUPDATE "residents" SET "situation" = ?, "updated_at" = ? WHERE "residents"."id" = ?[0m  [["situation", 1], ["updated_at", "2024-03-18 16:46:38.848336"], ["id", 1063688422590800493]]
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mTRANSACTION (5.8ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 14ms (Views: 2.2ms | ActiveRecord: 6.5ms | Allocations: 4740)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 13:46:40 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 3ms (Views: 2.8ms | ActiveRecord: 0.2ms | Allocations: 1605)
+
+
+Started POST "/collects" for 127.0.0.1 at 2024-03-18 15:56:12 -0300
+Processing by CollectsController#create as HTML
+  Parameters: {"collected_on"=>"2024-03-20T00:00:00.000", "resident_id"=>1063688422590800512, "ammount"=>1.0, "collect"=>{"collected_on"=>"2024-03-20T00:00:00.000", "ammount"=>1.0, "resident_id"=>1063688422590800512}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1063688422590800512], ["LIMIT", 1]]
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+Completed 422 Unprocessable Entity in 51ms (Views: 11.8ms | ActiveRecord: 2.4ms | Allocations: 8367)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 15:56:14 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 7ms (Views: 5.6ms | ActiveRecord: 0.5ms | Allocations: 1693)
+
+
+Started GET "/currency_handouts" for 127.0.0.1 at 2024-03-18 16:35:34 -0300
+Processing by CurrencyHandoutsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/index.html.erb within layouts/application
+  [1m[36mCurrencyHandout Load (0.3ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.html.erb:6
+  Rendered currency_handouts/index.html.erb within layouts/application (Duration: 30.3ms | Allocations: 1718)
+  Rendered layout layouts/application.html.erb (Duration: 189.2ms | Allocations: 33066)
+Completed 200 OK in 231ms (Views: 200.6ms | ActiveRecord: 1.4ms | Allocations: 36234)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-18 16:35:42 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.2ms | Allocations: 54)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 3.8ms | Allocations: 1025)
+Completed 200 OK in 5ms (Views: 4.4ms | ActiveRecord: 0.2ms | Allocations: 1513)
+
+
+Started POST "/currency_handouts/new" for ::1 at 2024-03-18 16:38:32 -0300
+  
+ActionController::RoutingError (No route matches [POST] "/currency_handouts/new"):
+  
+Started POST "/currency_handouts" for ::1 at 2024-03-18 16:38:52 -0300
+Processing by CurrencyHandoutsController#create as */*
+  Parameters: {"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+[31mUnpermitted parameter: :id. Context: { controller: CurrencyHandoutsController, action: create, request: #<ActionDispatch::Request:0x00007f2b2005c8a8>, params: {"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "controller"=>"currency_handouts", "action"=>"create", "currency_handout"=>{"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}} }[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mCurrencyHandout Create (0.4ms)[0m  [1m[32mINSERT INTO "currency_handouts" ("title", "start_date", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "legal"], ["start_date", "2024-03-18"], ["created_at", "2024-03-18 19:38:52.997710"], ["updated_at", "2024-03-18 19:38:52.997710"]]
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (6.3ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+Redirected to http://localhost:3000/currency_handouts/1
+Completed 302 Found in 18ms (ActiveRecord: 9.6ms | Allocations: 4948)
+
+
+Started GET "/currency_handouts/1" for ::1 at 2024-03-18 16:38:53 -0300
+Processing by CurrencyHandoutsController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/currency_handouts_controller.rb:63:in `set_currency_handout'
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/show.html.erb within layouts/application
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.6ms | Allocations: 211)
+  Rendered currency_handouts/show.html.erb within layouts/application (Duration: 3.7ms | Allocations: 1248)
+  Rendered layout layouts/application.html.erb (Duration: 6.0ms | Allocations: 2558)
+Completed 200 OK in 9ms (Views: 6.5ms | ActiveRecord: 0.2ms | Allocations: 4029)
+
+
+Started POST "/currency_handouts" for 127.0.0.1 at 2024-03-18 16:40:04 -0300
+Processing by CurrencyHandoutsController#create as HTML
+  Parameters: {"id"=>531766096638558062, "tile"=>"abc", "start_date"=>"2024-03-19T00:00:00.000", "currency_handout"=>{"id"=>531766096638558062, "start_date"=>"2024-03-19T00:00:00.000"}}
+[31mUnpermitted parameter: :id. Context: { controller: CurrencyHandoutsController, action: create, request: #<ActionDispatch::Request:0x00007f2b211cd358>, params: {"id"=>531766096638558062, "tile"=>"abc", "start_date"=>"2024-03-19T00:00:00.000", "controller"=>"currency_handouts", "action"=>"create", "currency_handout"=>{"id"=>531766096638558062, "start_date"=>"2024-03-19T00:00:00.000"}} }[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mCurrencyHandout Create (0.4ms)[0m  [1m[32mINSERT INTO "currency_handouts" ("title", "start_date", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", nil], ["start_date", "2024-03-19"], ["created_at", "2024-03-18 19:40:04.161026"], ["updated_at", "2024-03-18 19:40:04.161026"]]
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (6.5ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+Redirected to http://10.0.2.2:3000/currency_handouts/2
+Completed 302 Found in 17ms (ActiveRecord: 7.0ms | Allocations: 2794)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 16:40:06 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 8ms (Views: 7.2ms | ActiveRecord: 0.4ms | Allocations: 1697)
+
+
+Started GET "/currency_handouts" for ::1 at 2024-03-18 16:40:42 -0300
+Processing by CurrencyHandoutsController#index as */*
+  Parameters: {"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/index.html.erb within layouts/application
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.html.erb:6
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.2ms | Allocations: 27)
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.1ms | Allocations: 24)
+  Rendered currency_handouts/index.html.erb within layouts/application (Duration: 4.3ms | Allocations: 1032)
+  Rendered layout layouts/application.html.erb (Duration: 9.4ms | Allocations: 2349)
+Completed 200 OK in 11ms (Views: 10.3ms | ActiveRecord: 0.2ms | Allocations: 2629)
+
+
+Started GET "/currency_handouts.json" for ::1 at 2024-03-18 16:40:48 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Parameters: {"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [2 times] (Duration: 2.3ms | Allocations: 409)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 4.2ms | Allocations: 1247)
+Completed 200 OK in 5ms (Views: 4.7ms | ActiveRecord: 0.1ms | Allocations: 1547)
+
+
+Started POST "/currency_handouts" for 127.0.0.1 at 2024-03-18 16:46:55 -0300
+Processing by CurrencyHandoutsController#create as HTML
+  Parameters: {"id"=>531766096638558062, "title"=>"abc", "start_date"=>"2024-03-19T00:00:00.000", "currency_handout"=>{"id"=>531766096638558062, "title"=>"abc", "start_date"=>"2024-03-19T00:00:00.000"}}
+[31mUnpermitted parameter: :id. Context: { controller: CurrencyHandoutsController, action: create, request: #<ActionDispatch::Request:0x00007f2b1be82310>, params: {"id"=>531766096638558062, "title"=>"abc", "start_date"=>"2024-03-19T00:00:00.000", "controller"=>"currency_handouts", "action"=>"create", "currency_handout"=>{"id"=>531766096638558062, "title"=>"abc", "start_date"=>"2024-03-19T00:00:00.000"}} }[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mCurrencyHandout Create (0.5ms)[0m  [1m[32mINSERT INTO "currency_handouts" ("title", "start_date", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "abc"], ["start_date", "2024-03-19"], ["created_at", "2024-03-18 19:46:55.949632"], ["updated_at", "2024-03-18 19:46:55.949632"]]
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (6.6ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+Redirected to http://10.0.2.2:3000/currency_handouts/3
+Completed 302 Found in 17ms (ActiveRecord: 7.7ms | Allocations: 2363)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 16:46:57 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 27ms (Views: 26.1ms | ActiveRecord: 0.4ms | Allocations: 1695)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 16:46:57 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 5ms (Views: 4.3ms | ActiveRecord: 0.3ms | Allocations: 1593)
+
+
+Started POST "/currency_handouts" for 127.0.0.1 at 2024-03-18 16:47:06 -0300
+Processing by CurrencyHandoutsController#create as HTML
+  Parameters: {"id"=>531766096638558062, "title"=>"abc", "start_date"=>"2024-03-19T00:00:00.000", "currency_handout"=>{"id"=>531766096638558062, "title"=>"abc", "start_date"=>"2024-03-19T00:00:00.000"}}
+[31mUnpermitted parameter: :id. Context: { controller: CurrencyHandoutsController, action: create, request: #<ActionDispatch::Request:0x00007f2b2120a1e0>, params: {"id"=>531766096638558062, "title"=>"abc", "start_date"=>"2024-03-19T00:00:00.000", "controller"=>"currency_handouts", "action"=>"create", "currency_handout"=>{"id"=>531766096638558062, "title"=>"abc", "start_date"=>"2024-03-19T00:00:00.000"}} }[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mCurrencyHandout Create (0.8ms)[0m  [1m[32mINSERT INTO "currency_handouts" ("title", "start_date", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "abc"], ["start_date", "2024-03-19"], ["created_at", "2024-03-18 19:47:06.159642"], ["updated_at", "2024-03-18 19:47:06.159642"]]
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (8.9ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+Redirected to http://10.0.2.2:3000/currency_handouts/4
+Completed 302 Found in 16ms (ActiveRecord: 9.8ms | Allocations: 2247)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 16:47:08 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 4ms (Views: 3.4ms | ActiveRecord: 0.3ms | Allocations: 1593)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 16:47:08 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 3ms (Views: 2.9ms | ActiveRecord: 0.2ms | Allocations: 1594)
+
+
+Started POST "/currency_handouts" for 127.0.0.1 at 2024-03-18 16:48:05 -0300
+Processing by CurrencyHandoutsController#create as HTML
+  Parameters: {"id"=>531766096638558080, "title"=>"abc", "start_date"=>"2024-03-19T00:00:00.000", "currency_handout"=>{"id"=>531766096638558080, "title"=>"abc", "start_date"=>"2024-03-19T00:00:00.000"}}
+[31mUnpermitted parameter: :id. Context: { controller: CurrencyHandoutsController, action: create, request: #<ActionDispatch::Request:0x00007f2b207f0b50>, params: {"id"=>531766096638558080, "title"=>"abc", "start_date"=>"2024-03-19T00:00:00.000", "controller"=>"currency_handouts", "action"=>"create", "currency_handout"=>{"id"=>531766096638558080, "title"=>"abc", "start_date"=>"2024-03-19T00:00:00.000"}} }[0m
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mCurrencyHandout Create (1.4ms)[0m  [1m[32mINSERT INTO "currency_handouts" ("title", "start_date", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "abc"], ["start_date", "2024-03-19"], ["created_at", "2024-03-18 19:48:05.560981"], ["updated_at", "2024-03-18 19:48:05.560981"]]
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (7.3ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+Redirected to http://10.0.2.2:3000/currency_handouts/5
+Completed 302 Found in 66ms (ActiveRecord: 9.5ms | Allocations: 2247)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 16:48:07 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 16ms (Views: 13.7ms | ActiveRecord: 0.5ms | Allocations: 1593)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-18 16:48:07 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.3ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [5 times] (Duration: 1.6ms | Allocations: 544)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 5.1ms | Allocations: 1654)
+Completed 200 OK in 7ms (Views: 5.9ms | ActiveRecord: 0.3ms | Allocations: 1954)
+
+
+Started GET "/currency_handouts.json" for ::1 at 2024-03-18 16:49:31 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Parameters: {"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [5 times] (Duration: 3.6ms | Allocations: 549)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 5.6ms | Allocations: 1635)
+Completed 200 OK in 6ms (Views: 5.9ms | ActiveRecord: 0.1ms | Allocations: 1934)
+
+
+Started DELETE "/currency_handouts/1" for ::1 at 2024-03-18 16:51:10 -0300
+Processing by CurrencyHandoutsController#destroy as */*
+  Parameters: {"id"=>"1", "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>"1", "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  [1m[36mCurrencyHandout Load (0.7ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/currency_handouts_controller.rb:63:in `set_currency_handout'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mCurrencyHandout Destroy (0.8ms)[0m  [1m[31mDELETE FROM "currency_handouts" WHERE "currency_handouts"."id" = ?[0m  [["id", 1]]
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mTRANSACTION (7.6ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+Redirected to http://localhost:3000/currency_handouts
+Completed 302 Found in 20ms (ActiveRecord: 9.1ms | Allocations: 2414)
+
+
+Started GET "/currency_handouts" for ::1 at 2024-03-18 16:51:10 -0300
+Processing by CurrencyHandoutsController#index as */*
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/index.html.erb within layouts/application
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.html.erb:6
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.2ms | Allocations: 25)
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.2ms | Allocations: 26)
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.1ms | Allocations: 26)
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.1ms | Allocations: 26)
+  Rendered currency_handouts/index.html.erb within layouts/application (Duration: 8.2ms | Allocations: 1351)
+  Rendered layout layouts/application.html.erb (Duration: 22.2ms | Allocations: 2668)
+Completed 200 OK in 23ms (Views: 22.6ms | ActiveRecord: 0.2ms | Allocations: 2948)
+
+
+Started GET "/currency_handouts.json" for ::1 at 2024-03-18 16:51:20 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Parameters: {"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [4 times] (Duration: 1.0ms | Allocations: 445)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 5.0ms | Allocations: 1446)
+Completed 200 OK in 6ms (Views: 5.4ms | ActiveRecord: 0.2ms | Allocations: 1746)
+
+
+Started DELETE "/currency_handouts/2" for ::1 at 2024-03-18 16:51:28 -0300
+Processing by CurrencyHandoutsController#destroy as */*
+  Parameters: {"id"=>"2", "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>"2", "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  [1m[36mCurrencyHandout Load (0.4ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/currency_handouts_controller.rb:63:in `set_currency_handout'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mCurrencyHandout Destroy (0.7ms)[0m  [1m[31mDELETE FROM "currency_handouts" WHERE "currency_handouts"."id" = ?[0m  [["id", 2]]
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mTRANSACTION (9.7ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+Redirected to http://localhost:3000/currency_handouts
+Completed 302 Found in 22ms (ActiveRecord: 10.9ms | Allocations: 2317)
+
+
+Started GET "/currency_handouts" for ::1 at 2024-03-18 16:51:28 -0300
+Processing by CurrencyHandoutsController#index as */*
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/index.html.erb within layouts/application
+  [1m[36mCurrencyHandout Load (0.8ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.html.erb:6
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.2ms | Allocations: 27)
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.1ms | Allocations: 26)
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.0ms | Allocations: 26)
+  Rendered currency_handouts/index.html.erb within layouts/application (Duration: 3.8ms | Allocations: 1214)
+  Rendered layout layouts/application.html.erb (Duration: 6.2ms | Allocations: 2515)
+Completed 200 OK in 8ms (Views: 6.1ms | ActiveRecord: 0.8ms | Allocations: 2795)
+
+
+Started DELETE "/currency_handouts/3" for ::1 at 2024-03-18 16:51:31 -0300
+Processing by CurrencyHandoutsController#destroy as */*
+  Parameters: {"id"=>"3", "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>"3", "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  ↳ app/controllers/currency_handouts_controller.rb:63:in `set_currency_handout'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mCurrencyHandout Destroy (0.4ms)[0m  [1m[31mDELETE FROM "currency_handouts" WHERE "currency_handouts"."id" = ?[0m  [["id", 3]]
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mTRANSACTION (5.6ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+Redirected to http://localhost:3000/currency_handouts
+Completed 302 Found in 13ms (ActiveRecord: 6.3ms | Allocations: 2304)
+
+
+Started GET "/currency_handouts" for ::1 at 2024-03-18 16:51:31 -0300
+Processing by CurrencyHandoutsController#index as */*
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/index.html.erb within layouts/application
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.html.erb:6
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.1ms | Allocations: 27)
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.1ms | Allocations: 26)
+  Rendered currency_handouts/index.html.erb within layouts/application (Duration: 2.9ms | Allocations: 1043)
+  Rendered layout layouts/application.html.erb (Duration: 5.1ms | Allocations: 2344)
+Completed 200 OK in 6ms (Views: 5.6ms | ActiveRecord: 0.2ms | Allocations: 2624)
+
+
+Started DELETE "/currency_handouts/4" for ::1 at 2024-03-18 16:51:34 -0300
+Processing by CurrencyHandoutsController#destroy as */*
+  Parameters: {"id"=>"4", "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>"4", "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/currency_handouts_controller.rb:63:in `set_currency_handout'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mCurrencyHandout Destroy (0.4ms)[0m  [1m[31mDELETE FROM "currency_handouts" WHERE "currency_handouts"."id" = ?[0m  [["id", 4]]
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mTRANSACTION (6.2ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+Redirected to http://localhost:3000/currency_handouts
+Completed 302 Found in 14ms (ActiveRecord: 6.7ms | Allocations: 2318)
+
+
+Started GET "/currency_handouts" for ::1 at 2024-03-18 16:51:34 -0300
+Processing by CurrencyHandoutsController#index as */*
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/index.html.erb within layouts/application
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.html.erb:6
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.1ms | Allocations: 27)
+  Rendered currency_handouts/index.html.erb within layouts/application (Duration: 2.1ms | Allocations: 911)
+  Rendered layout layouts/application.html.erb (Duration: 4.1ms | Allocations: 2212)
+Completed 200 OK in 5ms (Views: 4.5ms | ActiveRecord: 0.1ms | Allocations: 2492)
+
+
+Started DELETE "/currency_handouts/5" for ::1 at 2024-03-18 16:51:35 -0300
+Processing by CurrencyHandoutsController#destroy as */*
+  Parameters: {"id"=>"5", "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>"5", "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  ↳ app/controllers/currency_handouts_controller.rb:63:in `set_currency_handout'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mCurrencyHandout Destroy (0.3ms)[0m  [1m[31mDELETE FROM "currency_handouts" WHERE "currency_handouts"."id" = ?[0m  [["id", 5]]
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mTRANSACTION (6.6ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+Redirected to http://localhost:3000/currency_handouts
+Completed 302 Found in 12ms (ActiveRecord: 7.1ms | Allocations: 2297)
+
+
+Started GET "/currency_handouts" for ::1 at 2024-03-18 16:51:35 -0300
+Processing by CurrencyHandoutsController#index as */*
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/index.html.erb within layouts/application
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.html.erb:6
+  Rendered currency_handouts/index.html.erb within layouts/application (Duration: 1.4ms | Allocations: 782)
+  Rendered layout layouts/application.html.erb (Duration: 3.6ms | Allocations: 2099)
+Completed 200 OK in 5ms (Views: 4.0ms | ActiveRecord: 0.1ms | Allocations: 2379)
+
+
+Started DELETE "/currency_handouts/6" for ::1 at 2024-03-18 16:51:36 -0300
+Processing by CurrencyHandoutsController#destroy as */*
+  Parameters: {"id"=>"6", "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>"6", "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  ↳ app/controllers/currency_handouts_controller.rb:63:in `set_currency_handout'
+Completed 404 Not Found in 2ms (ActiveRecord: 0.1ms | Allocations: 964)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find CurrencyHandout with 'id'=6):
+  
+app/controllers/currency_handouts_controller.rb:63:in `set_currency_handout'
+Started GET "/currency_handouts.json" for ::1 at 2024-03-18 16:51:40 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Parameters: {"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 1.2ms | Allocations: 682)
+Completed 200 OK in 2ms (Views: 1.5ms | ActiveRecord: 0.1ms | Allocations: 980)
+
+
+Started POST "/currency_handouts" for 127.0.0.1 at 2024-03-18 16:51:43 -0300
+Processing by CurrencyHandoutsController#create as HTML
+  Parameters: {"id"=>531766096638558080, "title"=>"abc", "start_date"=>"2024-03-19T00:00:00.000", "currency_handout"=>{"id"=>531766096638558080, "title"=>"abc", "start_date"=>"2024-03-19T00:00:00.000"}}
+[31mUnpermitted parameter: :id. Context: { controller: CurrencyHandoutsController, action: create, request: #<ActionDispatch::Request:0x00007f2b203f8520>, params: {"id"=>531766096638558080, "title"=>"abc", "start_date"=>"2024-03-19T00:00:00.000", "controller"=>"currency_handouts", "action"=>"create", "currency_handout"=>{"id"=>531766096638558080, "title"=>"abc", "start_date"=>"2024-03-19T00:00:00.000"}} }[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mCurrencyHandout Create (0.6ms)[0m  [1m[32mINSERT INTO "currency_handouts" ("title", "start_date", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "abc"], ["start_date", "2024-03-19"], ["created_at", "2024-03-18 19:51:43.651073"], ["updated_at", "2024-03-18 19:51:43.651073"]]
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (6.7ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+Redirected to http://10.0.2.2:3000/currency_handouts/6
+Completed 302 Found in 16ms (ActiveRecord: 7.4ms | Allocations: 2246)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 16:51:45 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 4ms (Views: 2.9ms | ActiveRecord: 0.3ms | Allocations: 1592)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-18 16:51:45 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [1 times] (Duration: 0.6ms | Allocations: 133)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 6.2ms | Allocations: 886)
+Completed 200 OK in 7ms (Views: 6.6ms | ActiveRecord: 0.1ms | Allocations: 1186)
+
+
+Started POST "/currency_handouts" for 127.0.0.1 at 2024-03-18 16:51:57 -0300
+Processing by CurrencyHandoutsController#create as HTML
+  Parameters: {"id"=>950617009766974386, "title"=>"legal", "start_date"=>"2024-03-18T16:51:46.606224", "currency_handout"=>{"id"=>950617009766974386, "title"=>"legal", "start_date"=>"2024-03-18T16:51:46.606224"}}
+[31mUnpermitted parameter: :id. Context: { controller: CurrencyHandoutsController, action: create, request: #<ActionDispatch::Request:0x00007f2b21275aa8>, params: {"id"=>950617009766974386, "title"=>"legal", "start_date"=>"2024-03-18T16:51:46.606224", "controller"=>"currency_handouts", "action"=>"create", "currency_handout"=>{"id"=>950617009766974386, "title"=>"legal", "start_date"=>"2024-03-18T16:51:46.606224"}} }[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mCurrencyHandout Create (0.5ms)[0m  [1m[32mINSERT INTO "currency_handouts" ("title", "start_date", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "legal"], ["start_date", "2024-03-18"], ["created_at", "2024-03-18 19:51:57.702700"], ["updated_at", "2024-03-18 19:51:57.702700"]]
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (9.1ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+Redirected to http://10.0.2.2:3000/currency_handouts/7
+Completed 302 Found in 14ms (ActiveRecord: 9.6ms | Allocations: 2248)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 16:51:59 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 4ms (Views: 3.3ms | ActiveRecord: 0.3ms | Allocations: 1593)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-18 16:51:59 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [2 times] (Duration: 0.5ms | Allocations: 236)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.0ms | Allocations: 1073)
+Completed 200 OK in 3ms (Views: 2.7ms | ActiveRecord: 0.1ms | Allocations: 1372)
+
+
+Started GET "/currency_handouts.json" for ::1 at 2024-03-18 16:52:02 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Parameters: {"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [2 times] (Duration: 0.5ms | Allocations: 238)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.7ms | Allocations: 1075)
+Completed 200 OK in 4ms (Views: 2.9ms | ActiveRecord: 0.2ms | Allocations: 1374)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 16:53:03 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.4ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 7ms (Views: 5.6ms | ActiveRecord: 0.7ms | Allocations: 1593)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-18 16:53:03 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [2 times] (Duration: 0.9ms | Allocations: 236)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.6ms | Allocations: 1073)
+Completed 200 OK in 4ms (Views: 3.1ms | ActiveRecord: 0.1ms | Allocations: 1372)
+
+
+Started POST "/currency_handouts" for 127.0.0.1 at 2024-03-18 16:53:21 -0300
+Processing by CurrencyHandoutsController#create as HTML
+  Parameters: {"id"=>391318332474906987, "title"=>"moeda", "start_date"=>"2024-03-18T16:53:10.023773", "currency_handout"=>{"id"=>391318332474906987, "title"=>"moeda", "start_date"=>"2024-03-18T16:53:10.023773"}}
+[31mUnpermitted parameter: :id. Context: { controller: CurrencyHandoutsController, action: create, request: #<ActionDispatch::Request:0x00007f2b2005b728>, params: {"id"=>391318332474906987, "title"=>"moeda", "start_date"=>"2024-03-18T16:53:10.023773", "controller"=>"currency_handouts", "action"=>"create", "currency_handout"=>{"id"=>391318332474906987, "title"=>"moeda", "start_date"=>"2024-03-18T16:53:10.023773"}} }[0m
+  [1m[36mTRANSACTION (7.3ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mCurrencyHandout Create (0.9ms)[0m  [1m[32mINSERT INTO "currency_handouts" ("title", "start_date", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "moeda"], ["start_date", "2024-03-18"], ["created_at", "2024-03-18 19:53:21.212109"], ["updated_at", "2024-03-18 19:53:21.212109"]]
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (6.5ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+Redirected to http://10.0.2.2:3000/currency_handouts/8
+Completed 302 Found in 31ms (ActiveRecord: 14.6ms | Allocations: 2247)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 16:53:23 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 4ms (Views: 3.1ms | ActiveRecord: 0.2ms | Allocations: 1593)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-18 16:53:23 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [3 times] (Duration: 0.7ms | Allocations: 339)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.2ms | Allocations: 1260)
+Completed 200 OK in 3ms (Views: 2.6ms | ActiveRecord: 0.1ms | Allocations: 1559)
+
+
+Started GET "/currency_handouts.json" for ::1 at 2024-03-18 16:53:37 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Parameters: {"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [3 times] (Duration: 0.6ms | Allocations: 342)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.9ms | Allocations: 1263)
+Completed 200 OK in 4ms (Views: 3.2ms | ActiveRecord: 0.2ms | Allocations: 1562)
+
+
+Started DELETE "/currency_handouts/6" for ::1 at 2024-03-18 16:53:42 -0300
+Processing by CurrencyHandoutsController#destroy as */*
+  Parameters: {"id"=>"6", "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>"6", "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  ↳ app/controllers/currency_handouts_controller.rb:63:in `set_currency_handout'
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mCurrencyHandout Destroy (0.7ms)[0m  [1m[31mDELETE FROM "currency_handouts" WHERE "currency_handouts"."id" = ?[0m  [["id", 6]]
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mTRANSACTION (6.4ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+Redirected to http://localhost:3000/currency_handouts
+Completed 302 Found in 13ms (ActiveRecord: 7.3ms | Allocations: 2319)
+
+
+Started GET "/currency_handouts" for ::1 at 2024-03-18 16:53:42 -0300
+Processing by CurrencyHandoutsController#index as */*
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/index.html.erb within layouts/application
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.html.erb:6
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.1ms | Allocations: 27)
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.1ms | Allocations: 26)
+  Rendered currency_handouts/index.html.erb within layouts/application (Duration: 2.8ms | Allocations: 1074)
+  Rendered layout layouts/application.html.erb (Duration: 5.8ms | Allocations: 2391)
+Completed 200 OK in 7ms (Views: 6.2ms | ActiveRecord: 0.2ms | Allocations: 2671)
+
+
+Started DELETE "/currency_handouts/7" for ::1 at 2024-03-18 16:53:46 -0300
+Processing by CurrencyHandoutsController#destroy as */*
+  Parameters: {"id"=>"7", "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>"7", "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  ↳ app/controllers/currency_handouts_controller.rb:63:in `set_currency_handout'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mCurrencyHandout Destroy (0.4ms)[0m  [1m[31mDELETE FROM "currency_handouts" WHERE "currency_handouts"."id" = ?[0m  [["id", 7]]
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mTRANSACTION (6.6ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+Redirected to http://localhost:3000/currency_handouts
+Completed 302 Found in 12ms (ActiveRecord: 7.2ms | Allocations: 2304)
+
+
+Started GET "/currency_handouts" for ::1 at 2024-03-18 16:53:46 -0300
+Processing by CurrencyHandoutsController#index as */*
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/index.html.erb within layouts/application
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.html.erb:6
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.1ms | Allocations: 27)
+  Rendered currency_handouts/index.html.erb within layouts/application (Duration: 2.0ms | Allocations: 915)
+  Rendered layout layouts/application.html.erb (Duration: 4.6ms | Allocations: 2232)
+Completed 200 OK in 6ms (Views: 5.1ms | ActiveRecord: 0.2ms | Allocations: 2512)
+
+
+Started DELETE "/currency_handouts/8" for ::1 at 2024-03-18 16:53:48 -0300
+Processing by CurrencyHandoutsController#destroy as */*
+  Parameters: {"id"=>"8", "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>"8", "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  ↳ app/controllers/currency_handouts_controller.rb:63:in `set_currency_handout'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mCurrencyHandout Destroy (0.3ms)[0m  [1m[31mDELETE FROM "currency_handouts" WHERE "currency_handouts"."id" = ?[0m  [["id", 8]]
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mTRANSACTION (8.5ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+Redirected to http://localhost:3000/currency_handouts
+Completed 302 Found in 14ms (ActiveRecord: 9.0ms | Allocations: 2300)
+
+
+Started GET "/currency_handouts" for ::1 at 2024-03-18 16:53:48 -0300
+Processing by CurrencyHandoutsController#index as */*
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/index.html.erb within layouts/application
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.html.erb:6
+  Rendered currency_handouts/index.html.erb within layouts/application (Duration: 2.6ms | Allocations: 768)
+  Rendered layout layouts/application.html.erb (Duration: 4.5ms | Allocations: 2071)
+Completed 200 OK in 6ms (Views: 5.0ms | ActiveRecord: 0.2ms | Allocations: 2351)
+
+
+Started GET "/currency_handouts.json" for ::1 at 2024-03-18 16:53:50 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Parameters: {"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.1ms | Allocations: 682)
+Completed 200 OK in 3ms (Views: 2.5ms | ActiveRecord: 0.1ms | Allocations: 981)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 16:53:56 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 5ms (Views: 3.8ms | ActiveRecord: 0.4ms | Allocations: 1593)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-18 16:53:56 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.0ms | Allocations: 682)
+Completed 200 OK in 3ms (Views: 2.5ms | ActiveRecord: 0.2ms | Allocations: 981)
+
+
+Started GET "/currency_handouts.json" for ::1 at 2024-03-18 16:53:59 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Parameters: {"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 1.2ms | Allocations: 682)
+Completed 200 OK in 2ms (Views: 1.5ms | ActiveRecord: 0.1ms | Allocations: 981)
+
+
+Started POST "/currency_handouts" for 127.0.0.1 at 2024-03-18 16:54:11 -0300
+Processing by CurrencyHandoutsController#create as HTML
+  Parameters: {"id"=>9185771171543006, "title"=>"Moeda", "start_date"=>"2024-03-18T16:54:01.636314", "currency_handout"=>{"id"=>9185771171543006, "title"=>"Moeda", "start_date"=>"2024-03-18T16:54:01.636314"}}
+[31mUnpermitted parameter: :id. Context: { controller: CurrencyHandoutsController, action: create, request: #<ActionDispatch::Request:0x00007f2b21227768>, params: {"id"=>9185771171543006, "title"=>"Moeda", "start_date"=>"2024-03-18T16:54:01.636314", "controller"=>"currency_handouts", "action"=>"create", "currency_handout"=>{"id"=>9185771171543006, "title"=>"Moeda", "start_date"=>"2024-03-18T16:54:01.636314"}} }[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mCurrencyHandout Create (0.5ms)[0m  [1m[32mINSERT INTO "currency_handouts" ("title", "start_date", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "Moeda"], ["start_date", "2024-03-18"], ["created_at", "2024-03-18 19:54:11.736339"], ["updated_at", "2024-03-18 19:54:11.736339"]]
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (7.3ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+Redirected to http://10.0.2.2:3000/currency_handouts/9
+Completed 302 Found in 13ms (ActiveRecord: 7.9ms | Allocations: 2252)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 16:54:13 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 4ms (Views: 3.8ms | ActiveRecord: 0.3ms | Allocations: 1593)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-18 16:54:13 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [1 times] (Duration: 0.5ms | Allocations: 133)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.0ms | Allocations: 886)
+Completed 200 OK in 3ms (Views: 2.4ms | ActiveRecord: 0.1ms | Allocations: 1186)
+
+
+Started GET "/currency_handouts.json" for ::1 at 2024-03-18 16:54:18 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Parameters: {"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [1 times] (Duration: 0.4ms | Allocations: 134)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.0ms | Allocations: 887)
+Completed 200 OK in 3ms (Views: 2.5ms | ActiveRecord: 0.1ms | Allocations: 1186)
+
+
+Started DELETE "/currency_handouts/9" for ::1 at 2024-03-18 16:54:44 -0300
+Processing by CurrencyHandoutsController#destroy as */*
+  Parameters: {"id"=>"9", "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>"9", "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  ↳ app/controllers/currency_handouts_controller.rb:63:in `set_currency_handout'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mCurrencyHandout Destroy (0.5ms)[0m  [1m[31mDELETE FROM "currency_handouts" WHERE "currency_handouts"."id" = ?[0m  [["id", 9]]
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mTRANSACTION (8.0ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+Redirected to http://localhost:3000/currency_handouts
+Completed 302 Found in 18ms (ActiveRecord: 8.8ms | Allocations: 2298)
+
+
+Started GET "/currency_handouts" for ::1 at 2024-03-18 16:54:44 -0300
+Processing by CurrencyHandoutsController#index as */*
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/index.html.erb within layouts/application
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.html.erb:6
+  Rendered currency_handouts/index.html.erb within layouts/application (Duration: 2.4ms | Allocations: 769)
+  Rendered layout layouts/application.html.erb (Duration: 5.2ms | Allocations: 2086)
+Completed 200 OK in 6ms (Views: 5.6ms | ActiveRecord: 0.2ms | Allocations: 2366)
+
+
+Started GET "/currency_handouts.json" for ::1 at 2024-03-18 16:54:48 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Parameters: {"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 1.2ms | Allocations: 682)
+Completed 200 OK in 2ms (Views: 1.6ms | ActiveRecord: 0.1ms | Allocations: 981)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 16:54:56 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 4ms (Views: 3.6ms | ActiveRecord: 0.3ms | Allocations: 1593)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-18 16:54:56 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 1.9ms | Allocations: 682)
+Completed 200 OK in 3ms (Views: 2.3ms | ActiveRecord: 0.1ms | Allocations: 981)
+
+
+Started GET "/currency_handouts.json" for ::1 at 2024-03-18 16:54:58 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Parameters: {"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 1.5ms | Allocations: 682)
+Completed 200 OK in 2ms (Views: 1.9ms | ActiveRecord: 0.1ms | Allocations: 981)
+
+
+Started POST "/currency_handouts" for 127.0.0.1 at 2024-03-18 16:55:13 -0300
+Processing by CurrencyHandoutsController#create as HTML
+  Parameters: {"id"=>1022569315629007443, "title"=>"Moeda", "start_date"=>"2024-03-18T16:55:01.524085", "currency_handout"=>{"id"=>1022569315629007443, "title"=>"Moeda", "start_date"=>"2024-03-18T16:55:01.524085"}}
+[31mUnpermitted parameter: :id. Context: { controller: CurrencyHandoutsController, action: create, request: #<ActionDispatch::Request:0x00007f2b1bf5b868>, params: {"id"=>1022569315629007443, "title"=>"Moeda", "start_date"=>"2024-03-18T16:55:01.524085", "controller"=>"currency_handouts", "action"=>"create", "currency_handout"=>{"id"=>1022569315629007443, "title"=>"Moeda", "start_date"=>"2024-03-18T16:55:01.524085"}} }[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mCurrencyHandout Create (0.4ms)[0m  [1m[32mINSERT INTO "currency_handouts" ("title", "start_date", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "Moeda"], ["start_date", "2024-03-18"], ["created_at", "2024-03-18 19:55:13.762394"], ["updated_at", "2024-03-18 19:55:13.762394"]]
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (10.8ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+Redirected to http://10.0.2.2:3000/currency_handouts/10
+Completed 302 Found in 15ms (ActiveRecord: 11.2ms | Allocations: 2251)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 16:55:15 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 5ms (Views: 3.9ms | ActiveRecord: 0.3ms | Allocations: 1593)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-18 16:55:15 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [1 times] (Duration: 0.3ms | Allocations: 133)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 1.7ms | Allocations: 886)
+Completed 200 OK in 3ms (Views: 2.0ms | ActiveRecord: 0.1ms | Allocations: 1185)
+
+
+Started GET "/currency_handouts.json" for ::1 at 2024-03-18 16:55:21 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Parameters: {"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [1 times] (Duration: 0.7ms | Allocations: 134)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.7ms | Allocations: 887)
+Completed 200 OK in 4ms (Views: 3.2ms | ActiveRecord: 0.1ms | Allocations: 1186)
+
+
+Started PUT "/currency_handouts/10" for 127.0.0.1 at 2024-03-18 16:55:48 -0300
+Processing by CurrencyHandoutsController#update as HTML
+  Parameters: {"id"=>"10", "title"=>"Moedas", "start_date"=>"2024-03-18T00:00:00.000", "currency_handout"=>{"id"=>"10", "title"=>"Moedas", "start_date"=>"2024-03-18T00:00:00.000"}}
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  ↳ app/controllers/currency_handouts_controller.rb:63:in `set_currency_handout'
+[31mUnpermitted parameter: :id. Context: { controller: CurrencyHandoutsController, action: update, request: #<ActionDispatch::Request:0x00007f2b203f8480>, params: {"id"=>"10", "title"=>"Moedas", "start_date"=>"2024-03-18T00:00:00.000", "controller"=>"currency_handouts", "action"=>"update", "currency_handout"=>{"id"=>"10", "title"=>"Moedas", "start_date"=>"2024-03-18T00:00:00.000"}} }[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:40:in `block in update'
+  [1m[36mCurrencyHandout Update (0.6ms)[0m  [1m[33mUPDATE "currency_handouts" SET "title" = ?, "updated_at" = ? WHERE "currency_handouts"."id" = ?[0m  [["title", "Moedas"], ["updated_at", "2024-03-18 19:55:48.627919"], ["id", 10]]
+  ↳ app/controllers/currency_handouts_controller.rb:40:in `block in update'
+  [1m[36mTRANSACTION (9.1ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:40:in `block in update'
+Redirected to http://10.0.2.2:3000/currency_handouts/10
+Completed 302 Found in 20ms (ActiveRecord: 9.9ms | Allocations: 2835)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 16:55:50 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 5ms (Views: 4.1ms | ActiveRecord: 0.4ms | Allocations: 1593)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-18 16:55:50 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [1 times] (Duration: 0.5ms | Allocations: 133)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 5.5ms | Allocations: 886)
+Completed 200 OK in 7ms (Views: 5.9ms | ActiveRecord: 0.1ms | Allocations: 1186)
+
+
+Started POST "/currency_handouts" for ::1 at 2024-03-18 16:59:02 -0300
+Processing by CurrencyHandoutsController#create as */*
+  Parameters: {"id"=>88, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>88, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+[31mUnpermitted parameter: :id. Context: { controller: CurrencyHandoutsController, action: create, request: #<ActionDispatch::Request:0x00007f2b2127b188>, params: {"id"=>88, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "controller"=>"currency_handouts", "action"=>"create", "currency_handout"=>{"id"=>88, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}} }[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mCurrencyHandout Create (0.4ms)[0m  [1m[32mINSERT INTO "currency_handouts" ("title", "start_date", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "legal"], ["start_date", "2024-03-18"], ["created_at", "2024-03-18 19:59:02.239721"], ["updated_at", "2024-03-18 19:59:02.239721"]]
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (5.5ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+Redirected to http://localhost:3000/currency_handouts/11
+Completed 302 Found in 11ms (ActiveRecord: 6.0ms | Allocations: 2348)
+
+
+Started GET "/currency_handouts/11" for ::1 at 2024-03-18 16:59:02 -0300
+Processing by CurrencyHandoutsController#show as */*
+  Parameters: {"id"=>"11"}
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = ? LIMIT ?[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/controllers/currency_handouts_controller.rb:63:in `set_currency_handout'
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/show.html.erb within layouts/application
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.1ms | Allocations: 27)
+  Rendered currency_handouts/show.html.erb within layouts/application (Duration: 1.5ms | Allocations: 590)
+  Rendered layout layouts/application.html.erb (Duration: 3.6ms | Allocations: 1899)
+Completed 200 OK in 6ms (Views: 4.1ms | ActiveRecord: 0.1ms | Allocations: 2643)
+
+
+Started GET "/currency_handouts.json" for ::1 at 2024-03-18 16:59:05 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Parameters: {"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [2 times] (Duration: 0.5ms | Allocations: 238)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.1ms | Allocations: 1075)
+Completed 200 OK in 3ms (Views: 2.4ms | ActiveRecord: 0.1ms | Allocations: 1374)
+
+
+Started DELETE "/currency_handouts/10" for ::1 at 2024-03-18 17:00:26 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by CurrencyHandoutsController#destroy as */*
+  Parameters: {"id"=>"10", "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>"10", "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  [1m[36mCurrencyHandout Load (0.3ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  ↳ app/controllers/currency_handouts_controller.rb:63:in `set_currency_handout'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mCurrencyHandout Destroy (0.4ms)[0m  [1m[31mDELETE FROM "currency_handouts" WHERE "currency_handouts"."id" = ?[0m  [["id", 10]]
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mTRANSACTION (5.9ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+Redirected to http://localhost:3000/currency_handouts
+Completed 302 Found in 31ms (ActiveRecord: 7.3ms | Allocations: 9493)
+
+
+Started GET "/currency_handouts" for ::1 at 2024-03-18 17:00:26 -0300
+Processing by CurrencyHandoutsController#index as */*
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/index.html.erb within layouts/application
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.html.erb:6
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.7ms | Allocations: 233)
+  Rendered currency_handouts/index.html.erb within layouts/application (Duration: 6.0ms | Allocations: 2048)
+  Rendered layout layouts/application.html.erb (Duration: 65.1ms | Allocations: 33819)
+Completed 200 OK in 74ms (Views: 68.2ms | ActiveRecord: 0.2ms | Allocations: 36662)
+
+
+Started DELETE "/currency_handouts/11" for ::1 at 2024-03-18 17:00:31 -0300
+Processing by CurrencyHandoutsController#destroy as */*
+  Parameters: {"id"=>"11", "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>"11", "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = ? LIMIT ?[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/controllers/currency_handouts_controller.rb:63:in `set_currency_handout'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mCurrencyHandout Destroy (0.5ms)[0m  [1m[31mDELETE FROM "currency_handouts" WHERE "currency_handouts"."id" = ?[0m  [["id", 11]]
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+  [1m[36mTRANSACTION (7.5ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:52:in `destroy'
+Redirected to http://localhost:3000/currency_handouts
+Completed 302 Found in 16ms (ActiveRecord: 8.3ms | Allocations: 2318)
+
+
+Started GET "/currency_handouts" for ::1 at 2024-03-18 17:00:31 -0300
+Processing by CurrencyHandoutsController#index as */*
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/index.html.erb within layouts/application
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.html.erb:6
+  Rendered currency_handouts/index.html.erb within layouts/application (Duration: 2.1ms | Allocations: 747)
+  Rendered layout layouts/application.html.erb (Duration: 4.8ms | Allocations: 2049)
+Completed 200 OK in 6ms (Views: 5.6ms | ActiveRecord: 0.1ms | Allocations: 2331)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 17:00:40 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 46ms (Views: 41.4ms | ActiveRecord: 1.6ms | Allocations: 15700)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-18 17:00:40 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 54)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 3.4ms | Allocations: 950)
+Completed 200 OK in 5ms (Views: 4.1ms | ActiveRecord: 0.1ms | Allocations: 1426)
+
+
+Started POST "/currency_handouts" for 127.0.0.1 at 2024-03-18 17:00:53 -0300
+Processing by CurrencyHandoutsController#create as HTML
+  Parameters: {"id"=>674351432100073533, "title"=>"a", "start_date"=>"2024-03-18T17:00:45.019886", "currency_handout"=>{"id"=>674351432100073533, "title"=>"a", "start_date"=>"2024-03-18T17:00:45.019886"}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mCurrencyHandout Create (1.6ms)[0m  [1m[32mINSERT INTO "currency_handouts" ("id", "title", "start_date", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["id", 674351432100073533], ["title", "a"], ["start_date", "2024-03-18"], ["created_at", "2024-03-18 20:00:53.214337"], ["updated_at", "2024-03-18 20:00:53.214337"]]
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (6.5ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+Redirected to http://10.0.2.2:3000/currency_handouts/674351432100073533
+Completed 302 Found in 20ms (ActiveRecord: 8.2ms | Allocations: 3296)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 17:00:55 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 4ms (Views: 3.4ms | ActiveRecord: 0.3ms | Allocations: 1607)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-18 17:00:55 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [1 times] (Duration: 1.3ms | Allocations: 307)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.8ms | Allocations: 1064)
+Completed 200 OK in 4ms (Views: 3.3ms | ActiveRecord: 0.1ms | Allocations: 1364)
+
+
+Started GET "/currency_handouts.json" for ::1 at 2024-03-18 17:01:03 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Parameters: {"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024", "currency_handout"=>{"id"=>1, "title"=>"legal", "start_date"=>"Mon Mar 18 2024"}}
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [1 times] (Duration: 0.5ms | Allocations: 134)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.0ms | Allocations: 888)
+Completed 200 OK in 3ms (Views: 2.5ms | ActiveRecord: 0.1ms | Allocations: 1188)
+
+
+Started POST "/collects" for 127.0.0.1 at 2024-03-18 17:02:42 -0300
+Processing by CollectsController#create as HTML
+  Parameters: {"id"=>1086858268103987271, "collected_on"=>"2024-03-18T17:02:32.106606", "resident_id"=>1063688422590800493, "ammount"=>1.0, "collect"=>{"id"=>1086858268103987271, "collected_on"=>"2024-03-18T17:02:32.106606", "ammount"=>1.0, "resident_id"=>1063688422590800493}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mResident Load (0.4ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1063688422590800493], ["LIMIT", 1]]
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mCollect Create (0.7ms)[0m  [1m[32mINSERT INTO "collects" ("id", "collected_on", "ammount", "resident_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["id", 1086858268103987271], ["collected_on", "2024-03-18"], ["ammount", 1.0], ["resident_id", 1063688422590800493], ["created_at", "2024-03-18 20:02:42.755326"], ["updated_at", "2024-03-18 20:02:42.755326"]]
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (7.0ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+Completed 201 Created in 28ms (Views: 1.0ms | ActiveRecord: 8.5ms | Allocations: 7762)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-18 17:02:44 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 5ms (Views: 3.7ms | ActiveRecord: 0.3ms | Allocations: 1733)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-18 17:02:44 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [1 times] (Duration: 0.5ms | Allocations: 133)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.0ms | Allocations: 886)
+Completed 200 OK in 3ms (Views: 2.4ms | ActiveRecord: 0.1ms | Allocations: 1185)
+
+
+Started GET "/collects" for ::1 at 2024-03-18 17:03:03 -0300
+Processing by CollectsController#index as */*
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 3ms (Views: 2.0ms | ActiveRecord: 0.2ms | Allocations: 895)
+
+
+Started GET "/residents" for ::1 at 2024-03-18 17:03:15 -0300
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1063688422590800493]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 4ms (Views: 3.7ms | ActiveRecord: 0.2ms | Allocations: 1723)
+
+

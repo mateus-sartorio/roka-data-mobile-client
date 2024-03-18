@@ -20,15 +20,18 @@ class BottomNavbar extends StatelessWidget {
           onTabChange: (value) => onTabChange!(value),
           tabBorderRadius: 15,
           tabs: const [
-            GButton(icon: Icons.home, text: " Residentes"),
+            GButton(
+              icon: Icons.shopping_bag_rounded,
+              text: " Coleta",
+            ),
             GButton(
               icon: Icons.cloud_sync,
               text: " Sincronizar",
             ),
             GButton(
-              icon: Icons.shopping_bag_rounded,
-              text: " Coleta",
-            )
+              icon: Icons.monetization_on_rounded,
+              text: " Moeda",
+            ),
           ]),
     );
   }

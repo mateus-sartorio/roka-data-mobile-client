@@ -4,7 +4,7 @@ import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/pages/about.dart';
 import 'package:mobile_client/pages/collects_page.dart';
 import 'package:mobile_client/pages/create_collect_page.dart';
-import 'package:mobile_client/pages/create_resident_page.dart';
+import 'package:mobile_client/pages/currency_handouts_page.dart';
 import 'package:mobile_client/pages/residents_page.dart';
 import 'package:mobile_client/pages/cloud_sync_page.dart';
 
@@ -33,24 +33,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      const ResidentsPage(),
-      const CloudSyncPage(),
       const CollectsPage(),
+      const CloudSyncPage(),
+      const CurrencyHandoutsPage(),
     ];
 
     final List<Widget?> floatingActionButtons = [
-      FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const CreateResidentPage(
-                        text: "Cadastrar novo residente",
-                      )));
-        },
-        child: const Icon(Icons.add),
-      ),
-      null,
       FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -61,7 +49,9 @@ class _HomePageState extends State<HomePage> {
                       )));
         },
         child: const Icon(Icons.add),
-      )
+      ),
+      null,
+      null
     ];
 
     return Scaffold(
@@ -90,22 +80,55 @@ class _HomePageState extends State<HomePage> {
           DrawerHeader(child: Image.asset("assets/images/logo.png")),
 
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             child: ListTile(
               leading: const Icon(Icons.home),
-              title: const Text("Home"),
+              title: const Text("Início"),
               onTap: () {
+                Navigator.pop(context);
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const HomePage()));
               },
             ),
           ),
+
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            child: ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text("Residentes"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ResidentsPage()));
+              },
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            child: ListTile(
+              leading: const Icon(Icons.wallet),
+              title: const Text("Entregas da moeda"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CurrencyHandoutsPage()));
+              },
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             child: ListTile(
               leading: const Icon(Icons.info),
               title: const Text("Sobre"),
               onTap: () {
+                Navigator.pop(context);
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const About()));
               },

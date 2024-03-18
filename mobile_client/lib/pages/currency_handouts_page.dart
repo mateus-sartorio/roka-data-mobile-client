@@ -2,29 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/data/database.dart';
-import 'package:mobile_client/enums/situation.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
-import 'package:mobile_client/pages/create_resident_page.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:mobile_client/pages/create_currency_handout_page.dart';
 
-class ResidentsPage extends StatefulWidget {
-  const ResidentsPage({Key? key}) : super(key: key);
+class CurrencyHandoutsPage extends StatefulWidget {
+  const CurrencyHandoutsPage({Key? key}) : super(key: key);
 
   @override
-  State<ResidentsPage> createState() => _ResidentsPageState();
+  State<CurrencyHandoutsPage> createState() => _CurrencyHandoutsPageState();
 }
 
-class _ResidentsPageState extends State<ResidentsPage> {
+class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
   GlobalDatabase db = GlobalDatabase();
 
-  void deleteResident(int residentId) {
+  void deleteCurrencyHandout(int id) {
     showDialog(
       context: context,
       builder: (context) {
         return DialogBox(
-          title: "Tem certeza que deseja desativar este residente?",
+          title:
+              "Tem certeza que deseja remover esta entrega de moeda? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
           onSave: () {
-            db.deleteResident(residentId, false);
+            db.deleteCurrencyHandout(id);
             Navigator.of(context).pop(true);
 
             showDialog(
@@ -36,9 +36,8 @@ class _ResidentsPageState extends State<ResidentsPage> {
 
                   return AlertDialog(
                     title: const Text(
-                      "Residente desativado :(",
+                      "Distribuição de moeda removida com sucesso",
                       style: TextStyle(fontSize: 14),
-                      textAlign: TextAlign.center,
                     ),
                     surfaceTintColor: Colors.transparent,
                     elevation: 0.0,
@@ -59,29 +58,30 @@ class _ResidentsPageState extends State<ResidentsPage> {
     return ValueListenableBuilder(
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
-          final residents = box.get("RESIDENTS");
+          final currencyHandouts = box.get("CURRENCY_HANDOUTS");
 
           Widget body;
-          if ((residents?.length ?? 0) == 0) {
+          if ((currencyHandouts?.length ?? 0) == 0) {
             body = Animate(
               effects: const [
                 SlideEffect(
-                  begin: Offset(-1, 0),
+                  begin: Offset(1, 0),
                   end: Offset(0, 0),
                   duration: Duration(milliseconds: 200),
                 )
               ],
               child: const Center(
                   child: Text(
-                "Nenhum residente :(",
+                "Nenhuma distribuição de moeda ainda :(",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
               )),
             );
           } else {
             body = Animate(
               effects: const [
                 SlideEffect(
-                  begin: Offset(-1, 0),
+                  begin: Offset(1, 0),
                   end: Offset(0, 0),
                   duration: Duration(milliseconds: 200),
                 )
@@ -91,22 +91,29 @@ class _ResidentsPageState extends State<ResidentsPage> {
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                     child: Text(
-                      "Residentes",
+                      "Distribuições da moeda",
                       style:
                           TextStyle(fontWeight: FontWeight.w800, fontSize: 22),
                     ),
                   ),
                   Expanded(
                     child: ListView.builder(
-                        itemCount: residents?.length ?? 0,
+                        itemCount: currencyHandouts?.length ?? 0,
                         itemBuilder: (context, index) {
-                          print(index);
-                          int roketeDisplayNumber =
-                              residents?[index]?.rokaId ?? 0;
+                          List<String> dayMonthYear = currencyHandouts?[index]
+                                  ?.startDate
+                                  .toString()
+                                  .split(" ")[0]
+                                  .split("-") ??
+                              ["", "", ""];
 
-                          Container tag = Container();
+                          String date =
+                              "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+
+                          Widget tag = Container();
                           bool showTag = false;
-                          if (residents[index]?.isMarkedForRemoval) {
+                          if (currencyHandouts?[index]?.isMarkedForRemoval ??
+                              false) {
                             tag = Container(
                               decoration: BoxDecoration(
                                   color: Colors.red,
@@ -115,45 +122,13 @@ class _ResidentsPageState extends State<ResidentsPage> {
                               child: const Text(
                                 "MARCADO PARA REMOÇÃO",
                                 style: TextStyle(
-                                  fontSize: 8,
+                                  fontSize: 10,
                                 ),
                               ),
                             );
 
                             showTag = true;
-                          } else if (residents[index]?.situation ==
-                              Situation.inactive) {
-                            tag = Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.orange,
-                                  borderRadius: BorderRadius.circular(8)),
-                              padding: const EdgeInsets.all(5.0),
-                              child: const Text(
-                                "INATIVO",
-                                style: TextStyle(
-                                  fontSize: 8,
-                                ),
-                              ),
-                            );
-
-                            showTag = true;
-                          } else if (residents[index]?.situation ==
-                              Situation.noContact) {
-                            tag = Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.orange,
-                                  borderRadius: BorderRadius.circular(8)),
-                              padding: const EdgeInsets.all(5.0),
-                              child: const Text(
-                                "SEM CONTATO",
-                                style: TextStyle(
-                                  fontSize: 8,
-                                ),
-                              ),
-                            );
-
-                            showTag = true;
-                          } else if (residents[index]?.isNew) {
+                          } else if (currencyHandouts?[index]?.isNew ?? false) {
                             tag = Container(
                               decoration: BoxDecoration(
                                   color: Theme.of(context).primaryColorLight,
@@ -162,13 +137,14 @@ class _ResidentsPageState extends State<ResidentsPage> {
                               child: const Text(
                                 "SALVO LOCALMENTE",
                                 style: TextStyle(
-                                  fontSize: 8,
+                                  fontSize: 10,
                                 ),
                               ),
                             );
 
                             showTag = true;
-                          } else if (residents[index]?.wasModified) {
+                          } else if (currencyHandouts?[index]?.wasModified ??
+                              false) {
                             tag = Container(
                               decoration: BoxDecoration(
                                   color: Colors.green[300],
@@ -177,21 +153,12 @@ class _ResidentsPageState extends State<ResidentsPage> {
                               child: const Text(
                                 "MODIFICADO",
                                 style: TextStyle(
-                                  fontSize: 8,
+                                  fontSize: 10,
                                 ),
                               ),
                             );
 
                             showTag = true;
-                          }
-
-                          String roketeDisplayNumberString = "";
-                          if (roketeDisplayNumber > 0) {
-                            roketeDisplayNumberString =
-                                "ROKETE Nº ${residents?[index]?.rokaId ?? ""}";
-                          } else {
-                            roketeDisplayNumberString =
-                                "ROKETE SEM IDENTIFICAÇÃO";
                           }
 
                           return Padding(
@@ -202,8 +169,10 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                 motion: const StretchMotion(),
                                 children: [
                                   SlidableAction(
-                                    onPressed: (context) => deleteResident(
-                                        residents?[index]?.id ?? -1),
+                                    onPressed: (context) =>
+                                        deleteCurrencyHandout(
+                                      currencyHandouts?[index]?.id ?? -1,
+                                    ),
                                     icon: Icons.delete,
                                     backgroundColor: Colors.red,
                                     borderRadius: BorderRadius.circular(10),
@@ -218,17 +187,14 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                   children: [
                                     Visibility(visible: showTag, child: tag),
                                     Text(
-                                      residents?[index]?.name ?? "",
+                                      currencyHandouts?[index]?.title,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 18),
+                                          fontSize: 17),
+                                      textAlign: TextAlign.left,
                                     ),
-                                    Text(
-                                      roketeDisplayNumberString,
-                                      style: const TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w400),
-                                    ),
+                                    Text(date,
+                                        style: const TextStyle(fontSize: 13)),
                                   ],
                                 ),
                                 onTap: () {
@@ -236,13 +202,15 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              CreateResidentPage(
-                                                  text: "Dados do residente",
-                                                  resident:
-                                                      residents?[index])));
+                                              CreateCurrencyHandoutPage(
+                                                  text:
+                                                      "Alterar dados da distribuição de moeda",
+                                                  currencyHandout:
+                                                      currencyHandouts?[
+                                                          index])));
                                 },
                                 leading: const Icon(
-                                  Icons.person,
+                                  Icons.wallet,
                                   size: 30,
                                 ),
                                 trailing: const Icon(
@@ -262,7 +230,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
               appBar: AppBar(
                   centerTitle: true,
                   title: const Text(
-                    "♻️ Residentes",
+                    "♻️ Entregas da moeda",
                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                   backgroundColor: Colors.transparent,
@@ -280,8 +248,8 @@ class _ResidentsPageState extends State<ResidentsPage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const CreateResidentPage(
-                                text: "Cadastrar novo residente",
+                          builder: (context) => const CreateCurrencyHandoutPage(
+                                text: "Cadastrar nova entrega da moeda",
                               )));
                 },
                 child: const Icon(Icons.add),

@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:mobile_client/enums/situation.dart';
 import 'package:mobile_client/models/collect.dart';
+import 'package:mobile_client/models/currency_handout.dart';
 import 'package:mobile_client/models/resident.dart';
 import 'package:http/http.dart' as http;
 
@@ -11,10 +12,10 @@ class GlobalDatabase {
   final _myBox = Hive.box('globalDatabase');
 
   Future<void> fetchDataFromBackend() async {
-    const String backendRoute = "http://10.0.2.2:3000/residents";
-    Uri uri = Uri.parse(backendRoute);
-
     try {
+      const String backendRoute = "http://10.0.2.2:3000/residents";
+      Uri uri = Uri.parse(backendRoute);
+
       final Response response = await http.get(uri);
       List<dynamic> responseBody = jsonDecode(response.body);
 
@@ -61,7 +62,37 @@ class GlobalDatabase {
         residents.add(resident);
       }
 
+      const String currencyHandoutsBackendRoute =
+          "http://10.0.2.2:3000/currency_handouts.json";
+      Uri currencyHandoutsUri = Uri.parse(currencyHandoutsBackendRoute);
+
+      final Response currencyHandoutsResponse =
+          await http.get(currencyHandoutsUri);
+      List<dynamic> currencyHandoutsResponseBody =
+          jsonDecode(currencyHandoutsResponse.body);
+
+      List<CurrencyHandout> currencyHandouts = [];
+      for (dynamic currencyHandoutMapObject in currencyHandoutsResponseBody) {
+        DateTime startDate = DateTime.now();
+        try {
+          startDate = DateTime.parse(currencyHandoutMapObject["start_date"]);
+        } catch (e) {
+          startDate = DateTime.now();
+        }
+
+        CurrencyHandout currencyHandout = CurrencyHandout(
+            id: currencyHandoutMapObject["id"],
+            title: currencyHandoutMapObject["title"],
+            startDate: startDate,
+            isNew: false,
+            isMarkedForRemoval: false,
+            wasModified: false);
+
+        currencyHandouts.add(currencyHandout);
+      }
+
       await _myBox.put("RESIDENTS", residents);
+      await _myBox.put("CURRENCY_HANDOUTS", currencyHandouts);
     } catch (e) {
       throw Exception(e);
     }
@@ -85,7 +116,129 @@ class GlobalDatabase {
         createNewCollectOnBackend(c as Collect);
       }
 
+      List<dynamic> currencyHandoutsList =
+          _myBox.get("CURRENCY_HANDOUTS") ?? [];
+
+      for (dynamic ch in currencyHandoutsList) {
+        if (ch.wasModified && !ch.isNew && !ch.isMarkedForRemoval) {
+          updateCurrencyHandoutOnBackend(ch as CurrencyHandout);
+        } else if (ch.isNew && !ch.isMarkedForRemoval) {
+          createNewCurrencyHandoutOnBackend(ch as CurrencyHandout);
+        } else if (ch.isMarkedForRemoval) {
+          deleteCurrencyHandoutInTheBackend(ch as CurrencyHandout);
+        }
+      }
+
       await _myBox.put("COLLECTS", []);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> createNewCurrencyHandoutOnBackend(
+      CurrencyHandout currencyHandout) async {
+    const String backendRoute = "http://10.0.2.2:3000/currency_handouts";
+    Uri uri = Uri.parse(backendRoute);
+
+    Map data = {
+      "id": currencyHandout.id,
+      "title": currencyHandout.title,
+      "start_date": currencyHandout.startDate.toIso8601String(),
+    };
+
+    var body = json.encode(data);
+
+    try {
+      await http.post(uri,
+          headers: {"Content-Type": "application/json"}, body: body);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> updateCurrencyHandoutOnBackend(
+      CurrencyHandout currencyHandout) async {
+    String backendRoute =
+        "http://10.0.2.2:3000/currency_handouts/${currencyHandout.id}";
+    Uri uri = Uri.parse(backendRoute);
+
+    Map data = {
+      "id": currencyHandout.id,
+      "title": currencyHandout.title,
+      "start_date": currencyHandout.startDate.toIso8601String(),
+    };
+
+    var body = json.encode(data);
+
+    try {
+      await http.put(uri,
+          headers: {"Content-Type": "application/json"}, body: body);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> deleteCurrencyHandoutInTheBackend(
+      CurrencyHandout currencyHandout) async {
+    String backendRoute =
+        "http://10.0.2.2:3000/currency_handouts/${currencyHandout.id}";
+    Uri uri = Uri.parse(backendRoute);
+
+    try {
+      await http.delete(uri);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> createNewCollectOnBackend(Collect collect) async {
+    const String backendRoute = "http://10.0.2.2:3000/collects";
+    Uri uri = Uri.parse(backendRoute);
+
+    Map data = {
+      "id": collect.id,
+      "collected_on": collect.collectedOn.toIso8601String(),
+      "resident_id": collect.residentId,
+      "ammount": collect.ammount
+    };
+
+    var body = json.encode(data);
+
+    try {
+      await http.post(uri,
+          headers: {"Content-Type": "application/json"}, body: body);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> createNewResidentOnBackend(Resident resident) async {
+    const String backendRoute = "http://10.0.2.2:3000/residents";
+    Uri uri = Uri.parse(backendRoute);
+
+    Map data = {
+      "id": resident.id,
+      "name": resident.name,
+      "roka_id": resident.rokaId,
+      "has_plaque": resident.hasPlaque,
+      "registration_year": resident.registrationYear,
+      "address": resident.address,
+      "reference_point": resident.referencePoint,
+      "lives_in_JN": resident.livesInJN,
+      "phone": resident.phone,
+      "is_on_whatsapp_group": resident.isOnWhatsappGroup,
+      "birthdate": resident.birthdate.toString(),
+      "profession": resident.profession,
+      "residents_in_the_house": resident.residentsInTheHouse,
+      "observations": resident.observations,
+      "situation": "ativo"
+    };
+
+    var body = json.encode(data);
+
+    try {
+      await http.post(uri,
+          headers: {"Content-Type": "application/json"}, body: body);
     } catch (e) {
       throw Exception(e);
     }
@@ -132,64 +285,12 @@ class GlobalDatabase {
     }
   }
 
-  Future<void> createNewResidentOnBackend(Resident resident) async {
-    const String backendRoute = "http://10.0.2.2:3000/residents";
-    Uri uri = Uri.parse(backendRoute);
-
-    Map data = {
-      "id": resident.id,
-      "name": resident.name,
-      "roka_id": resident.rokaId,
-      "has_plaque": resident.hasPlaque,
-      "registration_year": resident.registrationYear,
-      "address": resident.address,
-      "reference_point": resident.referencePoint,
-      "lives_in_JN": resident.livesInJN,
-      "phone": resident.phone,
-      "is_on_whatsapp_group": resident.isOnWhatsappGroup,
-      "birthdate": resident.birthdate.toString(),
-      "profession": resident.profession,
-      "residents_in_the_house": resident.residentsInTheHouse,
-      "observations": resident.observations,
-      "situation": "ativo"
-    };
-
-    var body = json.encode(data);
-
-    try {
-      await http.post(uri,
-          headers: {"Content-Type": "application/json"}, body: body);
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
   Future<void> deleteResidentInTheBackend(Resident resident) async {
     String backendRoute = "http://10.0.2.2:3000/residents/${resident.id}";
     Uri uri = Uri.parse(backendRoute);
 
     try {
       await http.delete(uri);
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  Future<void> createNewCollectOnBackend(Collect collect) async {
-    const String backendRoute = "http://10.0.2.2:3000/collects";
-    Uri uri = Uri.parse(backendRoute);
-
-    Map data = {
-      "collected_on": collect.collectedOn.toIso8601String(),
-      "resident_id": collect.residentId,
-      "ammount": collect.ammount
-    };
-
-    var body = json.encode(data);
-
-    try {
-      await http.post(uri,
-          headers: {"Content-Type": "application/json"}, body: body);
     } catch (e) {
       throw Exception(e);
     }
@@ -263,6 +364,50 @@ class GlobalDatabase {
     }).toList();
 
     _myBox.put("RESIDENTS", filteredList);
+  }
+
+  void saveNewCurrencyHandout(CurrencyHandout currencyHandout) {
+    List<dynamic> currencyHandoutsList = _myBox.get("CURRENCY_HANDOUTS") ?? [];
+    currencyHandoutsList.add(currencyHandout);
+    _myBox.put("CURRENCY_HANDOUTS", currencyHandoutsList);
+  }
+
+  void updateCurrencyHandout(CurrencyHandout currencyHandout) {
+    List<dynamic> currencyHandoutsList = _myBox.get("CURRENCY_HANDOUTS") ?? [];
+
+    for (dynamic c in currencyHandoutsList) {
+      if (c.id == currencyHandout.id) {
+        c.title = currencyHandout.title;
+        c.startDate = currencyHandout.startDate;
+        c.isNew = currencyHandout.isNew;
+        c.isMarkedForRemoval = currencyHandout.isMarkedForRemoval;
+        c.wasModified = currencyHandout.wasModified;
+        break;
+      }
+    }
+
+    _myBox.put("CURRENCY_HANDOUTS", currencyHandoutsList);
+  }
+
+  void deleteCurrencyHandout(int id) {
+    List<dynamic> currencyHandoutsList = _myBox.get("CURRENCY_HANDOUTS") ?? [];
+
+    List<dynamic> filteredList = currencyHandoutsList.map((currencyHandout) {
+      if (currencyHandout.id != id) {
+        return currencyHandout;
+      } else {
+        return CurrencyHandout(
+          id: id,
+          title: currencyHandout.title,
+          startDate: currencyHandout.startDate,
+          isNew: currencyHandout.isNew,
+          wasModified: currencyHandout.wasModified,
+          isMarkedForRemoval: true,
+        );
+      }
+    }).toList();
+
+    _myBox.put("CURRENCY_HANDOUTS", filteredList);
   }
 
   void saveNewCollect(Collect collect) {
