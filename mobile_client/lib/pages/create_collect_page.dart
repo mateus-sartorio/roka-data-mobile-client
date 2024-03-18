@@ -72,6 +72,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
             title: Text(
               message,
               style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
             contentPadding:
                 const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),

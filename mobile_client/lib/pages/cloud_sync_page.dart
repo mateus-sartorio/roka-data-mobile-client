@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mobile_client/components/big_button_tile.dart';
 import 'package:mobile_client/data/database.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class CloudSyncPage extends StatefulWidget {
   const CloudSyncPage({Key? key}) : super(key: key);
@@ -36,7 +37,33 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
     );
   }
 
+  void showSyncingAnimation() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: const Text(
+            "Só um momento...",
+            style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+          contentPadding:
+              const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
+          children: [
+            Center(
+              child: LoadingAnimationWidget.newtonCradle(
+                color: Colors.black,
+                size: 200,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void showSuccessMessage() {
+    Navigator.of(context).pop(true);
     showDialog(
       context: context,
       builder: (context) {
@@ -44,6 +71,7 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
             title: const Text(
               "Dados atualizados com sucesso.",
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
             contentPadding:
                 const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
@@ -61,8 +89,9 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
 
   void syncData() async {
     try {
+      showSyncingAnimation();
       await db.syncDataWithBackend();
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 2));
       await db.fetchDataFromBackend();
       showSuccessMessage();
     } catch (e) {
@@ -74,10 +103,8 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
   Widget build(BuildContext context) {
     return Animate(
       effects: const [
-        SlideEffect(
-          begin: Offset(0, 1),
-          end: Offset(0, 0),
-          duration: Duration(milliseconds: 100),
+        FadeEffect(
+          duration: Duration(milliseconds: 200),
         )
       ],
       child: Center(

@@ -65,7 +65,7 @@ class _CollectsPageState extends State<CollectsPage> {
                 SlideEffect(
                   begin: Offset(1, 0),
                   end: Offset(0, 0),
-                  duration: Duration(milliseconds: 100),
+                  duration: Duration(milliseconds: 200),
                 )
               ],
               child: const Center(
@@ -81,7 +81,7 @@ class _CollectsPageState extends State<CollectsPage> {
               SlideEffect(
                 begin: Offset(1, 0),
                 end: Offset(0, 0),
-                duration: Duration(milliseconds: 100),
+                duration: Duration(milliseconds: 200),
               )
             ],
             child: Column(

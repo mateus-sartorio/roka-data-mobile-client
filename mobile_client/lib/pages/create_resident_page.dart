@@ -150,6 +150,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
             title: Text(
               message,
               style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
             contentPadding:
                 const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
@@ -277,6 +278,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
             title: const Text(
               "Residente cadastrado com sucesso",
               style: TextStyle(fontSize: 14),
+              textAlign: TextAlign.center,
             ),
             surfaceTintColor: Colors.transparent,
             elevation: 0.0,
@@ -309,6 +311,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                     title: const Text(
                       "Residente removido com sucesso :(",
                       style: TextStyle(fontSize: 14),
+                      textAlign: TextAlign.center,
                     ),
                     surfaceTintColor: Colors.transparent,
                     elevation: 0.0,

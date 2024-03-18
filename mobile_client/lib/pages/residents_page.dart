@@ -38,6 +38,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                     title: const Text(
                       "Residente desativado :(",
                       style: TextStyle(fontSize: 14),
+                      textAlign: TextAlign.center,
                     ),
                     surfaceTintColor: Colors.transparent,
                     elevation: 0.0,
@@ -66,7 +67,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                 SlideEffect(
                   begin: Offset(-1, 0),
                   end: Offset(0, 0),
-                  duration: Duration(milliseconds: 100),
+                  duration: Duration(milliseconds: 200),
                 )
               ],
               child: const Center(
@@ -82,7 +83,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
               SlideEffect(
                 begin: Offset(-1, 0),
                 end: Offset(0, 0),
-                duration: Duration(milliseconds: 100),
+                duration: Duration(milliseconds: 200),
               )
             ],
             child: Column(
