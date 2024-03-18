@@ -13576,3 +13576,191 @@ Processing by ResidentsController#index as HTML
 Completed 200 OK in 7ms (Views: 6.1ms | ActiveRecord: 0.4ms | Allocations: 2617)
 
 
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateCurrencyHandouts (20240318024034)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "currency_handouts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "start_date" date, "value" decimal, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240318024034"]]
+  [1m[36mTRANSACTION (8.5ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateReceipts (20240318024127)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "receipts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "currency_handout_id" integer NOT NULL, "resident_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_96ffea0dfe"
+FOREIGN KEY ("currency_handout_id")
+  REFERENCES "currency_handouts" ("id")
+, CONSTRAINT "fk_rails_2ddc7f3807"
+FOREIGN KEY ("resident_id")
+  REFERENCES "residents" ("id")
+)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_receipts_on_currency_handout_id" ON "receipts" ("currency_handout_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_receipts_on_resident_id" ON "receipts" ("resident_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240318024127"]]
+  [1m[36mTRANSACTION (7.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateReceipts (20240318024452)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "receipts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "currency_handout_id" integer NOT NULL, "resident_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_96ffea0dfe"
+FOREIGN KEY ("currency_handout_id")
+  REFERENCES "currency_handouts" ("id")
+, CONSTRAINT "fk_rails_2ddc7f3807"
+FOREIGN KEY ("resident_id")
+  REFERENCES "residents" ("id")
+)[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (8.3ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (4.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateResidents (20240219023718)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "residents" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "situation" integer, "roka_id" integer, "has_plaque" boolean, "registration_year" integer, "address" varchar, "reference_point" varchar, "lives_in_JN" boolean, "phone" varchar, "is_on_whatsapp_group" boolean, "birthdate" date, "profession" varchar, "residents_in_the_house" integer, "observations" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240219023718"]]
+  [1m[36mTRANSACTION (4.5ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateCollects (20240219190450)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "collects" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "collected_on" date, "ammount" decimal, "resident_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_dcf2ba4729"
+FOREIGN KEY ("resident_id")
+  REFERENCES "residents" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_collects_on_resident_id" ON "collects" ("resident_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240219190450"]]
+  [1m[36mTRANSACTION (10.0ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateCurrencyHandouts (20240318024034)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "currency_handouts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "start_date" date, "value" decimal, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240318024034"]]
+  [1m[36mTRANSACTION (5.0ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateReceipts (20240318024452)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE TABLE "receipts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "currency_handout_id" integer NOT NULL, "resident_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_96ffea0dfe"
+FOREIGN KEY ("currency_handout_id")
+  REFERENCES "currency_handouts" ("id")
+, CONSTRAINT "fk_rails_2ddc7f3807"
+FOREIGN KEY ("resident_id")
+  REFERENCES "residents" ("id")
+)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_receipts_on_currency_handout_id" ON "receipts" ("currency_handout_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_receipts_on_resident_id" ON "receipts" ("resident_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240318024452"]]
+  [1m[36mTRANSACTION (8.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.6ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2024-03-18 02:45:33.832863"], ["updated_at", "2024-03-18 02:45:33.832863"]]
+  [1m[36mTRANSACTION (5.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2024-03-17 23:46:24 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /usr/share/gems/gems/railties-7.0.8/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /usr/share/gems/gems/railties-7.0.8/lib/rails/templates/rails/welcome/index.html.erb (Duration: 1.5ms | Allocations: 489)
+Completed 200 OK in 12ms (Views: 4.1ms | ActiveRecord: 0.0ms | Allocations: 4297)
+
+
+Started GET "/currency_handouts" for 127.0.0.1 at 2024-03-17 23:47:16 -0300
+Processing by CurrencyHandoutsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/index.html.erb within layouts/application
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.html.erb:6
+  Rendered currency_handouts/index.html.erb within layouts/application (Duration: 4.4ms | Allocations: 1304)
+  Rendered layout layouts/application.html.erb (Duration: 260.5ms | Allocations: 88481)
+Completed 200 OK in 284ms (Views: 261.7ms | ActiveRecord: 0.2ms | Allocations: 91671)
+
+
+Started GET "/currency_handouts/new" for 127.0.0.1 at 2024-03-17 23:47:19 -0300
+Processing by CurrencyHandoutsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/new.html.erb within layouts/application
+  Rendered currency_handouts/_form.html.erb (Duration: 8.8ms | Allocations: 3249)
+  Rendered currency_handouts/new.html.erb within layouts/application (Duration: 9.7ms | Allocations: 3575)
+  Rendered layout layouts/application.html.erb (Duration: 11.4ms | Allocations: 4877)
+Completed 200 OK in 19ms (Views: 11.8ms | ActiveRecord: 0.5ms | Allocations: 9465)
+
+
+Started POST "/currency_handouts" for 127.0.0.1 at 2024-03-17 23:47:31 -0300
+Processing by CurrencyHandoutsController#create as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "currency_handout"=>{"title"=>"Janeiro", "start_date"=>"2024-03-08", "value"=>"30"}, "commit"=>"Create Currency handout"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mCurrencyHandout Create (0.5ms)[0m  [1m[32mINSERT INTO "currency_handouts" ("title", "start_date", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Janeiro"], ["start_date", "2024-03-08"], ["value", 30.0], ["created_at", "2024-03-18 02:47:31.507508"], ["updated_at", "2024-03-18 02:47:31.507508"]]
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (3.9ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+Redirected to http://localhost:3000/currency_handouts/1
+Completed 302 Found in 10ms (ActiveRecord: 4.4ms | Allocations: 3827)
+
+
+Started GET "/currency_handouts/1" for 127.0.0.1 at 2024-03-17 23:47:31 -0300
+Processing by CurrencyHandoutsController#show as TURBO_STREAM
+  Parameters: {"id"=>"1"}
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/currency_handouts_controller.rb:63:in `set_currency_handout'
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/show.html.erb within layouts/application
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.6ms | Allocations: 231)
+  Rendered currency_handouts/show.html.erb within layouts/application (Duration: 4.2ms | Allocations: 1450)
+  Rendered layout layouts/application.html.erb (Duration: 6.1ms | Allocations: 2757)
+Completed 200 OK in 10ms (Views: 6.6ms | ActiveRecord: 0.2ms | Allocations: 5405)
+
+
+Started GET "/currency_handouts" for 127.0.0.1 at 2024-03-17 23:47:41 -0300
+Processing by CurrencyHandoutsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/index.html.erb within layouts/application
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.html.erb:6
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.1ms | Allocations: 30)
+  Rendered currency_handouts/index.html.erb within layouts/application (Duration: 2.0ms | Allocations: 914)
+  Rendered layout layouts/application.html.erb (Duration: 3.9ms | Allocations: 2215)
+Completed 200 OK in 5ms (Views: 4.2ms | ActiveRecord: 0.1ms | Allocations: 2474)
+
+
+Started GET "/currency_handouts/new" for 127.0.0.1 at 2024-03-17 23:47:43 -0300
+Processing by CurrencyHandoutsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/new.html.erb within layouts/application
+  Rendered currency_handouts/_form.html.erb (Duration: 2.0ms | Allocations: 1241)
+  Rendered currency_handouts/new.html.erb within layouts/application (Duration: 2.2ms | Allocations: 1331)
+  Rendered layout layouts/application.html.erb (Duration: 3.9ms | Allocations: 2633)
+Completed 200 OK in 5ms (Views: 4.4ms | ActiveRecord: 0.0ms | Allocations: 2902)
+
+
+Started POST "/currency_handouts" for 127.0.0.1 at 2024-03-17 23:47:54 -0300
+Processing by CurrencyHandoutsController#create as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "currency_handout"=>{"title"=>"Mais uma", "start_date"=>"2024-03-15", "value"=>"10"}, "commit"=>"Create Currency handout"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mCurrencyHandout Create (0.4ms)[0m  [1m[32mINSERT INTO "currency_handouts" ("title", "start_date", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Mais uma"], ["start_date", "2024-03-15"], ["value", 10.0], ["created_at", "2024-03-18 02:47:54.295325"], ["updated_at", "2024-03-18 02:47:54.295325"]]
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (4.3ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+Redirected to http://localhost:3000/currency_handouts/2
+Completed 302 Found in 10ms (ActiveRecord: 4.8ms | Allocations: 2297)
+
+
+Started GET "/currency_handouts/2" for 127.0.0.1 at 2024-03-17 23:47:54 -0300
+Processing by CurrencyHandoutsController#show as TURBO_STREAM
+  Parameters: {"id"=>"2"}
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/currency_handouts_controller.rb:63:in `set_currency_handout'
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/show.html.erb within layouts/application
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.1ms | Allocations: 30)
+  Rendered currency_handouts/show.html.erb within layouts/application (Duration: 1.4ms | Allocations: 639)
+  Rendered layout layouts/application.html.erb (Duration: 3.0ms | Allocations: 1934)
+Completed 200 OK in 5ms (Views: 3.4ms | ActiveRecord: 0.1ms | Allocations: 2663)
+
+
+Started GET "/currency_handouts" for 127.0.0.1 at 2024-03-17 23:47:57 -0300
+Processing by CurrencyHandoutsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering currency_handouts/index.html.erb within layouts/application
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.html.erb:6
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.1ms | Allocations: 30)
+  Rendered currency_handouts/_currency_handout.html.erb (Duration: 0.1ms | Allocations: 29)
+  Rendered currency_handouts/index.html.erb within layouts/application (Duration: 2.4ms | Allocations: 1056)
+  Rendered layout layouts/application.html.erb (Duration: 4.4ms | Allocations: 2357)
+Completed 200 OK in 5ms (Views: 4.7ms | ActiveRecord: 0.1ms | Allocations: 2616)
+
+

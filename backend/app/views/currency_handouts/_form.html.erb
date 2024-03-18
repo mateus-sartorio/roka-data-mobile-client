@@ -1,0 +1,32 @@
+<%= form_with(model: currency_handout) do |form| %>
+  <% if currency_handout.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(currency_handout.errors.count, "error") %> prohibited this currency_handout from being saved:</h2>
+
+      <ul>
+        <% currency_handout.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :start_date, style: "display: block" %>
+    <%= form.date_field :start_date %>
+  </div>
+
+  <div>
+    <%= form.label :value, style: "display: block" %>
+    <%= form.text_field :value %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
