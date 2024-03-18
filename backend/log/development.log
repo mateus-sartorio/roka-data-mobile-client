@@ -13143,3 +13143,134 @@ Processing by ResidentsController#index as HTML
 Completed 200 OK in 3ms (Views: 2.1ms | ActiveRecord: 0.2ms | Allocations: 1591)
 
 
+Started GET "/residents" for 127.0.0.1 at 2024-03-17 21:23:04 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.6ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1027882016083528265]]
+  ↳ app/models/resident.rb:5:in `as_json'
+Completed 200 OK in 35ms (Views: 29.7ms | ActiveRecord: 1.9ms | Allocations: 1820)
+
+
+Started PUT "/residents/1027882016083528265" for 127.0.0.1 at 2024-03-17 21:23:18 -0300
+Processing by ResidentsController#update as HTML
+  Parameters: {"id"=>"1027882016083528265", "name"=>"Legal", "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"2,2,2", "reference_point"=>"", "lives_in_JN"=>false, "phone"=>"(22) 22222-2222", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-17 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "resident"=>{"id"=>"1027882016083528265", "name"=>"Legal", "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"2,2,2", "reference_point"=>"", "lives_in_JN"=>false, "phone"=>"(22) 22222-2222", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-17 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>""}}
+  [1m[36mResident Load (0.4ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1027882016083528265], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1027882016083528265]]
+  ↳ app/models/resident.rb:5:in `as_json'
+Completed 200 OK in 13ms (Views: 2.3ms | ActiveRecord: 0.5ms | Allocations: 1873)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-17 21:23:19 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1027882016083528265]]
+  ↳ app/models/resident.rb:5:in `as_json'
+Completed 200 OK in 4ms (Views: 3.7ms | ActiveRecord: 0.3ms | Allocations: 1592)
+
+
+Started PUT "/residents/1027882016083528265" for 127.0.0.1 at 2024-03-17 21:24:58 -0300
+Processing by ResidentsController#update as HTML
+  Parameters: {"id"=>"1027882016083528265", "name"=>"Legal 2", "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"2,2,2", "reference_point"=>"", "lives_in_JN"=>false, "phone"=>"(22) 22222-2222", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-17 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "resident"=>{"id"=>"1027882016083528265", "name"=>"Legal 2", "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"2,2,2", "reference_point"=>"", "lives_in_JN"=>false, "phone"=>"(22) 22222-2222", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-17 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>""}}
+  [1m[36mResident Load (0.4ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1027882016083528265], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mResident Update (0.5ms)[0m  [1m[33mUPDATE "residents" SET "name" = ?, "updated_at" = ? WHERE "residents"."id" = ?[0m  [["name", "Legal 2"], ["updated_at", "2024-03-18 00:24:58.685882"], ["id", 1027882016083528265]]
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mTRANSACTION (8.7ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1027882016083528265]]
+  ↳ app/models/resident.rb:5:in `as_json'
+Completed 200 OK in 27ms (Views: 3.9ms | ActiveRecord: 10.0ms | Allocations: 3500)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-17 21:24:59 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1027882016083528265]]
+  ↳ app/models/resident.rb:5:in `as_json'
+Completed 200 OK in 9ms (Views: 7.9ms | ActiveRecord: 0.3ms | Allocations: 1591)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-17 21:27:30 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1027882016083528265]]
+  ↳ app/models/resident.rb:5:in `as_json'
+Completed 200 OK in 4ms (Views: 2.9ms | ActiveRecord: 0.3ms | Allocations: 1591)
+
+
+Started PUT "/residents/1027882016083528265" for 127.0.0.1 at 2024-03-17 21:27:40 -0300
+Processing by ResidentsController#update as HTML
+  Parameters: {"id"=>"1027882016083528265", "name"=>"Legal 2", "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"2,2,2", "reference_point"=>"", "lives_in_JN"=>false, "phone"=>"(22) 22222-2222", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-17 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "resident"=>{"id"=>"1027882016083528265", "name"=>"Legal 2", "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"2,2,2", "reference_point"=>"", "lives_in_JN"=>false, "phone"=>"(22) 22222-2222", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-17 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>""}}
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1027882016083528265], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1027882016083528265]]
+  ↳ app/models/resident.rb:5:in `as_json'
+Completed 200 OK in 5ms (Views: 1.9ms | ActiveRecord: 0.3ms | Allocations: 1704)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-17 21:27:41 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1027882016083528265]]
+  ↳ app/models/resident.rb:5:in `as_json'
+Completed 200 OK in 5ms (Views: 4.2ms | ActiveRecord: 0.3ms | Allocations: 1591)
+
+
+Started PUT "/residents/1027882016083528265" for 127.0.0.1 at 2024-03-17 21:29:58 -0300
+Processing by ResidentsController#update as HTML
+  Parameters: {"id"=>"1027882016083528265", "name"=>"Legal 2", "roka_id"=>0, "situation"=>1, "has_plaque"=>false, "registration_year"=>0, "address"=>"2,2,2", "reference_point"=>"", "lives_in_JN"=>false, "phone"=>"(22) 22222-2222", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-17 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "resident"=>{"id"=>"1027882016083528265", "name"=>"Legal 2", "situation"=>1, "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"2,2,2", "reference_point"=>"", "lives_in_JN"=>false, "phone"=>"(22) 22222-2222", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-17 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>""}}
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1027882016083528265], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mResident Update (0.5ms)[0m  [1m[33mUPDATE "residents" SET "situation" = ?, "updated_at" = ? WHERE "residents"."id" = ?[0m  [["situation", 1], ["updated_at", "2024-03-18 00:29:58.805667"], ["id", 1027882016083528265]]
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mTRANSACTION (5.8ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1027882016083528265]]
+  ↳ app/models/resident.rb:5:in `as_json'
+Completed 200 OK in 38ms (Views: 22.4ms | ActiveRecord: 6.7ms | Allocations: 3424)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-17 21:29:59 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1027882016083528265]]
+  ↳ app/models/resident.rb:5:in `as_json'
+Completed 200 OK in 5ms (Views: 4.0ms | ActiveRecord: 0.2ms | Allocations: 1591)
+
+
+Started PUT "/residents/1027882016083528265" for 127.0.0.1 at 2024-03-17 21:30:10 -0300
+Processing by ResidentsController#update as HTML
+  Parameters: {"id"=>"1027882016083528265", "name"=>"Legal 2", "roka_id"=>0, "situation"=>2, "has_plaque"=>false, "registration_year"=>0, "address"=>"2,2,2", "reference_point"=>"", "lives_in_JN"=>false, "phone"=>"(22) 22222-2222", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-17 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "resident"=>{"id"=>"1027882016083528265", "name"=>"Legal 2", "situation"=>2, "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"2,2,2", "reference_point"=>"", "lives_in_JN"=>false, "phone"=>"(22) 22222-2222", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-17 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>""}}
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1027882016083528265], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mResident Update (0.7ms)[0m  [1m[33mUPDATE "residents" SET "situation" = ?, "updated_at" = ? WHERE "residents"."id" = ?[0m  [["situation", 2], ["updated_at", "2024-03-18 00:30:10.157630"], ["id", 1027882016083528265]]
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mTRANSACTION (5.9ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1027882016083528265]]
+  ↳ app/models/resident.rb:5:in `as_json'
+Completed 200 OK in 15ms (Views: 1.5ms | ActiveRecord: 7.0ms | Allocations: 3422)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-17 21:30:11 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1027882016083528265]]
+  ↳ app/models/resident.rb:5:in `as_json'
+Completed 200 OK in 4ms (Views: 3.8ms | ActiveRecord: 0.3ms | Allocations: 1591)
+
+

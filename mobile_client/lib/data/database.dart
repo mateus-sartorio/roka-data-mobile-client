@@ -27,6 +27,16 @@ class GlobalDatabase {
           birthdate = DateTime.now();
         }
 
+        Situation situation = Situation.active;
+        int receivedSituation = residentMapObject["situation"];
+        if (receivedSituation == 0) {
+          situation = Situation.active;
+        } else if (receivedSituation == 1) {
+          situation = Situation.inactive;
+        } else {
+          situation = Situation.noContact;
+        }
+
         Resident resident = Resident(
             id: residentMapObject["id"],
             address: residentMapObject["address"],
@@ -42,7 +52,7 @@ class GlobalDatabase {
             registrationYear: residentMapObject["registration_year"],
             residentsInTheHouse: residentMapObject["residents_in_the_house"],
             rokaId: residentMapObject["roka_id"],
-            situation: Situation.active,
+            situation: situation,
             birthdate: birthdate,
             isNew: false,
             isMarkedForRemoval: false,
@@ -85,10 +95,20 @@ class GlobalDatabase {
     String backendRoute = "http://10.0.2.2:3000/residents/${resident.id}";
     Uri uri = Uri.parse(backendRoute);
 
+    int situation = 0;
+    if (resident.situation == Situation.active) {
+      situation = 0;
+    } else if (resident.situation == Situation.inactive) {
+      situation = 1;
+    } else if (resident.situation == Situation.noContact) {
+      situation = 2;
+    }
+
     Map data = {
       "id": resident.id,
       "name": resident.name,
       "roka_id": resident.rokaId,
+      "situation": situation,
       "has_plaque": resident.hasPlaque,
       "registration_year": resident.registrationYear,
       "address": resident.address,
@@ -236,7 +256,7 @@ class GlobalDatabase {
           situation: forReal ? resident.situation : Situation.inactive,
           birthdate: resident.birthdate,
           isMarkedForRemoval: forReal ? true : false,
-          wasModified: resident.wasModified,
+          wasModified: true,
           isNew: resident.isNew,
         );
       }
