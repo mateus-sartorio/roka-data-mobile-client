@@ -65,6 +65,6 @@ class CurrencyHandoutsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def currency_handout_params
-      params.require(:currency_handout).permit(:title, :start_date, :value)
+      params.require(:currency_handout).permit(:title, :start_date)
     end
 end
