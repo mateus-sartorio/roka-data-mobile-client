@@ -4,7 +4,9 @@ import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/pages/about.dart';
 import 'package:mobile_client/pages/collects_page.dart';
 import 'package:mobile_client/pages/create_collect_page.dart';
+import 'package:mobile_client/pages/create_receipt_page.dart';
 import 'package:mobile_client/pages/currency_handouts_page.dart';
+import 'package:mobile_client/pages/receipts_page.dart';
 import 'package:mobile_client/pages/residents_page.dart';
 import 'package:mobile_client/pages/cloud_sync_page.dart';
 
@@ -35,7 +37,7 @@ class _HomePageState extends State<HomePage> {
     final List<Widget> pages = [
       const CollectsPage(),
       const CloudSyncPage(),
-      const CurrencyHandoutsPage(),
+      const ReceiptsPage(),
     ];
 
     final List<Widget?> floatingActionButtons = [
@@ -51,7 +53,17 @@ class _HomePageState extends State<HomePage> {
         child: const Icon(Icons.add),
       ),
       null,
-      null
+      FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const CreateReceiptPage(
+                        text: "Cadastrar nova entrega",
+                      )));
+        },
+        child: const Icon(Icons.add),
+      ),
     ];
 
     return Scaffold(

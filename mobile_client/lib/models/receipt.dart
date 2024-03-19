@@ -19,10 +19,14 @@ class Receipt extends HiveObject {
   @HiveField(4)
   int currencyHandoutId;
 
+  @HiveField(5)
+  bool isNew;
+
   Receipt(
       {required this.id,
       required this.value,
       required this.handoutDate,
       required this.residentId,
-      required this.currencyHandoutId});
+      required this.currencyHandoutId,
+      required this.isNew});
 }

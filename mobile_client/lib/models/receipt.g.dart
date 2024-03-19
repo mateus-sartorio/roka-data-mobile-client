@@ -22,13 +22,14 @@ class ReceiptAdapter extends TypeAdapter<Receipt> {
       handoutDate: fields[1] as DateTime,
       residentId: fields[3] as int,
       currencyHandoutId: fields[4] as int,
+      isNew: fields[5] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Receipt obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class ReceiptAdapter extends TypeAdapter<Receipt> {
       ..writeByte(3)
       ..write(obj.residentId)
       ..writeByte(4)
-      ..write(obj.currencyHandoutId);
+      ..write(obj.currencyHandoutId)
+      ..writeByte(5)
+      ..write(obj.isNew);
   }
 
   @override

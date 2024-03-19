@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:mobile_client/enums/situation.dart';
 import 'package:mobile_client/models/collect.dart';
 import 'package:mobile_client/models/currency_handout.dart';
+import 'package:mobile_client/models/receipt.dart';
 import 'package:mobile_client/models/resident.dart';
 import 'package:http/http.dart' as http;
 
@@ -93,6 +94,8 @@ class GlobalDatabase {
 
       await _myBox.put("RESIDENTS", residents);
       await _myBox.put("CURRENCY_HANDOUTS", currencyHandouts);
+      await _myBox.put("COLLECTS", []);
+      await _myBox.put("RECEIPTS", []);
     } catch (e) {
       throw Exception(e);
     }
@@ -129,7 +132,10 @@ class GlobalDatabase {
         }
       }
 
-      await _myBox.put("COLLECTS", []);
+      List<dynamic> receiptsList = _myBox.get("RECEIPTS") ?? [];
+      for (dynamic r in receiptsList) {
+        createNewReceiptOnBackend(r as Receipt);
+      }
     } catch (e) {
       throw Exception(e);
     }
@@ -186,6 +192,28 @@ class GlobalDatabase {
 
     try {
       await http.delete(uri);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> createNewReceiptOnBackend(Receipt receipt) async {
+    const String backendRoute = "http://10.0.2.2:3000/receipts/";
+    Uri uri = Uri.parse(backendRoute);
+
+    Map data = {
+      "id": receipt.id,
+      "handout_date": receipt.handoutDate.toIso8601String(),
+      "value": receipt.value,
+      "resident_id": receipt.residentId,
+      "currency_handout_id": receipt.currencyHandoutId
+    };
+
+    var body = json.encode(data);
+
+    try {
+      await http.post(uri,
+          headers: {"Content-Type": "application/json"}, body: body);
     } catch (e) {
       throw Exception(e);
     }
@@ -410,6 +438,38 @@ class GlobalDatabase {
     _myBox.put("CURRENCY_HANDOUTS", filteredList);
   }
 
+  void saveNewReceipt(Receipt receipt) {
+    List<dynamic> receiptsList = _myBox.get("RECEIPTS") ?? [];
+    receiptsList.add(receipt);
+    _myBox.put("RECEIPTS", receiptsList);
+  }
+
+  void updateReceipt(Receipt receipt) {
+    List<dynamic> receiptsList = _myBox.get("RECEIPTS") ?? [];
+
+    for (dynamic r in receiptsList) {
+      if (r.id == receipt.id) {
+        r.handoutDate = receipt.handoutDate;
+        r.residentId = receipt.residentId;
+        r.currencyHandoutId = receipt.currencyHandoutId;
+        r.value = receipt.value;
+
+        break;
+      }
+    }
+
+    _myBox.put("RECEIPTS", receiptsList);
+  }
+
+  void deleteReceipt(int receiptId) {
+    List<dynamic> receiptsList = _myBox.get("RECEIPTS") ?? [];
+
+    List<dynamic> filteredList =
+        receiptsList.where((receipt) => receipt.id != receiptId).toList();
+
+    _myBox.put("RECEIPTS", filteredList);
+  }
+
   void saveNewCollect(Collect collect) {
     List<dynamic> collectsList = _myBox.get("COLLECTS") ?? [];
     collectsList.add(collect);
@@ -420,7 +480,7 @@ class GlobalDatabase {
     List<dynamic> collectsList = _myBox.get("COLLECTS") ?? [];
 
     for (dynamic c in collectsList) {
-      if (c.residentId == collect.residentId) {
+      if (c.id == collect.id) {
         c.collectedOn = collect.collectedOn;
         c.residentId = collect.residentId;
         c.ammount = collect.ammount;
@@ -451,6 +511,22 @@ class GlobalDatabase {
     for (Resident resident in residentsList) {
       if (resident.id == id) {
         return resident;
+      }
+    }
+
+    return null;
+  }
+
+  CurrencyHandout? getCurrencyHandoutById(int id) {
+    List<dynamic> currencyHandoutsDynamicList = _myBox.get("CURRENCY_HANDOUTS");
+    List<CurrencyHandout> currencyHandoutsList = [];
+    for (dynamic currencyHandout in currencyHandoutsDynamicList) {
+      currencyHandoutsList.add(currencyHandout as CurrencyHandout);
+    }
+
+    for (CurrencyHandout currencyHandout in currencyHandoutsList) {
+      if (currencyHandout.id == id) {
+        return currencyHandout;
       }
     }
 

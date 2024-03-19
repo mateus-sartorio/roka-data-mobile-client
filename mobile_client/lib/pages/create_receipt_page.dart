@@ -3,38 +3,42 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/components/big_button_tile.dart';
 import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
-import 'package:mobile_client/models/collect.dart';
+import 'package:mobile_client/models/currency_handout.dart';
+import 'package:mobile_client/models/receipt.dart';
 import 'package:mobile_client/models/resident.dart';
 import 'package:mobile_client/utils/integer_id_generator.dart';
 
-class CreateCollectPage extends StatefulWidget {
-  final Collect? collect;
+class CreateReceiptPage extends StatefulWidget {
+  final Receipt? receipt;
   final String text;
 
-  const CreateCollectPage({Key? key, this.collect, required this.text})
+  const CreateReceiptPage({Key? key, this.receipt, required this.text})
       : super(key: key);
 
   @override
-  State<CreateCollectPage> createState() => _CreateCollectPageState();
+  State<CreateReceiptPage> createState() => _CreateReceiptPageState();
 }
 
-class _CreateCollectPageState extends State<CreateCollectPage> {
+class _CreateReceiptPageState extends State<CreateReceiptPage> {
   GlobalDatabase db = GlobalDatabase();
 
   Resident? selectedResident;
+  CurrencyHandout? selectedCurrencyHandout;
   DateTime? selectedDate;
-  bool isNewCollect = true;
+  bool isNewReceipt = true;
 
-  final TextEditingController _weightController = TextEditingController();
+  final TextEditingController _valueController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
 
   @override
   void initState() {
-    if (widget.collect != null) {
-      selectedDate = widget.collect?.collectedOn;
-      selectedResident = db.getResidentById(widget.collect?.residentId ?? 0);
-      _weightController.text = widget.collect?.ammount.toString() ?? "";
-      isNewCollect = false;
+    if (widget.receipt != null) {
+      selectedDate = widget.receipt?.handoutDate;
+      selectedResident = db.getResidentById(widget.receipt?.residentId ?? 0);
+      selectedCurrencyHandout =
+          db.getCurrencyHandoutById(widget.receipt?.currencyHandoutId ?? -1);
+      _valueController.text = widget.receipt?.value.toString() ?? "";
+      isNewReceipt = false;
     } else {
       selectedDate = DateTime.now();
     }
@@ -91,31 +95,32 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
   bool isFormOk() {
     RegExp decimalPattern = RegExp(r'^\d+(?:[.,]\d{1,2})?$');
 
-    if (!decimalPattern.hasMatch(_weightController.text)) {
+    if (!decimalPattern.hasMatch(_valueController.text)) {
       warnInvalidRegistrationData(
-          "Peso inválido (deve ser um número decimal com no máximo duas casas decimais, separado por \".\" ou \",\")");
+          "Valor inválido (deve ser um número decimal com no máximo duas casas decimais, separado por \".\" ou \",\")");
       return false;
     }
 
     return true;
   }
 
-  void saveNewCollect() {
+  void saveNewReceipt() {
     if (!isFormOk()) {
       return;
     }
 
-    Collect newCollect = Collect(
-        id: widget.collect?.id ?? generateIntegerId(),
-        ammount: double.parse(_weightController.text.replaceAll(",", ".")),
-        collectedOn: selectedDate!,
+    Receipt newReceipt = Receipt(
+        id: widget.receipt?.id ?? generateIntegerId(),
+        value: double.parse(_valueController.text.replaceAll(",", ".")),
+        handoutDate: selectedDate!,
         residentId: (selectedResident?.id)!,
-        isNew: true);
+        currencyHandoutId: (selectedCurrencyHandout?.id)!,
+        isNew: isNewReceipt);
 
-    if (isNewCollect) {
-      db.saveNewCollect(newCollect);
+    if (isNewReceipt) {
+      db.saveNewReceipt(newReceipt);
     } else {
-      db.updateCollect(newCollect);
+      db.updateReceipt(newReceipt);
     }
 
     Navigator.pop(context);
@@ -129,7 +134,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
 
           return AlertDialog(
             title: const Text(
-              "Coleta salva com sucesso",
+              "Entrega salva com sucesso",
               style: TextStyle(fontSize: 14),
             ),
             surfaceTintColor: Colors.transparent,
@@ -146,7 +151,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
       context: context,
       builder: (context) {
         return DialogBox(
-          title: "Tem certeza que deseja apagar esta coleta?",
+          title: "Tem certeza que deseja apagar esta entrega?",
           onSave: () {
             db.deleteCollect((selectedResident?.id)!);
             Navigator.of(context).pop(true);
@@ -183,7 +188,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
       appBar: AppBar(
           centerTitle: true,
           title: const Text(
-            "♻️ Dados de coleta",
+            "♻️ Dados da entrega",
             style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.transparent,
@@ -200,11 +205,24 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
           final residents = box.get("RESIDENTS");
+          final currencyHandouts = box.get("CURRENCY_HANDOUTS");
 
           List<DropdownMenuItem<Resident>> residentsDropdownList = [];
           for (dynamic r in residents) {
             residentsDropdownList.add(DropdownMenuItem<Resident>(
                 value: r as Resident, child: Text(r.name)));
+          }
+
+          List<DropdownMenuItem<CurrencyHandout>> currencyHandoutsDropdownList =
+              [];
+          for (dynamic ch in currencyHandouts) {
+            List<String> dayMonthYear =
+                ch.startDate.toString().split(" ")[0].split("-");
+            "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+            currencyHandoutsDropdownList.add(DropdownMenuItem<CurrencyHandout>(
+                value: ch as CurrencyHandout,
+                child: Text(
+                    "${ch.title} - ${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}")));
           }
 
           return Center(
@@ -219,9 +237,9 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                         vertical: 8.0, horizontal: 15),
                     child: Text(
                       widget.text,
-                      textAlign: TextAlign.start,
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
-                          fontWeight: FontWeight.w900, fontSize: 25),
+                          fontWeight: FontWeight.w700, fontSize: 20),
                     ),
                   ),
                   const SizedBox(
@@ -232,7 +250,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                     readOnly: true,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: "Data",
+                        labelText: "Data da entrega",
                         prefix: Padding(
                           padding: EdgeInsets.only(
                               left: 0, right: 10, bottom: 0, top: 0),
@@ -249,7 +267,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                   DropdownButtonFormField<Resident>(
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: "Morador",
+                      labelText: "Residente",
                       prefix: Padding(
                         padding: EdgeInsets.only(
                             left: 0, right: 10, bottom: 0, top: 0),
@@ -265,13 +283,32 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                   const SizedBox(
                     height: 15,
                   ),
+                  DropdownButtonFormField<CurrencyHandout>(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "Entrega",
+                      prefix: Padding(
+                        padding: EdgeInsets.only(
+                            left: 0, right: 10, bottom: 0, top: 0),
+                        child: Icon(
+                          Icons.monetization_on_rounded,
+                        ),
+                      ),
+                    ),
+                    onChanged: (item) => selectedCurrencyHandout = item,
+                    value: selectedCurrencyHandout,
+                    items: currencyHandoutsDropdownList,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
                   TextField(
-                    controller: _weightController,
+                    controller: _valueController,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
-                      hintText: "Peso [kg]",
+                      hintText: "Valor [Rokas]",
                       border: OutlineInputBorder(),
-                      labelText: "Peso [kg]",
+                      labelText: "Valor [Rokas]",
                     ),
                   ),
                   const SizedBox(
@@ -287,13 +324,13 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                               style: TextStyle(color: Colors.white)),
                         ],
                       ),
-                      onPressed: saveNewCollect,
+                      onPressed: saveNewReceipt,
                       isSolid: true),
                   const SizedBox(
                     height: 15,
                   ),
                   Visibility(
-                    visible: !isNewCollect,
+                    visible: !isNewReceipt,
                     child: BigButtonTile(
                         color: Colors.red,
                         content: const Row(
