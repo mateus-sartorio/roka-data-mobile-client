@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @currency_handout %>
+
+<div>
+  <%= link_to "Edit this currency handout", edit_currency_handout_path(@currency_handout) %> |
+  <%= link_to "Back to currency handouts", currency_handouts_path %>
+
+  <%= button_to "Destroy this currency handout", @currency_handout, method: :delete %>
+</div>

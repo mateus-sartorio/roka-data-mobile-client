@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_19_190450) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_18_151427) do
   create_table "collects", force: :cascade do |t|
     t.date "collected_on"
     t.decimal "ammount"
@@ -18,6 +18,24 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_19_190450) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["resident_id"], name: "index_collects_on_resident_id"
+  end
+
+  create_table "currency_handouts", force: :cascade do |t|
+    t.string "title"
+    t.date "start_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "receipts", force: :cascade do |t|
+    t.date "handout_date"
+    t.decimal "value"
+    t.integer "resident_id", null: false
+    t.integer "currency_handout_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["currency_handout_id"], name: "index_receipts_on_currency_handout_id"
+    t.index ["resident_id"], name: "index_receipts_on_resident_id"
   end
 
   create_table "residents", force: :cascade do |t|
@@ -40,4 +58,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_19_190450) do
   end
 
   add_foreign_key "collects", "residents"
+  add_foreign_key "receipts", "currency_handouts"
+  add_foreign_key "receipts", "residents"
 end

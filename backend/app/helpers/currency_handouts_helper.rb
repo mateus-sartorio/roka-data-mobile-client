@@ -1,0 +1,2 @@
+module CurrencyHandoutsHelper
+end
