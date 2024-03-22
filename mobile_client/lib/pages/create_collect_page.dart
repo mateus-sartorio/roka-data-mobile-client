@@ -90,10 +90,14 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
 
   bool isFormOk() {
     RegExp decimalPattern = RegExp(r'^\d+(?:[.,]\d{1,2})?$');
+    RegExp zeroPattern = RegExp(r'^0+(?:[.,]0{1,2})?$');
 
     if (!decimalPattern.hasMatch(_weightController.text)) {
       warnInvalidRegistrationData(
           "Peso inválido (deve ser um número decimal com no máximo duas casas decimais, separado por \".\" ou \",\")");
+      return false;
+    } else if (zeroPattern.hasMatch(_weightController.text)) {
+      warnInvalidRegistrationData("O peso deve ser maior que zero");
       return false;
     }
 
@@ -217,12 +221,10 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 8.0, horizontal: 15),
-                    child: Text(
-                      widget.text,
-                      textAlign: TextAlign.start,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w900, fontSize: 25),
-                    ),
+                    child: Text(widget.text,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 22)),
                   ),
                   const SizedBox(
                     height: 20,

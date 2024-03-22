@@ -101,6 +101,33 @@ class GlobalDatabase {
     }
   }
 
+  Future<void> fetchAllCollects() async {
+    try {
+      const String backendRoute = "http://10.0.2.2:3000/collects";
+      Uri uri = Uri.parse(backendRoute);
+
+      final Response response = await http.get(uri);
+      List<dynamic> responseBody = jsonDecode(response.body);
+
+      List<Collect> collects = [];
+      for (dynamic collectsMapObject in responseBody) {
+        Collect collect = Collect(
+          id: collectsMapObject["id"],
+          ammount: double.tryParse(collectsMapObject["ammount"]) ?? 0.0,
+          collectedOn: DateTime.parse(collectsMapObject["collected_on"]),
+          residentId: collectsMapObject["resident_id"],
+          isNew: false,
+        );
+
+        collects.add(collect);
+      }
+
+      await _myBox.put("ALL_DATABASE_COLLECTS", collects);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   Future<void> syncDataWithBackend() async {
     try {
       List<dynamic> residentsList = _myBox.get("RESIDENTS") ?? [];
@@ -502,7 +529,7 @@ class GlobalDatabase {
   }
 
   Resident? getResidentById(int id) {
-    List<dynamic> residentsDynamicList = _myBox.get("RESIDENTS");
+    List<dynamic> residentsDynamicList = _myBox.get("RESIDENTS") ?? [];
     List<Resident> residentsList = [];
     for (dynamic resident in residentsDynamicList) {
       residentsList.add(resident as Resident);
@@ -518,7 +545,8 @@ class GlobalDatabase {
   }
 
   CurrencyHandout? getCurrencyHandoutById(int id) {
-    List<dynamic> currencyHandoutsDynamicList = _myBox.get("CURRENCY_HANDOUTS");
+    List<dynamic> currencyHandoutsDynamicList =
+        _myBox.get("CURRENCY_HANDOUTS") ?? [];
     List<CurrencyHandout> currencyHandoutsList = [];
     for (dynamic currencyHandout in currencyHandoutsDynamicList) {
       currencyHandoutsList.add(currencyHandout as CurrencyHandout);

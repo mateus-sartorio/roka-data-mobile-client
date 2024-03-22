@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
+import 'package:mobile_client/pages/create_collect_page.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:mobile_client/pages/create_currency_handout_page.dart';
 
-class CurrencyHandoutsPage extends StatefulWidget {
-  const CurrencyHandoutsPage({Key? key}) : super(key: key);
+class AllCollectsPage extends StatefulWidget {
+  const AllCollectsPage({Key? key}) : super(key: key);
 
   @override
-  State<CurrencyHandoutsPage> createState() => _CurrencyHandoutsPageState();
+  State<AllCollectsPage> createState() => _AllCollectsPageState();
 }
 
-class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
+class _AllCollectsPageState extends State<AllCollectsPage> {
   GlobalDatabase db = GlobalDatabase();
 
-  void deleteCurrencyHandout(int id) {
+  void deleteCollect(int residentId) {
     showDialog(
       context: context,
       builder: (context) {
         return DialogBox(
-          title:
-              "Tem certeza que deseja remover esta entrega de moeda? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
+          title: "Tem certeza que deseja apagar esta coleta?",
           onSave: () {
-            db.deleteCurrencyHandout(id);
+            db.deleteCollect(residentId);
             Navigator.of(context).pop(true);
 
             showDialog(
@@ -36,7 +36,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
 
                   return AlertDialog(
                     title: const Text(
-                      "Distribuição de moeda removida com sucesso",
+                      "Coleta removida com sucesso",
                       style: TextStyle(fontSize: 14),
                     ),
                     surfaceTintColor: Colors.transparent,
@@ -53,35 +53,97 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
     );
   }
 
+  void showWarning() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+            title: const Text(
+              "Erro ao baixar coletas do servidor, tente novamente.",
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            ),
+            contentPadding:
+                const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
+            children: [
+              MaterialButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: const Text(
+                    "Ok",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  )),
+            ]);
+      },
+    );
+  }
+
+  void showSyncingAnimation(context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: const Text(
+            "Só um momento...",
+            style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+          contentPadding:
+              const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
+          children: [
+            Center(
+              child: LoadingAnimationWidget.newtonCradle(
+                color: Colors.black,
+                size: 200,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void closeAnimation() {
+    Navigator.of(context).pop();
+  }
+
+  Future<void> getAllCollects(context) async {
+    try {
+      await db.fetchDataFromBackend();
+      await db.fetchAllCollects();
+    } catch (e) {
+      showWarning();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration.zero, () => getAllCollects(context));
+
     return ValueListenableBuilder(
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
-          final currencyHandouts = box.get("CURRENCY_HANDOUTS");
+          final collects = box.get("ALL_DATABASE_COLLECTS");
 
           Widget body;
-          if ((currencyHandouts?.length ?? 0) == 0) {
+          if ((collects?.length ?? 0) == 0) {
             body = Animate(
               effects: const [
                 SlideEffect(
-                  begin: Offset(1, 0),
+                  begin: Offset(-1, 0),
                   end: Offset(0, 0),
                   duration: Duration(milliseconds: 200),
                 )
               ],
               child: const Center(
                   child: Text(
-                "Nenhuma distribuição de moeda ainda :(",
+                "Nenhuma coleta  :(",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
               )),
             );
           } else {
             body = Animate(
               effects: const [
                 SlideEffect(
-                  begin: Offset(1, 0),
+                  begin: Offset(-1, 0),
                   end: Offset(0, 0),
                   duration: Duration(milliseconds: 200),
                 )
@@ -90,10 +152,19 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                 children: [
                   Expanded(
                     child: ListView.builder(
-                        itemCount: currencyHandouts?.length ?? 0,
+                        itemCount: collects?.length ?? 0,
                         itemBuilder: (context, index) {
-                          List<String> dayMonthYear = currencyHandouts?[index]
-                                  ?.startDate
+                          String residentName = db
+                                  .getResidentById(
+                                      collects?[index].residentId ?? -1)
+                                  ?.name ??
+                              "";
+
+                          String weight =
+                              collects?[index]?.ammount.toString() ?? "";
+
+                          List<String> dayMonthYear = collects?[index]
+                                  ?.collectedOn
                                   .toString()
                                   .split(" ")[0]
                                   .split("-") ??
@@ -101,57 +172,6 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
 
                           String date =
                               "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
-
-                          Widget tag = Container();
-                          bool showTag = false;
-                          if (currencyHandouts?[index]?.isMarkedForRemoval ??
-                              false) {
-                            tag = Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(8)),
-                              padding: const EdgeInsets.all(5.0),
-                              child: const Text(
-                                "MARCADO PARA REMOÇÃO",
-                                style: TextStyle(
-                                  fontSize: 10,
-                                ),
-                              ),
-                            );
-
-                            showTag = true;
-                          } else if (currencyHandouts?[index]?.isNew ?? false) {
-                            tag = Container(
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColorLight,
-                                  borderRadius: BorderRadius.circular(8)),
-                              padding: const EdgeInsets.all(5.0),
-                              child: const Text(
-                                "SALVO LOCALMENTE",
-                                style: TextStyle(
-                                  fontSize: 10,
-                                ),
-                              ),
-                            );
-
-                            showTag = true;
-                          } else if (currencyHandouts?[index]?.wasModified ??
-                              false) {
-                            tag = Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.green[300],
-                                  borderRadius: BorderRadius.circular(8)),
-                              padding: const EdgeInsets.all(5.0),
-                              child: const Text(
-                                "MODIFICADO",
-                                style: TextStyle(
-                                  fontSize: 10,
-                                ),
-                              ),
-                            );
-
-                            showTag = true;
-                          }
 
                           return Padding(
                             padding: const EdgeInsets.symmetric(
@@ -161,10 +181,8 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                                 motion: const StretchMotion(),
                                 children: [
                                   SlidableAction(
-                                    onPressed: (context) =>
-                                        deleteCurrencyHandout(
-                                      currencyHandouts?[index]?.id ?? -1,
-                                    ),
+                                    onPressed: (context) => deleteCollect(
+                                        collects?[index]?.residentId ?? -1),
                                     icon: Icons.delete,
                                     backgroundColor: Colors.red,
                                     borderRadius: BorderRadius.circular(10),
@@ -174,19 +192,33 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                               child: ListTile(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.0)),
-                                title: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Visibility(visible: showTag, child: tag),
-                                    Text(
-                                      currencyHandouts?[index]?.title,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17),
-                                      textAlign: TextAlign.left,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          residentName,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 17),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        Text(date,
+                                            style:
+                                                const TextStyle(fontSize: 13)),
+                                      ],
                                     ),
-                                    Text(date,
-                                        style: const TextStyle(fontSize: 13)),
+                                    Text(
+                                      "${weight.toString().replaceAll(".", ",")} kg",
+                                      style: const TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w500),
+                                    ),
                                   ],
                                 ),
                                 onTap: () {
@@ -194,15 +226,13 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              CreateCurrencyHandoutPage(
+                                              CreateCollectPage(
                                                   text:
-                                                      "Alterar dados da distribuição de moeda",
-                                                  currencyHandout:
-                                                      currencyHandouts?[
-                                                          index])));
+                                                      "Alterar dados da coleta",
+                                                  collect: collects?[index])));
                                 },
                                 leading: const Icon(
-                                  Icons.wallet,
+                                  Icons.shopping_bag,
                                   size: 30,
                                 ),
                                 trailing: const Icon(
@@ -222,7 +252,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
               appBar: AppBar(
                   centerTitle: true,
                   title: const Text(
-                    "♻️ Distribuições da moeda",
+                    "♻️ Todas coletas",
                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                   backgroundColor: Colors.transparent,
@@ -235,17 +265,6 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                       icon: const Icon(Icons.arrow_back_outlined),
                     ),
                   )),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CreateCurrencyHandoutPage(
-                                text: "Cadastrar nova entrega da moeda",
-                              )));
-                },
-                child: const Icon(Icons.add),
-              ),
               body: body);
         });
   }

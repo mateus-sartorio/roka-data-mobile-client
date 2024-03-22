@@ -88,19 +88,10 @@ class _ResidentsPageState extends State<ResidentsPage> {
               ],
               child: Column(
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                    child: Text(
-                      "Residentes",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w800, fontSize: 22),
-                    ),
-                  ),
                   Expanded(
                     child: ListView.builder(
                         itemCount: residents?.length ?? 0,
                         itemBuilder: (context, index) {
-                          print(index);
                           int roketeDisplayNumber =
                               residents?[index]?.rokaId ?? 0;
 

@@ -66,15 +66,21 @@ class _HomePageState extends State<HomePage> {
       ),
     ];
 
+    final List<String> titles = [
+      "♻️ Coletas",
+      "♻️ Sincronizar dados",
+      "♻️ Entregas",
+    ];
+
     return Scaffold(
       bottomNavigationBar:
           BottomNavbar(onTabChange: (index) => navigateBottomBar(index)),
       body: SafeArea(child: pages[_selectedIndex]),
       appBar: AppBar(
           centerTitle: true,
-          title: const Text(
-            "♻️ Roka",
-            style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+          title: Text(
+            titles[_selectedIndex],
+            style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.white,
           elevation: 0,
