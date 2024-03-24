@@ -52,15 +52,18 @@ class Resident extends HiveObject {
   String observations;
 
   @HiveField(15)
-  bool isNew;
+  bool needsCollectOnTheHouse;
 
   @HiveField(16)
-  bool wasModified;
+  bool isNew;
 
   @HiveField(17)
-  bool isMarkedForRemoval;
+  bool wasModified;
 
   @HiveField(18)
+  bool isMarkedForRemoval;
+
+  @HiveField(19)
   List<Collect> collects;
 
   Resident(
@@ -79,6 +82,7 @@ class Resident extends HiveObject {
       required this.residentsInTheHouse,
       required this.rokaId,
       required this.situation,
+      required this.needsCollectOnTheHouse,
       required this.isNew,
       required this.birthdate,
       required this.isMarkedForRemoval,

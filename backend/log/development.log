@@ -18215,3 +18215,966 @@ Processing by ReceiptsController#index as JSON
 Completed 200 OK in 3ms (Views: 2.0ms | ActiveRecord: 0.1ms | Allocations: 1396)
 
 
+Started PUT "/residents/1021807983446717952" for 127.0.0.1 at 2024-03-24 17:17:45 -0300
+Started POST "/collects" for 127.0.0.1 at 2024-03-24 17:17:45 -0300
+Started PUT "/residents/1063688422590800512" for 127.0.0.1 at 2024-03-24 17:17:45 -0300
+Started POST "/collects" for 127.0.0.1 at 2024-03-24 17:17:45 -0300
+  [1m[35m (18.5ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (23.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActiveRecord::PendingMigrationError (
+
+Migrations are pending. To resolve this issue, run:
+
+        bin/rails db:migrate RAILS_ENV=development
+
+You have 4 pending migrations:
+
+20240219023718_create_residents.rb
+20240219190450_create_collects.rb
+20240318024034_create_currency_handouts.rb
+20240318151427_create_receipts.rb
+
+
+):
+  
+activerecord (7.0.8) lib/active_record/migration.rb:662:in `check_pending!'
+activerecord (7.0.8) lib/active_record/migration.rb:627:in `block (2 levels) in call'
+activesupport (7.0.8) lib/active_support/file_update_checker.rb:83:in `execute'
+activerecord (7.0.8) lib/active_record/migration.rb:632:in `block in call'
+activerecord (7.0.8) lib/active_record/migration.rb:624:in `synchronize'
+activerecord (7.0.8) lib/active_record/migration.rb:624:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/callbacks.rb:27:in `block in call'
+activesupport (7.0.8) lib/active_support/callbacks.rb:99:in `run_callbacks'
+actionpack (7.0.8) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/actionable_exceptions.rb:17:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/debug_exceptions.rb:28:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/show_exceptions.rb:29:in `call'
+railties (7.0.8) lib/rails/rack/logger.rb:40:in `call_app'
+railties (7.0.8) lib/rails/rack/logger.rb:25:in `block in call'
+activesupport (7.0.8) lib/active_support/tagged_logging.rb:99:in `block in tagged'
+activesupport (7.0.8) lib/active_support/tagged_logging.rb:37:in `tagged'
+activesupport (7.0.8) lib/active_support/tagged_logging.rb:99:in `tagged'
+railties (7.0.8) lib/rails/rack/logger.rb:25:in `call'
+sprockets-rails (3.4.2) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/remote_ip.rb:93:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/request_id.rb:26:in `call'
+rack (2.2.8) lib/rack/method_override.rb:24:in `call'
+rack (2.2.8) lib/rack/runtime.rb:22:in `call'
+activesupport (7.0.8) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (7.0.8) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (7.0.8) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/static.rb:23:in `call'
+rack (2.2.8) lib/rack/sendfile.rb:110:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/host_authorization.rb:138:in `call'
+rack-cors (0.4.1) lib/rack/cors.rb:81:in `call'
+railties (7.0.8) lib/rails/engine.rb:530:in `call'
+puma (5.6.8) lib/puma/configuration.rb:252:in `call'
+puma (5.6.8) lib/puma/request.rb:77:in `block in handle_request'
+puma (5.6.8) lib/puma/thread_pool.rb:340:in `with_force_shutdown'
+puma (5.6.8) lib/puma/request.rb:76:in `handle_request'
+puma (5.6.8) lib/puma/server.rb:443:in `process_client'
+puma (5.6.8) lib/puma/thread_pool.rb:147:in `block in spawn_thread'
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mCACHE ActiveRecord::SchemaMigration Pluck (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActiveRecord::PendingMigrationError (
+
+Migrations are pending. To resolve this issue, run:
+
+        bin/rails db:migrate RAILS_ENV=development
+
+You have 4 pending migrations:
+
+20240219023718_create_residents.rb
+20240219190450_create_collects.rb
+20240318024034_create_currency_handouts.rb
+20240318151427_create_receipts.rb
+
+
+):
+  
+activerecord (7.0.8) lib/active_record/migration.rb:662:in `check_pending!'
+activerecord (7.0.8) lib/active_record/migration.rb:627:in `block (2 levels) in call'
+activesupport (7.0.8) lib/active_support/file_update_checker.rb:83:in `execute'
+activerecord (7.0.8) lib/active_record/migration.rb:632:in `block in call'
+activerecord (7.0.8) lib/active_record/migration.rb:624:in `synchronize'
+activerecord (7.0.8) lib/active_record/migration.rb:624:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/callbacks.rb:27:in `block in call'
+activesupport (7.0.8) lib/active_support/callbacks.rb:99:in `run_callbacks'
+actionpack (7.0.8) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/actionable_exceptions.rb:17:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/debug_exceptions.rb:28:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/show_exceptions.rb:29:in `call'
+railties (7.0.8) lib/rails/rack/logger.rb:40:in `call_app'
+railties (7.0.8) lib/rails/rack/logger.rb:25:in `block in call'
+activesupport (7.0.8) lib/active_support/tagged_logging.rb:99:in `block in tagged'
+activesupport (7.0.8) lib/active_support/tagged_logging.rb:37:in `tagged'
+activesupport (7.0.8) lib/active_support/tagged_logging.rb:99:in `tagged'
+railties (7.0.8) lib/rails/rack/logger.rb:25:in `call'
+sprockets-rails (3.4.2) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/remote_ip.rb:93:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/request_id.rb:26:in `call'
+rack (2.2.8) lib/rack/method_override.rb:24:in `call'
+rack (2.2.8) lib/rack/runtime.rb:22:in `call'
+activesupport (7.0.8) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (7.0.8) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (7.0.8) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/static.rb:23:in `call'
+rack (2.2.8) lib/rack/sendfile.rb:110:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/host_authorization.rb:138:in `call'
+rack-cors (0.4.1) lib/rack/cors.rb:81:in `call'
+railties (7.0.8) lib/rails/engine.rb:530:in `call'
+puma (5.6.8) lib/puma/configuration.rb:252:in `call'
+puma (5.6.8) lib/puma/request.rb:77:in `block in handle_request'
+puma (5.6.8) lib/puma/thread_pool.rb:340:in `with_force_shutdown'
+puma (5.6.8) lib/puma/request.rb:76:in `handle_request'
+puma (5.6.8) lib/puma/server.rb:443:in `process_client'
+puma (5.6.8) lib/puma/thread_pool.rb:147:in `block in spawn_thread'
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mCACHE ActiveRecord::SchemaMigration Pluck (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActiveRecord::PendingMigrationError (
+
+Migrations are pending. To resolve this issue, run:
+
+        bin/rails db:migrate RAILS_ENV=development
+
+You have 4 pending migrations:
+
+20240219023718_create_residents.rb
+20240219190450_create_collects.rb
+20240318024034_create_currency_handouts.rb
+20240318151427_create_receipts.rb
+
+
+):
+  
+activerecord (7.0.8) lib/active_record/migration.rb:662:in `check_pending!'
+activerecord (7.0.8) lib/active_record/migration.rb:627:in `block (2 levels) in call'
+activesupport (7.0.8) lib/active_support/file_update_checker.rb:83:in `execute'
+activerecord (7.0.8) lib/active_record/migration.rb:632:in `block in call'
+activerecord (7.0.8) lib/active_record/migration.rb:624:in `synchronize'
+activerecord (7.0.8) lib/active_record/migration.rb:624:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/callbacks.rb:27:in `block in call'
+activesupport (7.0.8) lib/active_support/callbacks.rb:99:in `run_callbacks'
+actionpack (7.0.8) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/actionable_exceptions.rb:17:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/debug_exceptions.rb:28:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/show_exceptions.rb:29:in `call'
+railties (7.0.8) lib/rails/rack/logger.rb:40:in `call_app'
+railties (7.0.8) lib/rails/rack/logger.rb:25:in `block in call'
+activesupport (7.0.8) lib/active_support/tagged_logging.rb:99:in `block in tagged'
+activesupport (7.0.8) lib/active_support/tagged_logging.rb:37:in `tagged'
+activesupport (7.0.8) lib/active_support/tagged_logging.rb:99:in `tagged'
+railties (7.0.8) lib/rails/rack/logger.rb:25:in `call'
+sprockets-rails (3.4.2) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/remote_ip.rb:93:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/request_id.rb:26:in `call'
+rack (2.2.8) lib/rack/method_override.rb:24:in `call'
+rack (2.2.8) lib/rack/runtime.rb:22:in `call'
+activesupport (7.0.8) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (7.0.8) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (7.0.8) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/static.rb:23:in `call'
+rack (2.2.8) lib/rack/sendfile.rb:110:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/host_authorization.rb:138:in `call'
+rack-cors (0.4.1) lib/rack/cors.rb:81:in `call'
+railties (7.0.8) lib/rails/engine.rb:530:in `call'
+puma (5.6.8) lib/puma/configuration.rb:252:in `call'
+puma (5.6.8) lib/puma/request.rb:77:in `block in handle_request'
+puma (5.6.8) lib/puma/thread_pool.rb:340:in `with_force_shutdown'
+puma (5.6.8) lib/puma/request.rb:76:in `handle_request'
+puma (5.6.8) lib/puma/server.rb:443:in `process_client'
+puma (5.6.8) lib/puma/thread_pool.rb:147:in `block in spawn_thread'
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mCACHE ActiveRecord::SchemaMigration Pluck (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActiveRecord::PendingMigrationError (
+
+Migrations are pending. To resolve this issue, run:
+
+        bin/rails db:migrate RAILS_ENV=development
+
+You have 4 pending migrations:
+
+20240219023718_create_residents.rb
+20240219190450_create_collects.rb
+20240318024034_create_currency_handouts.rb
+20240318151427_create_receipts.rb
+
+
+):
+  
+activerecord (7.0.8) lib/active_record/migration.rb:662:in `check_pending!'
+activerecord (7.0.8) lib/active_record/migration.rb:627:in `block (2 levels) in call'
+activesupport (7.0.8) lib/active_support/file_update_checker.rb:83:in `execute'
+activerecord (7.0.8) lib/active_record/migration.rb:632:in `block in call'
+activerecord (7.0.8) lib/active_record/migration.rb:624:in `synchronize'
+activerecord (7.0.8) lib/active_record/migration.rb:624:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/callbacks.rb:27:in `block in call'
+activesupport (7.0.8) lib/active_support/callbacks.rb:99:in `run_callbacks'
+actionpack (7.0.8) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/actionable_exceptions.rb:17:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/debug_exceptions.rb:28:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/show_exceptions.rb:29:in `call'
+railties (7.0.8) lib/rails/rack/logger.rb:40:in `call_app'
+railties (7.0.8) lib/rails/rack/logger.rb:25:in `block in call'
+activesupport (7.0.8) lib/active_support/tagged_logging.rb:99:in `block in tagged'
+activesupport (7.0.8) lib/active_support/tagged_logging.rb:37:in `tagged'
+activesupport (7.0.8) lib/active_support/tagged_logging.rb:99:in `tagged'
+railties (7.0.8) lib/rails/rack/logger.rb:25:in `call'
+sprockets-rails (3.4.2) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/remote_ip.rb:93:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/request_id.rb:26:in `call'
+rack (2.2.8) lib/rack/method_override.rb:24:in `call'
+rack (2.2.8) lib/rack/runtime.rb:22:in `call'
+activesupport (7.0.8) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (7.0.8) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (7.0.8) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/static.rb:23:in `call'
+rack (2.2.8) lib/rack/sendfile.rb:110:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/host_authorization.rb:138:in `call'
+rack-cors (0.4.1) lib/rack/cors.rb:81:in `call'
+railties (7.0.8) lib/rails/engine.rb:530:in `call'
+puma (5.6.8) lib/puma/configuration.rb:252:in `call'
+puma (5.6.8) lib/puma/request.rb:77:in `block in handle_request'
+puma (5.6.8) lib/puma/thread_pool.rb:340:in `with_force_shutdown'
+puma (5.6.8) lib/puma/request.rb:76:in `handle_request'
+puma (5.6.8) lib/puma/server.rb:443:in `process_client'
+puma (5.6.8) lib/puma/thread_pool.rb:147:in `block in spawn_thread'
+Started GET "/residents" for 127.0.0.1 at 2024-03-24 17:17:47 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mCACHE ActiveRecord::SchemaMigration Pluck (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActiveRecord::PendingMigrationError (
+
+Migrations are pending. To resolve this issue, run:
+
+        bin/rails db:migrate RAILS_ENV=development
+
+You have 4 pending migrations:
+
+20240219023718_create_residents.rb
+20240219190450_create_collects.rb
+20240318024034_create_currency_handouts.rb
+20240318151427_create_receipts.rb
+
+
+):
+  
+activerecord (7.0.8) lib/active_record/migration.rb:662:in `check_pending!'
+activerecord (7.0.8) lib/active_record/migration.rb:627:in `block (2 levels) in call'
+activesupport (7.0.8) lib/active_support/file_update_checker.rb:83:in `execute'
+activerecord (7.0.8) lib/active_record/migration.rb:632:in `block in call'
+activerecord (7.0.8) lib/active_record/migration.rb:624:in `synchronize'
+activerecord (7.0.8) lib/active_record/migration.rb:624:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/callbacks.rb:27:in `block in call'
+activesupport (7.0.8) lib/active_support/callbacks.rb:99:in `run_callbacks'
+actionpack (7.0.8) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/actionable_exceptions.rb:17:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/debug_exceptions.rb:28:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/show_exceptions.rb:29:in `call'
+railties (7.0.8) lib/rails/rack/logger.rb:40:in `call_app'
+railties (7.0.8) lib/rails/rack/logger.rb:25:in `block in call'
+activesupport (7.0.8) lib/active_support/tagged_logging.rb:99:in `block in tagged'
+activesupport (7.0.8) lib/active_support/tagged_logging.rb:37:in `tagged'
+activesupport (7.0.8) lib/active_support/tagged_logging.rb:99:in `tagged'
+railties (7.0.8) lib/rails/rack/logger.rb:25:in `call'
+sprockets-rails (3.4.2) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/remote_ip.rb:93:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/request_id.rb:26:in `call'
+rack (2.2.8) lib/rack/method_override.rb:24:in `call'
+rack (2.2.8) lib/rack/runtime.rb:22:in `call'
+activesupport (7.0.8) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (7.0.8) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (7.0.8) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/static.rb:23:in `call'
+rack (2.2.8) lib/rack/sendfile.rb:110:in `call'
+actionpack (7.0.8) lib/action_dispatch/middleware/host_authorization.rb:138:in `call'
+rack-cors (0.4.1) lib/rack/cors.rb:81:in `call'
+railties (7.0.8) lib/rails/engine.rb:530:in `call'
+puma (5.6.8) lib/puma/configuration.rb:252:in `call'
+puma (5.6.8) lib/puma/request.rb:77:in `block in handle_request'
+puma (5.6.8) lib/puma/thread_pool.rb:340:in `with_force_shutdown'
+puma (5.6.8) lib/puma/request.rb:76:in `handle_request'
+puma (5.6.8) lib/puma/server.rb:443:in `process_client'
+puma (5.6.8) lib/puma/thread_pool.rb:147:in `block in spawn_thread'
+  [1m[35m (86.8ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (4.6ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateResidents (20240219023718)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "residents" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "situation" integer, "roka_id" integer, "has_plaque" boolean, "registration_year" integer, "address" varchar, "reference_point" varchar, "lives_in_JN" boolean, "phone" varchar, "is_on_whatsapp_group" boolean, "birthdate" date, "profession" varchar, "residents_in_the_house" integer, "observations" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240219023718"]]
+  [1m[36mTRANSACTION (5.3ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateCollects (20240219190450)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "collects" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "collected_on" date, "ammount" decimal, "resident_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_dcf2ba4729"
+FOREIGN KEY ("resident_id")
+  REFERENCES "residents" ("id")
+)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_collects_on_resident_id" ON "collects" ("resident_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240219190450"]]
+  [1m[36mTRANSACTION (4.9ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateCurrencyHandouts (20240318024034)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "currency_handouts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "start_date" date, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240318024034"]]
+  [1m[36mTRANSACTION (4.9ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateReceipts (20240318151427)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "receipts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "handout_date" date, "value" decimal, "resident_id" integer NOT NULL, "currency_handout_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_2ddc7f3807"
+FOREIGN KEY ("resident_id")
+  REFERENCES "residents" ("id")
+, CONSTRAINT "fk_rails_96ffea0dfe"
+FOREIGN KEY ("currency_handout_id")
+  REFERENCES "currency_handouts" ("id")
+)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_receipts_on_resident_id" ON "receipts" ("resident_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_receipts_on_currency_handout_id" ON "receipts" ("currency_handout_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240318151427"]]
+  [1m[36mTRANSACTION (6.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2024-03-24 20:18:25.848886"], ["updated_at", "2024-03-24 20:18:25.848886"]]
+  [1m[36mTRANSACTION (5.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started PUT "/residents/1021807983446717952" for 127.0.0.1 at 2024-03-24 17:18:34 -0300
+Started PUT "/residents/1063688422590800512" for 127.0.0.1 at 2024-03-24 17:18:34 -0300
+Started POST "/collects" for 127.0.0.1 at 2024-03-24 17:18:34 -0300
+Started POST "/collects" for 127.0.0.1 at 2024-03-24 17:18:34 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by CollectsController#create as HTML
+Processing by CollectsController#create as HTML
+  Parameters: {"id"=>470767972824425112, "collected_on"=>"2024-03-24T17:07:09.308759", "resident_id"=>920313344850818048, "ammount"=>4.0, "collect"=>{"id"=>470767972824425112, "collected_on"=>"2024-03-24T17:07:09.308759", "ammount"=>4.0, "resident_id"=>920313344850818048}}
+  Parameters: {"id"=>304649324936996672, "collected_on"=>"2024-03-24T17:05:35.725", "resident_id"=>1063688422590800512, "ammount"=>1.0, "collect"=>{"id"=>304649324936996672, "collected_on"=>"2024-03-24T17:05:35.725", "ammount"=>1.0, "resident_id"=>1063688422590800512}}
+Processing by ResidentsController#update as HTML
+Processing by ResidentsController#update as HTML
+  Parameters: {"id"=>"1021807983446717952", "name"=>"Julin do BTS", "roka_id"=>0, "situation"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"Jesus de Nazareth,Pio XII,22", "reference_point"=>"", "lives_in_JN"=>false, "phone"=>"(27) 99287-7656", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-18 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "resident"=>{"id"=>"1021807983446717952", "name"=>"Julin do BTS", "situation"=>0, "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"Jesus de Nazareth,Pio XII,22", "reference_point"=>"", "lives_in_JN"=>false, "phone"=>"(27) 99287-7656", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-18 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>""}}
+  Parameters: {"id"=>"1063688422590800512", "name"=>"Legal", "roka_id"=>1, "situation"=>1, "has_plaque"=>false, "registration_year"=>2024, "address"=>"Jesus de Nazareth,Pio XII,103", "reference_point"=>"Casa", "lives_in_JN"=>true, "phone"=>"(22) 22222-2222", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-18 00:00:00.000", "profession"=>"Jogador de League of Legends", "residents_in_the_house"=>1, "observations"=>"Gente fina", "resident"=>{"id"=>"1063688422590800512", "name"=>"Legal", "situation"=>1, "roka_id"=>1, "has_plaque"=>false, "registration_year"=>2024, "address"=>"Jesus de Nazareth,Pio XII,103", "reference_point"=>"Casa", "lives_in_JN"=>true, "phone"=>"(22) 22222-2222", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-18 00:00:00.000", "profession"=>"Jogador de League of Legends", "residents_in_the_house"=>1, "observations"=>"Gente fina"}}
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1021807983446717952], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1063688422590800512], ["LIMIT", 1]]
+Completed 404 Not Found in 14ms (ActiveRecord: 1.0ms | Allocations: 6736)
+
+
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+Completed 404 Not Found in 16ms (ActiveRecord: 0.5ms | Allocations: 7824)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find Resident with 'id'=1021807983446717952):
+  
+app/controllers/residents_controller.rb:23:in `update'
+  
+ActiveRecord::RecordNotFound (Couldn't find Resident with 'id'=1063688422590800512):
+  
+app/controllers/residents_controller.rb:23:in `update'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mResident Load (0.4ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 920313344850818048], ["LIMIT", 1]]
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1063688422590800512], ["LIMIT", 1]]
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+Completed 422 Unprocessable Entity in 349ms (Views: 5.7ms | ActiveRecord: 1.6ms | Allocations: 260503)
+
+
+Completed 422 Unprocessable Entity in 349ms (Views: 0.8ms | ActiveRecord: 0.7ms | Allocations: 260998)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-24 17:18:36 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 2ms (Views: 1.5ms | ActiveRecord: 0.2ms | Allocations: 827)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-24 17:18:36 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 57)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 3.2ms | Allocations: 1115)
+Completed 200 OK in 9ms (Views: 5.3ms | ActiveRecord: 0.2ms | Allocations: 3441)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-03-24 17:18:36 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 2ms (Views: 1.5ms | ActiveRecord: 0.2ms | Allocations: 813)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-03-24 17:18:36 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 21)
+  Rendered receipts/index.json.jbuilder (Duration: 2.9ms | Allocations: 960)
+Completed 200 OK in 7ms (Views: 3.8ms | ActiveRecord: 0.2ms | Allocations: 2688)
+
+
+Started POST "/residents" for 127.0.0.1 at 2024-03-24 17:24:50 -0300
+Started POST "/collects" for 127.0.0.1 at 2024-03-24 17:24:50 -0300
+Processing by ResidentsController#create as HTML
+  Parameters: {"id"=>1101038454702576227, "name"=>"Legal", "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"A,A,1", "reference_point"=>"", "lives_in_JN"=>false, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-24 17:18:43.207939", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "situation"=>0, "resident"=>{"id"=>1101038454702576227, "name"=>"Legal", "situation"=>0, "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"A,A,1", "reference_point"=>"", "lives_in_JN"=>false, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-24 17:18:43.207939", "profession"=>"", "residents_in_the_house"=>0, "observations"=>""}}
+Processing by CollectsController#create as HTML
+  Parameters: {"id"=>100569754286075058, "collected_on"=>"2024-03-24T17:19:01.525316", "resident_id"=>1101038454702576227, "ammount"=>1.0, "collect"=>{"id"=>100569754286075058, "collected_on"=>"2024-03-24T17:19:01.525316", "ammount"=>1.0, "resident_id"=>1101038454702576227}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1101038454702576227], ["LIMIT", 1]]
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+Completed 422 Unprocessable Entity in 14ms (Views: 0.5ms | ActiveRecord: 0.7ms | Allocations: 8357)
+
+
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mResident Create (1.1ms)[0m  [1m[32mINSERT INTO "residents" ("id", "name", "situation", "roka_id", "has_plaque", "registration_year", "address", "reference_point", "lives_in_JN", "phone", "is_on_whatsapp_group", "birthdate", "profession", "residents_in_the_house", "observations", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["id", 1101038454702576227], ["name", "Legal"], ["situation", 0], ["roka_id", 0], ["has_plaque", 0], ["registration_year", 0], ["address", "A,A,1"], ["reference_point", ""], ["lives_in_JN", 0], ["phone", "(11) 11111-1111"], ["is_on_whatsapp_group", 0], ["birthdate", "2024-03-24"], ["profession", ""], ["residents_in_the_house", 0], ["observations", ""], ["created_at", "2024-03-24 20:24:50.428699"], ["updated_at", "2024-03-24 20:24:50.428699"]]
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (9.3ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1101038454702576227]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 201 Created in 94ms (Views: 56.5ms | ActiveRecord: 10.8ms | Allocations: 22026)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-24 17:24:52 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1101038454702576227]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 3ms (Views: 2.8ms | ActiveRecord: 0.3ms | Allocations: 1707)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-24 17:24:52 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.3ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 10.0ms | Allocations: 708)
+Completed 200 OK in 11ms (Views: 10.4ms | ActiveRecord: 0.3ms | Allocations: 1010)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-03-24 17:24:52 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 3ms (Views: 1.9ms | ActiveRecord: 0.2ms | Allocations: 715)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-03-24 17:24:52 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered receipts/index.json.jbuilder (Duration: 1.8ms | Allocations: 712)
+Completed 200 OK in 3ms (Views: 2.2ms | ActiveRecord: 0.2ms | Allocations: 1013)
+
+
+Started POST "/collects" for 127.0.0.1 at 2024-03-24 17:25:13 -0300
+Processing by CollectsController#create as HTML
+  Parameters: {"id"=>12101891648834892, "collected_on"=>"2024-03-24T17:24:54.173845", "resident_id"=>1101038454702576227, "ammount"=>5.0, "collect"=>{"id"=>12101891648834892, "collected_on"=>"2024-03-24T17:24:54.173845", "ammount"=>5.0, "resident_id"=>1101038454702576227}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1101038454702576227], ["LIMIT", 1]]
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mCollect Create (0.6ms)[0m  [1m[32mINSERT INTO "collects" ("id", "collected_on", "ammount", "resident_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["id", 12101891648834892], ["collected_on", "2024-03-24"], ["ammount", 5.0], ["resident_id", 1101038454702576227], ["created_at", "2024-03-24 20:25:13.467289"], ["updated_at", "2024-03-24 20:25:13.467289"]]
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (9.4ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+Completed 201 Created in 19ms (Views: 0.4ms | ActiveRecord: 10.3ms | Allocations: 3134)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-24 17:25:15 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1101038454702576227]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 4ms (Views: 3.6ms | ActiveRecord: 0.4ms | Allocations: 1732)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-24 17:25:15 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 1.6ms | Allocations: 682)
+Completed 200 OK in 3ms (Views: 2.0ms | ActiveRecord: 0.1ms | Allocations: 981)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-03-24 17:25:15 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 3ms (Views: 2.1ms | ActiveRecord: 0.2ms | Allocations: 819)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-03-24 17:25:15 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered receipts/index.json.jbuilder (Duration: 1.8ms | Allocations: 680)
+Completed 200 OK in 3ms (Views: 2.3ms | ActiveRecord: 0.1ms | Allocations: 981)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-24 17:33:50 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (2.8ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1101038454702576227]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 8ms (Views: 4.2ms | ActiveRecord: 3.3ms | Allocations: 1936)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-24 17:33:50 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 1.6ms | Allocations: 706)
+Completed 200 OK in 3ms (Views: 2.0ms | ActiveRecord: 0.2ms | Allocations: 1005)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-03-24 17:33:50 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.6ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 3ms (Views: 1.6ms | ActiveRecord: 0.6ms | Allocations: 846)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-03-24 17:33:50 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.3ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered receipts/index.json.jbuilder (Duration: 3.1ms | Allocations: 712)
+Completed 200 OK in 4ms (Views: 3.5ms | ActiveRecord: 0.3ms | Allocations: 1013)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-24 17:35:01 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1101038454702576227]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 52ms (Views: 39.2ms | ActiveRecord: 1.8ms | Allocations: 24002)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-24 17:35:01 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 59)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.8ms | Allocations: 1269)
+Completed 200 OK in 14ms (Views: 6.0ms | ActiveRecord: 0.2ms | Allocations: 5296)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-03-24 17:35:01 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 2ms (Views: 1.6ms | ActiveRecord: 0.2ms | Allocations: 957)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-03-24 17:35:01 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 21)
+  Rendered receipts/index.json.jbuilder (Duration: 2.7ms | Allocations: 966)
+Completed 200 OK in 8ms (Views: 4.3ms | ActiveRecord: 0.2ms | Allocations: 2699)
+
+
+Started PUT "/residents/1101038454702576227" for 127.0.0.1 at 2024-03-24 17:35:54 -0300
+Processing by ResidentsController#update as HTML
+  Parameters: {"id"=>"1101038454702576227", "name"=>"Legal", "roka_id"=>3, "situation"=>1, "has_plaque"=>false, "registration_year"=>0, "address"=>"A,A,1", "reference_point"=>"", "lives_in_JN"=>false, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-24 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "resident"=>{"id"=>"1101038454702576227", "name"=>"Legal", "situation"=>1, "roka_id"=>3, "has_plaque"=>false, "registration_year"=>0, "address"=>"A,A,1", "reference_point"=>"", "lives_in_JN"=>false, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-24 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>""}}
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 1101038454702576227], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mResident Update (0.5ms)[0m  [1m[33mUPDATE "residents" SET "situation" = ?, "roka_id" = ?, "updated_at" = ? WHERE "residents"."id" = ?[0m  [["situation", 1], ["roka_id", 3], ["updated_at", "2024-03-24 20:35:54.593396"], ["id", 1101038454702576227]]
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mTRANSACTION (8.7ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1101038454702576227]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 21ms (Views: 2.7ms | ActiveRecord: 9.7ms | Allocations: 5911)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-24 17:35:56 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1101038454702576227]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 4ms (Views: 3.5ms | ActiveRecord: 0.2ms | Allocations: 1717)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-24 17:35:56 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.1ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 1.4ms | Allocations: 683)
+Completed 200 OK in 2ms (Views: 1.9ms | ActiveRecord: 0.1ms | Allocations: 984)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-03-24 17:35:56 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 2ms (Views: 1.7ms | ActiveRecord: 0.1ms | Allocations: 818)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-03-24 17:35:56 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered receipts/index.json.jbuilder (Duration: 1.6ms | Allocations: 680)
+Completed 200 OK in 3ms (Views: 2.1ms | ActiveRecord: 0.1ms | Allocations: 981)
+
+
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to AddNeedsCollectOnTheHouseToResidents (20240324211115)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "residents" ADD "needs_collect_on_the_house" boolean[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240324211115"]]
+  [1m[36mTRANSACTION (6.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/residents" for 127.0.0.1 at 2024-03-24 18:27:52 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (1.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1101038454702576227]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 60ms (Views: 43.8ms | ActiveRecord: 3.1ms | Allocations: 24482)
+
+
+  [1m[35m (8.4ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (5.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateResidents (20240219023718)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "residents" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "situation" integer, "roka_id" integer, "has_plaque" boolean, "registration_year" integer, "address" varchar, "reference_point" varchar, "lives_in_JN" boolean, "phone" varchar, "is_on_whatsapp_group" boolean, "birthdate" date, "profession" varchar, "residents_in_the_house" integer, "observations" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240219023718"]]
+  [1m[36mTRANSACTION (4.8ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateCollects (20240219190450)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE TABLE "collects" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "collected_on" date, "ammount" decimal, "resident_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_dcf2ba4729"
+FOREIGN KEY ("resident_id")
+  REFERENCES "residents" ("id")
+)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_collects_on_resident_id" ON "collects" ("resident_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240219190450"]]
+  [1m[36mTRANSACTION (4.7ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateCurrencyHandouts (20240318024034)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "currency_handouts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "start_date" date, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240318024034"]]
+  [1m[36mTRANSACTION (4.3ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateReceipts (20240318151427)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE TABLE "receipts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "handout_date" date, "value" decimal, "resident_id" integer NOT NULL, "currency_handout_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_2ddc7f3807"
+FOREIGN KEY ("resident_id")
+  REFERENCES "residents" ("id")
+, CONSTRAINT "fk_rails_96ffea0dfe"
+FOREIGN KEY ("currency_handout_id")
+  REFERENCES "currency_handouts" ("id")
+)[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE INDEX "index_receipts_on_resident_id" ON "receipts" ("resident_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_receipts_on_currency_handout_id" ON "receipts" ("currency_handout_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240318151427"]]
+  [1m[36mTRANSACTION (5.2ms)[0m  [1m[36mcommit transaction[0m
+Migrating to AddNeedsCollectOnTheHouseToResidents (20240324211115)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "residents" ADD "needs_collect_on_the_house" boolean[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240324211115"]]
+  [1m[36mTRANSACTION (4.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2024-03-24 21:28:16.051534"], ["updated_at", "2024-03-24 21:28:16.051534"]]
+  [1m[36mTRANSACTION (4.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/residents" for 127.0.0.1 at 2024-03-24 18:28:25 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 13ms (Views: 1.7ms | ActiveRecord: 0.3ms | Allocations: 4747)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-24 18:28:26 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 59)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 3.8ms | Allocations: 1272)
+Completed 200 OK in 21ms (Views: 6.8ms | ActiveRecord: 0.2ms | Allocations: 5304)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-03-24 18:28:26 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 6ms (Views: 1.2ms | ActiveRecord: 0.2ms | Allocations: 1762)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-03-24 18:28:26 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.3ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [0 times] (Duration: 0.2ms | Allocations: 21)
+  Rendered receipts/index.json.jbuilder (Duration: 5.0ms | Allocations: 966)
+Completed 200 OK in 13ms (Views: 7.1ms | ActiveRecord: 0.3ms | Allocations: 2699)
+
+
+Started POST "/residents" for 127.0.0.1 at 2024-03-24 18:28:58 -0300
+Processing by ResidentsController#create as HTML
+  Parameters: {"id"=>330714772002378023, "name"=>"Legal", "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"q,a,1", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-24 18:28:23.557677", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "situation"=>0, "needs_collect_on_the_house"=>true, "resident"=>{"id"=>330714772002378023, "name"=>"Legal", "situation"=>0, "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"q,a,1", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-24 18:28:23.557677", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "needs_collect_on_the_house"=>true}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mResident Create (1.0ms)[0m  [1m[32mINSERT INTO "residents" ("id", "name", "situation", "roka_id", "has_plaque", "registration_year", "address", "reference_point", "lives_in_JN", "phone", "is_on_whatsapp_group", "birthdate", "profession", "residents_in_the_house", "observations", "created_at", "updated_at", "needs_collect_on_the_house") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["id", 330714772002378023], ["name", "Legal"], ["situation", 0], ["roka_id", 0], ["has_plaque", 0], ["registration_year", 0], ["address", "q,a,1"], ["reference_point", ""], ["lives_in_JN", 1], ["phone", "(11) 11111-1111"], ["is_on_whatsapp_group", 0], ["birthdate", "2024-03-24"], ["profession", ""], ["residents_in_the_house", 0], ["observations", ""], ["created_at", "2024-03-24 21:28:58.171777"], ["updated_at", "2024-03-24 21:28:58.171777"], ["needs_collect_on_the_house", 1]]
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (65.3ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mCollect Load (0.7ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 201 Created in 110ms (Views: 17.5ms | ActiveRecord: 69.8ms | Allocations: 17439)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-24 18:29:00 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.4ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 6ms (Views: 4.5ms | ActiveRecord: 0.5ms | Allocations: 1641)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-24 18:29:00 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.2ms | Allocations: 683)
+Completed 200 OK in 4ms (Views: 2.7ms | ActiveRecord: 0.2ms | Allocations: 984)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-03-24 18:29:00 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 3ms (Views: 2.2ms | ActiveRecord: 0.2ms | Allocations: 687)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-03-24 18:29:00 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered receipts/index.json.jbuilder (Duration: 2.9ms | Allocations: 680)
+Completed 200 OK in 5ms (Views: 3.8ms | ActiveRecord: 0.2ms | Allocations: 981)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-24 18:30:14 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 4ms (Views: 3.0ms | ActiveRecord: 0.2ms | Allocations: 1596)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-24 18:30:14 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.1ms | Allocations: 683)
+Completed 200 OK in 3ms (Views: 2.6ms | ActiveRecord: 0.2ms | Allocations: 982)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-03-24 18:30:14 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 1ms (Views: 1.0ms | ActiveRecord: 0.1ms | Allocations: 688)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-03-24 18:30:14 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [0 times] (Duration: 0.2ms | Allocations: 17)
+  Rendered receipts/index.json.jbuilder (Duration: 2.6ms | Allocations: 681)
+Completed 200 OK in 4ms (Views: 3.1ms | ActiveRecord: 0.1ms | Allocations: 983)
+
+
+Started PUT "/residents/330714772002378023" for 127.0.0.1 at 2024-03-24 18:51:33 -0300
+Processing by ResidentsController#update as HTML
+  Parameters: {"id"=>"330714772002378023", "name"=>"Legal", "roka_id"=>0, "situation"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"q,a,1", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-24 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "needs_collect_on_the_house"=>true, "resident"=>{"id"=>"330714772002378023", "name"=>"Legal", "situation"=>0, "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"q,a,1", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-24 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "needs_collect_on_the_house"=>true}}
+  [1m[36mResident Load (1.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 330714772002378023], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+  [1m[36mCollect Load (0.4ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 29ms (Views: 4.2ms | ActiveRecord: 2.9ms | Allocations: 3084)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-24 18:51:35 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.4ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 15ms (Views: 13.3ms | ActiveRecord: 0.6ms | Allocations: 1672)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-24 18:51:35 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.3ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 3.5ms | Allocations: 706)
+Completed 200 OK in 5ms (Views: 4.4ms | ActiveRecord: 0.3ms | Allocations: 1005)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-03-24 18:51:35 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 3ms (Views: 2.0ms | ActiveRecord: 0.3ms | Allocations: 715)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-03-24 18:51:35 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.5ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [0 times] (Duration: 0.2ms | Allocations: 17)
+  Rendered receipts/index.json.jbuilder (Duration: 3.3ms | Allocations: 712)
+Completed 200 OK in 6ms (Views: 3.9ms | ActiveRecord: 0.5ms | Allocations: 1013)
+
+
+Started PUT "/residents/330714772002378023" for 127.0.0.1 at 2024-03-24 18:51:48 -0300
+Processing by ResidentsController#update as HTML
+  Parameters: {"id"=>"330714772002378023", "name"=>"Legal", "roka_id"=>0, "situation"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"q,a,1", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-24 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "needs_collect_on_the_house"=>false, "resident"=>{"id"=>"330714772002378023", "name"=>"Legal", "situation"=>0, "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"q,a,1", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-24 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "needs_collect_on_the_house"=>false}}
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 330714772002378023], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mResident Update (0.9ms)[0m  [1m[33mUPDATE "residents" SET "updated_at" = ?, "needs_collect_on_the_house" = ? WHERE "residents"."id" = ?[0m  [["updated_at", "2024-03-24 21:51:48.437168"], ["needs_collect_on_the_house", 0], ["id", 330714772002378023]]
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mTRANSACTION (10.0ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mCollect Load (0.4ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 27ms (Views: 4.2ms | ActiveRecord: 11.5ms | Allocations: 3569)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-24 18:51:50 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 7ms (Views: 5.7ms | ActiveRecord: 0.4ms | Allocations: 1596)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-24 18:51:50 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.6ms | Allocations: 682)
+Completed 200 OK in 4ms (Views: 3.3ms | ActiveRecord: 0.2ms | Allocations: 981)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-03-24 18:51:50 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 3ms (Views: 2.4ms | ActiveRecord: 0.2ms | Allocations: 687)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-03-24 18:51:50 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered receipts/index.json.jbuilder (Duration: 4.2ms | Allocations: 680)
+Completed 200 OK in 6ms (Views: 4.8ms | ActiveRecord: 0.2ms | Allocations: 981)
+
+

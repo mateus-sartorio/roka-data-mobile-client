@@ -56,6 +56,8 @@ class GlobalDatabase {
             rokaId: residentMapObject["roka_id"],
             situation: situation,
             birthdate: birthdate,
+            needsCollectOnTheHouse:
+                residentMapObject["needs_collect_on_the_house"],
             isNew: false,
             isMarkedForRemoval: false,
             wasModified: false);
@@ -343,7 +345,8 @@ class GlobalDatabase {
       "profession": resident.profession,
       "residents_in_the_house": resident.residentsInTheHouse,
       "observations": resident.observations,
-      "situation": situation
+      "situation": situation,
+      "needs_collect_on_the_house": resident.needsCollectOnTheHouse
     };
 
     var body = json.encode(data);
@@ -384,7 +387,8 @@ class GlobalDatabase {
       "birthdate": resident.birthdate.toString(),
       "profession": resident.profession,
       "residents_in_the_house": resident.residentsInTheHouse,
-      "observations": resident.observations
+      "observations": resident.observations,
+      "needs_collect_on_the_house": resident.needsCollectOnTheHouse
     };
 
     var body = json.encode(data);
@@ -437,6 +441,7 @@ class GlobalDatabase {
         r.isMarkedForRemoval = resident.isMarkedForRemoval;
         r.wasModified = resident.wasModified;
         r.isNew = resident.isNew;
+        r.needsCollectOnTheHouse = resident.needsCollectOnTheHouse;
         break;
       }
     }
@@ -452,26 +457,26 @@ class GlobalDatabase {
         return resident;
       } else {
         return Resident(
-          id: id,
-          address: resident.address,
-          collects: resident.collects,
-          hasPlaque: resident.hasPlaque,
-          isOnWhatsappGroup: resident.isOnWhatsappGroup,
-          livesInJN: resident.livesInJN,
-          name: resident.name,
-          observations: resident.observations,
-          phone: resident.phone,
-          profession: resident.profession,
-          referencePoint: resident.referencePoint,
-          registrationYear: resident.registrationYear,
-          residentsInTheHouse: resident.residentsInTheHouse,
-          rokaId: resident.rokaId,
-          situation: resident.situation,
-          birthdate: resident.birthdate,
-          isMarkedForRemoval: true,
-          wasModified: true,
-          isNew: resident.isNew,
-        );
+            id: id,
+            address: resident.address,
+            collects: resident.collects,
+            hasPlaque: resident.hasPlaque,
+            isOnWhatsappGroup: resident.isOnWhatsappGroup,
+            livesInJN: resident.livesInJN,
+            name: resident.name,
+            observations: resident.observations,
+            phone: resident.phone,
+            profession: resident.profession,
+            referencePoint: resident.referencePoint,
+            registrationYear: resident.registrationYear,
+            residentsInTheHouse: resident.residentsInTheHouse,
+            rokaId: resident.rokaId,
+            situation: resident.situation,
+            birthdate: resident.birthdate,
+            isMarkedForRemoval: true,
+            wasModified: true,
+            isNew: resident.isNew,
+            needsCollectOnTheHouse: resident.needsCollectOnTheHouse);
       }
     }).toList();
 

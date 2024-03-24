@@ -19,7 +19,7 @@ class ResidentAdapter extends TypeAdapter<Resident> {
     return Resident(
       id: fields[0] as int,
       address: fields[2] as String,
-      collects: (fields[18] as List).cast<Collect>(),
+      collects: (fields[19] as List).cast<Collect>(),
       hasPlaque: fields[9] as bool,
       isOnWhatsappGroup: fields[8] as bool,
       livesInJN: fields[4] as bool,
@@ -32,17 +32,18 @@ class ResidentAdapter extends TypeAdapter<Resident> {
       residentsInTheHouse: fields[11] as int,
       rokaId: fields[12] as int,
       situation: fields[13] as Situation,
-      isNew: fields[15] as bool,
+      needsCollectOnTheHouse: fields[15] as bool,
+      isNew: fields[16] as bool,
       birthdate: fields[6] as DateTime,
-      isMarkedForRemoval: fields[17] as bool,
-      wasModified: fields[16] as bool,
+      isMarkedForRemoval: fields[18] as bool,
+      wasModified: fields[17] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Resident obj) {
     writer
-      ..writeByte(19)
+      ..writeByte(20)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -74,12 +75,14 @@ class ResidentAdapter extends TypeAdapter<Resident> {
       ..writeByte(14)
       ..write(obj.observations)
       ..writeByte(15)
-      ..write(obj.isNew)
+      ..write(obj.needsCollectOnTheHouse)
       ..writeByte(16)
-      ..write(obj.wasModified)
+      ..write(obj.isNew)
       ..writeByte(17)
-      ..write(obj.isMarkedForRemoval)
+      ..write(obj.wasModified)
       ..writeByte(18)
+      ..write(obj.isMarkedForRemoval)
+      ..writeByte(19)
       ..write(obj.collects);
   }
 

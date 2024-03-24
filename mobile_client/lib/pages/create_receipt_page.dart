@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/components/big_button_tile.dart';
 import 'package:mobile_client/data/database.dart';
+import 'package:mobile_client/enums/situation.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/currency_handout.dart';
 import 'package:mobile_client/models/receipt.dart';
@@ -125,35 +126,94 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
         isMarkedForRemoval: false,
         wasModified: isNewReceipt ? false : true);
 
-    if (widget.isOldReceipt) {
-      db.updateOldReceipt(newReceipt);
-    } else if (isNewReceipt) {
-      db.saveNewReceipt(newReceipt);
-    } else {
-      db.updateReceipt(newReceipt);
+    String message = "";
+    bool isInactiveResident = false;
+    if (selectedResident?.situation == Situation.inactive) {
+      message =
+          "Este residente está inativo, ao registrar uma entrega em seu nome, ele se tornará ativo novamente. Deseja continuar?";
+      isInactiveResident = true;
+    } else if (selectedResident?.situation == Situation.noContact) {
+      message =
+          "Este residente está sem contato, ao registrar uma entrega em seu nome, ele se tornará ativo novamente. Deseja continuar?";
+      isInactiveResident = true;
     }
 
-    Navigator.pop(context);
-
-    showDialog(
+    if (isInactiveResident) {
+      showDialog(
         context: context,
         builder: (context) {
-          Future.delayed(const Duration(milliseconds: 1000), () {
-            Navigator.of(context).pop(true);
-          });
+          return DialogBox(
+            title: message,
+            onSave: () {
+              selectedResident?.situation = Situation.active;
+              db.updateResident(selectedResident!);
 
-          return AlertDialog(
-            title: const Text(
-              "Entrega salva com sucesso",
-              style: TextStyle(fontSize: 14),
-            ),
-            surfaceTintColor: Colors.transparent,
-            elevation: 0.0,
-            alignment: Alignment.bottomCenter,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              if (widget.isOldReceipt) {
+                db.updateOldReceipt(newReceipt);
+              } else if (isNewReceipt) {
+                db.saveNewReceipt(newReceipt);
+              } else {
+                db.updateReceipt(newReceipt);
+              }
+
+              Navigator.of(context).pop(true);
+              Navigator.of(context).pop(true);
+
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    Future.delayed(const Duration(milliseconds: 1000), () {
+                      Navigator.of(context).pop(true);
+                    });
+
+                    return AlertDialog(
+                      title: const Text(
+                        "Entrega salva com sucesso",
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      surfaceTintColor: Colors.transparent,
+                      elevation: 0.0,
+                      alignment: Alignment.bottomCenter,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                    );
+                  });
+            },
+            onCancel: () => Navigator.of(context).pop(true),
           );
-        });
+        },
+      );
+    } else {
+      if (widget.isOldReceipt) {
+        db.updateOldReceipt(newReceipt);
+      } else if (isNewReceipt) {
+        db.saveNewReceipt(newReceipt);
+      } else {
+        db.updateReceipt(newReceipt);
+      }
+
+      Navigator.pop(context);
+
+      showDialog(
+          context: context,
+          builder: (context) {
+            Future.delayed(const Duration(milliseconds: 1000), () {
+              Navigator.of(context).pop(true);
+            });
+
+            return AlertDialog(
+              title: const Text(
+                "Entrega salva com sucesso",
+                style: TextStyle(fontSize: 14),
+              ),
+              surfaceTintColor: Colors.transparent,
+              elevation: 0.0,
+              alignment: Alignment.bottomCenter,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+            );
+          });
+    }
   }
 
   void deleteReceipt() {

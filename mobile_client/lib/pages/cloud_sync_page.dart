@@ -15,6 +15,7 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
   GlobalDatabase db = GlobalDatabase();
 
   void showWarning() {
+    Navigator.of(context).pop(true);
     showDialog(
       context: context,
       builder: (context) {

@@ -26,9 +26,10 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
   bool isMarkedForRemoval = false;
   bool isBeingCreated = true;
 
-  bool livesInJN = false;
+  bool livesInJN = true;
   bool isOnWhatsappGroup = false;
   bool hasPlaque = false;
+  bool needsCollectOnTheHouse = false;
   String selectedSituation = "Ativo";
   String _previousPhoneNumberString = "";
 
@@ -65,6 +66,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
       _referencePointController.text = widget.resident?.referencePoint ?? "";
 
       livesInJN = widget.resident?.livesInJN ?? false;
+      needsCollectOnTheHouse = widget.resident?.needsCollectOnTheHouse ?? false;
 
       _referencePointController.text = widget.resident?.referencePoint ?? "";
       _phoneController.text = widget.resident?.phone ?? "";
@@ -255,6 +257,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
         rokaId: int.tryParse(_rokaIdController.text) ?? 0,
         situation: situation,
         birthdate: selectedDate ?? DateTime.now(),
+        needsCollectOnTheHouse: needsCollectOnTheHouse,
         isNew: widget.resident?.isNew ?? isNewResident,
         isMarkedForRemoval: false,
         wasModified: isNewResident ? false : true);
@@ -543,6 +546,16 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                   value: livesInJN,
                   onChanged: (bool? newValue) => setState(() {
                     livesInJN = newValue ?? false;
+                  }),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                CheckboxListTile(
+                  title: const Text("Precisa de coleta na casa?"),
+                  value: needsCollectOnTheHouse,
+                  onChanged: (bool? newValue) => setState(() {
+                    needsCollectOnTheHouse = newValue ?? true;
                   }),
                 ),
                 const SizedBox(

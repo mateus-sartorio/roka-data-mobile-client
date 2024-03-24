@@ -8,14 +8,16 @@ import 'package:mobile_client/models/resident.dart';
 import 'package:mobile_client/pages/create_resident_page.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-class ResidentsPage extends StatefulWidget {
-  const ResidentsPage({Key? key}) : super(key: key);
+class ResidentsThatNeedCollectOnTheHousePage extends StatefulWidget {
+  const ResidentsThatNeedCollectOnTheHousePage({Key? key}) : super(key: key);
 
   @override
-  State<ResidentsPage> createState() => _ResidentsPageState();
+  State<ResidentsThatNeedCollectOnTheHousePage> createState() =>
+      _ResidentsThatNeedCollectOnTheHousePageState();
 }
 
-class _ResidentsPageState extends State<ResidentsPage> {
+class _ResidentsThatNeedCollectOnTheHousePageState
+    extends State<ResidentsThatNeedCollectOnTheHousePage> {
   GlobalDatabase db = GlobalDatabase();
 
   void deleteResident(int residentId) {
@@ -38,7 +40,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
 
                   return AlertDialog(
                     title: const Text(
-                      "Residente desativado :(",
+                      "Residente removido :(",
                       style: TextStyle(fontSize: 14),
                       textAlign: TextAlign.center,
                     ),
@@ -61,15 +63,17 @@ class _ResidentsPageState extends State<ResidentsPage> {
     return ValueListenableBuilder(
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
-          final dynamicResisentsList = box.get("RESIDENTS");
-          List<Resident> residents = [];
-
-          for (dynamic r in dynamicResisentsList) {
-            residents.add(r as Resident);
+          final List<Resident> allResidentsDynamicList = box.get("RESIDENTS");
+          List<Resident> allResidents = [];
+          for (dynamic r in allResidentsDynamicList) {
+            allResidents.add(r as Resident);
           }
 
+          List<Resident> filteredResidents =
+              allResidents.where((r) => r.needsCollectOnTheHouse).toList();
+
           Widget body;
-          if (residents.isEmpty) {
+          if (filteredResidents.isEmpty) {
             body = Animate(
               effects: const [
                 SlideEffect(
@@ -97,13 +101,14 @@ class _ResidentsPageState extends State<ResidentsPage> {
                 children: [
                   Expanded(
                     child: ListView.builder(
-                        itemCount: residents.length,
+                        itemCount: filteredResidents.length,
                         itemBuilder: (context, index) {
-                          int roketeDisplayNumber = residents[index].rokaId;
+                          int roketeDisplayNumber =
+                              filteredResidents[index].rokaId;
 
                           Container tag = Container();
                           bool showTag = false;
-                          if (residents[index].isMarkedForRemoval) {
+                          if (filteredResidents[index].isMarkedForRemoval) {
                             tag = Container(
                               decoration: BoxDecoration(
                                   color: Colors.red,
@@ -118,7 +123,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                             );
 
                             showTag = true;
-                          } else if (residents[index].situation ==
+                          } else if (filteredResidents[index].situation ==
                               Situation.inactive) {
                             tag = Container(
                               decoration: BoxDecoration(
@@ -134,7 +139,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                             );
 
                             showTag = true;
-                          } else if (residents[index].situation ==
+                          } else if (filteredResidents[index].situation ==
                               Situation.noContact) {
                             tag = Container(
                               decoration: BoxDecoration(
@@ -150,7 +155,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                             );
 
                             showTag = true;
-                          } else if (residents[index].isNew) {
+                          } else if (filteredResidents[index].isNew) {
                             tag = Container(
                               decoration: BoxDecoration(
                                   color: Theme.of(context).primaryColorLight,
@@ -165,7 +170,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                             );
 
                             showTag = true;
-                          } else if (residents[index].wasModified) {
+                          } else if (filteredResidents[index].wasModified) {
                             tag = Container(
                               decoration: BoxDecoration(
                                   color: Colors.green[300],
@@ -185,7 +190,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                           String roketeDisplayNumberString = "";
                           if (roketeDisplayNumber > 0) {
                             roketeDisplayNumberString =
-                                "ROKETE Nº ${residents[index].rokaId}";
+                                "ROKETE Nº ${filteredResidents[index].rokaId}";
                           } else {
                             roketeDisplayNumberString =
                                 "ROKETE SEM IDENTIFICAÇÃO";
@@ -199,8 +204,8 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                 motion: const StretchMotion(),
                                 children: [
                                   SlidableAction(
-                                    onPressed: (context) =>
-                                        deleteResident(residents[index].id),
+                                    onPressed: (context) => deleteResident(
+                                        filteredResidents[index].id),
                                     icon: Icons.delete,
                                     backgroundColor: Colors.red,
                                     borderRadius: BorderRadius.circular(10),
@@ -215,7 +220,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                   children: [
                                     Visibility(visible: showTag, child: tag),
                                     Text(
-                                      residents[index].name,
+                                      filteredResidents[index].name,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18),
@@ -235,7 +240,8 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                           builder: (context) =>
                                               CreateResidentPage(
                                                   text: "Dados do residente",
-                                                  resident: residents[index])));
+                                                  resident: filteredResidents[
+                                                      index])));
                                 },
                                 leading: const Icon(
                                   Icons.person,
@@ -258,7 +264,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
               appBar: AppBar(
                   centerTitle: true,
                   title: const Text(
-                    "♻️ Residentes",
+                    "♻️ Rota",
                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                   backgroundColor: Colors.transparent,
@@ -271,17 +277,6 @@ class _ResidentsPageState extends State<ResidentsPage> {
                       icon: const Icon(Icons.arrow_back_outlined),
                     ),
                   )),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CreateResidentPage(
-                                text: "Cadastrar novo residente",
-                              )));
-                },
-                child: const Icon(Icons.add),
-              ),
               body: body);
         });
   }

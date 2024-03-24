@@ -9,6 +9,7 @@ import 'package:mobile_client/pages/currency_handouts_page.dart';
 import 'package:mobile_client/pages/receipts_page.dart';
 import 'package:mobile_client/pages/residents_page.dart';
 import 'package:mobile_client/pages/cloud_sync_page.dart';
+import 'package:mobile_client/pages/residents_that_need_collect_in_the_house_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -138,6 +139,22 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const CurrencyHandoutsPage()));
+              },
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            child: ListTile(
+              leading: const Icon(Icons.route),
+              title: const Text("Rota"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const ResidentsThatNeedCollectOnTheHousePage()));
               },
             ),
           ),

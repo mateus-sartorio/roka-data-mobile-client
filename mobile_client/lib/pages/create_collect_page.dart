@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/components/big_button_tile.dart';
 import 'package:mobile_client/data/database.dart';
+import 'package:mobile_client/enums/situation.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/collect.dart';
 import 'package:mobile_client/models/resident.dart';
@@ -120,35 +121,94 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
         isMarkedForRemoval: false,
         wasModified: isNewCollect ? false : true);
 
-    if (widget.isOldCollect) {
-      db.updateOldCollect(newCollect);
-    } else if (isNewCollect) {
-      db.saveNewCollect(newCollect);
-    } else {
-      db.updateCollect(newCollect);
+    String message = "";
+    bool isInactiveResident = false;
+    if (selectedResident?.situation == Situation.inactive) {
+      message =
+          "Este residente está inativo, ao registrar uma coleta em seu nome, ele se tornará ativo novamente. Deseja continuar?";
+      isInactiveResident = true;
+    } else if (selectedResident?.situation == Situation.noContact) {
+      message =
+          "Este residente está sem contato, ao registrar uma coleta em seu nome, ele se tornará ativo novamente. Deseja continuar?";
+      isInactiveResident = true;
     }
 
-    Navigator.pop(context);
-
-    showDialog(
+    if (isInactiveResident) {
+      showDialog(
         context: context,
         builder: (context) {
-          Future.delayed(const Duration(milliseconds: 1000), () {
-            Navigator.of(context).pop(true);
-          });
+          return DialogBox(
+            title: message,
+            onSave: () {
+              selectedResident?.situation = Situation.active;
+              db.updateResident(selectedResident!);
 
-          return AlertDialog(
-            title: const Text(
-              "Coleta salva com sucesso",
-              style: TextStyle(fontSize: 14),
-            ),
-            surfaceTintColor: Colors.transparent,
-            elevation: 0.0,
-            alignment: Alignment.bottomCenter,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              if (widget.isOldCollect) {
+                db.updateOldCollect(newCollect);
+              } else if (isNewCollect) {
+                db.saveNewCollect(newCollect);
+              } else {
+                db.updateCollect(newCollect);
+              }
+
+              Navigator.of(context).pop(true);
+              Navigator.of(context).pop(true);
+
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    Future.delayed(const Duration(milliseconds: 1000), () {
+                      Navigator.of(context).pop(true);
+                    });
+
+                    return AlertDialog(
+                      title: const Text(
+                        "Coleta salva com sucesso",
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      surfaceTintColor: Colors.transparent,
+                      elevation: 0.0,
+                      alignment: Alignment.bottomCenter,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                    );
+                  });
+            },
+            onCancel: () => Navigator.of(context).pop(true),
           );
-        });
+        },
+      );
+    } else {
+      if (widget.isOldCollect) {
+        db.updateOldCollect(newCollect);
+      } else if (isNewCollect) {
+        db.saveNewCollect(newCollect);
+      } else {
+        db.updateCollect(newCollect);
+      }
+
+      Navigator.of(context).pop(true);
+
+      showDialog(
+          context: context,
+          builder: (context) {
+            Future.delayed(const Duration(milliseconds: 1000), () {
+              Navigator.of(context).pop(true);
+            });
+
+            return AlertDialog(
+              title: const Text(
+                "Coleta salva com sucesso",
+                style: TextStyle(fontSize: 14),
+              ),
+              surfaceTintColor: Colors.transparent,
+              elevation: 0.0,
+              alignment: Alignment.bottomCenter,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+            );
+          });
+    }
   }
 
   void deleteCollect() {
