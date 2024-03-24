@@ -88,14 +88,6 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
               ],
               child: Column(
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                    child: Text(
-                      "Distribuições da moeda",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w800, fontSize: 22),
-                    ),
-                  ),
                   Expanded(
                     child: ListView.builder(
                         itemCount: currencyHandouts?.length ?? 0,
@@ -230,7 +222,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
               appBar: AppBar(
                   centerTitle: true,
                   title: const Text(
-                    "♻️ Entregas da moeda",
+                    "♻️ Distribuições da moeda",
                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                   backgroundColor: Colors.transparent,

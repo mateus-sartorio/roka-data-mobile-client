@@ -4,6 +4,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:mobile_client/pages/all_receipts_page.dart';
 import 'package:mobile_client/pages/create_receipt_page.dart';
 
 class ReceiptsPage extends StatefulWidget {
@@ -21,7 +22,7 @@ class _ReceiptsPageState extends State<ReceiptsPage> {
       context: context,
       builder: (context) {
         return DialogBox(
-          title: "Tem certeza que deseja apagar esta entrega?",
+          title: "Tem certeza que deseja remover esta entrega?",
           onSave: () {
             db.deleteReceipt(receiptId);
             Navigator.of(context).pop(true);
@@ -59,23 +60,6 @@ class _ReceiptsPageState extends State<ReceiptsPage> {
         builder: (context, Box box, _) {
           final receipts = box.get("RECEIPTS");
 
-          if ((receipts?.length ?? 0) == 0) {
-            return Animate(
-              effects: const [
-                SlideEffect(
-                  begin: Offset(1, 0),
-                  end: Offset(0, 0),
-                  duration: Duration(milliseconds: 200),
-                )
-              ],
-              child: const Center(
-                  child: Text(
-                "Nenhuma entrega ainda :(",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              )),
-            );
-          }
-
           return Animate(
             effects: const [
               SlideEffect(
@@ -86,103 +70,196 @@ class _ReceiptsPageState extends State<ReceiptsPage> {
             ],
             child: Column(
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                  child: Text(
-                    "Entregas",
-                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 22),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, left: 30, right: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Salvas localmente",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 20),
+                        textAlign: TextAlign.center,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const AllReceiptsPage()));
+                        },
+                        child: const Text(
+                          "Ver todas",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w900, fontSize: 12),
+                        ),
+                      )
+                    ],
                   ),
                 ),
-                Expanded(
-                  child: ListView.builder(
-                      itemCount: receipts?.length ?? 0,
-                      itemBuilder: (context, index) {
-                        String residentName = db
-                                .getResidentById(
-                                    receipts?[index].residentId ?? -1)
-                                ?.name ??
-                            "";
+                (receipts?.length ?? 0) == 0
+                    ? const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 200,
+                          ),
+                          Text(
+                            "Nenhuma entrega ainda :(",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      )
+                    : Expanded(
+                        child: ListView.builder(
+                            itemCount: receipts?.length ?? 0,
+                            itemBuilder: (context, index) {
+                              String residentName = db
+                                      .getResidentById(
+                                          receipts?[index].residentId ?? -1)
+                                      ?.name ??
+                                  "";
 
-                        String value = receipts?[index]?.value.toString() ?? "";
+                              String value = receipts[index]
+                                  .value
+                                  .toStringAsFixed(2)
+                                  .replaceAll(".", ",");
 
-                        List<String> dayMonthYear = receipts?[index]
-                                ?.handoutDate
-                                .toString()
-                                .split(" ")[0]
-                                .split("-") ??
-                            ["", "", ""];
+                              List<String> dayMonthYear = receipts?[index]
+                                      ?.handoutDate
+                                      .toString()
+                                      .split(" ")[0]
+                                      .split("-") ??
+                                  ["", "", ""];
 
-                        String date =
-                            "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+                              String date =
+                                  "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
 
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8.0, horizontal: 15.0),
-                          child: Slidable(
-                            endActionPane: ActionPane(
-                              motion: const StretchMotion(),
-                              children: [
-                                SlidableAction(
-                                  onPressed: (context) =>
-                                      deleteReceipt(receipts?[index]?.id ?? -1),
-                                  icon: Icons.delete,
-                                  backgroundColor: Colors.red,
-                                  borderRadius: BorderRadius.circular(10),
-                                )
-                              ],
-                            ),
-                            child: ListTile(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0)),
-                              // tileColor: Theme.of(context).highlightColor,
-                              title: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                              Widget tag = Container();
+                              bool showTag = false;
+                              if (receipts[index]?.isMarkedForRemoval ??
+                                  false) {
+                                tag = const Text(
+                                  "MARCADO PARA REMOÇÃO",
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                  ),
+                                );
+
+                                showTag = true;
+                              } else if (receipts[index]?.isNew ?? false) {
+                                tag = Container(
+                                  decoration: BoxDecoration(
+                                      color:
+                                          Theme.of(context).primaryColorLight,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: const Text(
+                                    "SALVO LOCALMENTE",
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                );
+
+                                showTag = true;
+                              } else if (receipts[index]?.wasModified ??
+                                  false) {
+                                tag = Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.green[300],
+                                      borderRadius: BorderRadius.circular(8)),
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: const Text(
+                                    "MODIFICADO",
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                );
+
+                                showTag = true;
+                              }
+
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8.0, horizontal: 15.0),
+                                child: Slidable(
+                                  endActionPane: ActionPane(
+                                    motion: const StretchMotion(),
                                     children: [
-                                      Text(
-                                        residentName,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 17),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      Text(date,
-                                          style: const TextStyle(fontSize: 13)),
+                                      SlidableAction(
+                                        onPressed: (context) => deleteReceipt(
+                                            receipts?[index]?.id ?? -1),
+                                        icon: Icons.delete,
+                                        backgroundColor: Colors.red,
+                                        borderRadius: BorderRadius.circular(10),
+                                      )
                                     ],
                                   ),
-                                  Text(
-                                    "${value.toString().replaceAll(".", ",")} rokas",
-                                    style: const TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w500),
+                                  child: ListTile(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0)),
+                                    // tileColor: Theme.of(context).highlightColor,
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Visibility(
+                                                visible: showTag, child: tag),
+                                            Text(
+                                              residentName,
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 17),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                            Text(date,
+                                                style: const TextStyle(
+                                                    fontSize: 13)),
+                                          ],
+                                        ),
+                                        Text(
+                                          value,
+                                          style: const TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ],
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CreateReceiptPage(
+                                                      isOldReceipt: false,
+                                                      text:
+                                                          "Alterar dados da entrega",
+                                                      receipt:
+                                                          receipts?[index])));
+                                    },
+                                    leading: const Icon(
+                                      Icons.monetization_on_rounded,
+                                      size: 30,
+                                    ),
+                                    trailing: const Icon(
+                                      Icons.chevron_right,
+                                    ),
                                   ),
-                                ],
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => CreateReceiptPage(
-                                            text: "Alterar dados da entrega",
-                                            receipt: receipts?[index])));
-                              },
-                              leading: const Icon(
-                                Icons.monetization_on_rounded,
-                                size: 30,
-                              ),
-                              trailing: const Icon(
-                                Icons.chevron_right,
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
-                ),
+                                ),
+                              );
+                            }),
+                      ),
               ],
             ),
           );

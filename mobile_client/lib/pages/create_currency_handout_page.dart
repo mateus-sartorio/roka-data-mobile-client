@@ -329,7 +329,7 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.delete, color: Colors.white),
-                            Text("  Removar permanentemente",
+                            Text("  Remover",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 12)),
                           ],

@@ -10,8 +10,10 @@ import 'package:mobile_client/utils/integer_id_generator.dart';
 class CreateCollectPage extends StatefulWidget {
   final Collect? collect;
   final String text;
+  final bool isOldCollect;
 
-  const CreateCollectPage({Key? key, this.collect, required this.text})
+  const CreateCollectPage(
+      {Key? key, this.collect, required this.text, required this.isOldCollect})
       : super(key: key);
 
   @override
@@ -90,10 +92,14 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
 
   bool isFormOk() {
     RegExp decimalPattern = RegExp(r'^\d+(?:[.,]\d{1,2})?$');
+    RegExp zeroPattern = RegExp(r'^0+(?:[.,]0{1,2})?$');
 
     if (!decimalPattern.hasMatch(_weightController.text)) {
       warnInvalidRegistrationData(
           "Peso inválido (deve ser um número decimal com no máximo duas casas decimais, separado por \".\" ou \",\")");
+      return false;
+    } else if (zeroPattern.hasMatch(_weightController.text)) {
+      warnInvalidRegistrationData("O peso deve ser maior que zero");
       return false;
     }
 
@@ -110,9 +116,13 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
         ammount: double.parse(_weightController.text.replaceAll(",", ".")),
         collectedOn: selectedDate!,
         residentId: (selectedResident?.id)!,
-        isNew: true);
+        isNew: widget.collect?.isNew ?? isNewCollect,
+        isMarkedForRemoval: false,
+        wasModified: isNewCollect ? false : true);
 
-    if (isNewCollect) {
+    if (widget.isOldCollect) {
+      db.updateOldCollect(newCollect);
+    } else if (isNewCollect) {
       db.saveNewCollect(newCollect);
     } else {
       db.updateCollect(newCollect);
@@ -146,9 +156,16 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
       context: context,
       builder: (context) {
         return DialogBox(
-          title: "Tem certeza que deseja apagar esta coleta?",
+          title: widget.isOldCollect
+              ? "Tem certeza que deseja remover esta coleta? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)"
+              : "Tem certeza que deseja remover esta coleta?",
           onSave: () {
-            db.deleteCollect((selectedResident?.id)!);
+            if (widget.isOldCollect) {
+              db.deleteOldCollect(widget.collect?.id ?? -1);
+            } else {
+              db.deleteCollect(widget.collect?.id ?? -1);
+            }
+
             Navigator.of(context).pop(true);
             Navigator.of(context).pop(true);
             showDialog(
@@ -179,6 +196,58 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget tag = Container();
+    bool showTag = false;
+    if (widget.collect?.isMarkedForRemoval ?? false) {
+      tag = Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.red, borderRadius: BorderRadius.circular(8)),
+            padding: const EdgeInsets.all(5.0),
+            child: const Text(
+              "MARCADO PARA REMOÇÃO",
+              style: TextStyle(
+                fontSize: 10,
+              ),
+            ),
+          ),
+          IconButton(onPressed: saveNewCollect, icon: const Icon(Icons.restore))
+        ],
+      );
+
+      showTag = true;
+    } else if (widget.collect?.isNew ?? false) {
+      tag = Container(
+        decoration: BoxDecoration(
+            color: Theme.of(context).primaryColorLight,
+            borderRadius: BorderRadius.circular(8)),
+        padding: const EdgeInsets.all(5.0),
+        child: const Text(
+          "SALVO LOCALMENTE",
+          style: TextStyle(
+            fontSize: 10,
+          ),
+        ),
+      );
+
+      showTag = true;
+    } else if (widget.collect?.wasModified ?? false) {
+      tag = Container(
+        decoration: BoxDecoration(
+            color: Colors.green[300], borderRadius: BorderRadius.circular(8)),
+        padding: const EdgeInsets.all(5.0),
+        child: const Text(
+          "MODIFICADO",
+          style: TextStyle(
+            fontSize: 10,
+          ),
+        ),
+      );
+
+      showTag = true;
+    }
+
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
@@ -214,15 +283,20 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Visibility(visible: showTag, child: tag),
+                  const SizedBox(
+                    height: 15,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 8.0, horizontal: 15),
-                    child: Text(
-                      widget.text,
-                      textAlign: TextAlign.start,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w900, fontSize: 25),
-                    ),
+                    child: Text(widget.text,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 22)),
                   ),
                   const SizedBox(
                     height: 20,
@@ -300,7 +374,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.delete, color: Colors.white),
-                            Text("  Apagar",
+                            Text("  Remover",
                                 style: TextStyle(color: Colors.white)),
                           ],
                         ),

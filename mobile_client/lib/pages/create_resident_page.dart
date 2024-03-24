@@ -297,7 +297,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
           title:
               "Tem certeza que deseja remover este residente? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
           onSave: () {
-            db.deleteResident((widget.resident?.id)!, true);
+            db.deleteResident((widget.resident?.id)!);
             Navigator.of(context).pop(true);
             Navigator.of(context).pop(true);
             showDialog(
@@ -704,7 +704,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.delete, color: Colors.white),
-                            Text("  Removar permanentemente",
+                            Text("  Remover",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 12)),
                           ],

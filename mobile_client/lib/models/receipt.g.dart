@@ -23,13 +23,15 @@ class ReceiptAdapter extends TypeAdapter<Receipt> {
       residentId: fields[3] as int,
       currencyHandoutId: fields[4] as int,
       isNew: fields[5] as bool,
+      wasModified: fields[6] as bool,
+      isMarkedForRemoval: fields[7] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Receipt obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -41,7 +43,11 @@ class ReceiptAdapter extends TypeAdapter<Receipt> {
       ..writeByte(4)
       ..write(obj.currencyHandoutId)
       ..writeByte(5)
-      ..write(obj.isNew);
+      ..write(obj.isNew)
+      ..writeByte(6)
+      ..write(obj.wasModified)
+      ..writeByte(7)
+      ..write(obj.isMarkedForRemoval);
   }
 
   @override

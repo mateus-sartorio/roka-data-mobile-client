@@ -11,8 +11,10 @@ import 'package:mobile_client/utils/integer_id_generator.dart';
 class CreateReceiptPage extends StatefulWidget {
   final Receipt? receipt;
   final String text;
+  final bool isOldReceipt;
 
-  const CreateReceiptPage({Key? key, this.receipt, required this.text})
+  const CreateReceiptPage(
+      {Key? key, this.receipt, required this.text, required this.isOldReceipt})
       : super(key: key);
 
   @override
@@ -94,10 +96,14 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
 
   bool isFormOk() {
     RegExp decimalPattern = RegExp(r'^\d+(?:[.,]\d{1,2})?$');
+    RegExp zeroPattern = RegExp(r'^0+(?:[.,]0{1,2})?$');
 
     if (!decimalPattern.hasMatch(_valueController.text)) {
       warnInvalidRegistrationData(
           "Valor inválido (deve ser um número decimal com no máximo duas casas decimais, separado por \".\" ou \",\")");
+      return false;
+    } else if (zeroPattern.hasMatch(_valueController.text)) {
+      warnInvalidRegistrationData("O valor deve ser maior que zero");
       return false;
     }
 
@@ -115,9 +121,13 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
         handoutDate: selectedDate!,
         residentId: (selectedResident?.id)!,
         currencyHandoutId: (selectedCurrencyHandout?.id)!,
-        isNew: isNewReceipt);
+        isNew: widget.receipt?.isNew ?? isNewReceipt,
+        isMarkedForRemoval: false,
+        wasModified: isNewReceipt ? false : true);
 
-    if (isNewReceipt) {
+    if (widget.isOldReceipt) {
+      db.updateOldReceipt(newReceipt);
+    } else if (isNewReceipt) {
       db.saveNewReceipt(newReceipt);
     } else {
       db.updateReceipt(newReceipt);
@@ -146,14 +156,21 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
         });
   }
 
-  void deleteCollect() {
+  void deleteReceipt() {
     showDialog(
       context: context,
       builder: (context) {
         return DialogBox(
-          title: "Tem certeza que deseja apagar esta entrega?",
+          title: widget.isOldReceipt
+              ? "Tem certeza que deseja remover esta entrega? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)"
+              : "Tem certeza que deseja remover esta entrega?",
           onSave: () {
-            db.deleteCollect((selectedResident?.id)!);
+            if (widget.isOldReceipt) {
+              db.deleteOldReceipt(widget.receipt?.id ?? -1);
+            } else {
+              db.deleteReceipt(widget.receipt?.id ?? -1);
+            }
+
             Navigator.of(context).pop(true);
             Navigator.of(context).pop(true);
             showDialog(
@@ -165,7 +182,7 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
 
                   return AlertDialog(
                     title: const Text(
-                      "Coleta removida com sucesso",
+                      "Entrega removida com sucesso",
                       style: TextStyle(fontSize: 14),
                     ),
                     surfaceTintColor: Colors.transparent,
@@ -184,6 +201,58 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget tag = Container();
+    bool showTag = false;
+    if (widget.receipt?.isMarkedForRemoval ?? false) {
+      tag = Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.red, borderRadius: BorderRadius.circular(8)),
+            padding: const EdgeInsets.all(5.0),
+            child: const Text(
+              "MARCADO PARA REMOÇÃO",
+              style: TextStyle(
+                fontSize: 10,
+              ),
+            ),
+          ),
+          IconButton(onPressed: saveNewReceipt, icon: const Icon(Icons.restore))
+        ],
+      );
+
+      showTag = true;
+    } else if (widget.receipt?.isNew ?? false) {
+      tag = Container(
+        decoration: BoxDecoration(
+            color: Theme.of(context).primaryColorLight,
+            borderRadius: BorderRadius.circular(8)),
+        padding: const EdgeInsets.all(5.0),
+        child: const Text(
+          "SALVO LOCALMENTE",
+          style: TextStyle(
+            fontSize: 10,
+          ),
+        ),
+      );
+
+      showTag = true;
+    } else if (widget.receipt?.wasModified ?? false) {
+      tag = Container(
+        decoration: BoxDecoration(
+            color: Colors.green[300], borderRadius: BorderRadius.circular(8)),
+        padding: const EdgeInsets.all(5.0),
+        child: const Text(
+          "MODIFICADO",
+          style: TextStyle(
+            fontSize: 10,
+          ),
+        ),
+      );
+
+      showTag = true;
+    }
+
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
@@ -232,6 +301,13 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Visibility(visible: showTag, child: tag),
+                  const SizedBox(
+                    height: 15,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 8.0, horizontal: 15),
@@ -337,11 +413,11 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.delete, color: Colors.white),
-                            Text("  Apagar",
+                            Text("  Remover",
                                 style: TextStyle(color: Colors.white)),
                           ],
                         ),
-                        onPressed: deleteCollect,
+                        onPressed: deleteReceipt,
                         isSolid: true),
                   ),
                 ],

@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage> {
               context,
               MaterialPageRoute(
                   builder: (context) => const CreateCollectPage(
+                        isOldCollect: false,
                         text: "Cadastrar nova coleta",
                       )));
         },
@@ -59,11 +60,18 @@ class _HomePageState extends State<HomePage> {
               context,
               MaterialPageRoute(
                   builder: (context) => const CreateReceiptPage(
+                        isOldReceipt: false,
                         text: "Cadastrar nova entrega",
                       )));
         },
         child: const Icon(Icons.add),
       ),
+    ];
+
+    final List<String> titles = [
+      "♻️ Coletas",
+      "♻️ Sincronizar dados",
+      "♻️ Entregas",
     ];
 
     return Scaffold(
@@ -72,9 +80,9 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(child: pages[_selectedIndex]),
       appBar: AppBar(
           centerTitle: true,
-          title: const Text(
-            "♻️ Roka",
-            style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+          title: Text(
+            titles[_selectedIndex],
+            style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.white,
           elevation: 0,
