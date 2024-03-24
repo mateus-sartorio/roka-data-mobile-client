@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage> {
               context,
               MaterialPageRoute(
                   builder: (context) => const CreateCollectPage(
+                        isOldCollect: false,
                         text: "Cadastrar nova coleta",
                       )));
         },
@@ -59,6 +60,7 @@ class _HomePageState extends State<HomePage> {
               context,
               MaterialPageRoute(
                   builder: (context) => const CreateReceiptPage(
+                        isOldReceipt: false,
                         text: "Cadastrar nova entrega",
                       )));
         },

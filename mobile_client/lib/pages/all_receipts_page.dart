@@ -3,29 +3,29 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
-import 'package:mobile_client/models/collect.dart';
-import 'package:mobile_client/pages/create_collect_page.dart';
+import 'package:mobile_client/models/receipt.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:mobile_client/pages/create_receipt_page.dart';
 
-class AllCollectsPage extends StatefulWidget {
-  const AllCollectsPage({Key? key}) : super(key: key);
+class AllReceiptsPage extends StatefulWidget {
+  const AllReceiptsPage({Key? key}) : super(key: key);
 
   @override
-  State<AllCollectsPage> createState() => _AllCollectsPageState();
+  State<AllReceiptsPage> createState() => _AllReceiptsPageState();
 }
 
-class _AllCollectsPageState extends State<AllCollectsPage> {
+class _AllReceiptsPageState extends State<AllReceiptsPage> {
   GlobalDatabase db = GlobalDatabase();
 
-  void deleteCollect(int collectId) {
+  void deleteReceipt(int receiptId) {
     showDialog(
       context: context,
       builder: (context) {
         return DialogBox(
           title:
-              "Tem certeza que deseja remover esta coleta? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
+              "Tem certeza que deseja remover esta entrega? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
           onSave: () {
-            db.deleteOldCollect(collectId);
+            db.deleteOldReceipt(receiptId);
             Navigator.of(context).pop(true);
 
             showDialog(
@@ -37,7 +37,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
 
                   return AlertDialog(
                     title: const Text(
-                      "Coleta removida com sucesso",
+                      "Entrega removida com sucesso",
                       style: TextStyle(fontSize: 14),
                     ),
                     surfaceTintColor: Colors.transparent,
@@ -59,17 +59,17 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
     return ValueListenableBuilder(
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
-          var dynamicCollects = box.get("ALL_DATABASE_COLLECTS") ?? [];
-          List<Collect> collects = [];
-          for (dynamic c in dynamicCollects) {
-            collects.add(c as Collect);
+          var dynamicReceipts = box.get("ALL_DATABASE_RECEIPTS") ?? [];
+          List<Receipt> receipts = [];
+          for (dynamic r in dynamicReceipts) {
+            receipts.add(r as Receipt);
           }
 
-          collects.sort(
-              (Collect a, Collect b) => b.collectedOn.compareTo(a.collectedOn));
+          receipts.sort(
+              (Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
 
           Widget body;
-          if (collects.isEmpty) {
+          if (receipts.isEmpty) {
             body = Animate(
               effects: const [
                 SlideEffect(
@@ -80,7 +80,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
               ],
               child: const Center(
                   child: Text(
-                "Nenhuma coleta  :(",
+                "Nenhuma entrega  :(",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               )),
             );
@@ -97,17 +97,20 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                 children: [
                   Expanded(
                     child: ListView.builder(
-                        itemCount: collects.length,
+                        itemCount: receipts.length,
                         itemBuilder: (context, index) {
                           String residentName = db
-                                  .getResidentById(collects[index].residentId)
+                                  .getResidentById(receipts[index].residentId)
                                   ?.name ??
                               "";
 
-                          String weight = collects[index].ammount.toString();
+                          String value = receipts[index]
+                              .value
+                              .toStringAsFixed(2)
+                              .replaceAll(".", ",");
 
-                          List<String> dayMonthYear = collects[index]
-                              .collectedOn
+                          List<String> dayMonthYear = receipts[index]
+                              .handoutDate
                               .toString()
                               .split(" ")[0]
                               .split("-");
@@ -117,7 +120,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
 
                           Widget tag = Container();
                           bool showTag = false;
-                          if (collects[index].isMarkedForRemoval) {
+                          if (receipts[index].isMarkedForRemoval) {
                             tag = Container(
                               decoration: BoxDecoration(
                                   color: Colors.red,
@@ -132,7 +135,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                             );
 
                             showTag = true;
-                          } else if (collects[index].isNew) {
+                          } else if (receipts[index].isNew) {
                             tag = Container(
                               decoration: BoxDecoration(
                                   color: Theme.of(context).primaryColorLight,
@@ -147,7 +150,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                             );
 
                             showTag = true;
-                          } else if (collects[index].wasModified) {
+                          } else if (receipts[index].wasModified) {
                             tag = Container(
                               decoration: BoxDecoration(
                                   color: Colors.green[300],
@@ -169,8 +172,8 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                             children: [
                               Visibility(
                                   visible: index == 0 ||
-                                      collects[index].collectedOn !=
-                                          collects[index - 1].collectedOn,
+                                      receipts[index].handoutDate !=
+                                          receipts[index - 1].handoutDate,
                                   child: Padding(
                                     padding: EdgeInsets.only(
                                         left: 25, top: (index == 0 ? 10 : 25)),
@@ -191,7 +194,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                                     children: [
                                       SlidableAction(
                                         onPressed: (context) =>
-                                            deleteCollect(collects[index].id),
+                                            deleteReceipt(receipts[index].id),
                                         icon: Icons.delete,
                                         backgroundColor: Colors.red,
                                         borderRadius: BorderRadius.circular(10),
@@ -227,7 +230,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                                           ],
                                         ),
                                         Text(
-                                          "${weight.toString().replaceAll(".", ",")} kg",
+                                          value,
                                           style: const TextStyle(
                                               fontSize: 17,
                                               fontWeight: FontWeight.w500),
@@ -239,12 +242,12 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  CreateCollectPage(
-                                                      isOldCollect: true,
+                                                  CreateReceiptPage(
+                                                      isOldReceipt: true,
                                                       text:
-                                                          "Alterar dados da coleta",
-                                                      collect:
-                                                          collects[index])));
+                                                          "Alterar dados da entrega",
+                                                      receipt:
+                                                          receipts[index])));
                                     },
                                     leading: const Icon(
                                       Icons.shopping_bag,
@@ -269,7 +272,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
               appBar: AppBar(
                   centerTitle: true,
                   title: const Text(
-                    "♻️ Todas coletas",
+                    "♻️ Todas entregas",
                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                   backgroundColor: Colors.transparent,

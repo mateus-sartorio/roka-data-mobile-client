@@ -17,14 +17,14 @@ class CollectsPage extends StatefulWidget {
 class _CollectsPageState extends State<CollectsPage> {
   GlobalDatabase db = GlobalDatabase();
 
-  void deleteCollect(int residentId) {
+  void deleteCollect(int collectId) {
     showDialog(
       context: context,
       builder: (context) {
         return DialogBox(
-          title: "Tem certeza que deseja apagar esta coleta?",
+          title: "Tem certeza que deseja remover esta coleta?",
           onSave: () {
-            db.deleteCollect(residentId);
+            db.deleteCollect(collectId);
             Navigator.of(context).pop(true);
 
             showDialog(
@@ -135,6 +135,52 @@ class _CollectsPageState extends State<CollectsPage> {
                               String date =
                                   "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
 
+                              Widget tag = Container();
+                              bool showTag = false;
+                              if (collects[index]?.isMarkedForRemoval ??
+                                  false) {
+                                tag = const Text(
+                                  "MARCADO PARA REMOÇÃO",
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                  ),
+                                );
+
+                                showTag = true;
+                              } else if (collects[index]?.isNew ?? false) {
+                                tag = Container(
+                                  decoration: BoxDecoration(
+                                      color:
+                                          Theme.of(context).primaryColorLight,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: const Text(
+                                    "SALVO LOCALMENTE",
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                );
+
+                                showTag = true;
+                              } else if (collects[index]?.wasModified ??
+                                  false) {
+                                tag = Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.green[300],
+                                      borderRadius: BorderRadius.circular(8)),
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: const Text(
+                                    "MODIFICADO",
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                );
+
+                                showTag = true;
+                              }
+
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 8.0, horizontal: 15.0),
@@ -144,7 +190,7 @@ class _CollectsPageState extends State<CollectsPage> {
                                     children: [
                                       SlidableAction(
                                         onPressed: (context) => deleteCollect(
-                                            collects?[index]?.residentId ?? -1),
+                                            collects?[index]?.id ?? -1),
                                         icon: Icons.delete,
                                         backgroundColor: Colors.red,
                                         borderRadius: BorderRadius.circular(10),
@@ -166,6 +212,8 @@ class _CollectsPageState extends State<CollectsPage> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
+                                            Visibility(
+                                                visible: showTag, child: tag),
                                             Text(
                                               residentName,
                                               style: const TextStyle(
@@ -192,6 +240,7 @@ class _CollectsPageState extends State<CollectsPage> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   CreateCollectPage(
+                                                      isOldCollect: false,
                                                       text:
                                                           "Alterar dados da coleta",
                                                       collect:

@@ -22,11 +22,19 @@ class Receipt extends HiveObject {
   @HiveField(5)
   bool isNew;
 
+  @HiveField(6)
+  bool wasModified;
+
+  @HiveField(7)
+  bool isMarkedForRemoval;
+
   Receipt(
       {required this.id,
       required this.value,
       required this.handoutDate,
       required this.residentId,
       required this.currencyHandoutId,
-      required this.isNew});
+      required this.isNew,
+      required this.wasModified,
+      required this.isMarkedForRemoval});
 }

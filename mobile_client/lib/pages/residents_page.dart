@@ -22,9 +22,10 @@ class _ResidentsPageState extends State<ResidentsPage> {
       context: context,
       builder: (context) {
         return DialogBox(
-          title: "Tem certeza que deseja desativar este residente?",
+          title:
+              "Tem certeza que deseja remover este residente? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
           onSave: () {
-            db.deleteResident(residentId, false);
+            db.deleteResident(residentId);
             Navigator.of(context).pop(true);
 
             showDialog(
