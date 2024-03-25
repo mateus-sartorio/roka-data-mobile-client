@@ -4,7 +4,9 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:mobile_client/models/currency_handout.dart';
 import 'package:mobile_client/pages/create_currency_handout_page.dart';
+import 'package:mobile_client/utils/list_conversions.dart';
 
 class CurrencyHandoutsPage extends StatefulWidget {
   const CurrencyHandoutsPage({Key? key}) : super(key: key);
@@ -58,10 +60,16 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
     return ValueListenableBuilder(
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
-          final currencyHandouts = box.get("CURRENCY_HANDOUTS");
+          final currencyHandoutsDynamicList = box.get("CURRENCY_HANDOUTS");
+
+          List<CurrencyHandout> currencyHandouts =
+              dynamicListToTList(currencyHandoutsDynamicList);
+
+          currencyHandouts.sort((CurrencyHandout a, CurrencyHandout b) =>
+              b.startDate.compareTo(a.startDate));
 
           Widget body;
-          if ((currencyHandouts?.length ?? 0) == 0) {
+          if (currencyHandouts.isEmpty) {
             body = Animate(
               effects: const [
                 SlideEffect(
@@ -90,22 +98,20 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                 children: [
                   Expanded(
                     child: ListView.builder(
-                        itemCount: currencyHandouts?.length ?? 0,
+                        itemCount: currencyHandouts.length,
                         itemBuilder: (context, index) {
-                          List<String> dayMonthYear = currencyHandouts?[index]
-                                  ?.startDate
-                                  .toString()
-                                  .split(" ")[0]
-                                  .split("-") ??
-                              ["", "", ""];
+                          List<String> dayMonthYear = currencyHandouts[index]
+                              .startDate
+                              .toString()
+                              .split(" ")[0]
+                              .split("-");
 
                           String date =
                               "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
 
                           Widget tag = Container();
                           bool showTag = false;
-                          if (currencyHandouts?[index]?.isMarkedForRemoval ??
-                              false) {
+                          if (currencyHandouts[index].isMarkedForRemoval) {
                             tag = Container(
                               decoration: BoxDecoration(
                                   color: Colors.red,
@@ -120,7 +126,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                             );
 
                             showTag = true;
-                          } else if (currencyHandouts?[index]?.isNew ?? false) {
+                          } else if (currencyHandouts[index].isNew) {
                             tag = Container(
                               decoration: BoxDecoration(
                                   color: Theme.of(context).primaryColorLight,
@@ -135,8 +141,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                             );
 
                             showTag = true;
-                          } else if (currencyHandouts?[index]?.wasModified ??
-                              false) {
+                          } else if (currencyHandouts[index].wasModified) {
                             tag = Container(
                               decoration: BoxDecoration(
                                   color: Colors.green[300],
@@ -163,7 +168,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                                   SlidableAction(
                                     onPressed: (context) =>
                                         deleteCurrencyHandout(
-                                      currencyHandouts?[index]?.id ?? -1,
+                                      currencyHandouts[index].id,
                                     ),
                                     icon: Icons.delete,
                                     backgroundColor: Colors.red,
@@ -179,7 +184,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                                   children: [
                                     Visibility(visible: showTag, child: tag),
                                     Text(
-                                      currencyHandouts?[index]?.title,
+                                      currencyHandouts[index].title,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 17),
@@ -198,7 +203,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                                                   text:
                                                       "Alterar dados da distribuição de moeda",
                                                   currencyHandout:
-                                                      currencyHandouts?[
+                                                      currencyHandouts[
                                                           index])));
                                 },
                                 leading: const Icon(

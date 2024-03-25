@@ -14,93 +14,128 @@ class GlobalDatabase {
 
   Future<void> fetchDataFromBackend() async {
     try {
-      const String backendRoute = "http://10.0.2.2:3000/residents";
-      Uri uri = Uri.parse(backendRoute);
-
-      final Response response = await http.get(uri);
-      List<dynamic> responseBody = jsonDecode(response.body);
-
-      List<Resident> residents = [];
-      for (dynamic residentMapObject in responseBody) {
-        DateTime birthdate = DateTime.now();
-        try {
-          birthdate = DateTime.parse(residentMapObject["birthdate"]);
-        } catch (e) {
-          birthdate = DateTime.now();
-        }
-
-        Situation situation = Situation.active;
-        int receivedSituation = residentMapObject["situation"];
-        if (receivedSituation == 0) {
-          situation = Situation.active;
-        } else if (receivedSituation == 1) {
-          situation = Situation.inactive;
-        } else {
-          situation = Situation.noContact;
-        }
-
-        Resident resident = Resident(
-            id: residentMapObject["id"],
-            address: residentMapObject["address"],
-            collects: [],
-            hasPlaque: residentMapObject["has_plaque"],
-            isOnWhatsappGroup: residentMapObject["is_on_whatsapp_group"],
-            livesInJN: residentMapObject["lives_in_JN"],
-            name: residentMapObject["name"],
-            observations: residentMapObject["observations"],
-            phone: residentMapObject["phone"],
-            profession: residentMapObject["profession"],
-            referencePoint: residentMapObject["reference_point"],
-            registrationYear: residentMapObject["registration_year"],
-            residentsInTheHouse: residentMapObject["residents_in_the_house"],
-            rokaId: residentMapObject["roka_id"],
-            situation: situation,
-            birthdate: birthdate,
-            needsCollectOnTheHouse:
-                residentMapObject["needs_collect_on_the_house"],
-            isNew: false,
-            isMarkedForRemoval: false,
-            wasModified: false);
-
-        residents.add(resident);
-      }
-
-      const String currencyHandoutsBackendRoute =
-          "http://10.0.2.2:3000/currency_handouts.json";
-      Uri currencyHandoutsUri = Uri.parse(currencyHandoutsBackendRoute);
-
-      final Response currencyHandoutsResponse =
-          await http.get(currencyHandoutsUri);
-      List<dynamic> currencyHandoutsResponseBody =
-          jsonDecode(currencyHandoutsResponse.body);
-
-      List<CurrencyHandout> currencyHandouts = [];
-      for (dynamic currencyHandoutMapObject in currencyHandoutsResponseBody) {
-        DateTime startDate = DateTime.now();
-        try {
-          startDate = DateTime.parse(currencyHandoutMapObject["start_date"]);
-        } catch (e) {
-          startDate = DateTime.now();
-        }
-
-        CurrencyHandout currencyHandout = CurrencyHandout(
-            id: currencyHandoutMapObject["id"],
-            title: currencyHandoutMapObject["title"],
-            startDate: startDate,
-            isNew: false,
-            isMarkedForRemoval: false,
-            wasModified: false);
-
-        currencyHandouts.add(currencyHandout);
-      }
-
-      await _myBox.put("RESIDENTS", residents);
-      await _myBox.put("CURRENCY_HANDOUTS", currencyHandouts);
+      await fetchAllResidents();
+      await fetchAllCurrencyHandouts();
+      await fetchAllCollects();
+      await fetchAllReceipts();
       await _myBox.put("COLLECTS", []);
       await _myBox.put("RECEIPTS", []);
     } catch (e) {
       throw Exception(e);
     }
+  }
+
+  Future<void> fetchAllResidents() async {
+    const String backendRoute = "http://10.0.2.2:3000/residents";
+    Uri uri = Uri.parse(backendRoute);
+
+    final Response response = await http.get(uri);
+    List<dynamic> responseBody = jsonDecode(response.body);
+
+    List<Resident> residents = [];
+    for (dynamic residentMapObject in responseBody) {
+      DateTime birthdate = DateTime.now();
+      try {
+        birthdate = DateTime.parse(residentMapObject["birthdate"]);
+      } catch (e) {
+        birthdate = DateTime.now();
+      }
+
+      Situation situation = Situation.active;
+      int receivedSituation = residentMapObject["situation"];
+      if (receivedSituation == 0) {
+        situation = Situation.active;
+      } else if (receivedSituation == 1) {
+        situation = Situation.inactive;
+      } else {
+        situation = Situation.noContact;
+      }
+
+      final receiptsResponse = residentMapObject["receipts"];
+      List<Receipt> receipts = [];
+      for (dynamic r in receiptsResponse) {
+        receipts.add(Receipt(
+            id: r["id"],
+            value: double.tryParse(r["value"]) ?? 0,
+            handoutDate: DateTime.tryParse(r["handout_date"]) ?? DateTime.now(),
+            residentId: r["resident_id"],
+            currencyHandoutId: r["currency_handout_id"],
+            isNew: false,
+            wasModified: false,
+            isMarkedForRemoval: false));
+      }
+
+      receipts.sort(
+          (Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
+
+      Resident resident = Resident(
+          id: residentMapObject["id"],
+          address: residentMapObject["address"],
+          collects: [],
+          hasPlaque: residentMapObject["has_plaque"],
+          isOnWhatsappGroup: residentMapObject["is_on_whatsapp_group"],
+          livesInJN: residentMapObject["lives_in_JN"],
+          name: residentMapObject["name"],
+          observations: residentMapObject["observations"],
+          phone: residentMapObject["phone"],
+          profession: residentMapObject["profession"],
+          referencePoint: residentMapObject["reference_point"],
+          registrationYear: residentMapObject["registration_year"],
+          residentsInTheHouse: residentMapObject["residents_in_the_house"],
+          rokaId: residentMapObject["roka_id"],
+          situation: situation,
+          birthdate: birthdate,
+          needsCollectOnTheHouse:
+              residentMapObject["needs_collect_on_the_house"],
+          receipts: receipts,
+          isNew: false,
+          isMarkedForRemoval: false,
+          wasModified: false);
+
+      residents.add(resident);
+    }
+
+    await _myBox.put("RESIDENTS", residents);
+  }
+
+  Future<void> fetchAllCurrencyHandouts() async {
+    const String currencyHandoutsBackendRoute =
+        "http://10.0.2.2:3000/currency_handouts.json";
+    Uri currencyHandoutsUri = Uri.parse(currencyHandoutsBackendRoute);
+
+    final Response currencyHandoutsResponse =
+        await http.get(currencyHandoutsUri);
+    List<dynamic> currencyHandoutsResponseBody =
+        jsonDecode(currencyHandoutsResponse.body);
+
+    List<CurrencyHandout> currencyHandouts = [];
+    for (dynamic currencyHandoutMapObject in currencyHandoutsResponseBody) {
+      DateTime startDate = DateTime.now();
+      try {
+        startDate = DateTime.parse(currencyHandoutMapObject["start_date"]);
+      } catch (e) {
+        startDate = DateTime.now();
+      }
+
+      CurrencyHandout currencyHandout = CurrencyHandout(
+          id: currencyHandoutMapObject["id"],
+          title: currencyHandoutMapObject["title"],
+          startDate: startDate,
+          isNew: false,
+          isMarkedForRemoval: false,
+          wasModified: false);
+
+      currencyHandouts.add(currencyHandout);
+    }
+
+    currencyHandouts.sort((CurrencyHandout a, CurrencyHandout b) =>
+        b.startDate.compareTo(a.startDate));
+
+    if (currencyHandouts.isNotEmpty) {
+      await _myBox.put("LAST_CURRENCY_HANDOUT", currencyHandouts[0]);
+    }
+
+    await _myBox.put("CURRENCY_HANDOUTS", currencyHandouts);
   }
 
   Future<void> fetchAllCollects() async {
@@ -421,6 +456,9 @@ class GlobalDatabase {
   void updateResident(Resident resident) {
     List<dynamic> residentsList = _myBox.get("RESIDENTS") ?? [];
 
+    resident.receipts
+        .sort((Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
+
     for (dynamic r in residentsList) {
       if (r.id == resident.id) {
         r.address = resident.address;
@@ -460,6 +498,7 @@ class GlobalDatabase {
             id: id,
             address: resident.address,
             collects: resident.collects,
+            receipts: resident.receipts,
             hasPlaque: resident.hasPlaque,
             isOnWhatsappGroup: resident.isOnWhatsappGroup,
             livesInJN: resident.livesInJN,
@@ -530,6 +569,11 @@ class GlobalDatabase {
   void saveNewReceipt(Receipt receipt) {
     List<dynamic> receiptsList = _myBox.get("RECEIPTS") ?? [];
     receiptsList.add(receipt);
+
+    Resident resident = getResidentById(receipt.residentId)!;
+    resident.receipts.add(receipt);
+    updateResident(resident);
+
     _myBox.put("RECEIPTS", receiptsList);
   }
 

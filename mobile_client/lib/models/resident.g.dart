@@ -37,13 +37,14 @@ class ResidentAdapter extends TypeAdapter<Resident> {
       birthdate: fields[6] as DateTime,
       isMarkedForRemoval: fields[18] as bool,
       wasModified: fields[17] as bool,
+      receipts: (fields[20] as List).cast<Receipt>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, Resident obj) {
     writer
-      ..writeByte(20)
+      ..writeByte(21)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -83,7 +84,9 @@ class ResidentAdapter extends TypeAdapter<Resident> {
       ..writeByte(18)
       ..write(obj.isMarkedForRemoval)
       ..writeByte(19)
-      ..write(obj.collects);
+      ..write(obj.collects)
+      ..writeByte(20)
+      ..write(obj.receipts);
   }
 
   @override

@@ -5,6 +5,6 @@ class Resident < ApplicationRecord
   has_many :currency_handouts, through: :receipts
 
   def as_json(options = {})
-    super(include: :collect)
+    super(include: [ :collect, :receipts ] ) 
   end
 end

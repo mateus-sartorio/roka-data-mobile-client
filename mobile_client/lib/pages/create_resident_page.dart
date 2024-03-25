@@ -243,6 +243,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
         address:
             "${_neighborhoodController.text},${_streetController.text},${_houseNumberController.text}",
         collects: widget.resident?.collects ?? [],
+        receipts: widget.resident?.receipts ?? [],
         hasPlaque: hasPlaque,
         isOnWhatsappGroup: isOnWhatsappGroup,
         livesInJN: livesInJN,

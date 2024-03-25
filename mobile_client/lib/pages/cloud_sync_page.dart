@@ -94,8 +94,6 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
       await db.sendDataToBackend();
       await Future.delayed(const Duration(seconds: 2));
       await db.fetchDataFromBackend();
-      await db.fetchAllCollects();
-      await db.fetchAllReceipts();
       showSuccessMessage();
     } catch (e) {
       showWarning();

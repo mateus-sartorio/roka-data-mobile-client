@@ -4,6 +4,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/enums/situation.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
+import 'package:mobile_client/models/currency_handout.dart';
 import 'package:mobile_client/models/resident.dart';
 import 'package:mobile_client/pages/create_resident_page.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -103,29 +104,23 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                     child: ListView.builder(
                         itemCount: filteredResidents.length,
                         itemBuilder: (context, index) {
-                          int roketeDisplayNumber =
-                              filteredResidents[index].rokaId;
+                          final CurrencyHandout? lastCurrencyHandout = box
+                              .get("LAST_CURRENCY_HANDOUT") as CurrencyHandout?;
 
-                          Container tag = Container();
+                          bool displayCoin = false;
+                          if (filteredResidents[index].receipts.isNotEmpty &&
+                              filteredResidents[index]
+                                      .receipts[0]
+                                      .currencyHandoutId ==
+                                  lastCurrencyHandout?.id) {
+                            displayCoin = true;
+                          }
+
+                          List<Widget> tags = <Widget>[];
                           bool showTag = false;
-                          if (filteredResidents[index].isMarkedForRemoval) {
-                            tag = Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(8)),
-                              padding: const EdgeInsets.all(5.0),
-                              child: const Text(
-                                "MARCADO PARA REMOÇÃO",
-                                style: TextStyle(
-                                  fontSize: 8,
-                                ),
-                              ),
-                            );
-
-                            showTag = true;
-                          } else if (filteredResidents[index].situation ==
+                          if (filteredResidents[index].situation ==
                               Situation.inactive) {
-                            tag = Container(
+                            tags.add(Container(
                               decoration: BoxDecoration(
                                   color: Colors.orange,
                                   borderRadius: BorderRadius.circular(8)),
@@ -136,12 +131,14 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                                   fontSize: 8,
                                 ),
                               ),
-                            );
-
+                            ));
+                            tags.add(const SizedBox(
+                              width: 5,
+                            ));
                             showTag = true;
                           } else if (filteredResidents[index].situation ==
                               Situation.noContact) {
-                            tag = Container(
+                            tags.add(Container(
                               decoration: BoxDecoration(
                                   color: Colors.orange,
                                   borderRadius: BorderRadius.circular(8)),
@@ -152,11 +149,32 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                                   fontSize: 8,
                                 ),
                               ),
-                            );
+                            ));
+                            tags.add(const SizedBox(
+                              width: 5,
+                            ));
+                            showTag = true;
+                          }
 
+                          if (filteredResidents[index].isMarkedForRemoval) {
+                            tags.add(Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(8)),
+                              padding: const EdgeInsets.all(5.0),
+                              child: const Text(
+                                "MARCADO PARA REMOÇÃO",
+                                style: TextStyle(
+                                  fontSize: 8,
+                                ),
+                              ),
+                            ));
+                            tags.add(const SizedBox(
+                              width: 5,
+                            ));
                             showTag = true;
                           } else if (filteredResidents[index].isNew) {
-                            tag = Container(
+                            tags.add(Container(
                               decoration: BoxDecoration(
                                   color: Theme.of(context).primaryColorLight,
                                   borderRadius: BorderRadius.circular(8)),
@@ -167,11 +185,13 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                                   fontSize: 8,
                                 ),
                               ),
-                            );
-
+                            ));
+                            tags.add(const SizedBox(
+                              width: 5,
+                            ));
                             showTag = true;
                           } else if (filteredResidents[index].wasModified) {
-                            tag = Container(
+                            tags.add(Container(
                               decoration: BoxDecoration(
                                   color: Colors.green[300],
                                   borderRadius: BorderRadius.circular(8)),
@@ -182,11 +202,15 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                                   fontSize: 8,
                                 ),
                               ),
-                            );
-
+                            ));
+                            tags.add(const SizedBox(
+                              width: 5,
+                            ));
                             showTag = true;
                           }
 
+                          int roketeDisplayNumber =
+                              filteredResidents[index].rokaId;
                           String roketeDisplayNumberString = "";
                           if (roketeDisplayNumber > 0) {
                             roketeDisplayNumberString =
@@ -218,7 +242,14 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Visibility(visible: showTag, child: tag),
+                                    Visibility(
+                                        visible: displayCoin,
+                                        child: const Icon(
+                                          Icons.monetization_on_rounded,
+                                          color:
+                                              Color.fromARGB(255, 255, 215, 0),
+                                          size: 20,
+                                        )),
                                     Text(
                                       filteredResidents[index].name,
                                       style: const TextStyle(
@@ -231,6 +262,9 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                                           fontSize: 10,
                                           fontWeight: FontWeight.w400),
                                     ),
+                                    Visibility(
+                                        visible: showTag,
+                                        child: Row(children: tags)),
                                   ],
                                 ),
                                 onTap: () {

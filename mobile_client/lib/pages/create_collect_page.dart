@@ -96,12 +96,15 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
     RegExp decimalPattern = RegExp(r'^\d+(?:[.,]\d{1,2})?$');
     RegExp zeroPattern = RegExp(r'^0+(?:[.,]0{1,2})?$');
 
-    if (!decimalPattern.hasMatch(_weightController.text)) {
+    if (selectedResident == null) {
+      warnInvalidRegistrationData("Selecione um residente.");
+      return false;
+    } else if (!decimalPattern.hasMatch(_weightController.text)) {
       warnInvalidRegistrationData(
-          "Peso inválido (deve ser um número decimal com no máximo duas casas decimais, separado por \".\" ou \",\")");
+          "Peso inválido (deve ser um número decimal com no máximo duas casas decimais, separado por \".\" ou \",\").");
       return false;
     } else if (zeroPattern.hasMatch(_weightController.text)) {
-      warnInvalidRegistrationData("O peso deve ser maior que zero");
+      warnInvalidRegistrationData("O peso deve ser maior que zero.");
       return false;
     }
 

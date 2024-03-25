@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:mobile_client/enums/situation.dart';
 import 'package:mobile_client/models/collect.dart';
+import 'package:mobile_client/models/receipt.dart';
 
 part 'resident.g.dart';
 
@@ -66,6 +67,9 @@ class Resident extends HiveObject {
   @HiveField(19)
   List<Collect> collects;
 
+  @HiveField(20)
+  List<Receipt> receipts;
+
   Resident(
       {required this.id,
       required this.address,
@@ -86,5 +90,6 @@ class Resident extends HiveObject {
       required this.isNew,
       required this.birthdate,
       required this.isMarkedForRemoval,
-      required this.wasModified});
+      required this.wasModified,
+      required this.receipts});
 }

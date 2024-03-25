@@ -100,12 +100,18 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
     RegExp decimalPattern = RegExp(r'^\d+(?:[.,]\d{1,2})?$');
     RegExp zeroPattern = RegExp(r'^0+(?:[.,]0{1,2})?$');
 
-    if (!decimalPattern.hasMatch(_valueController.text)) {
+    if (selectedResident == null) {
+      warnInvalidRegistrationData("Selecione um residente.");
+      return false;
+    } else if (selectedCurrencyHandout == null) {
+      warnInvalidRegistrationData("Selecione uma distribuição de moeda.");
+      return false;
+    } else if (!decimalPattern.hasMatch(_valueController.text)) {
       warnInvalidRegistrationData(
-          "Valor inválido (deve ser um número decimal com no máximo duas casas decimais, separado por \".\" ou \",\")");
+          "Valor inválido (deve ser um número decimal com no máximo duas casas decimais, separado por \".\" ou \",\").");
       return false;
     } else if (zeroPattern.hasMatch(_valueController.text)) {
-      warnInvalidRegistrationData("O valor deve ser maior que zero");
+      warnInvalidRegistrationData("O valor deve ser maior que zero.");
       return false;
     }
 
