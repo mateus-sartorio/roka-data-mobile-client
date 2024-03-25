@@ -95,6 +95,9 @@ class GlobalDatabase {
       residents.add(resident);
     }
 
+    residents.sort((Resident a, Resident b) =>
+        a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
     await _myBox.put("RESIDENTS", residents);
   }
 
@@ -450,6 +453,10 @@ class GlobalDatabase {
   void saveNewResident(Resident resident) {
     List<dynamic> residentsList = _myBox.get("RESIDENTS") ?? [];
     residentsList.add(resident);
+
+    residentsList.sort((dynamic a, dynamic b) =>
+        a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
     _myBox.put("RESIDENTS", residentsList);
   }
 
@@ -483,6 +490,9 @@ class GlobalDatabase {
         break;
       }
     }
+
+    residentsList.sort((dynamic a, dynamic b) =>
+        a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
     _myBox.put("RESIDENTS", residentsList);
   }
@@ -518,6 +528,9 @@ class GlobalDatabase {
             needsCollectOnTheHouse: resident.needsCollectOnTheHouse);
       }
     }).toList();
+
+    residentsList.sort((dynamic a, dynamic b) =>
+        a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
     _myBox.put("RESIDENTS", filteredList);
   }

@@ -64,17 +64,16 @@ class _ResidentsThatNeedCollectOnTheHousePageState
     return ValueListenableBuilder(
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
-          final List<Resident> allResidentsDynamicList = box.get("RESIDENTS");
+          final allResidentsDynamicList = box.get("RESIDENTS");
           List<Resident> allResidents = [];
           for (dynamic r in allResidentsDynamicList) {
-            allResidents.add(r as Resident);
+            if (r.needsCollectOnTheHouse) {
+              allResidents.add(r as Resident);
+            }
           }
 
-          List<Resident> filteredResidents =
-              allResidents.where((r) => r.needsCollectOnTheHouse).toList();
-
           Widget body;
-          if (filteredResidents.isEmpty) {
+          if (allResidents.isEmpty) {
             body = Animate(
               effects: const [
                 SlideEffect(
@@ -102,14 +101,14 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                 children: [
                   Expanded(
                     child: ListView.builder(
-                        itemCount: filteredResidents.length,
+                        itemCount: allResidents.length,
                         itemBuilder: (context, index) {
                           final CurrencyHandout? lastCurrencyHandout = box
                               .get("LAST_CURRENCY_HANDOUT") as CurrencyHandout?;
 
                           bool displayCoin = false;
-                          if (filteredResidents[index].receipts.isNotEmpty &&
-                              filteredResidents[index]
+                          if (allResidents[index].receipts.isNotEmpty &&
+                              allResidents[index]
                                       .receipts[0]
                                       .currencyHandoutId ==
                                   lastCurrencyHandout?.id) {
@@ -118,7 +117,7 @@ class _ResidentsThatNeedCollectOnTheHousePageState
 
                           List<Widget> tags = <Widget>[];
                           bool showTag = false;
-                          if (filteredResidents[index].situation ==
+                          if (allResidents[index].situation ==
                               Situation.inactive) {
                             tags.add(Container(
                               decoration: BoxDecoration(
@@ -136,7 +135,7 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                               width: 5,
                             ));
                             showTag = true;
-                          } else if (filteredResidents[index].situation ==
+                          } else if (allResidents[index].situation ==
                               Situation.noContact) {
                             tags.add(Container(
                               decoration: BoxDecoration(
@@ -156,7 +155,7 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                             showTag = true;
                           }
 
-                          if (filteredResidents[index].isMarkedForRemoval) {
+                          if (allResidents[index].isMarkedForRemoval) {
                             tags.add(Container(
                               decoration: BoxDecoration(
                                   color: Colors.red,
@@ -173,7 +172,7 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                               width: 5,
                             ));
                             showTag = true;
-                          } else if (filteredResidents[index].isNew) {
+                          } else if (allResidents[index].isNew) {
                             tags.add(Container(
                               decoration: BoxDecoration(
                                   color: Theme.of(context).primaryColorLight,
@@ -190,7 +189,7 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                               width: 5,
                             ));
                             showTag = true;
-                          } else if (filteredResidents[index].wasModified) {
+                          } else if (allResidents[index].wasModified) {
                             tags.add(Container(
                               decoration: BoxDecoration(
                                   color: Colors.green[300],
@@ -209,12 +208,11 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                             showTag = true;
                           }
 
-                          int roketeDisplayNumber =
-                              filteredResidents[index].rokaId;
+                          int roketeDisplayNumber = allResidents[index].rokaId;
                           String roketeDisplayNumberString = "";
                           if (roketeDisplayNumber > 0) {
                             roketeDisplayNumberString =
-                                "ROKETE Nº ${filteredResidents[index].rokaId}";
+                                "ROKETE Nº ${allResidents[index].rokaId}";
                           } else {
                             roketeDisplayNumberString =
                                 "ROKETE SEM IDENTIFICAÇÃO";
@@ -228,8 +226,8 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                                 motion: const StretchMotion(),
                                 children: [
                                   SlidableAction(
-                                    onPressed: (context) => deleteResident(
-                                        filteredResidents[index].id),
+                                    onPressed: (context) =>
+                                        deleteResident(allResidents[index].id),
                                     icon: Icons.delete,
                                     backgroundColor: Colors.red,
                                     borderRadius: BorderRadius.circular(10),
@@ -251,7 +249,7 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                                           size: 20,
                                         )),
                                     Text(
-                                      filteredResidents[index].name,
+                                      allResidents[index].name,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18),
@@ -261,6 +259,9 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                                       style: const TextStyle(
                                           fontSize: 10,
                                           fontWeight: FontWeight.w400),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
                                     ),
                                     Visibility(
                                         visible: showTag,
@@ -274,8 +275,8 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                                           builder: (context) =>
                                               CreateResidentPage(
                                                   text: "Dados do residente",
-                                                  resident: filteredResidents[
-                                                      index])));
+                                                  resident:
+                                                      allResidents[index])));
                                 },
                                 leading: const Icon(
                                   Icons.person,

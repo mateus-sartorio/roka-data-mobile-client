@@ -104,10 +104,8 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
                                   ?.name ??
                               "";
 
-                          String value = receipts[index]
-                              .value
-                              .toStringAsFixed(2)
-                              .replaceAll(".", ",");
+                          String value =
+                              "RK\$ ${receipts[index].value.toStringAsFixed(2).replaceAll(".", ",")}";
 
                           List<String> dayMonthYear = receipts[index]
                               .handoutDate
@@ -129,7 +127,7 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
                               child: const Text(
                                 "MARCADO PARA REMOÇÃO",
                                 style: TextStyle(
-                                  fontSize: 10,
+                                  fontSize: 8,
                                 ),
                               ),
                             );
@@ -144,7 +142,7 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
                               child: const Text(
                                 "SALVO LOCALMENTE",
                                 style: TextStyle(
-                                  fontSize: 10,
+                                  fontSize: 8,
                                 ),
                               ),
                             );
@@ -159,7 +157,7 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
                               child: const Text(
                                 "MODIFICADO",
                                 style: TextStyle(
-                                  fontSize: 10,
+                                  fontSize: 8,
                                 ),
                               ),
                             );
@@ -205,36 +203,31 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(8.0)),
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                    title: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Visibility(
-                                                visible: showTag, child: tag),
-                                            Text(
-                                              residentName,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 17),
-                                              textAlign: TextAlign.left,
-                                            ),
-                                            Text(date,
-                                                style: const TextStyle(
-                                                    fontSize: 13)),
-                                          ],
+                                        Text(
+                                          residentName,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 17),
+                                          textAlign: TextAlign.left,
                                         ),
+                                        Text(date,
+                                            style:
+                                                const TextStyle(fontSize: 12)),
                                         Text(
                                           value,
                                           style: const TextStyle(
-                                              fontSize: 17,
+                                              fontSize: 15,
                                               fontWeight: FontWeight.w500),
                                         ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Visibility(
+                                            visible: showTag, child: tag),
                                       ],
                                     ),
                                     onTap: () {

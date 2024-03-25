@@ -248,8 +248,11 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                     Text(
                                       roketeDisplayNumberString,
                                       style: const TextStyle(
-                                          fontSize: 10,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.w400),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
                                     ),
                                     Visibility(
                                         visible: showTag,

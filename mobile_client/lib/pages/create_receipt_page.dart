@@ -359,8 +359,10 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
 
           List<DropdownMenuItem<Resident>> residentsDropdownList = [];
           for (dynamic r in residents) {
+            String displayName =
+                r.name.length >= 20 ? r.name.substring(0, 20) : r.name;
             residentsDropdownList.add(DropdownMenuItem<Resident>(
-                value: r as Resident, child: Text(r.name)));
+                value: r as Resident, child: Text(displayName)));
           }
 
           List<DropdownMenuItem<CurrencyHandout>> currencyHandoutsDropdownList =
@@ -369,10 +371,14 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
             List<String> dayMonthYear =
                 ch.startDate.toString().split(" ")[0].split("-");
             "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+
+            String displayTitle =
+                ch.title.length >= 15 ? ch.title.substring(0, 15) : ch.title;
+
             currencyHandoutsDropdownList.add(DropdownMenuItem<CurrencyHandout>(
                 value: ch as CurrencyHandout,
                 child: Text(
-                    "${ch.title} - ${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}")));
+                    "$displayTitle - ${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}")));
           }
 
           return Center(

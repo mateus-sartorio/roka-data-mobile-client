@@ -350,8 +350,13 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
 
           List<DropdownMenuItem<Resident>> residentsDropdownList = [];
           for (dynamic r in residents) {
+            String displayName =
+                r.name.length >= 20 ? r.name.substring(0, 20) : r.name;
             residentsDropdownList.add(DropdownMenuItem<Resident>(
-                value: r as Resident, child: Text(r.name)));
+                value: r as Resident,
+                child: Text(
+                  displayName,
+                )));
           }
 
           return Center(

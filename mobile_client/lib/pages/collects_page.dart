@@ -142,10 +142,9 @@ class _CollectsPageState extends State<CollectsPage> {
                                 tag = const Text(
                                   "MARCADO PARA REMOÇÃO",
                                   style: TextStyle(
-                                    fontSize: 10,
+                                    fontSize: 8,
                                   ),
                                 );
-
                                 showTag = true;
                               } else if (collects[index]?.isNew ?? false) {
                                 tag = Container(
@@ -157,11 +156,10 @@ class _CollectsPageState extends State<CollectsPage> {
                                   child: const Text(
                                     "SALVO LOCALMENTE",
                                     style: TextStyle(
-                                      fontSize: 10,
+                                      fontSize: 8,
                                     ),
                                   ),
                                 );
-
                                 showTag = true;
                               } else if (collects[index]?.wasModified ??
                                   false) {
@@ -173,11 +171,10 @@ class _CollectsPageState extends State<CollectsPage> {
                                   child: const Text(
                                     "MODIFICADO",
                                     style: TextStyle(
-                                      fontSize: 10,
+                                      fontSize: 8,
                                     ),
                                   ),
                                 );
-
                                 showTag = true;
                               }
 
@@ -202,36 +199,30 @@ class _CollectsPageState extends State<CollectsPage> {
                                         borderRadius:
                                             BorderRadius.circular(8.0)),
                                     // tileColor: Theme.of(context).highlightColor,
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                    title: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Visibility(
-                                                visible: showTag, child: tag),
-                                            Text(
-                                              residentName,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 17),
-                                              textAlign: TextAlign.left,
-                                            ),
-                                            Text(date,
-                                                style: const TextStyle(
-                                                    fontSize: 13)),
-                                          ],
+                                        Text(
+                                          residentName,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
                                         ),
+                                        Text(date,
+                                            style:
+                                                const TextStyle(fontSize: 12)),
                                         Text(
                                           "${weight.toString().replaceAll(".", ",")} kg",
                                           style: const TextStyle(
                                               fontSize: 17,
                                               fontWeight: FontWeight.w500),
                                         ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Visibility(
+                                            visible: showTag, child: tag),
                                       ],
                                     ),
                                     onTap: () {
