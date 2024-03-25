@@ -8,6 +8,7 @@ import 'package:mobile_client/models/currency_handout.dart';
 import 'package:mobile_client/models/receipt.dart';
 import 'package:mobile_client/models/resident.dart';
 import 'package:mobile_client/utils/integer_id_generator.dart';
+import 'package:mobile_client/utils/list_conversions.dart';
 
 class CreateReceiptPage extends StatefulWidget {
   final Receipt? receipt;
@@ -125,6 +126,20 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
         isNew: widget.receipt?.isNew ?? isNewReceipt,
         isMarkedForRemoval: false,
         wasModified: isNewReceipt ? false : true);
+
+    var box = Hive.box('globalDatabase');
+    final dynamicReceiptsList1 = box.get("RECEIPTS");
+    final dynamicReceiptsList2 = box.get("ALL_DATABASE_RECEIPTS");
+    List<Receipt> receipts =
+        dynamicListToTList(dynamicReceiptsList1 + dynamicReceiptsList2);
+    for (Receipt r in receipts) {
+      if (r.currencyHandoutId == newReceipt.currencyHandoutId &&
+          r.residentId == newReceipt.residentId) {
+        warnInvalidRegistrationData(
+            "Este morador já recebeu uma entrega cadastrada neste distribuição de moeda.");
+        return;
+      }
+    }
 
     String message = "";
     bool isInactiveResident = false;

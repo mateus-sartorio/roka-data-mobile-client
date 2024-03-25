@@ -7,6 +7,7 @@ import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/collect.dart';
 import 'package:mobile_client/models/resident.dart';
 import 'package:mobile_client/utils/integer_id_generator.dart';
+import 'package:mobile_client/utils/list_conversions.dart';
 
 class CreateCollectPage extends StatefulWidget {
   final Collect? collect;
@@ -120,6 +121,20 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
         isNew: widget.collect?.isNew ?? isNewCollect,
         isMarkedForRemoval: false,
         wasModified: isNewCollect ? false : true);
+
+    var box = Hive.box('globalDatabase');
+    final dynamicCollectsList1 = box.get("COLLECTS");
+    final dynamicCollectsList2 = box.get("ALL_DATABASE_COLLECTS");
+    List<Collect> collects =
+        dynamicListToTList(dynamicCollectsList1 + dynamicCollectsList2);
+    for (Collect c in collects) {
+      if (DateUtils.isSameDay(c.collectedOn, newCollect.collectedOn) &&
+          c.residentId == newCollect.residentId) {
+        warnInvalidRegistrationData(
+            "Este morador já possui uma coleta cadastrada neste dia.");
+        return;
+      }
+    }
 
     String message = "";
     bool isInactiveResident = false;
