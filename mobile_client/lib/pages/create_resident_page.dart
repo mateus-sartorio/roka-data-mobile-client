@@ -170,7 +170,8 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
 
   bool isFormDataOk() {
     RegExp phoneNumberPattern = RegExp(r'\(\d{2}\) \d{5}-\d{4}');
-    RegExp isNumberPattern = RegExp(r'\d+');
+    RegExp isNumberPattern = RegExp(r'^[1-9]\d*$');
+    RegExp zeroPattern = RegExp(r'^0+');
     RegExp registrationYearPattern = RegExp(r'20\d{2}');
     RegExp neighborhoodPattern1 = RegExp(r'^bairro ', caseSensitive: false);
     RegExp streetPattern1 = RegExp(r'^rua ', caseSensitive: false);
@@ -207,7 +208,11 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
           "Formato inválido para o número da residência.");
     } else if (_rokaIdController.text.isNotEmpty &&
         !isNumberPattern.hasMatch(_rokaIdController.text)) {
-      warnInvalidRegistrationData("Id da Roka inválido.");
+      if (zeroPattern.hasMatch(_rokaIdController.text)) {
+        warnInvalidRegistrationData("Id da Roka não pode ser zero.");
+      } else {
+        warnInvalidRegistrationData("Id da Roka inválido.");
+      }
       return false;
     } else if (_registrationYearController.text.isNotEmpty &&
         !registrationYearPattern.hasMatch(_registrationYearController.text)) {
@@ -261,7 +266,8 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
         needsCollectOnTheHouse: needsCollectOnTheHouse,
         isNew: widget.resident?.isNew ?? isNewResident,
         isMarkedForRemoval: false,
-        wasModified: isNewResident ? false : true);
+        wasModified:
+            widget.resident?.wasModified ?? (isNewResident ? false : true));
 
     if (isNewResident) {
       db.saveNewResident(newResident);
@@ -348,10 +354,43 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget tag = Container();
-    bool showTag = false;
+    List<Widget> tags = <Widget>[];
+    bool showTags = false;
+    if (widget.resident?.situation == Situation.inactive) {
+      tags.add(Container(
+        decoration: BoxDecoration(
+            color: Colors.orange, borderRadius: BorderRadius.circular(8)),
+        padding: const EdgeInsets.all(5.0),
+        child: const Text(
+          "INATIVO",
+          style: TextStyle(
+            fontSize: 10,
+          ),
+        ),
+      ));
+      tags.add(const SizedBox(
+        width: 5,
+      ));
+      showTags = true;
+    } else if (widget.resident?.situation == Situation.noContact) {
+      tags.add(Container(
+        decoration: BoxDecoration(
+            color: Colors.orange, borderRadius: BorderRadius.circular(8)),
+        padding: const EdgeInsets.all(5.0),
+        child: const Text(
+          "SEM CONTATO",
+          style: TextStyle(
+            fontSize: 10,
+          ),
+        ),
+      ));
+      tags.add(const SizedBox(
+        width: 5,
+      ));
+      showTags = true;
+    }
     if (widget.resident?.isMarkedForRemoval ?? false) {
-      tag = Row(
+      tags.add(Row(
         children: [
           Container(
             decoration: BoxDecoration(
@@ -367,39 +406,10 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
           IconButton(
               onPressed: saveNewResident, icon: const Icon(Icons.restore))
         ],
-      );
-
-      showTag = true;
-    } else if (widget.resident?.situation == Situation.inactive) {
-      tag = Container(
-        decoration: BoxDecoration(
-            color: Colors.orange, borderRadius: BorderRadius.circular(8)),
-        padding: const EdgeInsets.all(5.0),
-        child: const Text(
-          "INATIVO",
-          style: TextStyle(
-            fontSize: 10,
-          ),
-        ),
-      );
-
-      showTag = true;
-    } else if (widget.resident?.situation == Situation.noContact) {
-      tag = Container(
-        decoration: BoxDecoration(
-            color: Colors.orange, borderRadius: BorderRadius.circular(8)),
-        padding: const EdgeInsets.all(5.0),
-        child: const Text(
-          "SEM CONTATO",
-          style: TextStyle(
-            fontSize: 10,
-          ),
-        ),
-      );
-
-      showTag = true;
+      ));
+      showTags = true;
     } else if (widget.resident?.isNew ?? false) {
-      tag = Container(
+      tags.add(Container(
         decoration: BoxDecoration(
             color: Theme.of(context).primaryColorLight,
             borderRadius: BorderRadius.circular(8)),
@@ -410,11 +420,10 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
             fontSize: 10,
           ),
         ),
-      );
-
-      showTag = true;
+      ));
+      showTags = true;
     } else if (wasModified) {
-      tag = Container(
+      tags.add(Container(
         decoration: BoxDecoration(
             color: Colors.green[300], borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.all(5.0),
@@ -424,13 +433,13 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
             fontSize: 10,
           ),
         ),
-      );
-
-      showTag = true;
+      ));
+      showTags = true;
     }
 
     return Scaffold(
       appBar: AppBar(
+          scrolledUnderElevation: 0,
           centerTitle: true,
           title: Text(
             "♻️ ${widget.text}",
@@ -457,7 +466,11 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                 const SizedBox(
                   height: 15,
                 ),
-                Visibility(visible: showTag, child: tag),
+                Visibility(
+                    visible: showTags,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: tags)),
                 const SizedBox(
                   height: 15,
                 ),

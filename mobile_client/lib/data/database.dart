@@ -523,7 +523,7 @@ class GlobalDatabase {
             situation: resident.situation,
             birthdate: resident.birthdate,
             isMarkedForRemoval: true,
-            wasModified: true,
+            wasModified: resident.wasModified,
             isNew: resident.isNew,
             needsCollectOnTheHouse: resident.needsCollectOnTheHouse);
       }

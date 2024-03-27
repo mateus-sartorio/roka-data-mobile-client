@@ -17,6 +17,7 @@ class About extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            scrolledUnderElevation: 0,
             centerTitle: true,
             title: const Text(
               "Sobre",

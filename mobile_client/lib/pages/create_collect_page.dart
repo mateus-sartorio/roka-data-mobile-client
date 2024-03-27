@@ -366,13 +366,11 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Visibility(visible: showTag, child: tag),
-                  const SizedBox(
-                    height: 15,
-                  ),
+                  Visibility(
+                      visible: showTag,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [tag])),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 8.0, horizontal: 15),

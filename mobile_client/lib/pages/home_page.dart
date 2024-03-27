@@ -80,6 +80,7 @@ class _HomePageState extends State<HomePage> {
           BottomNavbar(onTabChange: (index) => navigateBottomBar(index)),
       body: SafeArea(child: pages[_selectedIndex]),
       appBar: AppBar(
+          scrolledUnderElevation: 0,
           centerTitle: true,
           title: Text(
             titles[_selectedIndex],

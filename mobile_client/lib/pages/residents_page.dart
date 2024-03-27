@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -9,6 +10,7 @@ import 'package:mobile_client/models/resident.dart';
 import 'package:mobile_client/pages/create_resident_page.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mobile_client/utils/list_conversions.dart';
+import 'package:mobile_client/utils/resident_filter.dart';
 
 class ResidentsPage extends StatefulWidget {
   const ResidentsPage({Key? key}) : super(key: key);
@@ -19,6 +21,9 @@ class ResidentsPage extends StatefulWidget {
 
 class _ResidentsPageState extends State<ResidentsPage> {
   GlobalDatabase db = GlobalDatabase();
+  List<Resident> filteredResidents = [];
+
+  final TextEditingController _searchController = TextEditingController();
 
   void deleteResident(int residentId) {
     showDialog(
@@ -65,228 +70,265 @@ class _ResidentsPageState extends State<ResidentsPage> {
         builder: (context, Box box, _) {
           final dynamicResisentsList = box.get("RESIDENTS");
           List<Resident> residents = dynamicListToTList(dynamicResisentsList);
+          filteredResidents = residentFilter(residents, _searchController.text);
 
           Widget body;
-          if (residents.isEmpty) {
-            body = Animate(
-              effects: const [
-                SlideEffect(
-                  begin: Offset(-1, 0),
-                  end: Offset(0, 0),
-                  duration: Duration(milliseconds: 200),
-                )
-              ],
-              child: const Center(
-                  child: Text(
-                "Nenhum residente :(",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              )),
-            );
-          } else {
-            body = Animate(
-              effects: const [
-                SlideEffect(
-                  begin: Offset(-1, 0),
-                  end: Offset(0, 0),
-                  duration: Duration(milliseconds: 200),
-                )
-              ],
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: residents.length,
-                        itemBuilder: (context, index) {
-                          final CurrencyHandout? lastCurrencyHandout = box
-                              .get("LAST_CURRENCY_HANDOUT") as CurrencyHandout?;
-                          bool displayCoin = false;
-                          if (residents[index].receipts.isNotEmpty &&
-                              residents[index].receipts[0].currencyHandoutId ==
-                                  lastCurrencyHandout?.id) {
-                            displayCoin = true;
-                          }
-
-                          List<Widget> tags = <Widget>[];
-                          bool showTag = false;
-                          if (residents[index].situation ==
-                              Situation.inactive) {
-                            tags.add(Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.orange,
-                                  borderRadius: BorderRadius.circular(8)),
-                              padding: const EdgeInsets.all(5.0),
-                              child: const Text(
-                                "INATIVO",
-                                style: TextStyle(
-                                  fontSize: 8,
-                                ),
-                              ),
-                            ));
-                            tags.add(const SizedBox(
-                              width: 5,
-                            ));
-                            showTag = true;
-                          } else if (residents[index].situation ==
-                              Situation.noContact) {
-                            tags.add(Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.orange,
-                                  borderRadius: BorderRadius.circular(8)),
-                              padding: const EdgeInsets.all(5.0),
-                              child: const Text(
-                                "SEM CONTATO",
-                                style: TextStyle(
-                                  fontSize: 8,
-                                ),
-                              ),
-                            ));
-                            tags.add(const SizedBox(
-                              width: 5,
-                            ));
-                            showTag = true;
-                          }
-
-                          if (residents[index].isMarkedForRemoval) {
-                            tags.add(Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(8)),
-                              padding: const EdgeInsets.all(5.0),
-                              child: const Text(
-                                "MARCADO PARA REMOÇÃO",
-                                style: TextStyle(
-                                  fontSize: 8,
-                                ),
-                              ),
-                            ));
-                            tags.add(const SizedBox(
-                              width: 5,
-                            ));
-                            showTag = true;
-                          } else if (residents[index].isNew) {
-                            tags.add(Container(
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColorLight,
-                                  borderRadius: BorderRadius.circular(8)),
-                              padding: const EdgeInsets.all(5.0),
-                              child: const Text(
-                                "SALVO LOCALMENTE",
-                                style: TextStyle(
-                                  fontSize: 8,
-                                ),
-                              ),
-                            ));
-                            tags.add(const SizedBox(
-                              width: 5,
-                            ));
-                            showTag = true;
-                          } else if (residents[index].wasModified) {
-                            tags.add(Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.green[300],
-                                  borderRadius: BorderRadius.circular(8)),
-                              padding: const EdgeInsets.all(5.0),
-                              child: const Text(
-                                "MODIFICADO",
-                                style: TextStyle(
-                                  fontSize: 8,
-                                ),
-                              ),
-                            ));
-                            tags.add(const SizedBox(
-                              width: 5,
-                            ));
-                            showTag = true;
-                          }
-
-                          int roketeDisplayNumber = residents[index].rokaId;
-                          String roketeDisplayNumberString = "";
-                          if (roketeDisplayNumber > 0) {
-                            roketeDisplayNumberString =
-                                "ROKETE Nº ${residents[index].rokaId}";
-                          } else {
-                            roketeDisplayNumberString =
-                                "ROKETE SEM IDENTIFICAÇÃO";
-                          }
-
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 8.0, horizontal: 15.0),
-                            child: Slidable(
-                              endActionPane: ActionPane(
-                                motion: const StretchMotion(),
-                                children: [
-                                  SlidableAction(
-                                    onPressed: (context) =>
-                                        deleteResident(residents[index].id),
-                                    icon: Icons.delete,
-                                    backgroundColor: Colors.red,
-                                    borderRadius: BorderRadius.circular(10),
-                                  )
-                                ],
-                              ),
-                              child: ListTile(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0)),
-                                title: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Visibility(
-                                        visible: displayCoin,
-                                        child: const Icon(
-                                          Icons.monetization_on_rounded,
-                                          color:
-                                              Color.fromARGB(255, 255, 215, 0),
-                                          size: 20,
-                                        )),
-                                    Text(
-                                      residents[index].name,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18),
-                                    ),
-                                    Text(
-                                      roketeDisplayNumberString,
-                                      style: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Visibility(
-                                        visible: showTag,
-                                        child: Row(children: tags)),
-                                  ],
-                                ),
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              CreateResidentPage(
-                                                  text: "Dados do residente",
-                                                  resident: residents[index])));
-                                },
-                                leading: const Icon(
-                                  Icons.person,
-                                  size: 30,
-                                ),
-                                trailing: const Icon(
-                                  Icons.chevron_right,
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
+          body = Animate(
+            effects: const [
+              SlideEffect(
+                begin: Offset(-1, 0),
+                end: Offset(0, 0),
+                duration: Duration(milliseconds: 200),
+              )
+            ],
+            child: Column(
+              children: [
+                FractionallySizedBox(
+                  widthFactor: 0.8,
+                  child: CupertinoSearchTextField(
+                    controller: _searchController,
+                    placeholder: " Pesquisar",
+                    onChanged: (value) {
+                      setState(() {
+                        filteredResidents = residentFilter(residents, value);
+                      });
+                    },
                   ),
-                ],
-              ),
-            );
-          }
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                filteredResidents.isEmpty
+                    ? const Center(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "Nenhum residente :(",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      )
+                    : Expanded(
+                        child: ListView.builder(
+                            itemCount: filteredResidents.length,
+                            itemBuilder: (context, index) {
+                              final CurrencyHandout? lastCurrencyHandout =
+                                  box.get("LAST_CURRENCY_HANDOUT")
+                                      as CurrencyHandout?;
+                              bool displayCoin = false;
+                              if (filteredResidents[index]
+                                      .receipts
+                                      .isNotEmpty &&
+                                  filteredResidents[index]
+                                          .receipts[0]
+                                          .currencyHandoutId ==
+                                      lastCurrencyHandout?.id) {
+                                displayCoin = true;
+                              }
+
+                              List<Widget> tags = <Widget>[];
+                              bool showTag = false;
+                              if (filteredResidents[index].situation ==
+                                  Situation.inactive) {
+                                tags.add(Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.orange,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: const Text(
+                                    "INATIVO",
+                                    style: TextStyle(
+                                      fontSize: 8,
+                                    ),
+                                  ),
+                                ));
+                                tags.add(const SizedBox(
+                                  width: 5,
+                                ));
+                                showTag = true;
+                              } else if (filteredResidents[index].situation ==
+                                  Situation.noContact) {
+                                tags.add(Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.orange,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: const Text(
+                                    "SEM CONTATO",
+                                    style: TextStyle(
+                                      fontSize: 8,
+                                    ),
+                                  ),
+                                ));
+                                tags.add(const SizedBox(
+                                  width: 5,
+                                ));
+                                showTag = true;
+                              }
+
+                              if (filteredResidents[index].isMarkedForRemoval) {
+                                tags.add(Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: const Text(
+                                    "MARCADO PARA REMOÇÃO",
+                                    style: TextStyle(
+                                      fontSize: 8,
+                                    ),
+                                  ),
+                                ));
+                                tags.add(const SizedBox(
+                                  width: 5,
+                                ));
+                                showTag = true;
+                              } else if (filteredResidents[index].isNew) {
+                                tags.add(Container(
+                                  decoration: BoxDecoration(
+                                      color:
+                                          Theme.of(context).primaryColorLight,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: const Text(
+                                    "SALVO LOCALMENTE",
+                                    style: TextStyle(
+                                      fontSize: 8,
+                                    ),
+                                  ),
+                                ));
+                                tags.add(const SizedBox(
+                                  width: 5,
+                                ));
+                                showTag = true;
+                              } else if (filteredResidents[index].wasModified) {
+                                tags.add(Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.green[300],
+                                      borderRadius: BorderRadius.circular(8)),
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: const Text(
+                                    "MODIFICADO",
+                                    style: TextStyle(
+                                      fontSize: 8,
+                                    ),
+                                  ),
+                                ));
+                                tags.add(const SizedBox(
+                                  width: 5,
+                                ));
+                                showTag = true;
+                              }
+
+                              int roketeDisplayNumber =
+                                  filteredResidents[index].rokaId;
+                              String roketeDisplayNumberString = "";
+                              if (roketeDisplayNumber > 0) {
+                                roketeDisplayNumberString =
+                                    "ROKETE Nº ${filteredResidents[index].rokaId}";
+                              } else {
+                                roketeDisplayNumberString =
+                                    "ROKETE SEM IDENTIFICAÇÃO";
+                              }
+
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 15.0),
+                                child: Slidable(
+                                  endActionPane: ActionPane(
+                                    motion: const StretchMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        onPressed: (context) => deleteResident(
+                                            filteredResidents[index].id),
+                                        icon: Icons.delete,
+                                        backgroundColor: Colors.red,
+                                        borderRadius: BorderRadius.circular(10),
+                                      )
+                                    ],
+                                  ),
+                                  child: ListTile(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0)),
+                                    title: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Visibility(
+                                            visible: displayCoin,
+                                            child: const Icon(
+                                              Icons.monetization_on_rounded,
+                                              color: Color.fromARGB(
+                                                  255, 255, 215, 0),
+                                              size: 20,
+                                            )),
+                                        Text(
+                                          filteredResidents[index].name,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                        ),
+                                        Text(
+                                          roketeDisplayNumberString,
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                        Visibility(
+                                            visible: showTag,
+                                            child: Column(
+                                              children: [
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Row(children: tags),
+                                              ],
+                                            )),
+                                        Visibility(
+                                            visible: index ==
+                                                filteredResidents.length - 1,
+                                            child: const SizedBox(
+                                              height: 20,
+                                            ))
+                                      ],
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CreateResidentPage(
+                                                      text:
+                                                          "Dados do residente",
+                                                      resident:
+                                                          filteredResidents[
+                                                              index])));
+                                    },
+                                    leading: const Icon(
+                                      Icons.person,
+                                      size: 30,
+                                    ),
+                                    trailing: const Icon(
+                                      Icons.chevron_right,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
+                      ),
+              ],
+            ),
+          );
 
           return Scaffold(
               appBar: AppBar(
+                  scrolledUnderElevation: 0,
                   centerTitle: true,
                   title: const Text(
                     "♻️ Residentes",

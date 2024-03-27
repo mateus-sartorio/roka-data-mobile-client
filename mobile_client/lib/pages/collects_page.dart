@@ -180,7 +180,7 @@ class _CollectsPageState extends State<CollectsPage> {
 
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 15.0),
+                                    vertical: 0, horizontal: 15.0),
                                 child: Slidable(
                                   endActionPane: ActionPane(
                                     motion: const StretchMotion(),

@@ -120,7 +120,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                               child: const Text(
                                 "MARCADO PARA REMOÇÃO",
                                 style: TextStyle(
-                                  fontSize: 10,
+                                  fontSize: 8,
                                 ),
                               ),
                             );
@@ -135,7 +135,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                               child: const Text(
                                 "SALVO LOCALMENTE",
                                 style: TextStyle(
-                                  fontSize: 10,
+                                  fontSize: 8,
                                 ),
                               ),
                             );
@@ -150,7 +150,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                               child: const Text(
                                 "MODIFICADO",
                                 style: TextStyle(
-                                  fontSize: 10,
+                                  fontSize: 8,
                                 ),
                               ),
                             );
@@ -160,7 +160,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
 
                           return Padding(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 8.0, horizontal: 15.0),
+                                vertical: 0, horizontal: 15.0),
                             child: Slidable(
                               endActionPane: ActionPane(
                                 motion: const StretchMotion(),
@@ -182,7 +182,6 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Visibility(visible: showTag, child: tag),
                                     Text(
                                       currencyHandouts[index].title,
                                       style: const TextStyle(
@@ -192,6 +191,16 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                                     ),
                                     Text(date,
                                         style: const TextStyle(fontSize: 13)),
+                                    Visibility(
+                                        visible: showTag,
+                                        child: Column(
+                                          children: [
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            tag,
+                                          ],
+                                        )),
                                   ],
                                 ),
                                 onTap: () {
@@ -225,6 +234,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
 
           return Scaffold(
               appBar: AppBar(
+                  scrolledUnderElevation: 0,
                   centerTitle: true,
                   title: const Text(
                     "♻️ Distribuições da moeda",
