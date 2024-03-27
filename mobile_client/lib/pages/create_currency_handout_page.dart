@@ -233,6 +233,7 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
 
     return Scaffold(
       appBar: AppBar(
+          scrolledUnderElevation: 0,
           centerTitle: true,
           title: const Text(
             "♻️ Dados da entrega da moeda",
@@ -258,9 +259,14 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Visibility(
+                      visible: showTag,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [tag])),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 15),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                     child: Text(
                       widget.text,
                       textAlign: TextAlign.center,
@@ -268,10 +274,6 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
                           fontWeight: FontWeight.w800, fontSize: 22),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Visibility(visible: showTag, child: tag),
                   const SizedBox(
                     height: 15,
                   ),

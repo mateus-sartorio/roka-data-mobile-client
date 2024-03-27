@@ -263,6 +263,7 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
 
           return Scaffold(
               appBar: AppBar(
+                  scrolledUnderElevation: 0,
                   centerTitle: true,
                   title: const Text(
                     "♻️ Todas entregas",

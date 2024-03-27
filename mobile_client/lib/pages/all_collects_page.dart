@@ -184,7 +184,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                                   )),
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 15.0),
+                                    horizontal: 15.0),
                                 child: Slidable(
                                   endActionPane: ActionPane(
                                     motion: const StretchMotion(),
@@ -262,6 +262,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
 
           return Scaffold(
               appBar: AppBar(
+                  scrolledUnderElevation: 0,
                   centerTitle: true,
                   title: const Text(
                     "♻️ Todas coletas",

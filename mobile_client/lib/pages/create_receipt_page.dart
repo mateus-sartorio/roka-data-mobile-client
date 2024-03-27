@@ -336,6 +336,7 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
 
     return Scaffold(
       appBar: AppBar(
+          scrolledUnderElevation: 0,
           centerTitle: true,
           title: const Text(
             "♻️ Dados da entrega",

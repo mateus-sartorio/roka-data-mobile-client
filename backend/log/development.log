@@ -21093,3 +21093,638 @@ Processing by ReceiptsController#index as JSON
 Completed 200 OK in 4ms (Views: 3.3ms | ActiveRecord: 0.1ms | Allocations: 1795)
 
 
+Started PUT "/residents/244412739057512096" for 127.0.0.1 at 2024-03-25 15:59:03 -0300
+Started PUT "/residents/963042835291212928" for 127.0.0.1 at 2024-03-25 15:59:03 -0300
+Started PUT "/residents/451166031174935168" for 127.0.0.1 at 2024-03-25 15:59:03 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#update as HTML
+Processing by ResidentsController#update as HTML
+  Parameters: {"id"=>"244412739057512096", "name"=>"aa", "roka_id"=>0, "situation"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"a,a,0", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-25 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "needs_collect_on_the_house"=>false, "resident"=>{"id"=>"244412739057512096", "name"=>"aa", "situation"=>0, "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"a,a,0", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-25 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "needs_collect_on_the_house"=>false}}
+Processing by ResidentsController#update as HTML
+  Parameters: {"id"=>"963042835291212928", "name"=>"ajunin", "roka_id"=>1, "situation"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"boa vista,boa vista,1", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(33) 33333-3333", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-25 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "needs_collect_on_the_house"=>true, "resident"=>{"id"=>"963042835291212928", "name"=>"ajunin", "situation"=>0, "roka_id"=>1, "has_plaque"=>false, "registration_year"=>0, "address"=>"boa vista,boa vista,1", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(33) 33333-3333", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-25 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "needs_collect_on_the_house"=>true}}
+  Parameters: {"id"=>"451166031174935168", "name"=>"Junin", "roka_id"=>44, "situation"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"asdf,adsa,1", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(33) 33333-3333", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-25 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "needs_collect_on_the_house"=>false, "resident"=>{"id"=>"451166031174935168", "name"=>"Junin", "situation"=>0, "roka_id"=>44, "has_plaque"=>false, "registration_year"=>0, "address"=>"asdf,adsa,1", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(33) 33333-3333", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-25 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "needs_collect_on_the_house"=>false}}
+  [1m[36mResident Load (0.8ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 963042835291212928], ["LIMIT", 1]]
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 244412739057512096], ["LIMIT", 1]]
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 451166031174935168], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+Completed 404 Not Found in 14ms (ActiveRecord: 0.8ms | Allocations: 5516)
+
+
+Completed 404 Not Found in 16ms (ActiveRecord: 0.6ms | Allocations: 6356)
+
+
+Completed 404 Not Found in 16ms (ActiveRecord: 1.7ms | Allocations: 6448)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find Resident with 'id'=451166031174935168):
+  
+app/controllers/residents_controller.rb:23:in `update'
+  
+ActiveRecord::RecordNotFound (Couldn't find Resident with 'id'=244412739057512096):
+  
+app/controllers/residents_controller.rb:23:in `update'
+  
+ActiveRecord::RecordNotFound (Couldn't find Resident with 'id'=963042835291212928):
+  
+app/controllers/residents_controller.rb:23:in `update'
+Started GET "/residents" for 127.0.0.1 at 2024-03-25 15:59:04 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 94ms (Views: 90.3ms | ActiveRecord: 3.0ms | Allocations: 30854)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-25 15:59:04 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [2 times] (Duration: 2.3ms | Allocations: 540)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 15.0ms | Allocations: 4301)
+Completed 200 OK in 25ms (Views: 16.3ms | ActiveRecord: 0.9ms | Allocations: 6628)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-03-25 15:59:04 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.4ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 7ms (Views: 5.5ms | ActiveRecord: 0.4ms | Allocations: 1081)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-03-25 15:59:05 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.3ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [4 times] (Duration: 1.5ms | Allocations: 562)
+  Rendered receipts/index.json.jbuilder (Duration: 7.2ms | Allocations: 1863)
+Completed 200 OK in 11ms (Views: 9.6ms | ActiveRecord: 0.3ms | Allocations: 2627)
+
+
+Started PUT "/residents/244412739057512096" for 127.0.0.1 at 2024-03-25 16:47:11 -0300
+Processing by ResidentsController#update as HTML
+  Parameters: {"id"=>"244412739057512096", "name"=>"aa", "roka_id"=>2, "situation"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"a,a,2", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-25 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "needs_collect_on_the_house"=>false, "resident"=>{"id"=>"244412739057512096", "name"=>"aa", "situation"=>0, "roka_id"=>2, "has_plaque"=>false, "registration_year"=>0, "address"=>"a,a,2", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-25 00:00:00.000", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "needs_collect_on_the_house"=>false}}
+  [1m[36mResident Load (1.4ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = ? LIMIT ?[0m  [["id", 244412739057512096], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+Completed 404 Not Found in 27ms (ActiveRecord: 3.4ms | Allocations: 1144)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find Resident with 'id'=244412739057512096):
+  
+app/controllers/residents_controller.rb:23:in `update'
+Started POST "/residents" for 127.0.0.1 at 2024-03-25 16:47:11 -0300
+Started POST "/residents" for 127.0.0.1 at 2024-03-25 16:47:11 -0300
+Processing by ResidentsController#create as HTML
+  Parameters: {"id"=>544030894473444992, "name"=>"a", "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"a,a,1", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-25 16:20:44.068", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "situation"=>0, "needs_collect_on_the_house"=>false, "resident"=>{"id"=>544030894473444992, "name"=>"a", "situation"=>0, "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"a,a,1", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-25 16:20:44.068", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "needs_collect_on_the_house"=>false}}
+Processing by ResidentsController#create as HTML
+  Parameters: {"id"=>1101012784207182464, "name"=>"b", "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"b,b,1", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(22) 22222-2222", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-25 16:20:56.298", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "situation"=>0, "needs_collect_on_the_house"=>false, "resident"=>{"id"=>1101012784207182464, "name"=>"b", "situation"=>0, "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"b,b,1", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(22) 22222-2222", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-25 16:20:56.298", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "needs_collect_on_the_house"=>false}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mResident Create (2.5ms)[0m  [1m[32mINSERT INTO "residents" ("id", "name", "situation", "roka_id", "has_plaque", "registration_year", "address", "reference_point", "lives_in_JN", "phone", "is_on_whatsapp_group", "birthdate", "profession", "residents_in_the_house", "observations", "created_at", "updated_at", "needs_collect_on_the_house") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["id", 544030894473444992], ["name", "a"], ["situation", 0], ["roka_id", 0], ["has_plaque", 0], ["registration_year", 0], ["address", "a,a,1"], ["reference_point", ""], ["lives_in_JN", 1], ["phone", "(11) 11111-1111"], ["is_on_whatsapp_group", 0], ["birthdate", "2024-03-25"], ["profession", ""], ["residents_in_the_house", 0], ["observations", ""], ["created_at", "2024-03-25 19:47:11.864157"], ["updated_at", "2024-03-25 19:47:11.864157"], ["needs_collect_on_the_house", 0]]
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mTRANSACTION (6.5ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mResident Create (0.5ms)[0m  [1m[32mINSERT INTO "residents" ("id", "name", "situation", "roka_id", "has_plaque", "registration_year", "address", "reference_point", "lives_in_JN", "phone", "is_on_whatsapp_group", "birthdate", "profession", "residents_in_the_house", "observations", "created_at", "updated_at", "needs_collect_on_the_house") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["id", 1101012784207182464], ["name", "b"], ["situation", 0], ["roka_id", 0], ["has_plaque", 0], ["registration_year", 0], ["address", "b,b,1"], ["reference_point", ""], ["lives_in_JN", 1], ["phone", "(22) 22222-2222"], ["is_on_whatsapp_group", 0], ["birthdate", "2024-03-25"], ["profession", ""], ["residents_in_the_house", 0], ["observations", ""], ["created_at", "2024-03-25 19:47:11.878822"], ["updated_at", "2024-03-25 19:47:11.878822"], ["needs_collect_on_the_house", 0]]
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mTRANSACTION (48.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mReceipt Load (0.4ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+Completed 201 Created in 88ms (Views: 57.6ms | ActiveRecord: 9.8ms | Allocations: 7822)
+
+
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.4ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 201 Created in 90ms (Views: 8.1ms | ActiveRecord: 50.6ms | Allocations: 7902)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-25 16:47:13 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.3ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 35ms (Views: 32.2ms | ActiveRecord: 2.3ms | Allocations: 11052)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-25 16:47:13 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.2ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [2 times] (Duration: 1.6ms | Allocations: 236)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 4.8ms | Allocations: 1098)
+Completed 200 OK in 6ms (Views: 5.3ms | ActiveRecord: 0.2ms | Allocations: 1398)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-03-25 16:47:13 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 4ms (Views: 2.9ms | ActiveRecord: 0.3ms | Allocations: 970)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-03-25 16:47:13 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.5ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [4 times] (Duration: 1.2ms | Allocations: 450)
+  Rendered receipts/index.json.jbuilder (Duration: 4.2ms | Allocations: 1526)
+Completed 200 OK in 7ms (Views: 4.6ms | ActiveRecord: 0.5ms | Allocations: 1827)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-25 16:56:50 -0300
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (1.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 31ms (Views: 27.0ms | ActiveRecord: 3.7ms | Allocations: 11236)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-25 16:56:50 -0300
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.1ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 25ms (Views: 22.7ms | ActiveRecord: 1.6ms | Allocations: 10980)
+
+
+Started POST "/residents" for 127.0.0.1 at 2024-03-26 09:40:51 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#create as HTML
+  Parameters: {"id"=>283758167415024473, "name"=>"Paulo", "roka_id"=>6, "has_plaque"=>false, "registration_year"=>0, "address"=>"a,a,1", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-26 09:40:00.514685", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "situation"=>0, "needs_collect_on_the_house"=>false, "resident"=>{"id"=>283758167415024473, "name"=>"Paulo", "situation"=>0, "roka_id"=>6, "has_plaque"=>false, "registration_year"=>0, "address"=>"a,a,1", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-26 09:40:00.514685", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "needs_collect_on_the_house"=>false}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mResident Create (1.6ms)[0m  [1m[32mINSERT INTO "residents" ("id", "name", "situation", "roka_id", "has_plaque", "registration_year", "address", "reference_point", "lives_in_JN", "phone", "is_on_whatsapp_group", "birthdate", "profession", "residents_in_the_house", "observations", "created_at", "updated_at", "needs_collect_on_the_house") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["id", 283758167415024473], ["name", "Paulo"], ["situation", 0], ["roka_id", 6], ["has_plaque", 0], ["registration_year", 0], ["address", "a,a,1"], ["reference_point", ""], ["lives_in_JN", 1], ["phone", "(11) 11111-1111"], ["is_on_whatsapp_group", 0], ["birthdate", "2024-03-26"], ["profession", ""], ["residents_in_the_house", 0], ["observations", ""], ["created_at", "2024-03-26 12:40:51.787989"], ["updated_at", "2024-03-26 12:40:51.787989"], ["needs_collect_on_the_house", 0]]
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (5.1ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 283758167415024473]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 283758167415024473]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 201 Created in 76ms (Views: 41.1ms | ActiveRecord: 8.5ms | Allocations: 23053)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-26 09:40:52 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 283758167415024473]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 283758167415024473]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.4ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.4ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.4ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 65ms (Views: 60.2ms | ActiveRecord: 4.5ms | Allocations: 20007)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-26 09:40:53 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.7ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [2 times] (Duration: 5.3ms | Allocations: 548)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 36.2ms | Allocations: 4459)
+Completed 200 OK in 65ms (Views: 49.9ms | ActiveRecord: 2.0ms | Allocations: 8478)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-03-26 09:40:53 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.5ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 4ms (Views: 2.8ms | ActiveRecord: 0.5ms | Allocations: 1081)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-03-26 09:40:53 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.3ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [4 times] (Duration: 1.7ms | Allocations: 562)
+  Rendered receipts/index.json.jbuilder (Duration: 5.4ms | Allocations: 1870)
+Completed 200 OK in 11ms (Views: 8.4ms | ActiveRecord: 0.3ms | Allocations: 2640)
+
+
+Started GET "/aluno" for 127.0.0.1 at 2024-03-26 09:42:14 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/aluno"):
+  
+Started GET "/residents" for 127.0.0.1 at 2024-03-26 09:42:31 -0300
+Started GET "/residents" for 127.0.0.1 at 2024-03-26 09:42:31 -0300
+Processing by ResidentsController#index as */*
+Processing by ResidentsController#index as */*
+  [1m[36mResident Load (0.9ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  [1m[36mResident Load (1.5ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 283758167415024473]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 283758167415024473]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 283758167415024473]]
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 283758167415024473]]
+Completed 200 OK in 50ms (Views: 45.6ms | ActiveRecord: 2.9ms | Allocations: 16239)
+
+
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 74ms (Views: 68.0ms | ActiveRecord: 4.2ms | Allocations: 25690)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-26 21:53:42 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (1.8ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.3ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 283758167415024473]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 283758167415024473]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.3ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.3ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 100ms (Views: 81.0ms | ActiveRecord: 6.3ms | Allocations: 41374)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-26 21:53:43 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.3ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [2 times] (Duration: 1.4ms | Allocations: 548)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 11.6ms | Allocations: 4461)
+Completed 200 OK in 27ms (Views: 16.2ms | ActiveRecord: 0.8ms | Allocations: 8483)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-03-26 21:53:43 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 4ms (Views: 3.2ms | ActiveRecord: 0.3ms | Allocations: 1081)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-03-26 21:53:43 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.3ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [4 times] (Duration: 1.4ms | Allocations: 562)
+  Rendered receipts/index.json.jbuilder (Duration: 4.7ms | Allocations: 1870)
+Completed 200 OK in 7ms (Views: 6.2ms | ActiveRecord: 0.3ms | Allocations: 2640)
+
+
+Started POST "/residents" for 127.0.0.1 at 2024-03-26 22:13:50 -0300
+Processing by ResidentsController#create as HTML
+  Parameters: {"id"=>552732467752800787, "name"=>"sei la", "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"a,a,1", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-26 22:13:31.328707", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "situation"=>0, "needs_collect_on_the_house"=>false, "resident"=>{"id"=>552732467752800787, "name"=>"sei la", "situation"=>0, "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"a,a,1", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-26 22:13:31.328707", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "needs_collect_on_the_house"=>false}}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mResident Create (7.0ms)[0m  [1m[32mINSERT INTO "residents" ("id", "name", "situation", "roka_id", "has_plaque", "registration_year", "address", "reference_point", "lives_in_JN", "phone", "is_on_whatsapp_group", "birthdate", "profession", "residents_in_the_house", "observations", "created_at", "updated_at", "needs_collect_on_the_house") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["id", 552732467752800787], ["name", "sei la"], ["situation", 0], ["roka_id", 0], ["has_plaque", 0], ["registration_year", 0], ["address", "a,a,1"], ["reference_point", ""], ["lives_in_JN", 1], ["phone", "(11) 11111-1111"], ["is_on_whatsapp_group", 0], ["birthdate", "2024-03-26"], ["profession", ""], ["residents_in_the_house", 0], ["observations", ""], ["created_at", "2024-03-27 01:13:50.816777"], ["updated_at", "2024-03-27 01:13:50.816777"], ["needs_collect_on_the_house", 0]]
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (42.8ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 552732467752800787]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 552732467752800787]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 201 Created in 115ms (Views: 19.5ms | ActiveRecord: 51.8ms | Allocations: 5197)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-26 22:13:52 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 283758167415024473]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 283758167415024473]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 552732467752800787]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 552732467752800787]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 50ms (Views: 46.8ms | ActiveRecord: 3.1ms | Allocations: 14221)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-26 22:13:52 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.4ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [2 times] (Duration: 2.1ms | Allocations: 236)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 5.9ms | Allocations: 1097)
+Completed 200 OK in 7ms (Views: 6.3ms | ActiveRecord: 0.4ms | Allocations: 1397)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-03-26 22:13:52 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.4ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 3ms (Views: 2.0ms | ActiveRecord: 0.4ms | Allocations: 981)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-03-26 22:13:52 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.3ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [4 times] (Duration: 0.9ms | Allocations: 450)
+  Rendered receipts/index.json.jbuilder (Duration: 3.6ms | Allocations: 1527)
+Completed 200 OK in 6ms (Views: 4.4ms | ActiveRecord: 0.3ms | Allocations: 1828)
+
+
+Started POST "/residents" for 127.0.0.1 at 2024-03-26 22:14:25 -0300
+Processing by ResidentsController#create as HTML
+  Parameters: {"id"=>817933267854444139, "name"=>"nao sei sei la", "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"a,a,3", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(55) 55555-5555", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-26 22:13:59.807419", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "situation"=>0, "needs_collect_on_the_house"=>false, "resident"=>{"id"=>817933267854444139, "name"=>"nao sei sei la", "situation"=>0, "roka_id"=>0, "has_plaque"=>false, "registration_year"=>0, "address"=>"a,a,3", "reference_point"=>"", "lives_in_JN"=>true, "phone"=>"(55) 55555-5555", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-03-26 22:13:59.807419", "profession"=>"", "residents_in_the_house"=>0, "observations"=>"", "needs_collect_on_the_house"=>false}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mResident Create (0.5ms)[0m  [1m[32mINSERT INTO "residents" ("id", "name", "situation", "roka_id", "has_plaque", "registration_year", "address", "reference_point", "lives_in_JN", "phone", "is_on_whatsapp_group", "birthdate", "profession", "residents_in_the_house", "observations", "created_at", "updated_at", "needs_collect_on_the_house") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["id", 817933267854444139], ["name", "nao sei sei la"], ["situation", 0], ["roka_id", 0], ["has_plaque", 0], ["registration_year", 0], ["address", "a,a,3"], ["reference_point", ""], ["lives_in_JN", 1], ["phone", "(55) 55555-5555"], ["is_on_whatsapp_group", 0], ["birthdate", "2024-03-26"], ["profession", ""], ["residents_in_the_house", 0], ["observations", ""], ["created_at", "2024-03-27 01:14:25.057632"], ["updated_at", "2024-03-27 01:14:25.057632"], ["needs_collect_on_the_house", 0]]
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (10.6ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 817933267854444139]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.4ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 817933267854444139]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 201 Created in 25ms (Views: 5.9ms | ActiveRecord: 11.9ms | Allocations: 3690)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-03-26 22:14:27 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 244412739057512105]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 283758167415024473]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 283758167415024473]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 330714772002378023]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 451166031174935138]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 544030894473444992]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 552732467752800787]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 552732467752800787]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 817933267854444139]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 817933267854444139]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 963042835291212967]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = ?[0m  [["resident_id", 1101012784207182464]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 55ms (Views: 51.8ms | ActiveRecord: 2.8ms | Allocations: 15765)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-03-26 22:14:27 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.3ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [2 times] (Duration: 0.6ms | Allocations: 236)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 3.7ms | Allocations: 1073)
+Completed 200 OK in 5ms (Views: 4.4ms | ActiveRecord: 0.3ms | Allocations: 1372)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-03-26 22:14:27 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.1ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 3ms (Views: 2.5ms | ActiveRecord: 0.1ms | Allocations: 943)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-03-26 22:14:27 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.1ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [4 times] (Duration: 1.0ms | Allocations: 450)
+  Rendered receipts/index.json.jbuilder (Duration: 2.9ms | Allocations: 1494)
+Completed 200 OK in 4ms (Views: 3.3ms | ActiveRecord: 0.1ms | Allocations: 1795)
+
+
