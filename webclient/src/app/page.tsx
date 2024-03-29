@@ -3,9 +3,8 @@
 import { DataGrid, GridRowsProp, GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { ResidentResponseDTO } from "./DTOs/response/ResidentResponseDTO";
-import { Resident } from "./models/Resident";
-import { Collect } from "./models/Collect";
-import { Situation } from "./enums/Situation";
+import { boolToPortugueseString } from "./utils/boolean_conversion";
+import { situationEnumConverter } from "./utils/situationEnumConverter";
 
 // const rows: GridRowsProp = [
 //   { id: 1, col1: "Hello", col2: "World", col3: "a" },
@@ -14,20 +13,20 @@ import { Situation } from "./enums/Situation";
 // ];
 
 const columns: GridColDef[] = [
-  { field: "col1", headerName: "Nome", width: 150 },
-  { field: "col2", headerName: "Endereço", width: 150 },
-  { field: "col3", headerName: "Data de nascimento", width: 150 },
-  { field: "col4", headerName: "Tem plaquinha", width: 150 },
-  { field: "col5", headerName: "Está no grupo do WhatsApp?", width: 150 },
-  { field: "col6", headerName: "Reside em Jesus de Nazareth?", width: 150 },
-  { field: "col7", headerName: "Observações", width: 150 },
-  { field: "col8", headerName: "Telefone", width: 150 },
-  { field: "col9", headerName: "Profissão", width: 150 },
-  { field: "col10", headerName: "Ponto de referência", width: 150 },
-  { field: "col11", headerName: "Ano de cadastro", width: 150 },
-  { field: "col12", headerName: "Quantidade de residentes na casa", width: 150 },
-  { field: "col13", headerName: "ID da ROKA", width: 150 },
-  { field: "col14", headerName: "Situação", width: 150 },
+  { field: "col1", headerName: "Nome", width: 300, headerAlign: "center", align: "center", flex: 1 },
+  { field: "col2", headerName: "ID da ROKA", width: 200, headerAlign: "center", align: "center", flex: 1 },
+  { field: "col3", headerName: "Situação", width: 200, headerAlign: "center", align: "center", flex: 1 },
+  { field: "col4", headerName: "Endereço", width: 300, headerAlign: "center", align: "center", flex: 1 },
+  { field: "col5", headerName: "Ponto de referência", width: 300, headerAlign: "center", align: "center", flex: 1 },
+  { field: "col6", headerName: "Telefone", width: 200, headerAlign: "center", align: "center", flex: 1 },
+  { field: "col7", headerName: "Está no grupo do WhatsApp?", width: 200, headerAlign: "center", align: "center", flex: 1 },
+  // { field: "col3", headerName: "Data de nascimento", width: 150 },
+  // { field: "col4", headerName: "Tem plaquinha", width: 150 },
+  // { field: "col6", headerName: "Reside em Jesus de Nazareth?", width: 150 },
+  // { field: "col7", headerName: "Observações", width: 150 },
+  // { field: "col9", headerName: "Profissão", width: 150 },
+  // { field: "col11", headerName: "Ano de cadastro", width: 150 },
+  // { field: "col12", headerName: "Quantidade de residentes na casa", width: 150 },
 ];
 
 export default function Home() {
@@ -52,19 +51,19 @@ export default function Home() {
       return {
         id: Number(id),
         col1: name,
-        col2: address,
-        col3: new Date(birthdate),
-        col4: has_plaque,
-        col5: is_on_whatsapp_group,
-        col6: lives_in_JN,
-        col7: observations,
-        col8: phone,
-        col9: profession,
-        col10: reference_point,
-        col11: registration_year,
-        col12: residents_in_the_house,
-        col13: roka_id,
-        col14: Number(situation) as Situation,
+        col2: roka_id,
+        col3: situationEnumConverter(situation),
+        col4: address,
+        col5: reference_point,
+        col6: phone,
+        col7: boolToPortugueseString(is_on_whatsapp_group),
+        // col8: phone,
+        // col9: profession,
+        // col10: reference_point,
+        // col11: registration_year,
+        // col12: residents_in_the_house,
+        // col13: roka_id,
+        // col14: Number(situation) as Situation,
       };
     });
 

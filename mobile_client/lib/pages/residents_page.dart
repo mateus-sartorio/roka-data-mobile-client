@@ -304,6 +304,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   CreateResidentPage(
+                                                      showCoin: displayCoin,
                                                       text:
                                                           "Dados do residente",
                                                       resident:
@@ -350,6 +351,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => const CreateResidentPage(
+                                showCoin: false,
                                 text: "Cadastrar novo residente",
                               )));
                 },

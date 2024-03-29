@@ -4,6 +4,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:mobile_client/models/receipt.dart';
 import 'package:mobile_client/pages/all_receipts_page.dart';
 import 'package:mobile_client/pages/create_receipt_page.dart';
 
@@ -17,14 +18,14 @@ class ReceiptsPage extends StatefulWidget {
 class _ReceiptsPageState extends State<ReceiptsPage> {
   GlobalDatabase db = GlobalDatabase();
 
-  void deleteReceipt(int receiptId) {
+  void deleteReceipt(Receipt receipt) {
     showDialog(
       context: context,
       builder: (context) {
         return DialogBox(
           title: "Tem certeza que deseja remover esta entrega?",
           onSave: () {
-            db.deleteReceipt(receiptId);
+            db.deleteReceipt(receipt);
             Navigator.of(context).pop(true);
 
             showDialog(
@@ -189,8 +190,8 @@ class _ReceiptsPageState extends State<ReceiptsPage> {
                                     motion: const StretchMotion(),
                                     children: [
                                       SlidableAction(
-                                        onPressed: (context) => deleteReceipt(
-                                            receipts?[index]?.id ?? -1),
+                                        onPressed: (context) =>
+                                            deleteReceipt(receipts?[index]!),
                                         icon: Icons.delete,
                                         backgroundColor: Colors.red,
                                         borderRadius: BorderRadius.circular(10),

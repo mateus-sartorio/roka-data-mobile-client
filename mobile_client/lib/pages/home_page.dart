@@ -86,7 +86,6 @@ class _HomePageState extends State<HomePage> {
             titles[_selectedIndex],
             style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
           ),
-          backgroundColor: Colors.white,
           elevation: 0,
           leading: Builder(
             builder: (context) => IconButton(

@@ -312,6 +312,7 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   CreateResidentPage(
+                                                      showCoin: displayCoin,
                                                       text:
                                                           "Dados do residente",
                                                       resident:

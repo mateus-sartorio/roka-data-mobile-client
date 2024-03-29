@@ -247,9 +247,9 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
               : "Tem certeza que deseja remover esta entrega?",
           onSave: () {
             if (widget.isOldReceipt) {
-              db.deleteOldReceipt(widget.receipt?.id ?? -1);
+              db.deleteOldReceipt(widget.receipt!);
             } else {
-              db.deleteReceipt(widget.receipt?.id ?? -1);
+              db.deleteReceipt(widget.receipt!);
             }
 
             Navigator.of(context).pop(true);

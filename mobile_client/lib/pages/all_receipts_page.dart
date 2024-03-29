@@ -5,7 +5,6 @@ import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/receipt.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:mobile_client/pages/create_receipt_page.dart';
 
 class AllReceiptsPage extends StatefulWidget {
   const AllReceiptsPage({Key? key}) : super(key: key);
@@ -17,7 +16,31 @@ class AllReceiptsPage extends StatefulWidget {
 class _AllReceiptsPageState extends State<AllReceiptsPage> {
   GlobalDatabase db = GlobalDatabase();
 
-  void deleteReceipt(int receiptId) {
+  void showUnavailableOldReceiptsModificationMessage() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+            title: const Text(
+              "Não é possível modificar entregas de moeda antigas por enquanto.",
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            contentPadding:
+                const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
+            children: [
+              MaterialButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: const Text(
+                    "Ok",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  )),
+            ]);
+      },
+    );
+  }
+
+  void deleteReceipt(Receipt receipt) {
     showDialog(
       context: context,
       builder: (context) {
@@ -25,7 +48,7 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
           title:
               "Tem certeza que deseja remover esta entrega? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
           onSave: () {
-            db.deleteOldReceipt(receiptId);
+            db.deleteOldReceipt(receipt);
             Navigator.of(context).pop(true);
 
             showDialog(
@@ -185,14 +208,14 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
                                   )),
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 15.0),
+                                    vertical: 0, horizontal: 15.0),
                                 child: Slidable(
                                   endActionPane: ActionPane(
                                     motion: const StretchMotion(),
                                     children: [
                                       SlidableAction(
                                         onPressed: (context) =>
-                                            deleteReceipt(receipts[index].id),
+                                            showUnavailableOldReceiptsModificationMessage(),
                                         icon: Icons.delete,
                                         backgroundColor: Colors.red,
                                         borderRadius: BorderRadius.circular(10),
@@ -231,16 +254,17 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
                                       ],
                                     ),
                                     onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CreateReceiptPage(
-                                                      isOldReceipt: true,
-                                                      text:
-                                                          "Alterar dados da entrega",
-                                                      receipt:
-                                                          receipts[index])));
+                                      showUnavailableOldReceiptsModificationMessage();
+                                      // Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) =>
+                                      //             CreateReceiptPage(
+                                      //                 isOldReceipt: true,
+                                      //                 text:
+                                      //                     "Alterar dados da entrega",
+                                      //                 receipt:
+                                      //                     receipts[index])));
                                     },
                                     leading: const Icon(
                                       Icons.shopping_bag,

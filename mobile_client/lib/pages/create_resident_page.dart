@@ -9,8 +9,10 @@ import 'package:mobile_client/utils/integer_id_generator.dart';
 class CreateResidentPage extends StatefulWidget {
   final Resident? resident;
   final String text;
+  final bool showCoin;
 
-  const CreateResidentPage({Key? key, this.resident, required this.text})
+  const CreateResidentPage(
+      {Key? key, this.resident, required this.text, required this.showCoin})
       : super(key: key);
 
   @override
@@ -266,8 +268,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
         needsCollectOnTheHouse: needsCollectOnTheHouse,
         isNew: widget.resident?.isNew ?? isNewResident,
         isMarkedForRemoval: false,
-        wasModified:
-            widget.resident?.wasModified ?? (isNewResident ? false : true));
+        wasModified: isNewResident ? false : true);
 
     if (isNewResident) {
       db.saveNewResident(newResident);
@@ -341,7 +342,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
+        firstDate: DateTime(1900),
         lastDate: DateTime(2100));
 
     if (picked != null) {
@@ -463,8 +464,18 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(
-                  height: 15,
+                Visibility(
+                  visible: widget.showCoin,
+                  child: const Icon(
+                    Icons.monetization_on_rounded,
+                    color: Color.fromARGB(255, 255, 215, 0),
+                  ),
+                ),
+                Visibility(
+                  visible: showTags && widget.showCoin,
+                  child: const SizedBox(
+                    height: 15,
+                  ),
                 ),
                 Visibility(
                     visible: showTags,

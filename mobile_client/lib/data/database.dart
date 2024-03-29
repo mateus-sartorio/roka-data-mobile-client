@@ -203,34 +203,34 @@ class GlobalDatabase {
       List<dynamic> residentsList = _myBox.get("RESIDENTS") ?? [];
       for (dynamic r in residentsList) {
         if (r.wasModified && !r.isNew && !r.isMarkedForRemoval) {
-          updateResidentOnBackend(r as Resident);
+          await updateResidentOnBackend(r as Resident);
         } else if (r.isNew && !r.isMarkedForRemoval) {
-          createNewResidentOnBackend(r as Resident);
+          await createNewResidentOnBackend(r as Resident);
         } else if (r.isMarkedForRemoval) {
-          deleteResidentInTheBackend(r as Resident);
+          await deleteResidentInTheBackend(r as Resident);
         }
       }
 
       List<dynamic> collectsList = _myBox.get("COLLECTS") ?? [];
       for (dynamic c in collectsList) {
-        createNewCollectOnBackend(c as Collect);
+        await createNewCollectOnBackend(c as Collect);
       }
 
       List<dynamic> oldCollectsList = _myBox.get("ALL_DATABASE_COLLECTS") ?? [];
       for (dynamic c in oldCollectsList) {
         if (c.wasModified && !c.isNew && !c.isMarkedForRemoval) {
-          updateOldCollectOnBackend(c as Collect);
+          await updateOldCollectOnBackend(c as Collect);
         } else if (c.isMarkedForRemoval) {
-          deleteOldCollectOnBackend(c as Collect);
+          await deleteOldCollectOnBackend(c as Collect);
         }
       }
 
       List<dynamic> oldReceiptsList = _myBox.get("ALL_DATABASE_RECEIPTS") ?? [];
       for (dynamic r in oldReceiptsList) {
         if (r.wasModified && !r.isNew && !r.isMarkedForRemoval) {
-          updateOldReceiptOnBackend(r as Receipt);
+          await updateOldReceiptOnBackend(r as Receipt);
         } else if (r.isMarkedForRemoval) {
-          deleteOldReceiptOnBackend(r as Receipt);
+          await deleteOldReceiptOnBackend(r as Receipt);
         }
       }
 
@@ -239,17 +239,17 @@ class GlobalDatabase {
 
       for (dynamic ch in currencyHandoutsList) {
         if (ch.wasModified && !ch.isNew && !ch.isMarkedForRemoval) {
-          updateCurrencyHandoutOnBackend(ch as CurrencyHandout);
+          await updateCurrencyHandoutOnBackend(ch as CurrencyHandout);
         } else if (ch.isNew && !ch.isMarkedForRemoval) {
-          createNewCurrencyHandoutOnBackend(ch as CurrencyHandout);
+          await createNewCurrencyHandoutOnBackend(ch as CurrencyHandout);
         } else if (ch.isMarkedForRemoval) {
-          deleteCurrencyHandoutInTheBackend(ch as CurrencyHandout);
+          await deleteCurrencyHandoutInTheBackend(ch as CurrencyHandout);
         }
       }
 
       List<dynamic> receiptsList = _myBox.get("RECEIPTS") ?? [];
       for (dynamic r in receiptsList) {
-        createNewReceiptOnBackend(r as Receipt);
+        await createNewReceiptOnBackend(r as Receipt);
       }
     } catch (e) {
       throw Exception(e);
@@ -450,17 +450,17 @@ class GlobalDatabase {
     }
   }
 
-  void saveNewResident(Resident resident) {
+  void saveNewResident(Resident resident) async {
     List<dynamic> residentsList = _myBox.get("RESIDENTS") ?? [];
     residentsList.add(resident);
 
     residentsList.sort((dynamic a, dynamic b) =>
         a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
-    _myBox.put("RESIDENTS", residentsList);
+    await _myBox.put("RESIDENTS", residentsList);
   }
 
-  void updateResident(Resident resident) {
+  Future<void> updateResident(Resident resident) async {
     List<dynamic> residentsList = _myBox.get("RESIDENTS") ?? [];
 
     resident.receipts
@@ -487,6 +487,7 @@ class GlobalDatabase {
         r.wasModified = resident.wasModified;
         r.isNew = resident.isNew;
         r.needsCollectOnTheHouse = resident.needsCollectOnTheHouse;
+        r.receipts = resident.receipts;
         break;
       }
     }
@@ -494,10 +495,10 @@ class GlobalDatabase {
     residentsList.sort((dynamic a, dynamic b) =>
         a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
-    _myBox.put("RESIDENTS", residentsList);
+    await _myBox.put("RESIDENTS", residentsList);
   }
 
-  void deleteResident(int id) {
+  void deleteResident(int id) async {
     List<dynamic> residentsList = _myBox.get("RESIDENTS") ?? [];
 
     List<dynamic> filteredList = residentsList.map((resident) {
@@ -532,16 +533,24 @@ class GlobalDatabase {
     residentsList.sort((dynamic a, dynamic b) =>
         a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
-    _myBox.put("RESIDENTS", filteredList);
+    await _myBox.put("RESIDENTS", filteredList);
   }
 
-  void saveNewCurrencyHandout(CurrencyHandout currencyHandout) {
+  void saveNewCurrencyHandout(CurrencyHandout currencyHandout) async {
     List<dynamic> currencyHandoutsList = _myBox.get("CURRENCY_HANDOUTS") ?? [];
     currencyHandoutsList.add(currencyHandout);
-    _myBox.put("CURRENCY_HANDOUTS", currencyHandoutsList);
+
+    currencyHandoutsList
+        .sort((dynamic a, dynamic b) => a.startDate.compareTo(b.startDate));
+
+    await _myBox.put("CURRENCY_HANDOUTS", currencyHandoutsList);
+
+    if (currencyHandoutsList.isNotEmpty) {
+      await _myBox.put("LAST_CURRENCY_HANDOUT", currencyHandoutsList[0]);
+    }
   }
 
-  void updateCurrencyHandout(CurrencyHandout currencyHandout) {
+  void updateCurrencyHandout(CurrencyHandout currencyHandout) async {
     List<dynamic> currencyHandoutsList = _myBox.get("CURRENCY_HANDOUTS") ?? [];
 
     for (dynamic c in currencyHandoutsList) {
@@ -555,10 +564,17 @@ class GlobalDatabase {
       }
     }
 
-    _myBox.put("CURRENCY_HANDOUTS", currencyHandoutsList);
+    currencyHandoutsList
+        .sort((dynamic a, dynamic b) => a.startDate.compareTo(b.startDate));
+
+    await _myBox.put("CURRENCY_HANDOUTS", currencyHandoutsList);
+
+    if (currencyHandoutsList.isNotEmpty) {
+      await _myBox.put("LAST_CURRENCY_HANDOUT", currencyHandoutsList[0]);
+    }
   }
 
-  void deleteCurrencyHandout(int id) {
+  void deleteCurrencyHandout(int id) async {
     List<dynamic> currencyHandoutsList = _myBox.get("CURRENCY_HANDOUTS") ?? [];
 
     List<dynamic> filteredList = currencyHandoutsList.map((currencyHandout) {
@@ -576,21 +592,29 @@ class GlobalDatabase {
       }
     }).toList();
 
-    _myBox.put("CURRENCY_HANDOUTS", filteredList);
+    await _myBox.put("CURRENCY_HANDOUTS", filteredList);
+
+    if (currencyHandoutsList.isNotEmpty) {
+      await _myBox.put("LAST_CURRENCY_HANDOUT", currencyHandoutsList[0]);
+    }
   }
 
-  void saveNewReceipt(Receipt receipt) {
+  void saveNewReceipt(Receipt receipt) async {
     List<dynamic> receiptsList = _myBox.get("RECEIPTS") ?? [];
     receiptsList.add(receipt);
 
     Resident resident = getResidentById(receipt.residentId)!;
-    resident.receipts.add(receipt);
-    updateResident(resident);
+    List<Receipt> residentReceipts = resident.receipts;
+    residentReceipts.add(receipt);
+    residentReceipts
+        .sort((Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
+    resident.receipts = residentReceipts;
+    await updateResident(resident);
 
-    _myBox.put("RECEIPTS", receiptsList);
+    await _myBox.put("RECEIPTS", receiptsList);
   }
 
-  void updateReceipt(Receipt receipt) {
+  void updateReceipt(Receipt receipt) async {
     List<dynamic> receiptsList = _myBox.get("RECEIPTS") ?? [];
 
     for (dynamic r in receiptsList) {
@@ -603,19 +627,46 @@ class GlobalDatabase {
       }
     }
 
-    _myBox.put("RECEIPTS", receiptsList);
+    Resident resident = getResidentById(receipt.residentId)!;
+    List<Receipt> residentReceipts = resident.receipts;
+    for (Receipt r in residentReceipts) {
+      if (r.id == receipt.id) {
+        r.handoutDate = receipt.handoutDate;
+        r.value = receipt.value;
+        r.residentId = receipt.residentId;
+        r.currencyHandoutId = receipt.currencyHandoutId;
+        r.isNew = receipt.isNew;
+        r.wasModified = receipt.wasModified;
+        r.isMarkedForRemoval = receipt.isMarkedForRemoval;
+      }
+    }
+    residentReceipts
+        .sort((Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
+    resident.receipts = residentReceipts;
+    await updateResident(resident);
+
+    await _myBox.put("RECEIPTS", receiptsList);
   }
 
-  void deleteReceipt(int receiptId) {
+  void deleteReceipt(Receipt receipt) async {
     List<dynamic> receiptsList = _myBox.get("RECEIPTS") ?? [];
 
     List<dynamic> filteredList =
-        receiptsList.where((receipt) => receipt.id != receiptId).toList();
+        receiptsList.where((r) => r.id != receipt.id).toList();
 
-    _myBox.put("RECEIPTS", filteredList);
+    Resident resident = getResidentById(receipt.residentId)!;
+    List<Receipt> residentReceipts = resident.receipts;
+    residentReceipts =
+        residentReceipts.where((Receipt r) => r.id != receipt.id).toList();
+    residentReceipts
+        .sort((Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
+    resident.receipts = residentReceipts;
+    await updateResident(resident);
+
+    await _myBox.put("RECEIPTS", filteredList);
   }
 
-  void updateOldReceipt(Receipt receipt) {
+  void updateOldReceipt(Receipt receipt) async {
     List<dynamic> receiptsList = _myBox.get("ALL_DATABASE_RECEIPTS") ?? [];
 
     for (dynamic r in receiptsList) {
@@ -631,18 +682,36 @@ class GlobalDatabase {
       }
     }
 
-    _myBox.put("ALL_DATABASE_RECEIPTS", receiptsList);
+    Resident resident = getResidentById(receipt.residentId)!;
+    List<Receipt> residentReceipts = resident.receipts;
+    for (Receipt r in residentReceipts) {
+      if (r.id == receipt.id) {
+        r.handoutDate = receipt.handoutDate;
+        r.value = receipt.value;
+        r.residentId = receipt.residentId;
+        r.currencyHandoutId = receipt.currencyHandoutId;
+        r.isNew = receipt.isNew;
+        r.wasModified = receipt.wasModified;
+        r.isMarkedForRemoval = receipt.isMarkedForRemoval;
+      }
+    }
+    residentReceipts
+        .sort((Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
+    resident.receipts = residentReceipts;
+    await updateResident(resident);
+
+    await _myBox.put("ALL_DATABASE_RECEIPTS", receiptsList);
   }
 
-  void deleteOldReceipt(int receiptId) {
+  void deleteOldReceipt(Receipt receipt) async {
     List<dynamic> collectsList = _myBox.get("ALL_DATABASE_RECEIPTS") ?? [];
 
-    List<dynamic> filteredList = collectsList.map((receipt) {
-      if (receipt.id != receiptId) {
-        return receipt;
+    List<dynamic> filteredList = collectsList.map((r) {
+      if (r.id != receipt.id) {
+        return r;
       } else {
         return Receipt(
-          id: receiptId,
+          id: receipt.id,
           value: receipt.value,
           handoutDate: receipt.handoutDate,
           residentId: receipt.residentId,
@@ -654,7 +723,15 @@ class GlobalDatabase {
       }
     }).toList();
 
-    _myBox.put("ALL_DATABASE_RECEIPTS", filteredList);
+    Resident resident = getResidentById(receipt.residentId)!;
+    List<Receipt> residentReceipts = resident.receipts;
+    residentReceipts =
+        residentReceipts.where((Receipt r) => r.id != receipt.id).toList();
+    residentReceipts
+        .sort((Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
+    await updateResident(resident);
+
+    await _myBox.put("ALL_DATABASE_RECEIPTS", filteredList);
   }
 
   Future<void> updateOldReceiptOnBackend(Receipt receipt) async {
@@ -690,13 +767,13 @@ class GlobalDatabase {
     }
   }
 
-  void saveNewCollect(Collect collect) {
+  void saveNewCollect(Collect collect) async {
     List<dynamic> collectsList = _myBox.get("COLLECTS") ?? [];
     collectsList.add(collect);
-    _myBox.put("COLLECTS", collectsList);
+    await _myBox.put("COLLECTS", collectsList);
   }
 
-  void updateCollect(Collect collect) {
+  void updateCollect(Collect collect) async {
     List<dynamic> collectsList = _myBox.get("COLLECTS") ?? [];
 
     for (dynamic c in collectsList) {
@@ -711,19 +788,19 @@ class GlobalDatabase {
       }
     }
 
-    _myBox.put("COLLECTS", collectsList);
+    await _myBox.put("COLLECTS", collectsList);
   }
 
-  void deleteCollect(int collectId) {
+  void deleteCollect(int collectId) async {
     List<dynamic> collectsList = _myBox.get("COLLECTS") ?? [];
 
     List<dynamic> filteredList =
         collectsList.where((collect) => collect.id != collectId).toList();
 
-    _myBox.put("COLLECTS", filteredList);
+    await _myBox.put("COLLECTS", filteredList);
   }
 
-  void deleteOldCollect(int collectId) {
+  void deleteOldCollect(int collectId) async {
     List<dynamic> collectsList = _myBox.get("ALL_DATABASE_COLLECTS") ?? [];
 
     List<dynamic> filteredList = collectsList.map((collect) {
@@ -742,10 +819,10 @@ class GlobalDatabase {
       }
     }).toList();
 
-    _myBox.put("ALL_DATABASE_COLLECTS", filteredList);
+    await _myBox.put("ALL_DATABASE_COLLECTS", filteredList);
   }
 
-  void updateOldCollect(Collect collect) {
+  void updateOldCollect(Collect collect) async {
     List<dynamic> collectsList = _myBox.get("ALL_DATABASE_COLLECTS") ?? [];
 
     for (dynamic c in collectsList) {
@@ -760,7 +837,7 @@ class GlobalDatabase {
       }
     }
 
-    _myBox.put("ALL_DATABASE_COLLECTS", collectsList);
+    await _myBox.put("ALL_DATABASE_COLLECTS", collectsList);
   }
 
   Future<void> updateOldCollectOnBackend(Collect collect) async {
