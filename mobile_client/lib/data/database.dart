@@ -135,7 +135,7 @@ class GlobalDatabase {
         b.startDate.compareTo(a.startDate));
 
     if (currencyHandouts.isNotEmpty) {
-      await _myBox.put("LAST_CURRENCY_HANDOUT", currencyHandouts[0]);
+      await _myBox.put("LAST_ACTIVE_CURRENCY_HANDOUT", currencyHandouts[0]);
     }
 
     await _myBox.put("CURRENCY_HANDOUTS", currencyHandouts);
@@ -234,6 +234,11 @@ class GlobalDatabase {
         }
       }
 
+      List<dynamic> receiptsList = _myBox.get("RECEIPTS") ?? [];
+      for (dynamic r in receiptsList) {
+        await createNewReceiptOnBackend(r as Receipt);
+      }
+
       List<dynamic> currencyHandoutsList =
           _myBox.get("CURRENCY_HANDOUTS") ?? [];
 
@@ -245,11 +250,6 @@ class GlobalDatabase {
         } else if (ch.isMarkedForRemoval) {
           await deleteCurrencyHandoutInTheBackend(ch as CurrencyHandout);
         }
-      }
-
-      List<dynamic> receiptsList = _myBox.get("RECEIPTS") ?? [];
-      for (dynamic r in receiptsList) {
-        await createNewReceiptOnBackend(r as Receipt);
       }
     } catch (e) {
       throw Exception(e);
@@ -488,6 +488,7 @@ class GlobalDatabase {
         r.isNew = resident.isNew;
         r.needsCollectOnTheHouse = resident.needsCollectOnTheHouse;
         r.receipts = resident.receipts;
+        r.collects = resident.collects;
         break;
       }
     }
@@ -541,13 +542,19 @@ class GlobalDatabase {
     currencyHandoutsList.add(currencyHandout);
 
     currencyHandoutsList
-        .sort((dynamic a, dynamic b) => a.startDate.compareTo(b.startDate));
+        .sort((dynamic a, dynamic b) => b.startDate.compareTo(a.startDate));
 
     await _myBox.put("CURRENCY_HANDOUTS", currencyHandoutsList);
 
-    if (currencyHandoutsList.isNotEmpty) {
-      await _myBox.put("LAST_CURRENCY_HANDOUT", currencyHandoutsList[0]);
+    for (dynamic c in currencyHandoutsList) {
+      if (!c.isMarkedForRemoval) {
+        await _myBox.put("LAST_ACTIVE_CURRENCY_HANDOUT", c);
+        break;
+      }
     }
+
+    print("most recent handout after save new currency handout: ");
+    print(await _myBox.get("LAST_ACTIVE_CURRENCY_HANDOUT").title);
   }
 
   void updateCurrencyHandout(CurrencyHandout currencyHandout) async {
@@ -565,13 +572,19 @@ class GlobalDatabase {
     }
 
     currencyHandoutsList
-        .sort((dynamic a, dynamic b) => a.startDate.compareTo(b.startDate));
+        .sort((dynamic a, dynamic b) => b.startDate.compareTo(a.startDate));
 
     await _myBox.put("CURRENCY_HANDOUTS", currencyHandoutsList);
 
-    if (currencyHandoutsList.isNotEmpty) {
-      await _myBox.put("LAST_CURRENCY_HANDOUT", currencyHandoutsList[0]);
+    for (dynamic c in currencyHandoutsList) {
+      if (!c.isMarkedForRemoval) {
+        await _myBox.put("LAST_ACTIVE_CURRENCY_HANDOUT", c);
+        break;
+      }
     }
+
+    print("most recent handout after update: ");
+    print(await _myBox.get("LAST_ACTIVE_CURRENCY_HANDOUT").title);
   }
 
   void deleteCurrencyHandout(int id) async {
@@ -592,11 +605,27 @@ class GlobalDatabase {
       }
     }).toList();
 
+    filteredList
+        .sort((dynamic a, dynamic b) => b.startDate.compareTo(a.startDate));
+
+    for (dynamic nice in filteredList) {
+      print("${nice.title}, ${nice.isMarkedForRemoval}");
+    }
+
     await _myBox.put("CURRENCY_HANDOUTS", filteredList);
 
-    if (currencyHandoutsList.isNotEmpty) {
-      await _myBox.put("LAST_CURRENCY_HANDOUT", currencyHandoutsList[0]);
+    if (filteredList.isNotEmpty) {
+      for (dynamic c in filteredList) {
+        if (!c.isMarkedForRemoval) {
+          await _myBox.put("LAST_ACTIVE_CURRENCY_HANDOUT", c);
+          print(c.title);
+          break;
+        }
+      }
     }
+
+    print("most recent handout: ");
+    print(await _myBox.get("LAST_ACTIVE_CURRENCY_HANDOUT").title);
   }
 
   void saveNewReceipt(Receipt receipt) async {
@@ -606,8 +635,18 @@ class GlobalDatabase {
     Resident resident = getResidentById(receipt.residentId)!;
     List<Receipt> residentReceipts = resident.receipts;
     residentReceipts.add(receipt);
-    residentReceipts
-        .sort((Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
+    residentReceipts.sort((Receipt a, Receipt b) {
+      var currencyHandoutA = getCurrencyHandoutById(a.currencyHandoutId);
+      var currencyHandoutB = getCurrencyHandoutById(b.currencyHandoutId);
+
+      if (currencyHandoutA == null) {
+        return -1;
+      } else if (currencyHandoutB == null) {
+        return 1;
+      }
+
+      return currencyHandoutB.startDate.compareTo(currencyHandoutA.startDate);
+    });
     resident.receipts = residentReceipts;
     await updateResident(resident);
 
@@ -640,8 +679,18 @@ class GlobalDatabase {
         r.isMarkedForRemoval = receipt.isMarkedForRemoval;
       }
     }
-    residentReceipts
-        .sort((Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
+    residentReceipts.sort((Receipt a, Receipt b) {
+      var currencyHandoutA = getCurrencyHandoutById(a.currencyHandoutId);
+      var currencyHandoutB = getCurrencyHandoutById(b.currencyHandoutId);
+
+      if (currencyHandoutA == null) {
+        return -1;
+      } else if (currencyHandoutB == null) {
+        return 1;
+      }
+
+      return currencyHandoutB.startDate.compareTo(currencyHandoutA.startDate);
+    });
     resident.receipts = residentReceipts;
     await updateResident(resident);
 
@@ -658,8 +707,18 @@ class GlobalDatabase {
     List<Receipt> residentReceipts = resident.receipts;
     residentReceipts =
         residentReceipts.where((Receipt r) => r.id != receipt.id).toList();
-    residentReceipts
-        .sort((Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
+    residentReceipts.sort((Receipt a, Receipt b) {
+      var currencyHandoutA = getCurrencyHandoutById(a.currencyHandoutId);
+      var currencyHandoutB = getCurrencyHandoutById(b.currencyHandoutId);
+
+      if (currencyHandoutA == null) {
+        return -1;
+      } else if (currencyHandoutB == null) {
+        return 1;
+      }
+
+      return currencyHandoutB.startDate.compareTo(currencyHandoutA.startDate);
+    });
     resident.receipts = residentReceipts;
     await updateResident(resident);
 
@@ -695,8 +754,18 @@ class GlobalDatabase {
         r.isMarkedForRemoval = receipt.isMarkedForRemoval;
       }
     }
-    residentReceipts
-        .sort((Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
+    residentReceipts.sort((Receipt a, Receipt b) {
+      var currencyHandoutA = getCurrencyHandoutById(a.currencyHandoutId);
+      var currencyHandoutB = getCurrencyHandoutById(b.currencyHandoutId);
+
+      if (currencyHandoutA == null) {
+        return -1;
+      } else if (currencyHandoutB == null) {
+        return 1;
+      }
+
+      return currencyHandoutB.startDate.compareTo(currencyHandoutA.startDate);
+    });
     resident.receipts = residentReceipts;
     await updateResident(resident);
 
@@ -727,8 +796,18 @@ class GlobalDatabase {
     List<Receipt> residentReceipts = resident.receipts;
     residentReceipts =
         residentReceipts.where((Receipt r) => r.id != receipt.id).toList();
-    residentReceipts
-        .sort((Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
+    residentReceipts.sort((Receipt a, Receipt b) {
+      var currencyHandoutA = getCurrencyHandoutById(a.currencyHandoutId);
+      var currencyHandoutB = getCurrencyHandoutById(b.currencyHandoutId);
+
+      if (currencyHandoutA == null) {
+        return -1;
+      } else if (currencyHandoutB == null) {
+        return 1;
+      }
+
+      return currencyHandoutB.startDate.compareTo(currencyHandoutA.startDate);
+    });
     await updateResident(resident);
 
     await _myBox.put("ALL_DATABASE_RECEIPTS", filteredList);

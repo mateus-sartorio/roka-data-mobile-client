@@ -5,6 +5,7 @@ import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/receipt.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:mobile_client/pages/create_receipt_page.dart';
 
 class AllReceiptsPage extends StatefulWidget {
   const AllReceiptsPage({Key? key}) : super(key: key);
@@ -215,7 +216,7 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
                                     children: [
                                       SlidableAction(
                                         onPressed: (context) =>
-                                            showUnavailableOldReceiptsModificationMessage(),
+                                            deleteReceipt(receipts[index]),
                                         icon: Icons.delete,
                                         backgroundColor: Colors.red,
                                         borderRadius: BorderRadius.circular(10),
@@ -254,17 +255,16 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
                                       ],
                                     ),
                                     onTap: () {
-                                      showUnavailableOldReceiptsModificationMessage();
-                                      // Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) =>
-                                      //             CreateReceiptPage(
-                                      //                 isOldReceipt: true,
-                                      //                 text:
-                                      //                     "Alterar dados da entrega",
-                                      //                 receipt:
-                                      //                     receipts[index])));
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CreateReceiptPage(
+                                                      isOldReceipt: true,
+                                                      text:
+                                                          "Alterar dados da entrega",
+                                                      receipt:
+                                                          receipts[index])));
                                     },
                                     leading: const Icon(
                                       Icons.shopping_bag,

@@ -106,6 +106,10 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
     } else if (selectedCurrencyHandout == null) {
       warnInvalidRegistrationData("Selecione uma distribuição de moeda.");
       return false;
+    } else if (selectedCurrencyHandout?.isMarkedForRemoval ?? false) {
+      warnInvalidRegistrationData(
+          "Distribuição de moeda marcada para remoção.");
+      return false;
     } else if (!decimalPattern.hasMatch(_valueController.text)) {
       warnInvalidRegistrationData(
           "Valor inválido (deve ser um número decimal com no máximo duas casas decimais, separado por \".\" ou \",\").");

@@ -125,7 +125,7 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                             itemCount: filteredResidents.length,
                             itemBuilder: (context, index) {
                               final CurrencyHandout? lastCurrencyHandout =
-                                  box.get("LAST_CURRENCY_HANDOUT")
+                                  box.get("LAST_ACTIVE_CURRENCY_HANDOUT")
                                       as CurrencyHandout?;
 
                               bool displayCoin = false;
