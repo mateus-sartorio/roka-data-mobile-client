@@ -983,4 +983,16 @@ class GlobalDatabase {
 
     return null;
   }
+
+  (bool, String?) isRokaIdTakenByAnotherResident(int residentId, int rokaId) {
+    List<dynamic> residentsList = _myBox.get("RESIDENTS") ?? [];
+
+    for (dynamic resident in residentsList) {
+      if (resident.rokaId == rokaId && resident.id != residentId) {
+        return (true, resident.name);
+      }
+    }
+
+    return (false, null);
+  }
 }
