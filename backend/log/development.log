@@ -28802,3 +28802,28 @@ Processing by ReceiptsController#index as JSON
 Completed 200 OK in 4ms (Views: 3.1ms | ActiveRecord: 0.1ms | Allocations: 1197)
 
 
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to AddUniqueIndexToRokaId (20240330010256)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (11.4ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_residents_on_roka_id" ON "residents" ("roka_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20240330010256"]]
+  [1m[36mTRANSACTION (20.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started POST "/residents" for ::1 at 2024-03-29 22:44:53 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#create as */*
+  Parameters: {"id"=>1, "name"=>"Jamir", "situation"=>"ativo", "roka_id"=>20, "has_plaque"=>true, "registration_year"=>2022, "address"=>"JN", "reference_point"=>"JN", "lives_in_JN"=>true, "phone"=>"992877594", "is_on_whatsapp_group"=>false, "birthdate"=>nil, "profession"=>"youtuber", "residents_in_the_house"=>2, "observations"=>"cuidado", "created_at"=>"2024-02-19T02:40:44.774Z", "updated_at"=>"2024-02-19T02:40:44.774Z", "resident"=>{"id"=>1, "name"=>"Jamir", "situation"=>"ativo", "roka_id"=>20, "has_plaque"=>true, "registration_year"=>2022, "address"=>"JN", "reference_point"=>"JN", "lives_in_JN"=>true, "phone"=>"992877594", "is_on_whatsapp_group"=>false, "birthdate"=>nil, "profession"=>"youtuber", "residents_in_the_house"=>2, "observations"=>"cuidado", "created_at"=>"2024-02-19T02:40:44.774Z", "updated_at"=>"2024-02-19T02:40:44.774Z"}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mResident Create (1.9ms)[0m  [1m[32mINSERT INTO "residents" ("id", "name", "situation", "roka_id", "has_plaque", "registration_year", "address", "reference_point", "lives_in_JN", "phone", "is_on_whatsapp_group", "birthdate", "profession", "residents_in_the_house", "observations", "created_at", "updated_at", "needs_collect_on_the_house") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["id", 1], ["name", "Jamir"], ["situation", 0], ["roka_id", 20], ["has_plaque", 1], ["registration_year", 2022], ["address", "JN"], ["reference_point", "JN"], ["lives_in_JN", 1], ["phone", "992877594"], ["is_on_whatsapp_group", 0], ["birthdate", nil], ["profession", "youtuber"], ["residents_in_the_house", 2], ["observations", "cuidado"], ["created_at", "2024-02-19 02:40:44.774000"], ["updated_at", "2024-02-19 02:40:44.774000"], ["needs_collect_on_the_house", nil]]
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+Completed 500 Internal Server Error in 32ms (ActiveRecord: 2.9ms | Allocations: 15419)
+
+
+  
+ActiveRecord::RecordNotUnique (SQLite3::ConstraintException: UNIQUE constraint failed: residents.roka_id):
+  
+app/controllers/residents_controller.rb:15:in `create'

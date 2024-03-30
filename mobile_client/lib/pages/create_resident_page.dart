@@ -216,6 +216,13 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
         warnInvalidRegistrationData("Id da Roka inválido.");
       }
       return false;
+    } else if (db
+        .isRokaIdTakenByAnotherResident(widget.resident?.id ?? -1,
+            int.tryParse(_rokaIdController.text) ?? -1)
+        .$1) {
+      warnInvalidRegistrationData(
+          "Id da Roka ${int.parse(_rokaIdController.text)} já está sendo usado por ${db.isRokaIdTakenByAnotherResident(widget.resident?.id ?? -1, int.parse(_rokaIdController.text)).$2}.");
+      return false;
     } else if (_registrationYearController.text.isNotEmpty &&
         !registrationYearPattern.hasMatch(_registrationYearController.text)) {
       warnInvalidRegistrationData("Ano de cadastro inválido (20XX).");
