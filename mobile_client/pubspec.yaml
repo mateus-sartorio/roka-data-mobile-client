@@ -41,7 +41,7 @@ dependencies:
   http: ^1.1.2
   hive: ^2.2.3
   hive_flutter: ^1.1.0
-  flutter_slidable: ^1.2.0
+  flutter_slidable: ^3.1.0
   uuid: ^4.3.3
   crypto: ^3.0.3
   flutter_animate: ^4.5.0
