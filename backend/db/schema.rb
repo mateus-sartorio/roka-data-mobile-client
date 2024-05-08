@@ -11,10 +11,13 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2024_03_30_010256) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "collects", force: :cascade do |t|
     t.date "collected_on"
     t.decimal "ammount"
-    t.integer "resident_id", null: false
+    t.bigint "resident_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["resident_id"], name: "index_collects_on_resident_id"
@@ -30,8 +33,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_30_010256) do
   create_table "receipts", force: :cascade do |t|
     t.date "handout_date"
     t.decimal "value"
-    t.integer "resident_id", null: false
-    t.integer "currency_handout_id", null: false
+    t.bigint "resident_id", null: false
+    t.bigint "currency_handout_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["currency_handout_id"], name: "index_receipts_on_currency_handout_id"
