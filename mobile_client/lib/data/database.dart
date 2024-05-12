@@ -16,7 +16,15 @@ class GlobalDatabase {
     await _myBox.put("RESIDENTS", []);
     await _myBox.put("COLLECTS", []);
     await _myBox.put("RECEIPTS", []);
-    await _myBox.put("LAST_ACTIVE_CURRENCY_HANDOUT", []);
+    await _myBox.put(
+        "LAST_ACTIVE_CURRENCY_HANDOUT",
+        CurrencyHandout(
+            id: 0,
+            title: "",
+            startDate: DateTime.now(),
+            isNew: false,
+            wasModified: false,
+            isMarkedForRemoval: false));
     await _myBox.put("CURRENCY_HANDOUTS", []);
     await _myBox.put("ALL_DATABASE_COLLECTS", []);
     await _myBox.put("ALL_DATABASE_RECEIPTS", []);
@@ -562,9 +570,6 @@ class GlobalDatabase {
         break;
       }
     }
-
-    print("most recent handout after save new currency handout: ");
-    print(await _myBox.get("LAST_ACTIVE_CURRENCY_HANDOUT").title);
   }
 
   void updateCurrencyHandout(CurrencyHandout currencyHandout) async {
@@ -592,9 +597,6 @@ class GlobalDatabase {
         break;
       }
     }
-
-    print("most recent handout after update: ");
-    print(await _myBox.get("LAST_ACTIVE_CURRENCY_HANDOUT").title);
   }
 
   void deleteCurrencyHandout(int id) async {
@@ -618,24 +620,16 @@ class GlobalDatabase {
     filteredList
         .sort((dynamic a, dynamic b) => b.startDate.compareTo(a.startDate));
 
-    for (dynamic nice in filteredList) {
-      print("${nice.title}, ${nice.isMarkedForRemoval}");
-    }
-
     await _myBox.put("CURRENCY_HANDOUTS", filteredList);
 
     if (filteredList.isNotEmpty) {
       for (dynamic c in filteredList) {
         if (!c.isMarkedForRemoval) {
           await _myBox.put("LAST_ACTIVE_CURRENCY_HANDOUT", c);
-          print(c.title);
           break;
         }
       }
     }
-
-    print("most recent handout: ");
-    print(await _myBox.get("LAST_ACTIVE_CURRENCY_HANDOUT").title);
   }
 
   void saveNewReceipt(Receipt receipt) async {

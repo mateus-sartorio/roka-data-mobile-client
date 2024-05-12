@@ -28933,3 +28933,399 @@ Processing by ReceiptsController#index as JSON
 Completed 200 OK in 11ms (Views: 5.6ms | ActiveRecord: 1.3ms | Allocations: 2754)
 
 
+Started GET "/residents" for 127.0.0.1 at 2024-05-12 17:48:26 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (2.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (2.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 14ms (Views: 2.0ms | ActiveRecord: 2.3ms | Allocations: 4853)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-05-12 17:48:26 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.7ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 59)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 4.0ms | Allocations: 1302)
+Completed 200 OK in 21ms (Views: 8.7ms | ActiveRecord: 0.7ms | Allocations: 5332)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-05-12 17:48:26 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (1.8ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 8ms (Views: 1.6ms | ActiveRecord: 1.8ms | Allocations: 1827)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-05-12 17:48:26 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (2.3ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [0 times] (Duration: 0.2ms | Allocations: 21)
+  Rendered receipts/index.json.jbuilder (Duration: 7.5ms | Allocations: 994)
+Completed 200 OK in 16ms (Views: 7.7ms | ActiveRecord: 2.3ms | Allocations: 2727)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-05-12 17:50:55 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (1.0ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 29ms (Views: 24.1ms | ActiveRecord: 1.0ms | Allocations: 784)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-05-12 17:50:55 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.8ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.3ms | Allocations: 17)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 6.0ms | Allocations: 736)
+Completed 200 OK in 10ms (Views: 7.7ms | ActiveRecord: 0.8ms | Allocations: 1037)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-05-12 17:50:56 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.7ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 5ms (Views: 2.9ms | ActiveRecord: 0.7ms | Allocations: 748)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-05-12 17:50:56 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.5ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered receipts/index.json.jbuilder (Duration: 3.8ms | Allocations: 737)
+Completed 200 OK in 7ms (Views: 4.8ms | ActiveRecord: 0.5ms | Allocations: 1038)
+
+
+Started POST "/residents" for 127.0.0.1 at 2024-05-12 17:51:35 -0300
+Processing by ResidentsController#create as HTML
+  Parameters: {"id"=>880777646596499554, "name"=>"a", "roka_id"=>1, "has_plaque"=>false, "registration_year"=>2023, "address"=>"a,a,1", "reference_point"=>"a", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-05-12 17:51:02.822073", "profession"=>"a", "residents_in_the_house"=>1, "observations"=>"1", "situation"=>0, "needs_collect_on_the_house"=>true, "resident"=>{"id"=>880777646596499554, "name"=>"a", "situation"=>0, "roka_id"=>1, "has_plaque"=>false, "registration_year"=>2023, "address"=>"a,a,1", "reference_point"=>"a", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-05-12 17:51:02.822073", "profession"=>"a", "residents_in_the_house"=>1, "observations"=>"1", "needs_collect_on_the_house"=>true}}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mResident Create (12.6ms)[0m  [1m[32mINSERT INTO "residents" ("id", "name", "situation", "roka_id", "has_plaque", "registration_year", "address", "reference_point", "lives_in_JN", "phone", "is_on_whatsapp_group", "birthdate", "profession", "residents_in_the_house", "observations", "created_at", "updated_at", "needs_collect_on_the_house") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING "id"[0m  [["id", 880777646596499554], ["name", "a"], ["situation", 0], ["roka_id", 1], ["has_plaque", false], ["registration_year", 2023], ["address", "a,a,1"], ["reference_point", "a"], ["lives_in_JN", true], ["phone", "(11) 11111-1111"], ["is_on_whatsapp_group", false], ["birthdate", "2024-05-12"], ["profession", "a"], ["residents_in_the_house", 1], ["observations", "1"], ["created_at", "2024-05-12 20:51:35.917072"], ["updated_at", "2024-05-12 20:51:35.917072"], ["needs_collect_on_the_house", true]]
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (2.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/residents_controller.rb:15:in `create'
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = $1[0m  [["resident_id", 880777646596499554]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.5ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = $1[0m  [["resident_id", 880777646596499554]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 201 Created in 211ms (Views: 120.8ms | ActiveRecord: 41.6ms | Allocations: 22887)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-05-12 17:51:38 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (1.0ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.6ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = $1[0m  [["resident_id", 880777646596499554]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.4ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = $1[0m  [["resident_id", 880777646596499554]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 12ms (Views: 8.9ms | ActiveRecord: 2.1ms | Allocations: 2489)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-05-12 17:51:38 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.3ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.5ms | Allocations: 734)
+Completed 200 OK in 4ms (Views: 2.7ms | ActiveRecord: 0.3ms | Allocations: 1033)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-05-12 17:51:38 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 4ms (Views: 2.8ms | ActiveRecord: 0.3ms | Allocations: 746)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-05-12 17:51:38 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.4ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered receipts/index.json.jbuilder (Duration: 2.3ms | Allocations: 736)
+Completed 200 OK in 4ms (Views: 2.6ms | ActiveRecord: 0.4ms | Allocations: 1037)
+
+
+Started PUT "/residents/880777646596499554" for 127.0.0.1 at 2024-05-12 17:51:59 -0300
+Processing by ResidentsController#update as HTML
+  Parameters: {"id"=>"880777646596499554", "name"=>"a", "roka_id"=>1, "situation"=>0, "has_plaque"=>false, "registration_year"=>2023, "address"=>"a,av,1", "reference_point"=>"a", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-05-12 00:00:00.000", "profession"=>"a", "residents_in_the_house"=>1, "observations"=>"1", "needs_collect_on_the_house"=>true, "resident"=>{"id"=>"880777646596499554", "name"=>"a", "situation"=>0, "roka_id"=>1, "has_plaque"=>false, "registration_year"=>2023, "address"=>"a,av,1", "reference_point"=>"a", "lives_in_JN"=>true, "phone"=>"(11) 11111-1111", "is_on_whatsapp_group"=>false, "birthdate"=>"2024-05-12 00:00:00.000", "profession"=>"a", "residents_in_the_house"=>1, "observations"=>"1", "needs_collect_on_the_house"=>true}}
+  [1m[36mResident Load (0.6ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = $1 LIMIT $2[0m  [["id", 880777646596499554], ["LIMIT", 1]]
+  ↳ app/controllers/residents_controller.rb:23:in `update'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mResident Update (3.1ms)[0m  [1m[33mUPDATE "residents" SET "address" = $1, "updated_at" = $2 WHERE "residents"."id" = $3[0m  [["address", "a,av,1"], ["updated_at", "2024-05-12 20:51:59.826790"], ["id", 880777646596499554]]
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mTRANSACTION (2.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/residents_controller.rb:25:in `update'
+  [1m[36mCollect Load (0.5ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = $1[0m  [["resident_id", 880777646596499554]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = $1[0m  [["resident_id", 880777646596499554]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 23ms (Views: 4.3ms | ActiveRecord: 7.5ms | Allocations: 5590)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-05-12 17:52:01 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = $1[0m  [["resident_id", 880777646596499554]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.3ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = $1[0m  [["resident_id", 880777646596499554]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 6ms (Views: 4.5ms | ActiveRecord: 0.8ms | Allocations: 2451)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-05-12 17:52:01 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.6ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.1ms | Allocations: 734)
+Completed 200 OK in 3ms (Views: 1.9ms | ActiveRecord: 0.6ms | Allocations: 1033)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-05-12 17:52:01 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 2ms (Views: 1.2ms | ActiveRecord: 0.2ms | Allocations: 746)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-05-12 17:52:01 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.4ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered receipts/index.json.jbuilder (Duration: 4.3ms | Allocations: 736)
+Completed 200 OK in 5ms (Views: 4.5ms | ActiveRecord: 0.4ms | Allocations: 1038)
+
+
+Started POST "/receipts/" for 127.0.0.1 at 2024-05-12 17:52:27 -0300
+Processing by ReceiptsController#create as HTML
+  Parameters: {"id"=>1100103945484163305, "handout_date"=>"2024-05-12T17:52:20.694321", "value"=>1.0, "resident_id"=>880777646596499554, "currency_handout_id"=>445853565865678080, "receipt"=>{"id"=>1100103945484163305, "handout_date"=>"2024-05-12T17:52:20.694321", "value"=>1.0, "resident_id"=>880777646596499554, "currency_handout_id"=>445853565865678080}}
+[31mUnpermitted parameter: :id. Context: { controller: ReceiptsController, action: create, request: #<ActionDispatch::Request:0x00007f4c0cdc4100>, params: {"id"=>1100103945484163305, "handout_date"=>"2024-05-12T17:52:20.694321", "value"=>1.0, "resident_id"=>880777646596499554, "currency_handout_id"=>445853565865678080, "controller"=>"receipts", "action"=>"create", "receipt"=>{"id"=>1100103945484163305, "handout_date"=>"2024-05-12T17:52:20.694321", "value"=>1.0, "resident_id"=>880777646596499554, "currency_handout_id"=>445853565865678080}} }[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/receipts_controller.rb:27:in `block in create'
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = $1 LIMIT $2[0m  [["id", 880777646596499554], ["LIMIT", 1]]
+  ↳ app/controllers/receipts_controller.rb:27:in `block in create'
+  [1m[36mCurrencyHandout Load (0.3ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = $1 LIMIT $2[0m  [["id", 445853565865678080], ["LIMIT", 1]]
+  ↳ app/controllers/receipts_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/receipts_controller.rb:27:in `block in create'
+  Rendering layout layouts/application.html.erb
+  Rendering receipts/new.html.erb within layouts/application
+  Rendered receipts/_form.html.erb (Duration: 20.9ms | Allocations: 4284)
+  Rendered receipts/new.html.erb within layouts/application (Duration: 23.7ms | Allocations: 4674)
+  Rendered layout layouts/application.html.erb (Duration: 282.6ms | Allocations: 90902)
+Completed 422 Unprocessable Entity in 319ms (Views: 283.6ms | ActiveRecord: 5.7ms | Allocations: 103971)
+
+
+Started POST "/currency_handouts" for 127.0.0.1 at 2024-05-12 17:52:28 -0300
+Processing by CurrencyHandoutsController#create as HTML
+  Parameters: {"id"=>445853565865678080, "title"=>"entrega 1", "start_date"=>"2024-05-12T17:52:12.659649", "currency_handout"=>{"id"=>445853565865678080, "title"=>"entrega 1", "start_date"=>"2024-05-12T17:52:12.659649"}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mCurrencyHandout Create (1.2ms)[0m  [1m[32mINSERT INTO "currency_handouts" ("id", "title", "start_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["id", 445853565865678080], ["title", "entrega 1"], ["start_date", "2024-05-12"], ["created_at", "2024-05-12 20:52:28.206420"], ["updated_at", "2024-05-12 20:52:28.206420"]]
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (1.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/currency_handouts_controller.rb:27:in `block in create'
+Redirected to http://10.0.2.2:3000/currency_handouts/445853565865678080
+Completed 302 Found in 12ms (ActiveRecord: 2.7ms | Allocations: 4835)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-05-12 17:52:30 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = $1[0m  [["resident_id", 880777646596499554]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.6ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = $1[0m  [["resident_id", 880777646596499554]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 7ms (Views: 5.4ms | ActiveRecord: 1.2ms | Allocations: 2451)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-05-12 17:52:30 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.3ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [1 times] (Duration: 1.0ms | Allocations: 249)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 2.9ms | Allocations: 1070)
+Completed 200 OK in 4ms (Views: 3.1ms | ActiveRecord: 0.3ms | Allocations: 1369)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-05-12 17:52:30 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 2ms (Views: 1.1ms | ActiveRecord: 0.2ms | Allocations: 746)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-05-12 17:52:30 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered receipts/index.json.jbuilder (Duration: 1.7ms | Allocations: 736)
+Completed 200 OK in 2ms (Views: 1.9ms | ActiveRecord: 0.2ms | Allocations: 1037)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-05-12 17:52:51 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = $1[0m  [["resident_id", 880777646596499554]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.7ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = $1[0m  [["resident_id", 880777646596499554]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 17ms (Views: 15.7ms | ActiveRecord: 1.2ms | Allocations: 2451)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-05-12 17:52:51 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.4ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [1 times] (Duration: 0.5ms | Allocations: 112)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 3.2ms | Allocations: 918)
+Completed 200 OK in 4ms (Views: 3.4ms | ActiveRecord: 0.4ms | Allocations: 1218)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-05-12 17:52:51 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 2ms (Views: 1.3ms | ActiveRecord: 0.2ms | Allocations: 746)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-05-12 17:52:51 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.3ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 17)
+  Rendered receipts/index.json.jbuilder (Duration: 2.7ms | Allocations: 736)
+Completed 200 OK in 4ms (Views: 3.1ms | ActiveRecord: 0.3ms | Allocations: 1037)
+
+
+Started POST "/receipts/" for 127.0.0.1 at 2024-05-12 17:53:03 -0300
+Processing by ReceiptsController#create as HTML
+  Parameters: {"id"=>123024051942027756, "handout_date"=>"2024-05-12T17:52:56.725704", "value"=>1.0, "resident_id"=>880777646596499554, "currency_handout_id"=>445853565865678080, "receipt"=>{"id"=>123024051942027756, "handout_date"=>"2024-05-12T17:52:56.725704", "value"=>1.0, "resident_id"=>880777646596499554, "currency_handout_id"=>445853565865678080}}
+[31mUnpermitted parameter: :id. Context: { controller: ReceiptsController, action: create, request: #<ActionDispatch::Request:0x00007f4c0d058e98>, params: {"id"=>123024051942027756, "handout_date"=>"2024-05-12T17:52:56.725704", "value"=>1.0, "resident_id"=>880777646596499554, "currency_handout_id"=>445853565865678080, "controller"=>"receipts", "action"=>"create", "receipt"=>{"id"=>123024051942027756, "handout_date"=>"2024-05-12T17:52:56.725704", "value"=>1.0, "resident_id"=>880777646596499554, "currency_handout_id"=>445853565865678080}} }[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/receipts_controller.rb:27:in `block in create'
+  [1m[36mResident Load (0.4ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = $1 LIMIT $2[0m  [["id", 880777646596499554], ["LIMIT", 1]]
+  ↳ app/controllers/receipts_controller.rb:27:in `block in create'
+  [1m[36mCurrencyHandout Load (0.3ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts" WHERE "currency_handouts"."id" = $1 LIMIT $2[0m  [["id", 445853565865678080], ["LIMIT", 1]]
+  ↳ app/controllers/receipts_controller.rb:27:in `block in create'
+  [1m[36mReceipt Create (6.8ms)[0m  [1m[32mINSERT INTO "receipts" ("handout_date", "value", "resident_id", "currency_handout_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["handout_date", "2024-05-12"], ["value", "1.0"], ["resident_id", 880777646596499554], ["currency_handout_id", 445853565865678080], ["created_at", "2024-05-12 20:53:03.241019"], ["updated_at", "2024-05-12 20:53:03.241019"]]
+  ↳ app/controllers/receipts_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (2.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/receipts_controller.rb:27:in `block in create'
+Redirected to http://10.0.2.2:3000/receipts/1
+Completed 302 Found in 22ms (ActiveRecord: 10.7ms | Allocations: 4475)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-05-12 17:53:05 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.6ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = $1[0m  [["resident_id", 880777646596499554]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = $1[0m  [["resident_id", 880777646596499554]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 8ms (Views: 6.6ms | ActiveRecord: 1.2ms | Allocations: 2613)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-05-12 17:53:05 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.3ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [1 times] (Duration: 0.5ms | Allocations: 112)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 3.3ms | Allocations: 918)
+Completed 200 OK in 5ms (Views: 3.7ms | ActiveRecord: 0.3ms | Allocations: 1217)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-05-12 17:53:05 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.3ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 2ms (Views: 1.7ms | ActiveRecord: 0.3ms | Allocations: 746)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-05-12 17:53:05 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [1 times] (Duration: 0.8ms | Allocations: 211)
+  Rendered receipts/index.json.jbuilder (Duration: 2.6ms | Allocations: 1034)
+Completed 200 OK in 3ms (Views: 2.8ms | ActiveRecord: 0.2ms | Allocations: 1335)
+
+
+Started POST "/collects" for 127.0.0.1 at 2024-05-12 17:53:25 -0300
+Processing by CollectsController#create as HTML
+  Parameters: {"id"=>643451420417252261, "collected_on"=>"2024-05-12T17:53:20.262473", "resident_id"=>880777646596499554, "ammount"=>1.0, "collect"=>{"id"=>643451420417252261, "collected_on"=>"2024-05-12T17:53:20.262473", "ammount"=>1.0, "resident_id"=>880777646596499554}}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mResident Load (0.2ms)[0m  [1m[34mSELECT "residents".* FROM "residents" WHERE "residents"."id" = $1 LIMIT $2[0m  [["id", 880777646596499554], ["LIMIT", 1]]
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mCollect Create (0.6ms)[0m  [1m[32mINSERT INTO "collects" ("id", "collected_on", "ammount", "resident_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["id", 643451420417252261], ["collected_on", "2024-05-12"], ["ammount", "1.0"], ["resident_id", 880777646596499554], ["created_at", "2024-05-12 20:53:25.624864"], ["updated_at", "2024-05-12 20:53:25.624864"]]
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (2.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/collects_controller.rb:15:in `create'
+Completed 201 Created in 16ms (Views: 0.3ms | ActiveRecord: 5.0ms | Allocations: 7069)
+
+
+Started GET "/residents" for 127.0.0.1 at 2024-05-12 17:53:27 -0300
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (0.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects" WHERE "collects"."resident_id" = $1[0m  [["resident_id", 880777646596499554]]
+  ↳ app/models/resident.rb:8:in `as_json'
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts" WHERE "receipts"."resident_id" = $1[0m  [["resident_id", 880777646596499554]]
+  ↳ app/models/resident.rb:8:in `as_json'
+Completed 200 OK in 5ms (Views: 3.7ms | ActiveRecord: 0.6ms | Allocations: 2688)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-05-12 17:53:27 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (0.6ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [1 times] (Duration: 0.5ms | Allocations: 112)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 3.7ms | Allocations: 918)
+Completed 200 OK in 5ms (Views: 3.7ms | ActiveRecord: 0.6ms | Allocations: 1217)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-05-12 17:53:27 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (0.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 2ms (Views: 1.8ms | ActiveRecord: 0.2ms | Allocations: 863)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-05-12 17:53:27 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (0.2ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [1 times] (Duration: 0.3ms | Allocations: 116)
+  Rendered receipts/index.json.jbuilder (Duration: 1.8ms | Allocations: 937)
+Completed 200 OK in 2ms (Views: 1.9ms | ActiveRecord: 0.2ms | Allocations: 1238)
+
+
