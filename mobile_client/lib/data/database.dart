@@ -12,6 +12,16 @@ import 'package:http/http.dart' as http;
 class GlobalDatabase {
   final _myBox = Hive.box('globalDatabase');
 
+  Future<void> createEmptyState() async {
+    await _myBox.put("RESIDENTS", []);
+    await _myBox.put("COLLECTS", []);
+    await _myBox.put("RECEIPTS", []);
+    await _myBox.put("LAST_ACTIVE_CURRENCY_HANDOUT", []);
+    await _myBox.put("CURRENCY_HANDOUTS", []);
+    await _myBox.put("ALL_DATABASE_COLLECTS", []);
+    await _myBox.put("ALL_DATABASE_RECEIPTS", []);
+  }
+
   Future<void> fetchDataFromBackend() async {
     try {
       await fetchAllResidents();

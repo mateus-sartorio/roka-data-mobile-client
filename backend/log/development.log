@@ -28898,3 +28898,38 @@ Processing by ResidentsController#index as HTML
 Completed 200 OK in 26ms (Views: 2.7ms | ActiveRecord: 0.9ms | Allocations: 3607)
 
 
+Started GET "/residents" for 127.0.0.1 at 2024-05-12 13:50:15 -0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (1.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ResidentsController#index as HTML
+  [1m[36mResident Load (2.3ms)[0m  [1m[34mSELECT "residents".* FROM "residents"[0m
+  ↳ app/controllers/residents_controller.rb:4:in `index'
+Completed 200 OK in 15ms (Views: 1.9ms | ActiveRecord: 2.3ms | Allocations: 4921)
+
+
+Started GET "/currency_handouts.json" for 127.0.0.1 at 2024-05-12 13:50:15 -0300
+Processing by CurrencyHandoutsController#index as JSON
+  Rendering currency_handouts/index.json.jbuilder
+  [1m[36mCurrencyHandout Load (1.0ms)[0m  [1m[34mSELECT "currency_handouts".* FROM "currency_handouts"[0m
+  ↳ app/views/currency_handouts/index.json.jbuilder:1
+  Rendered collection of currency_handouts/_currency_handout.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 59)
+  Rendered currency_handouts/index.json.jbuilder (Duration: 4.9ms | Allocations: 1302)
+Completed 200 OK in 17ms (Views: 8.2ms | ActiveRecord: 1.0ms | Allocations: 5422)
+
+
+Started GET "/collects" for 127.0.0.1 at 2024-05-12 13:50:15 -0300
+Processing by CollectsController#index as HTML
+  [1m[36mCollect Load (1.2ms)[0m  [1m[34mSELECT "collects".* FROM "collects"[0m
+  ↳ app/controllers/collects_controller.rb:4:in `index'
+Completed 200 OK in 7ms (Views: 1.8ms | ActiveRecord: 1.2ms | Allocations: 1852)
+
+
+Started GET "/receipts.json" for 127.0.0.1 at 2024-05-12 13:50:15 -0300
+Processing by ReceiptsController#index as JSON
+  Rendering receipts/index.json.jbuilder
+  [1m[36mReceipt Load (1.3ms)[0m  [1m[34mSELECT "receipts".* FROM "receipts"[0m
+  ↳ app/views/receipts/index.json.jbuilder:1
+  Rendered collection of receipts/_receipt.json.jbuilder [0 times] (Duration: 0.1ms | Allocations: 21)
+  Rendered receipts/index.json.jbuilder (Duration: 4.8ms | Allocations: 994)
+Completed 200 OK in 11ms (Views: 5.6ms | ActiveRecord: 1.3ms | Allocations: 2754)
+
+
