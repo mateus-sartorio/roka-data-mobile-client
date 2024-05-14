@@ -1,0 +1,13 @@
+com.example.mobile_client.app-jetified-annotation-experimental-1.1.0-0 /home/mateus/.gradle/caches/transforms-3/09db32a73384ac2dccccf916d7dc0262/transformed/jetified-annotation-experimental-1.1.0/res
+com.example.mobile_client.app-core-1.6.0-1 /home/mateus/.gradle/caches/transforms-3/168e459aae59caaab0d2c703cf9d67ab/transformed/core-1.6.0/res
+com.example.mobile_client.app-jetified-window-1.0.0-beta04-2 /home/mateus/.gradle/caches/transforms-3/29fe38a5fd6c3bf46cd8e59c2b63489e/transformed/jetified-window-1.0.0-beta04/res
+com.example.mobile_client.app-jetified-window-java-1.0.0-beta04-3 /home/mateus/.gradle/caches/transforms-3/978180320ed1d29d66a82edc9d24751e/transformed/jetified-window-java-1.0.0-beta04/res
+com.example.mobile_client.app-main-4 /home/mateus/Faculdade/Enactus/roka-data/mobile_client/android/app/src/main/res
+com.example.mobile_client.app-release-5 /home/mateus/Faculdade/Enactus/roka-data/mobile_client/android/app/src/release/res
+com.example.mobile_client.app-pngs-6 /home/mateus/Faculdade/Enactus/roka-data/mobile_client/build/app/generated/res/pngs/release
+com.example.mobile_client.app-resValues-7 /home/mateus/Faculdade/Enactus/roka-data/mobile_client/build/app/generated/res/resValues/release
+com.example.mobile_client.app-rs-8 /home/mateus/Faculdade/Enactus/roka-data/mobile_client/build/app/generated/res/rs/release
+com.example.mobile_client.app-mergeReleaseResources-9 /home/mateus/Faculdade/Enactus/roka-data/mobile_client/build/app/intermediates/incremental/release/mergeReleaseResources/merged.dir
+com.example.mobile_client.app-mergeReleaseResources-10 /home/mateus/Faculdade/Enactus/roka-data/mobile_client/build/app/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+com.example.mobile_client.app-merged_res-11 /home/mateus/Faculdade/Enactus/roka-data/mobile_client/build/app/intermediates/merged_res/release
+com.example.mobile_client.app-packaged_res-12 /home/mateus/Faculdade/Enactus/roka-data/mobile_client/build/path_provider_android/intermediates/packaged_res/release
