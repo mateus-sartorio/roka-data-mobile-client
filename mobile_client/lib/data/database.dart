@@ -44,11 +44,14 @@ class GlobalDatabase {
   }
 
   Future<void> fetchAllResidents() async {
-    const String backendRoute = "http://10.0.2.2:3000/residents";
+    const String backendRoute =
+        "https://roka-data-57538eb7e2f2.herokuapp.com/residents";
     Uri uri = Uri.parse(backendRoute);
 
     final Response response = await http.get(uri);
     List<dynamic> responseBody = jsonDecode(response.body);
+
+    print(responseBody);
 
     List<Resident> residents = [];
     for (dynamic residentMapObject in responseBody) {
@@ -121,7 +124,7 @@ class GlobalDatabase {
 
   Future<void> fetchAllCurrencyHandouts() async {
     const String currencyHandoutsBackendRoute =
-        "http://10.0.2.2:3000/currency_handouts.json";
+        "https://roka-data-57538eb7e2f2.herokuapp.com/currency_handouts.json";
     Uri currencyHandoutsUri = Uri.parse(currencyHandoutsBackendRoute);
 
     final Response currencyHandoutsResponse =
@@ -161,7 +164,8 @@ class GlobalDatabase {
 
   Future<void> fetchAllCollects() async {
     try {
-      const String backendRoute = "http://10.0.2.2:3000/collects";
+      const String backendRoute =
+          "https://roka-data-57538eb7e2f2.herokuapp.com/collects";
       Uri uri = Uri.parse(backendRoute);
 
       final Response response = await http.get(uri);
@@ -189,7 +193,8 @@ class GlobalDatabase {
 
   Future<void> fetchAllReceipts() async {
     try {
-      const String backendRoute = "http://10.0.2.2:3000/receipts.json";
+      const String backendRoute =
+          "https://roka-data-57538eb7e2f2.herokuapp.com/receipts.json";
       Uri uri = Uri.parse(backendRoute);
 
       final Response response = await http.get(uri);
@@ -276,7 +281,8 @@ class GlobalDatabase {
 
   Future<void> createNewCurrencyHandoutOnBackend(
       CurrencyHandout currencyHandout) async {
-    const String backendRoute = "http://10.0.2.2:3000/currency_handouts";
+    const String backendRoute =
+        "https://roka-data-57538eb7e2f2.herokuapp.com/currency_handouts";
     Uri uri = Uri.parse(backendRoute);
 
     Map data = {
@@ -298,7 +304,7 @@ class GlobalDatabase {
   Future<void> updateCurrencyHandoutOnBackend(
       CurrencyHandout currencyHandout) async {
     String backendRoute =
-        "http://10.0.2.2:3000/currency_handouts/${currencyHandout.id}";
+        "https://roka-data-57538eb7e2f2.herokuapp.com/currency_handouts/${currencyHandout.id}";
     Uri uri = Uri.parse(backendRoute);
 
     Map data = {
@@ -320,7 +326,7 @@ class GlobalDatabase {
   Future<void> deleteCurrencyHandoutInTheBackend(
       CurrencyHandout currencyHandout) async {
     String backendRoute =
-        "http://10.0.2.2:3000/currency_handouts/${currencyHandout.id}";
+        "https://roka-data-57538eb7e2f2.herokuapp.com/currency_handouts/${currencyHandout.id}";
     Uri uri = Uri.parse(backendRoute);
 
     try {
@@ -331,7 +337,8 @@ class GlobalDatabase {
   }
 
   Future<void> createNewReceiptOnBackend(Receipt receipt) async {
-    const String backendRoute = "http://10.0.2.2:3000/receipts/";
+    const String backendRoute =
+        "https://roka-data-57538eb7e2f2.herokuapp.com/receipts/";
     Uri uri = Uri.parse(backendRoute);
 
     Map data = {
@@ -353,7 +360,8 @@ class GlobalDatabase {
   }
 
   Future<void> createNewCollectOnBackend(Collect collect) async {
-    const String backendRoute = "http://10.0.2.2:3000/collects";
+    const String backendRoute =
+        "https://roka-data-57538eb7e2f2.herokuapp.com/collects";
     Uri uri = Uri.parse(backendRoute);
 
     Map data = {
@@ -374,7 +382,8 @@ class GlobalDatabase {
   }
 
   Future<void> createNewResidentOnBackend(Resident resident) async {
-    const String backendRoute = "http://10.0.2.2:3000/residents";
+    const String backendRoute =
+        "https://roka-data-57538eb7e2f2.herokuapp.com/residents";
     Uri uri = Uri.parse(backendRoute);
 
     int situation = 0;
@@ -416,7 +425,8 @@ class GlobalDatabase {
   }
 
   Future<void> updateResidentOnBackend(Resident resident) async {
-    String backendRoute = "http://10.0.2.2:3000/residents/${resident.id}";
+    String backendRoute =
+        "https://roka-data-57538eb7e2f2.herokuapp.com/residents/${resident.id}";
     Uri uri = Uri.parse(backendRoute);
 
     int situation = 0;
@@ -458,7 +468,8 @@ class GlobalDatabase {
   }
 
   Future<void> deleteResidentInTheBackend(Resident resident) async {
-    String backendRoute = "http://10.0.2.2:3000/residents/${resident.id}";
+    String backendRoute =
+        "https://roka-data-57538eb7e2f2.herokuapp.com/residents/${resident.id}";
     Uri uri = Uri.parse(backendRoute);
 
     try {
@@ -818,7 +829,8 @@ class GlobalDatabase {
   }
 
   Future<void> updateOldReceiptOnBackend(Receipt receipt) async {
-    String backendRoute = "http://10.0.2.2:3000/collects/${receipt.id}";
+    String backendRoute =
+        "https://roka-data-57538eb7e2f2.herokuapp.com/collects/${receipt.id}";
     Uri uri = Uri.parse(backendRoute);
 
     Map data = {
@@ -840,7 +852,8 @@ class GlobalDatabase {
   }
 
   Future<void> deleteOldReceiptOnBackend(Receipt receipt) async {
-    String backendRoute = "http://10.0.2.2:3000/receipts/${receipt.id}";
+    String backendRoute =
+        "https://roka-data-57538eb7e2f2.herokuapp.com/receipts/${receipt.id}";
     Uri uri = Uri.parse(backendRoute);
 
     try {
@@ -924,7 +937,8 @@ class GlobalDatabase {
   }
 
   Future<void> updateOldCollectOnBackend(Collect collect) async {
-    String backendRoute = "http://10.0.2.2:3000/collects/${collect.id}";
+    String backendRoute =
+        "https://roka-data-57538eb7e2f2.herokuapp.com/collects/${collect.id}";
     Uri uri = Uri.parse(backendRoute);
 
     Map data = {
@@ -945,7 +959,8 @@ class GlobalDatabase {
   }
 
   Future<void> deleteOldCollectOnBackend(Collect collect) async {
-    String backendRoute = "http://10.0.2.2:3000/collects/${collect.id}";
+    String backendRoute =
+        "https://roka-data-57538eb7e2f2.herokuapp.com/collects/${collect.id}";
     Uri uri = Uri.parse(backendRoute);
 
     try {
