@@ -1,0 +1,4 @@
+#Mon May 13 21:59:19 BRT 2024
+base.0=/home/mateus/Faculdade/Enactus/roka-data/mobile_client/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

@@ -1,0 +1,18 @@
+<lint-module
+    format="1"
+    dir="/home/mateus/Faculdade/Enactus/roka-data/mobile_client/android/app"
+    name=":app"
+    type="APP"
+    maven="android:app:"
+    gradle="7.3.0"
+    buildFolder="/home/mateus/Faculdade/Enactus/roka-data/mobile_client/build/app"
+    bootClassPath="/home/mateus/Android/Sdk/platforms/android-34/android.jar:/home/mateus/Android/Sdk/build-tools/30.0.3/core-lambda-stubs.jar"
+    javaSourceLevel="1.8"
+    compileTarget="android-34">
+  <lintOptions
+      abortOnError="true"
+      absolutePaths="true"
+      checkReleaseBuilds="true"
+      explainIssues="true"/>
+  <variant name="release"/>
+</lint-module>
