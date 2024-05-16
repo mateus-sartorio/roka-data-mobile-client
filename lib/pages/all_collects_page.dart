@@ -6,6 +6,7 @@ import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/collect.dart';
 import 'package:mobile_client/pages/create_collect_page.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:mobile_client/utils/collects/total_weight.dart';
 
 class AllCollectsPage extends StatefulWidget {
   const AllCollectsPage({Key? key}) : super(key: key);
@@ -67,6 +68,9 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
 
           collects.sort(
               (Collect a, Collect b) => b.collectedOn.compareTo(a.collectedOn));
+
+          Map<DateTime, double> totalWeightByCollectedOnDate =
+              totalWeightByDate(collects);
 
           Widget body;
           if (collects.isEmpty) {
@@ -174,12 +178,20 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                                   child: Padding(
                                     padding: EdgeInsets.only(
                                         left: 25, top: (index == 0 ? 10 : 25)),
-                                    child: Text(
-                                      date,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18),
-                                      textAlign: TextAlign.left,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          date,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        Text(
+                                            "${totalWeightByCollectedOnDate[collects[index].collectedOn]} kg")
+                                      ],
                                     ),
                                   )),
                               Padding(
@@ -213,9 +225,6 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                                               fontSize: 17),
                                           textAlign: TextAlign.left,
                                         ),
-                                        Text(date,
-                                            style:
-                                                const TextStyle(fontSize: 12)),
                                         Text(
                                           "${weight.toString().replaceAll(".", ",")} kg",
                                           style: const TextStyle(

@@ -4,7 +4,7 @@
             "outputFile": "com.example.mobile_client.app-mergeDebugResources-9:/values/values.xml",
             "map": [
                 {
-                    "source": "/home/mateus/Faculdade/Enactus/roka-data/mobile_client/android/app/src/main/res/values/styles.xml",
+                    "source": "/home/mateus/Faculdade/Enactus/roka-data-mobile-client/android/app/src/main/res/values/styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",
