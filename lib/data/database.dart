@@ -51,8 +51,6 @@ class GlobalDatabase {
     final Response response = await http.get(uri);
     List<dynamic> responseBody = jsonDecode(response.body);
 
-    print(responseBody);
-
     List<Resident> residents = [];
     for (dynamic residentMapObject in responseBody) {
       DateTime birthdate = DateTime.now();
