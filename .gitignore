@@ -1,3 +1,6 @@
 __pycache__/
 
 .ruby-lsp/
+
+.flutter-plugins
+.flutter-plugins-dependencies
