@@ -82,7 +82,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
               ],
               child: const Center(
                   child: Text(
-                "Nenhuma coleta  :(",
+                "Nenhuma coleta ainda :(",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               )),
             );

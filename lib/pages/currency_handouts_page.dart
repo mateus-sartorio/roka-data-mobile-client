@@ -79,10 +79,13 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                 )
               ],
               child: const Center(
-                  child: Text(
-                "Nenhuma distribuição de moeda ainda :(",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+                  child: Padding(
+                padding: EdgeInsets.all(25.0),
+                child: Text(
+                  "Nenhuma distribuição de moeda ainda :(",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
               )),
             );
           } else {
