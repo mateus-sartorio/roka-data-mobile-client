@@ -9,6 +9,7 @@ import 'package:mobile_client/models/receipt.dart';
 import 'package:mobile_client/models/resident.dart';
 import 'package:mobile_client/utils/integer_id_generator.dart';
 import 'package:mobile_client/utils/list_conversions.dart';
+import 'package:searchfield/searchfield.dart';
 
 class CreateReceiptPage extends StatefulWidget {
   final Receipt? receipt;
@@ -30,6 +31,9 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
   CurrencyHandout? selectedCurrencyHandout;
   DateTime? selectedDate;
   bool isNewReceipt = true;
+
+  final focusNode1 = FocusNode();
+  final focusNode2 = FocusNode();
 
   final TextEditingController _valueController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
@@ -359,32 +363,13 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
       body: ValueListenableBuilder(
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
-          final residents = box.get("RESIDENTS");
-          final currencyHandouts = box.get("CURRENCY_HANDOUTS");
+          final List<dynamic> residentsDynamic = box.get("RESIDENTS") ?? [];
+          final List<Resident> residents = dynamicListToTList(residentsDynamic);
 
-          List<DropdownMenuItem<Resident>> residentsDropdownList = [];
-          for (dynamic r in residents) {
-            String displayName =
-                r.name.length >= 20 ? r.name.substring(0, 20) : r.name;
-            residentsDropdownList.add(DropdownMenuItem<Resident>(
-                value: r as Resident, child: Text(displayName)));
-          }
-
-          List<DropdownMenuItem<CurrencyHandout>> currencyHandoutsDropdownList =
-              [];
-          for (dynamic ch in currencyHandouts) {
-            List<String> dayMonthYear =
-                ch.startDate.toString().split(" ")[0].split("-");
-            "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
-
-            String displayTitle =
-                ch.title.length >= 15 ? ch.title.substring(0, 15) : ch.title;
-
-            currencyHandoutsDropdownList.add(DropdownMenuItem<CurrencyHandout>(
-                value: ch as CurrencyHandout,
-                child: Text(
-                    "$displayTitle - ${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}")));
-          }
+          final List<dynamic> currencyHandoutsDynamic =
+              box.get("CURRENCY_HANDOUTS") ?? [];
+          final List<CurrencyHandout> currencyHandouts =
+              dynamicListToTList(currencyHandoutsDynamic);
 
           return Center(
             child: FractionallySizedBox(
@@ -432,40 +417,66 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
                   const SizedBox(
                     height: 15,
                   ),
-                  DropdownButtonFormField<Resident>(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Residente",
-                      prefix: Padding(
-                        padding: EdgeInsets.only(
-                            left: 0, right: 10, bottom: 0, top: 0),
-                        child: Icon(
-                          Icons.person,
-                        ),
-                      ),
-                    ),
-                    onChanged: (item) => selectedResident = item,
-                    value: selectedResident,
-                    items: residentsDropdownList,
+                  SearchField(
+                    focusNode: focusNode1,
+                    suggestions: residents
+                        .map((r) => SearchFieldListItem<Resident>(r.name,
+                            child: Text(r.name), item: r))
+                        .toList(),
+                    hint: "Morador",
+                    searchInputDecoration: const InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black)),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black))),
+                    initialValue: (selectedResident != null)
+                        ? SearchFieldListItem<Resident>(
+                            (selectedResident?.name)!,
+                            child: Text((selectedResident?.name)!),
+                            item: selectedResident)
+                        : null,
+                    maxSuggestionsInViewPort: 6,
+                    onSuggestionTap: (value) {
+                      if (value.item != null) {
+                        setState(() {
+                          selectedResident = value.item;
+                        });
+                      }
+                      focusNode1.unfocus();
+                    },
                   ),
                   const SizedBox(
                     height: 15,
                   ),
-                  DropdownButtonFormField<CurrencyHandout>(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Entrega",
-                      prefix: Padding(
-                        padding: EdgeInsets.only(
-                            left: 0, right: 10, bottom: 0, top: 0),
-                        child: Icon(
-                          Icons.monetization_on_rounded,
-                        ),
-                      ),
-                    ),
-                    onChanged: (item) => selectedCurrencyHandout = item,
-                    value: selectedCurrencyHandout,
-                    items: currencyHandoutsDropdownList,
+                  SearchField(
+                    focusNode: focusNode2,
+                    suggestions: currencyHandouts
+                        .map((c) => SearchFieldListItem<CurrencyHandout>(
+                            c.title,
+                            child: Text(c.toStringFormat()),
+                            item: c))
+                        .toList(),
+                    hint: "Entrega de moeda",
+                    initialValue: (selectedCurrencyHandout != null)
+                        ? SearchFieldListItem<CurrencyHandout>(
+                            (selectedCurrencyHandout?.toStringFormat())!,
+                            child: Text((selectedCurrencyHandout?.title)!),
+                            item: selectedCurrencyHandout)
+                        : null,
+                    searchInputDecoration: const InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black)),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black))),
+                    maxSuggestionsInViewPort: 6,
+                    onSuggestionTap: (value) {
+                      if (value.item != null) {
+                        setState(() {
+                          selectedCurrencyHandout = value.item;
+                        });
+                      }
+                      focusNode2.unfocus();
+                    },
                   ),
                   const SizedBox(
                     height: 15,

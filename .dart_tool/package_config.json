@@ -428,6 +428,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "searchfield",
+      "rootUri": "file:///home/mateus/.pub-cache/hosted/pub.dev/searchfield-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "shelf",
       "rootUri": "file:///home/mateus/.pub-cache/hosted/pub.dev/shelf-1.4.1",
       "packageUri": "lib/",
@@ -578,7 +584,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-05-16T00:15:36.942221Z",
+  "generated": "2024-05-17T00:16:22.069100Z",
   "generator": "pub",
   "generatorVersion": "3.3.4"
 }

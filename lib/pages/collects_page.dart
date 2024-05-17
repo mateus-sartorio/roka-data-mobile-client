@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/data/database.dart';
@@ -9,6 +8,7 @@ import 'package:mobile_client/pages/all_collects_page.dart';
 import 'package:mobile_client/pages/create_collect_page.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mobile_client/utils/collects/total_weight.dart';
+import 'package:mobile_client/utils/list_conversions.dart';
 
 class CollectsPage extends StatefulWidget {
   const CollectsPage({Key? key}) : super(key: key);
@@ -62,11 +62,7 @@ class _CollectsPageState extends State<CollectsPage> {
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
           final List<dynamic> collectsDynamic = box.get("COLLECTS");
-
-          final List<Collect> collects = [];
-          for (dynamic c in collectsDynamic) {
-            collects.add(c as Collect);
-          }
+          final List<Collect> collects = dynamicListToTList(collectsDynamic);
 
           final String totalWeightAmmount =
               totalWeight(collects).toString().replaceAll(".", ",");
