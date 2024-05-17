@@ -7,6 +7,7 @@ import 'package:mobile_client/models/collect.dart';
 import 'package:mobile_client/pages/create_collect_page.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mobile_client/utils/collects/total_weight.dart';
+import 'package:mobile_client/utils/list_conversions.dart';
 
 class AllCollectsPage extends StatefulWidget {
   const AllCollectsPage({Key? key}) : super(key: key);
@@ -61,10 +62,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
           var dynamicCollects = box.get("ALL_DATABASE_COLLECTS") ?? [];
-          List<Collect> collects = [];
-          for (dynamic c in dynamicCollects) {
-            collects.add(c as Collect);
-          }
+          List<Collect> collects = dynamicListToTList(dynamicCollects);
 
           collects.sort(
               (Collect a, Collect b) => b.collectedOn.compareTo(a.collectedOn));

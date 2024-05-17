@@ -29,4 +29,13 @@ class CurrencyHandout extends HiveObject {
       required this.isNew,
       required this.wasModified,
       required this.isMarkedForRemoval});
+
+  String toStringFormat() {
+    List<String> dayMonthYear = startDate.toString().split(" ")[0].split("-");
+    "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+
+    String displayTitle = title.length >= 15 ? title.substring(0, 15) : title;
+
+    return "$displayTitle - ${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+  }
 }

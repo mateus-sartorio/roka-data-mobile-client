@@ -8,6 +8,7 @@ import 'package:mobile_client/models/collect.dart';
 import 'package:mobile_client/models/resident.dart';
 import 'package:mobile_client/utils/integer_id_generator.dart';
 import 'package:mobile_client/utils/list_conversions.dart';
+import 'package:searchfield/searchfield.dart';
 
 class CreateCollectPage extends StatefulWidget {
   final Collect? collect;
@@ -28,6 +29,8 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
   Resident? selectedResident;
   DateTime? selectedDate;
   bool isNewCollect = true;
+
+  final focusNode = FocusNode();
 
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
@@ -126,8 +129,8 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
         wasModified: isNewCollect ? false : true);
 
     var box = Hive.box('globalDatabase');
-    final dynamicCollectsList1 = box.get("COLLECTS");
-    final dynamicCollectsList2 = box.get("ALL_DATABASE_COLLECTS");
+    final dynamicCollectsList1 = box.get("COLLECTS") ?? [];
+    final dynamicCollectsList2 = box.get("ALL_DATABASE_COLLECTS") ?? [];
     List<Collect> collects =
         dynamicListToTList(dynamicCollectsList1 + dynamicCollectsList2);
     for (Collect c in collects) {
@@ -346,18 +349,8 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
       body: ValueListenableBuilder(
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
-          final residents = box.get("RESIDENTS");
-
-          List<DropdownMenuItem<Resident>> residentsDropdownList = [];
-          for (dynamic r in residents) {
-            String displayName =
-                r.name.length >= 20 ? r.name.substring(0, 20) : r.name;
-            residentsDropdownList.add(DropdownMenuItem<Resident>(
-                value: r as Resident,
-                child: Text(
-                  displayName,
-                )));
-          }
+          final List<dynamic> residentsDynamic = box.get("RESIDENTS") ?? [];
+          final List<Resident> residents = dynamicListToTList(residentsDynamic);
 
           return Center(
             child: FractionallySizedBox(
@@ -401,21 +394,33 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                   const SizedBox(
                     height: 15,
                   ),
-                  DropdownButtonFormField<Resident>(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Morador",
-                      prefix: Padding(
-                        padding: EdgeInsets.only(
-                            left: 0, right: 10, bottom: 0, top: 0),
-                        child: Icon(
-                          Icons.person,
-                        ),
-                      ),
-                    ),
-                    onChanged: (item) => selectedResident = item,
-                    value: selectedResident,
-                    items: residentsDropdownList,
+                  SearchField(
+                    focusNode: focusNode,
+                    suggestions: residents
+                        .map((r) => SearchFieldListItem<Resident>(r.name,
+                            child: Text(r.name), item: r))
+                        .toList(),
+                    hint: "Morador",
+                    initialValue: (selectedResident != null)
+                        ? SearchFieldListItem<Resident>(
+                            (selectedResident?.name)!,
+                            child: Text((selectedResident?.name)!),
+                            item: selectedResident)
+                        : null,
+                    searchInputDecoration: const InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black)),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black))),
+                    maxSuggestionsInViewPort: 6,
+                    onSuggestionTap: (value) {
+                      if (value.item != null) {
+                        setState(() {
+                          selectedResident = value.item;
+                        });
+                      }
+                      focusNode.unfocus();
+                    },
                   ),
                   const SizedBox(
                     height: 15,
