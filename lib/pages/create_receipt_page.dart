@@ -459,8 +459,9 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
                     hint: "Entrega de moeda",
                     initialValue: (selectedCurrencyHandout != null)
                         ? SearchFieldListItem<CurrencyHandout>(
-                            (selectedCurrencyHandout?.toStringFormat())!,
-                            child: Text((selectedCurrencyHandout?.title)!),
+                            (selectedCurrencyHandout?.title)!,
+                            child: Text(
+                                (selectedCurrencyHandout?.toStringFormat())!),
                             item: selectedCurrencyHandout)
                         : null,
                     searchInputDecoration: const InputDecoration(
