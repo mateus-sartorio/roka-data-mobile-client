@@ -1,16 +1,19 @@
 import 'package:mobile_client/models/collect.dart';
+import 'package:mobile_client/utils/dates/to_date_string.dart';
 
-Map<DateTime, double> totalWeightByDate(List<Collect> collects) {
-  Map<DateTime, double> totalWeightByCollectedOnDate = <DateTime, double>{};
+Map<String, double> totalWeightByDate(List<Collect> collects) {
+  Map<String, double> totalWeightByCollectedOnDate = <String, double>{};
 
   for (int i = 0; i < collects.length; i++) {
-    if (totalWeightByCollectedOnDate.containsKey(collects[i].collectedOn)) {
+    if (totalWeightByCollectedOnDate
+        .containsKey(toDateString(collects[i].collectedOn))) {
       double currentSum =
-          totalWeightByCollectedOnDate[collects[i].collectedOn]!;
+          totalWeightByCollectedOnDate[toDateString(collects[i].collectedOn)]!;
       double newSum = collects[i].ammount + currentSum;
-      totalWeightByCollectedOnDate[collects[i].collectedOn] = newSum;
+      totalWeightByCollectedOnDate[toDateString(collects[i].collectedOn)] =
+          newSum;
     } else {
-      totalWeightByCollectedOnDate[collects[i].collectedOn] =
+      totalWeightByCollectedOnDate[toDateString(collects[i].collectedOn)] =
           collects[i].ammount;
     }
   }
