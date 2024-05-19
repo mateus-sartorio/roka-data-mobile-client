@@ -45,8 +45,7 @@ class GlobalDatabase {
   }
 
   Future<void> fetchAllResidents() async {
-    print(Endpoints.baseUrl);
-    String backendRoute = "${Endpoints.baseUrl}/residents";
+    String backendRoute = "${Endpoints.baseUrl}/residents.json";
     Uri uri = Uri.parse(backendRoute);
 
     final Response response = await http.get(uri);
@@ -163,7 +162,7 @@ class GlobalDatabase {
 
   Future<void> fetchAllCollects() async {
     try {
-      String backendRoute = "${Endpoints.baseUrl}/collects";
+      String backendRoute = "${Endpoints.baseUrl}/collects.json";
       Uri uri = Uri.parse(backendRoute);
 
       final Response response = await http.get(uri);
