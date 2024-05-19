@@ -3,9 +3,12 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
+import 'package:mobile_client/models/collect.dart';
 import 'package:mobile_client/pages/all_collects_page.dart';
 import 'package:mobile_client/pages/create_collect_page.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:mobile_client/utils/collects/total_weight.dart';
+import 'package:mobile_client/utils/list_conversions.dart';
 
 class CollectsPage extends StatefulWidget {
   const CollectsPage({Key? key}) : super(key: key);
@@ -58,7 +61,11 @@ class _CollectsPageState extends State<CollectsPage> {
     return ValueListenableBuilder(
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
-          final collects = box.get("COLLECTS");
+          final List<dynamic> collectsDynamic = box.get("COLLECTS") ?? [];
+          final List<Collect> collects = dynamicListToTList(collectsDynamic);
+
+          final String totalWeightAmmount =
+              totalWeight(collects).toString().replaceAll(".", ",");
 
           return Animate(
             effects: const [
@@ -98,7 +105,18 @@ class _CollectsPageState extends State<CollectsPage> {
                     ],
                   ),
                 ),
-                (collects?.length ?? 0) == 0
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 6),
+                  child: Visibility(
+                      visible: collects.isNotEmpty,
+                      child: Text(
+                        "Total: $totalWeightAmmount kg",
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      )),
+                ),
+                // ignore: prefer_is_empty
+                (collects.length) == 0
                     ? const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -114,31 +132,29 @@ class _CollectsPageState extends State<CollectsPage> {
                       )
                     : Expanded(
                         child: ListView.builder(
-                            itemCount: collects?.length ?? 0,
+                            itemCount: collects.length,
                             itemBuilder: (context, index) {
                               String residentName = db
                                       .getResidentById(
-                                          collects?[index].residentId ?? -1)
+                                          collects[index].residentId)
                                       ?.name ??
                                   "";
 
                               String weight =
-                                  collects?[index]?.ammount.toString() ?? "";
+                                  collects[index].ammount.toString();
 
-                              List<String> dayMonthYear = collects?[index]
-                                      ?.collectedOn
-                                      .toString()
-                                      .split(" ")[0]
-                                      .split("-") ??
-                                  ["", "", ""];
+                              List<String> dayMonthYear = collects[index]
+                                  .collectedOn
+                                  .toString()
+                                  .split(" ")[0]
+                                  .split("-");
 
                               String date =
                                   "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
 
                               Widget tag = Container();
                               bool showTag = false;
-                              if (collects[index]?.isMarkedForRemoval ??
-                                  false) {
+                              if (collects[index].isMarkedForRemoval) {
                                 tag = const Text(
                                   "MARCADO PARA REMOÇÃO",
                                   style: TextStyle(
@@ -146,7 +162,7 @@ class _CollectsPageState extends State<CollectsPage> {
                                   ),
                                 );
                                 showTag = true;
-                              } else if (collects[index]?.isNew ?? false) {
+                              } else if (collects[index].isNew) {
                                 tag = Container(
                                   decoration: BoxDecoration(
                                       color:
@@ -161,8 +177,7 @@ class _CollectsPageState extends State<CollectsPage> {
                                   ),
                                 );
                                 showTag = true;
-                              } else if (collects[index]?.wasModified ??
-                                  false) {
+                              } else if (collects[index].wasModified) {
                                 tag = Container(
                                   decoration: BoxDecoration(
                                       color: Colors.green[300],
@@ -186,8 +201,8 @@ class _CollectsPageState extends State<CollectsPage> {
                                     motion: const StretchMotion(),
                                     children: [
                                       SlidableAction(
-                                        onPressed: (context) => deleteCollect(
-                                            collects?[index]?.id ?? -1),
+                                        onPressed: (context) =>
+                                            deleteCollect(collects[index].id),
                                         icon: Icons.delete,
                                         backgroundColor: Colors.red,
                                         borderRadius: BorderRadius.circular(10),
@@ -211,12 +226,12 @@ class _CollectsPageState extends State<CollectsPage> {
                                         ),
                                         Text(date,
                                             style:
-                                                const TextStyle(fontSize: 12)),
+                                                const TextStyle(fontSize: 13)),
                                         Text(
                                           "${weight.toString().replaceAll(".", ",")} kg",
                                           style: const TextStyle(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w500),
+                                            fontSize: 13,
+                                          ),
                                         ),
                                         const SizedBox(
                                           height: 5,
@@ -235,7 +250,7 @@ class _CollectsPageState extends State<CollectsPage> {
                                                       text:
                                                           "Alterar dados da coleta",
                                                       collect:
-                                                          collects?[index])));
+                                                          collects[index])));
                                     },
                                     leading: const Icon(
                                       Icons.shopping_bag,

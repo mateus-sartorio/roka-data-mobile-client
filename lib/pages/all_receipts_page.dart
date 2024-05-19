@@ -6,6 +6,7 @@ import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/receipt.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mobile_client/pages/create_receipt_page.dart';
+import 'package:mobile_client/utils/list_conversions.dart';
 
 class AllReceiptsPage extends StatefulWidget {
   const AllReceiptsPage({Key? key}) : super(key: key);
@@ -84,10 +85,7 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
           var dynamicReceipts = box.get("ALL_DATABASE_RECEIPTS") ?? [];
-          List<Receipt> receipts = [];
-          for (dynamic r in dynamicReceipts) {
-            receipts.add(r as Receipt);
-          }
+          List<Receipt> receipts = dynamicListToTList(dynamicReceipts);
 
           receipts.sort(
               (Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));

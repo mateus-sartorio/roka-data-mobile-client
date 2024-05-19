@@ -47,6 +47,7 @@ dependencies:
   flutter_animate: ^4.5.0
   loading_animation_widget: ^1.2.1
   font_awesome_flutter: ^10.7.0
+  searchfield: ^1.0.1
 
 dev_dependencies:
   flutter_test:
