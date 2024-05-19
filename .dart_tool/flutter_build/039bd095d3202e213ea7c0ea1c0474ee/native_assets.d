@@ -1,1 +1,0 @@
- /home/mateus/Faculdade/Enactus/roka-data-mobile-client/.dart_tool/flutter_build/039bd095d3202e213ea7c0ea1c0474ee/native_assets.yaml: 
