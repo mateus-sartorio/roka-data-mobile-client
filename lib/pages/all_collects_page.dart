@@ -191,7 +191,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                                           textAlign: TextAlign.left,
                                         ),
                                         Text(
-                                            "${totalWeightByCollectedOnDate[toDateString(collects[index].collectedOn)]?.toStringAsFixed(2)} kg")
+                                            "${totalWeightByCollectedOnDate[toDateString(collects[index].collectedOn)]?.toStringAsFixed(2)?.replaceAll(".", ",")} kg")
                                       ],
                                     ),
                                   )),
