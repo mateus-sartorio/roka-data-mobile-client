@@ -61,7 +61,7 @@ class _CollectsPageState extends State<CollectsPage> {
     return ValueListenableBuilder(
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
-          final List<dynamic> collectsDynamic = box.get("COLLECTS");
+          final List<dynamic> collectsDynamic = box.get("COLLECTS") ?? [];
           final List<Collect> collects = dynamicListToTList(collectsDynamic);
 
           final String totalWeightAmmount =

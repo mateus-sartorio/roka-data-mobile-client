@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
+import 'package:mobile_client/configuration/endpoints.dart';
 import 'package:mobile_client/enums/situation.dart';
 import 'package:mobile_client/models/collect.dart';
 import 'package:mobile_client/models/currency_handout.dart';
@@ -44,8 +45,8 @@ class GlobalDatabase {
   }
 
   Future<void> fetchAllResidents() async {
-    const String backendRoute =
-        "https://roka-data-57538eb7e2f2.herokuapp.com/residents";
+    print(Endpoints.baseUrl);
+    String backendRoute = "${Endpoints.baseUrl}/residents";
     Uri uri = Uri.parse(backendRoute);
 
     final Response response = await http.get(uri);
@@ -121,8 +122,8 @@ class GlobalDatabase {
   }
 
   Future<void> fetchAllCurrencyHandouts() async {
-    const String currencyHandoutsBackendRoute =
-        "https://roka-data-57538eb7e2f2.herokuapp.com/currency_handouts.json";
+    String currencyHandoutsBackendRoute =
+        "${Endpoints.baseUrl}/currency_handouts.json";
     Uri currencyHandoutsUri = Uri.parse(currencyHandoutsBackendRoute);
 
     final Response currencyHandoutsResponse =
@@ -162,8 +163,7 @@ class GlobalDatabase {
 
   Future<void> fetchAllCollects() async {
     try {
-      const String backendRoute =
-          "https://roka-data-57538eb7e2f2.herokuapp.com/collects";
+      String backendRoute = "${Endpoints.baseUrl}/collects";
       Uri uri = Uri.parse(backendRoute);
 
       final Response response = await http.get(uri);
@@ -191,8 +191,7 @@ class GlobalDatabase {
 
   Future<void> fetchAllReceipts() async {
     try {
-      const String backendRoute =
-          "https://roka-data-57538eb7e2f2.herokuapp.com/receipts.json";
+      String backendRoute = "${Endpoints.baseUrl}/receipts.json";
       Uri uri = Uri.parse(backendRoute);
 
       final Response response = await http.get(uri);
@@ -279,8 +278,7 @@ class GlobalDatabase {
 
   Future<void> createNewCurrencyHandoutOnBackend(
       CurrencyHandout currencyHandout) async {
-    const String backendRoute =
-        "https://roka-data-57538eb7e2f2.herokuapp.com/currency_handouts";
+    String backendRoute = "${Endpoints.baseUrl}/currency_handouts";
     Uri uri = Uri.parse(backendRoute);
 
     Map data = {
@@ -302,7 +300,7 @@ class GlobalDatabase {
   Future<void> updateCurrencyHandoutOnBackend(
       CurrencyHandout currencyHandout) async {
     String backendRoute =
-        "https://roka-data-57538eb7e2f2.herokuapp.com/currency_handouts/${currencyHandout.id}";
+        "${Endpoints.baseUrl}/currency_handouts/${currencyHandout.id}";
     Uri uri = Uri.parse(backendRoute);
 
     Map data = {
@@ -324,7 +322,7 @@ class GlobalDatabase {
   Future<void> deleteCurrencyHandoutInTheBackend(
       CurrencyHandout currencyHandout) async {
     String backendRoute =
-        "https://roka-data-57538eb7e2f2.herokuapp.com/currency_handouts/${currencyHandout.id}";
+        "${Endpoints.baseUrl}/currency_handouts/${currencyHandout.id}";
     Uri uri = Uri.parse(backendRoute);
 
     try {
@@ -335,8 +333,7 @@ class GlobalDatabase {
   }
 
   Future<void> createNewReceiptOnBackend(Receipt receipt) async {
-    const String backendRoute =
-        "https://roka-data-57538eb7e2f2.herokuapp.com/receipts/";
+    String backendRoute = "${Endpoints.baseUrl}/receipts/";
     Uri uri = Uri.parse(backendRoute);
 
     Map data = {
@@ -358,8 +355,7 @@ class GlobalDatabase {
   }
 
   Future<void> createNewCollectOnBackend(Collect collect) async {
-    const String backendRoute =
-        "https://roka-data-57538eb7e2f2.herokuapp.com/collects";
+    String backendRoute = "${Endpoints.baseUrl}/collects";
     Uri uri = Uri.parse(backendRoute);
 
     Map data = {
@@ -380,8 +376,7 @@ class GlobalDatabase {
   }
 
   Future<void> createNewResidentOnBackend(Resident resident) async {
-    const String backendRoute =
-        "https://roka-data-57538eb7e2f2.herokuapp.com/residents";
+    String backendRoute = "${Endpoints.baseUrl}/residents";
     Uri uri = Uri.parse(backendRoute);
 
     int situation = 0;
@@ -423,8 +418,7 @@ class GlobalDatabase {
   }
 
   Future<void> updateResidentOnBackend(Resident resident) async {
-    String backendRoute =
-        "https://roka-data-57538eb7e2f2.herokuapp.com/residents/${resident.id}";
+    String backendRoute = "${Endpoints.baseUrl}/residents/${resident.id}";
     Uri uri = Uri.parse(backendRoute);
 
     int situation = 0;
@@ -466,8 +460,7 @@ class GlobalDatabase {
   }
 
   Future<void> deleteResidentInTheBackend(Resident resident) async {
-    String backendRoute =
-        "https://roka-data-57538eb7e2f2.herokuapp.com/residents/${resident.id}";
+    String backendRoute = "${Endpoints.baseUrl}/residents/${resident.id}";
     Uri uri = Uri.parse(backendRoute);
 
     try {
@@ -827,8 +820,7 @@ class GlobalDatabase {
   }
 
   Future<void> updateOldReceiptOnBackend(Receipt receipt) async {
-    String backendRoute =
-        "https://roka-data-57538eb7e2f2.herokuapp.com/collects/${receipt.id}";
+    String backendRoute = "${Endpoints.baseUrl}/collects/${receipt.id}";
     Uri uri = Uri.parse(backendRoute);
 
     Map data = {
@@ -850,8 +842,7 @@ class GlobalDatabase {
   }
 
   Future<void> deleteOldReceiptOnBackend(Receipt receipt) async {
-    String backendRoute =
-        "https://roka-data-57538eb7e2f2.herokuapp.com/receipts/${receipt.id}";
+    String backendRoute = "${Endpoints.baseUrl}/receipts/${receipt.id}";
     Uri uri = Uri.parse(backendRoute);
 
     try {
@@ -935,8 +926,7 @@ class GlobalDatabase {
   }
 
   Future<void> updateOldCollectOnBackend(Collect collect) async {
-    String backendRoute =
-        "https://roka-data-57538eb7e2f2.herokuapp.com/collects/${collect.id}";
+    String backendRoute = "${Endpoints.baseUrl}/collects/${collect.id}";
     Uri uri = Uri.parse(backendRoute);
 
     Map data = {
@@ -957,8 +947,7 @@ class GlobalDatabase {
   }
 
   Future<void> deleteOldCollectOnBackend(Collect collect) async {
-    String backendRoute =
-        "https://roka-data-57538eb7e2f2.herokuapp.com/collects/${collect.id}";
+    String backendRoute = "${Endpoints.baseUrl}/collects/${collect.id}";
     Uri uri = Uri.parse(backendRoute);
 
     try {
