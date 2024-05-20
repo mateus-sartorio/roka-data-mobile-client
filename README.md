@@ -2,6 +2,23 @@
 
 A new Flutter project.
 
+# Running locally
+
+To target local server, run:
+```bash
+flutter run --dart-define-from-file=lib/configuration/env/dev.json
+```
+
+To target AWS server, run:
+```bash
+flutter run --dart-define-from-file=lib/configuration/env/prod.json
+```
+
+To configure icons and splash art, run:
+```bash
+flutter pub run flutter_launcher_icons
+```
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
