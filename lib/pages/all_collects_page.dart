@@ -7,6 +7,8 @@ import 'package:mobile_client/models/collect.dart';
 import 'package:mobile_client/pages/create_collect_page.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mobile_client/utils/collects/total_weight.dart';
+import 'package:mobile_client/utils/dates/compare.dart';
+import 'package:mobile_client/utils/dates/to_date_string.dart';
 import 'package:mobile_client/utils/list_conversions.dart';
 
 class AllCollectsPage extends StatefulWidget {
@@ -67,7 +69,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
           collects.sort(
               (Collect a, Collect b) => b.collectedOn.compareTo(a.collectedOn));
 
-          Map<DateTime, double> totalWeightByCollectedOnDate =
+          Map<String, double> totalWeightByCollectedOnDate =
               totalWeightByDate(collects);
 
           Widget body;
@@ -106,7 +108,8 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                                   ?.name ??
                               "";
 
-                          String weight = collects[index].ammount.toString();
+                          String weight =
+                              collects[index].ammount.toStringAsFixed(2);
 
                           List<String> dayMonthYear = collects[index]
                               .collectedOn
@@ -171,8 +174,8 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                             children: [
                               Visibility(
                                   visible: index == 0 ||
-                                      collects[index].collectedOn !=
-                                          collects[index - 1].collectedOn,
+                                      !isSameDay(collects[index].collectedOn,
+                                          collects[index - 1].collectedOn),
                                   child: Padding(
                                     padding: EdgeInsets.only(
                                         left: 25, top: (index == 0 ? 10 : 25)),
@@ -188,7 +191,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                                           textAlign: TextAlign.left,
                                         ),
                                         Text(
-                                            "${totalWeightByCollectedOnDate[collects[index].collectedOn]} kg")
+                                            "${totalWeightByCollectedOnDate[toDateString(collects[index].collectedOn)]?.toStringAsFixed(2).replaceAll(".", ",")} kg")
                                       ],
                                     ),
                                   )),
