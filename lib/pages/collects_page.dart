@@ -65,7 +65,7 @@ class _CollectsPageState extends State<CollectsPage> {
           final List<Collect> collects = dynamicListToTList(collectsDynamic);
 
           final String totalWeightAmmount =
-              totalWeight(collects).toString().replaceAll(".", ",");
+              totalWeight(collects).toStringAsFixed(2).replaceAll(".", ",");
 
           return Animate(
             effects: const [
