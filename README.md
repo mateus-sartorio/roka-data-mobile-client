@@ -13,24 +13,24 @@
 
 ### 🏡 Gerencie cadastro dos moradores
 
-<div align="center">
-  <img src="./assets/documentation/create-resident.png" alt="" width="40%"/>
-  <img src="./assets/documentation/all-residents.png" alt="" width="40%"/>
+<div align="left">
+  <img src="./assets/documentation/create-resident.png" alt="" width="20%"/>
+  <img src="./assets/documentation/all-residents.png" alt="" width="20%"/>
 </div>
 <br/>
 
 ### 🛍️ Gerencie a coleta de resíduos
 
-<div align="center">
-  <img src="./assets/documentation/day-collects.png" alt="" width="40%"/>
-  <img src="./assets/documentation/all-collects.png" alt="" width="40%"/>
+<div align="left">
+  <img src="./assets/documentation/day-collects.png" alt="" width="20%"/>
+  <img src="./assets/documentation/all-collects.png" alt="" width="20%"/>
 </div>
 
 ### 💰 Gerencie a distribuição da moeda social
 
-<div align="center">
-  <img src="./assets/documentation/create-currency-receipts.png" alt="" width="40%"/>
-  <img src="./assets/documentation/all-currency-receipts.png" alt="" width="40%"/>
+<div align="left">
+  <img src="./assets/documentation/create-currency-receipts.png" alt="" width="20%"/>
+  <img src="./assets/documentation/all-currency-receipts.png" alt="" width="20%"/>
 </div>
 
 <br>
@@ -45,10 +45,10 @@ Este projeto destina-se a ser simples e fácil de usar. As funcionalidades são 
 
 ### Pré-requisitos:
 
-- Flutter runtime
-- Android SDK
-- Emulador de Android
-- Servidor backend rodando
+- Flutter ([Instruções de instalação](https://docs.flutter.dev/get-started/install))
+- Android SDK (`>= 34`) ([Instruções de instalação](https://developer.android.com/studio))
+- Emulador de Android ([Instruções de instalação](https://developer.android.com/studio/run/emulator))
+- Servidor Back End local, caso queira usar um banco de dados de desenvolvimento ([Instruções de configuração](https://github.com/mateus-sartorio/roka-data-backend))
 
 Antes de começar, certifique-se que tenha todos os pré-requisitos para rodar o projeto.
 
@@ -58,69 +58,69 @@ Para checar a versão do `Flutter` instalada em sua máquina, execute o seguinte
 flutter --version
 ```
 
-Caso sua versão não seja a 16, recomenda-se utilizar o `nvm`, que permite instalar e gerenciar várias versões do Node.js em sua máquina ([Repositório com instruções para instalação](https://github.com/nvm-sh/nvm)).
-
-Para o Docker, instruções de instalação para cada sistema operacional são encontradas em sua [documentação oficial](https://docs.docker.com/engine/install/).
+Certifique-se que sua versão do `Flutter` esteja entre `>=3.2.3` e `<4.0.0`.
 
 > [!TIP]
-> Ao instalar dependências do Node.js e inicializar os servidores nativamente, sempre certifique-se de estar usando a versão 16 do Node.js
-> 
-> Para verificar qual versão do Node.js está usando, execute `node --version`
-> 
-> Caso esteja usando `nvm`, pode-se selectionar a versão 16 do Node.js com o comando `nvm use 16`
-> 
-> Com o `nvm` é possível também instalar a versão 16 do Node.js, caso ainda não esteja instalada, com o comando `nvm install 16`
+>   Caso sua versão do `Flutter` não esteja entre `'>=3.2.3` e `<4.0.0'`, recomenda-se utilizar o `fvm`, que permite instalar e gerenciar várias versões do `Flutter` em sua máquina ([Página com instruções para instalação e uso](https://fvm.app/)).
 
-### Rodando a aplicação
+### Configurando ambiente local
 
-Clone o repositório localmente, usando `--recuse-submodules`, para garantir que o os repositórios do frontend e do backend sejam clonados corretamente. Em seguida, entre no diretório do respositório clonado:
+Clone o repositório localmente e em seguida entre no diretório do respositório clonado:
 
 ```bash
-git clone https://github.com/mateus-sartorio/corenotes
-cd corenotes
+git clone https://github.com/mateus-sartorio/roka-data-mobile-client
+cd roka-data-mobile-client
 ```
 
-Além disso, é necessário criar um aquivo de variáveis de ambiente (`.env`) no diretório raíz do backend para configurar as URLs de conexão com o banco de dados:
+Caso queira utilizar um ambiente de produção, é necessário configurar um aquivo de variáveis de ambiente (`.env`) com a url de conexão com a API Rest do Back End. Para isso, renomeie `dev.example.json` para `dev.json` em `lib/configuration/env`. O comando abaixo realiza esta operação:
 
 ```bash
-cd corenotes-backend
-touch .env
+mv lib/configuration/env/dev.example.json lib/configuration/env/dev.json
 ```
 
-No arquivo criado, crie as seguintes variáveis ambientes (`baseUrl` é utilizada pela aplicação em funcionamento normal):
+No arquivo `dev.json`, configure a variável ambiente `baseUrl` com a url da API do Back End:
 
 ```json
 {
-  baseUrl="url para banco de dados"
+  "baseUrl": "url para para a API"
 }
 ```
 
-To target local server, run:
+### Rodando a aplicação
+
+Para rodar a aplicação com o Back End de desenvolvimento local:
+
 ```bash
 flutter run --dart-define-from-file=lib/configuration/env/dev.json
 ```
 
-To target AWS server, run:
+Para rodar a aplicação com o Back End de produção local:
+
 ```bash
 flutter run --dart-define-from-file=lib/configuration/env/prod.json
 ```
 
-To configure icons and splash art, run:
+### Gerando build de produção
+
+Para gerar uma build de produção para Android (`apk`):
+
+```bash
+flutter build android --dart-define-from-file=lib/configuration/env/prod.json
+```
+
+### Configurações adicionais
+
+Caso altere o ícone ou a splash art da aplicação, rode o comando abaixo para aplicar as alterações:
+
 ```bash
 flutter pub run flutter_launcher_icons
 ```
 
-Caso prefira rodar a aplicação nativamente, na pasta raíz do backend, instale as dependências do Node.js e depois inicialize o servidor, com os seguintes comandos:
+
+Caso faça alguma modificação nos modelos usados pelo `Hive`, gere novos metamodelos com o comando:
 
 ```bash
-flutter pub get
-flutter run
-```
-
-Caso queira gerar uma build de produção para o frontend, execute em sua pasta raíz:
-
-```bash
-flutter build android --dart-define-from-file=lib/configuration/env/prod.json
+flutter pub run build_runner build
 ```
 
 <br>
