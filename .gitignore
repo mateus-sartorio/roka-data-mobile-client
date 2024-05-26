@@ -8,3 +8,5 @@ __pycache__/
 build/
 
 .dart_tool/
+
+lib/configuration/env/dev.json
