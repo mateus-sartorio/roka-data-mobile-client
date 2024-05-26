@@ -236,9 +236,6 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
                                               fontSize: 17),
                                           textAlign: TextAlign.left,
                                         ),
-                                        Text(date,
-                                            style:
-                                                const TextStyle(fontSize: 12)),
                                         Text(
                                           value,
                                           style: const TextStyle(
