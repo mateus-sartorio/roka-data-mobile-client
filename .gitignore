@@ -9,4 +9,4 @@ build/
 
 .dart_tool/
 
-lib/configuration/env/dev.json
+lib/configuration/env/prod.json

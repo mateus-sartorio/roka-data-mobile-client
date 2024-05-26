@@ -72,13 +72,13 @@ git clone https://github.com/mateus-sartorio/roka-data-mobile-client
 cd roka-data-mobile-client
 ```
 
-Caso queira utilizar um ambiente de produção, é necessário configurar um aquivo de variáveis de ambiente (`.env`) com a url de conexão com a API Rest do Back End. Para isso, renomeie `dev.example.json` para `dev.json` em `lib/configuration/env`. O comando abaixo realiza esta operação:
+Caso queira utilizar um ambiente de produção, é necessário configurar um aquivo de variáveis de ambiente (`.env`) com a url de conexão com a API Rest do Back End. Para isso, renomeie `prod.example.json` para `prod.json` em `lib/configuration/env`. O comando abaixo realiza esta operação:
 
 ```bash
-mv lib/configuration/env/dev.example.json lib/configuration/env/dev.json
+mv lib/configuration/env/prod.example.json lib/configuration/env/prod.json
 ```
 
-No arquivo `dev.json`, configure a variável ambiente `baseUrl` com a url da API do Back End:
+No arquivo `prod.json`, configure a variável ambiente `baseUrl` com a url da API do Back End:
 
 ```json
 {
