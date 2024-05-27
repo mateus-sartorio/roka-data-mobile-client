@@ -105,7 +105,7 @@ flutter run --dart-define-from-file=lib/configuration/env/prod.json
 Para gerar uma build de produção para Android (`apk`):
 
 ```bash
-flutter build android --dart-define-from-file=lib/configuration/env/prod.json
+flutter build apk --dart-define-from-file=lib/configuration/env/prod.json
 ```
 
 ### Configurações adicionais
