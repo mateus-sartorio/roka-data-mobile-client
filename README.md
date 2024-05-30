@@ -52,7 +52,7 @@ Este projeto destina-se a ser simples e fácil de usar. As funcionalidades são 
 
 Antes de começar, certifique-se que tenha todos os pré-requisitos para rodar o projeto.
 
-Para checar a versão do `Flutter` instalada em sua máquina, execute o seguinte comando:
+Para verificar a versão do `Flutter` instalada em sua máquina, execute o seguinte comando:
 
 ```bash
 flutter --version
@@ -61,7 +61,7 @@ flutter --version
 Certifique-se que sua versão do `Flutter` esteja entre `>=3.2.3` e `<4.0.0`.
 
 > [!TIP]
->   Caso sua versão do `Flutter` não esteja entre `'>=3.2.3` e `<4.0.0'`, recomenda-se utilizar o `fvm`, que permite instalar e gerenciar várias versões do `Flutter` em sua máquina ([Página com instruções para instalação e uso](https://fvm.app/)).
+>   Caso sua versão do `Flutter` não esteja entre `>=3.2.3` e `<4.0.0`, recomenda-se utilizar o `fvm`, que permite instalar e gerenciar várias versões do `Flutter` em sua máquina ([Página com instruções para instalação e uso](https://fvm.app/)).
 
 ### Configurando ambiente local
 
