@@ -145,5 +145,3 @@ Este programa é distribuído na esperança de que seja útil, mas SEM QUALQUER 
 Você deveria ter recebido uma cópia da Licença Pública Geral GNU juntamente com este programa. Se não recebeu, consulte [www.gnu.org/licenses/](https://www.gnu.org/licenses/).
 
 Este programa é lançado sob a licença GNU GPL v3+.
-
-teste
