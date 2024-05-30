@@ -88,13 +88,13 @@ No arquivo `prod.json`, configure a variável ambiente `baseUrl` com a url da AP
 
 ### Rodando a aplicação
 
-Para rodar a aplicação com o Back End de desenvolvimento local:
+Para rodar a aplicação com o Back End de desenvolvimento (local):
 
 ```bash
 flutter run --dart-define-from-file=lib/configuration/env/dev.json
 ```
 
-Para rodar a aplicação com o Back End de produção local:
+Para rodar a aplicação com o Back End de produção:
 
 ```bash
 flutter run --dart-define-from-file=lib/configuration/env/prod.json
