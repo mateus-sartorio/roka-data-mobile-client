@@ -25,13 +25,14 @@ class ReceiptAdapter extends TypeAdapter<Receipt> {
       isNew: fields[5] as bool,
       wasModified: fields[6] as bool,
       isMarkedForRemoval: fields[7] as bool,
+      wasSuccessfullySentToBackendOnLastSync: fields[8] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Receipt obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class ReceiptAdapter extends TypeAdapter<Receipt> {
       ..writeByte(6)
       ..write(obj.wasModified)
       ..writeByte(7)
-      ..write(obj.isMarkedForRemoval);
+      ..write(obj.isMarkedForRemoval)
+      ..writeByte(8)
+      ..write(obj.wasSuccessfullySentToBackendOnLastSync);
   }
 
   @override

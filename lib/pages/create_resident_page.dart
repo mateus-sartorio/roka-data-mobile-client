@@ -275,7 +275,8 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
         needsCollectOnTheHouse: needsCollectOnTheHouse,
         isNew: widget.resident?.isNew ?? isNewResident,
         isMarkedForRemoval: false,
-        wasModified: isNewResident ? false : true);
+        wasModified: isNewResident ? false : true,
+        wasSuccessfullySentToBackendOnLastSync: false);
 
     if (isNewResident) {
       db.saveNewResident(newResident);

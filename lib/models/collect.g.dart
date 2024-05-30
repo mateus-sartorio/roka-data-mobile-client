@@ -24,13 +24,14 @@ class CollectAdapter extends TypeAdapter<Collect> {
       isNew: fields[4] as bool,
       wasModified: fields[5] as bool,
       isMarkedForRemoval: fields[6] as bool,
+      wasSuccessfullySentToBackendOnLastSync: fields[7] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Collect obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -44,7 +45,9 @@ class CollectAdapter extends TypeAdapter<Collect> {
       ..writeByte(5)
       ..write(obj.wasModified)
       ..writeByte(6)
-      ..write(obj.isMarkedForRemoval);
+      ..write(obj.isMarkedForRemoval)
+      ..writeByte(7)
+      ..write(obj.wasSuccessfullySentToBackendOnLastSync);
   }
 
   @override

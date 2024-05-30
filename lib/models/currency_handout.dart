@@ -22,13 +22,17 @@ class CurrencyHandout extends HiveObject {
   @HiveField(5)
   bool isMarkedForRemoval;
 
+  @HiveField(6)
+  bool wasSuccessfullySentToBackendOnLastSync;
+
   CurrencyHandout(
       {required this.id,
       required this.title,
       required this.startDate,
       required this.isNew,
       required this.wasModified,
-      required this.isMarkedForRemoval});
+      required this.isMarkedForRemoval,
+      required this.wasSuccessfullySentToBackendOnLastSync});
 
   String toStringFormat() {
     List<String> dayMonthYear = startDate.toString().split(" ")[0].split("-");

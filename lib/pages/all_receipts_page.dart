@@ -102,7 +102,7 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
               ],
               child: const Center(
                   child: Text(
-                "Nenhuma entrega  :(",
+                "Nenhuma entrega ainda :(",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               )),
             );

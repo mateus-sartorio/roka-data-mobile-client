@@ -25,6 +25,9 @@ class Collect extends HiveObject {
   @HiveField(6)
   bool isMarkedForRemoval;
 
+  @HiveField(7)
+  bool wasSuccessfullySentToBackendOnLastSync;
+
   Collect(
       {required this.ammount,
       required this.collectedOn,
@@ -32,5 +35,6 @@ class Collect extends HiveObject {
       required this.residentId,
       required this.isNew,
       required this.wasModified,
-      required this.isMarkedForRemoval});
+      required this.isMarkedForRemoval,
+      required this.wasSuccessfullySentToBackendOnLastSync});
 }
