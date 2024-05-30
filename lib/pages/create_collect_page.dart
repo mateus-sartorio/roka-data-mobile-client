@@ -126,7 +126,8 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
         residentId: (selectedResident?.id)!,
         isNew: widget.collect?.isNew ?? isNewCollect,
         isMarkedForRemoval: false,
-        wasModified: isNewCollect ? false : true);
+        wasModified: isNewCollect ? false : true,
+        wasSuccessfullySentToBackendOnLastSync: false);
 
     var box = Hive.box('globalDatabase');
     final dynamicCollectsList1 = box.get("COLLECTS") ?? [];

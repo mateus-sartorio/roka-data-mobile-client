@@ -107,7 +107,8 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
         startDate: selectedDate!,
         isNew: widget.currencyHandout?.isNew ?? isNewHandout,
         wasModified: isNewHandout ? false : true,
-        isMarkedForRemoval: false);
+        isMarkedForRemoval: false,
+        wasSuccessfullySentToBackendOnLastSync: false);
 
     if (isNewHandout) {
       db.saveNewCurrencyHandout(newCurrencyHandout);

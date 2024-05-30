@@ -70,6 +70,9 @@ class Resident extends HiveObject {
   @HiveField(20)
   List<Receipt> receipts;
 
+  @HiveField(21)
+  bool wasSuccessfullySentToBackendOnLastSync;
+
   Resident(
       {required this.id,
       required this.address,
@@ -91,5 +94,6 @@ class Resident extends HiveObject {
       required this.birthdate,
       required this.isMarkedForRemoval,
       required this.wasModified,
-      required this.receipts});
+      required this.receipts,
+      required this.wasSuccessfullySentToBackendOnLastSync});
 }

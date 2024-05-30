@@ -38,13 +38,14 @@ class ResidentAdapter extends TypeAdapter<Resident> {
       isMarkedForRemoval: fields[18] as bool,
       wasModified: fields[17] as bool,
       receipts: (fields[20] as List).cast<Receipt>(),
+      wasSuccessfullySentToBackendOnLastSync: fields[21] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Resident obj) {
     writer
-      ..writeByte(21)
+      ..writeByte(22)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -86,7 +87,9 @@ class ResidentAdapter extends TypeAdapter<Resident> {
       ..writeByte(19)
       ..write(obj.collects)
       ..writeByte(20)
-      ..write(obj.receipts);
+      ..write(obj.receipts)
+      ..writeByte(21)
+      ..write(obj.wasSuccessfullySentToBackendOnLastSync);
   }
 
   @override
