@@ -23,13 +23,14 @@ class CurrencyHandoutAdapter extends TypeAdapter<CurrencyHandout> {
       isNew: fields[3] as bool,
       wasModified: fields[4] as bool,
       isMarkedForRemoval: fields[5] as bool,
+      wasSuccessfullySentToBackendOnLastSync: fields[6] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, CurrencyHandout obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class CurrencyHandoutAdapter extends TypeAdapter<CurrencyHandout> {
       ..writeByte(4)
       ..write(obj.wasModified)
       ..writeByte(5)
-      ..write(obj.isMarkedForRemoval);
+      ..write(obj.isMarkedForRemoval)
+      ..writeByte(6)
+      ..write(obj.wasSuccessfullySentToBackendOnLastSync);
   }
 
   @override

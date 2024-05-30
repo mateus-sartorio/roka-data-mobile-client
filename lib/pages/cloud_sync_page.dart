@@ -14,15 +14,23 @@ class CloudSyncPage extends StatefulWidget {
 class _CloudSyncPageState extends State<CloudSyncPage> {
   GlobalDatabase db = GlobalDatabase();
 
-  void showWarning() {
+  void showWarning(String message) {
+    String parsedExceptionMessage = "";
+    if (message.contains("Connection refused")) {
+      parsedExceptionMessage = "Sem conexão com o servidor";
+    } else {
+      parsedExceptionMessage = message.replaceAll("Exception:", "");
+    }
+    parsedExceptionMessage = parsedExceptionMessage.trim();
+
     Navigator.of(context).pop(true);
     showDialog(
       context: context,
       builder: (context) {
         return SimpleDialog(
-            title: const Text(
-              "Erro ao enviar dados para o servidor, tente novamente.",
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            title: Text(
+              "Erro ao enviar dados para o servidor, com mensagem de erro: \"$parsedExceptionMessage\".  Verifique sua conexão com a internet e a validade dos dados preenchidos e tente novamente mais tarde.",
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
             ),
             contentPadding:
                 const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
@@ -92,11 +100,10 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
     try {
       showSyncingAnimation();
       await db.sendDataToBackend();
-      await Future.delayed(const Duration(seconds: 2));
       await db.fetchDataFromBackend();
       showSuccessMessage();
     } catch (e) {
-      showWarning();
+      showWarning(e.toString());
     }
   }
 

@@ -28,6 +28,9 @@ class Receipt extends HiveObject {
   @HiveField(7)
   bool isMarkedForRemoval;
 
+  @HiveField(8)
+  bool wasSuccessfullySentToBackendOnLastSync;
+
   Receipt(
       {required this.id,
       required this.value,
@@ -36,5 +39,6 @@ class Receipt extends HiveObject {
       required this.currencyHandoutId,
       required this.isNew,
       required this.wasModified,
-      required this.isMarkedForRemoval});
+      required this.isMarkedForRemoval,
+      required this.wasSuccessfullySentToBackendOnLastSync});
 }

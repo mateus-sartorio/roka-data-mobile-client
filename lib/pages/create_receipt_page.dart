@@ -139,7 +139,8 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
         currencyHandoutId: (selectedCurrencyHandout?.id)!,
         isNew: widget.receipt?.isNew ?? isNewReceipt,
         isMarkedForRemoval: false,
-        wasModified: isNewReceipt ? false : true);
+        wasModified: isNewReceipt ? false : true,
+        wasSuccessfullySentToBackendOnLastSync: false);
 
     var box = Hive.box('globalDatabase');
     final dynamicReceiptsList1 = box.get("RECEIPTS");
