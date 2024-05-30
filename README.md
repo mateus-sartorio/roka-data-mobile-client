@@ -52,7 +52,7 @@ Este projeto destina-se a ser simples e fácil de usar. As funcionalidades são 
 
 Antes de começar, certifique-se que tenha todos os pré-requisitos para rodar o projeto.
 
-Para checar a versão do `Flutter` instalada em sua máquina, execute o seguinte comando:
+Para verificar a versão do `Flutter` instalada em sua máquina, execute o seguinte comando:
 
 ```bash
 flutter --version
@@ -61,7 +61,7 @@ flutter --version
 Certifique-se que sua versão do `Flutter` esteja entre `>=3.2.3` e `<4.0.0`.
 
 > [!TIP]
->   Caso sua versão do `Flutter` não esteja entre `'>=3.2.3` e `<4.0.0'`, recomenda-se utilizar o `fvm`, que permite instalar e gerenciar várias versões do `Flutter` em sua máquina ([Página com instruções para instalação e uso](https://fvm.app/)).
+>   Caso sua versão do `Flutter` não esteja entre `>=3.2.3` e `<4.0.0`, recomenda-se utilizar o `fvm`, que permite instalar e gerenciar várias versões do `Flutter` em sua máquina ([Página com instruções para instalação e uso](https://fvm.app/)).
 
 ### Configurando ambiente local
 
@@ -72,7 +72,7 @@ git clone https://github.com/mateus-sartorio/roka-data-mobile-client
 cd roka-data-mobile-client
 ```
 
-Caso queira utilizar um ambiente de produção, é necessário configurar um aquivo de variáveis de ambiente (`.env`) com a url de conexão com a API Rest do Back End. Para isso, renomeie `prod.example.json` para `prod.json` em `lib/configuration/env`. O comando abaixo realiza esta operação:
+Caso queira utilizar um ambiente de produção, é necessário configurar um aquivo de variáveis de ambiente com a url de conexão com a API Rest do Back End. Para isso, renomeie `prod.example.json` para `prod.json` em `lib/configuration/env`. O comando abaixo realiza esta operação:
 
 ```bash
 mv lib/configuration/env/prod.example.json lib/configuration/env/prod.json
@@ -88,13 +88,13 @@ No arquivo `prod.json`, configure a variável ambiente `baseUrl` com a url da AP
 
 ### Rodando a aplicação
 
-Para rodar a aplicação com o Back End de desenvolvimento local:
+Para rodar a aplicação com o Back End de desenvolvimento (local):
 
 ```bash
 flutter run --dart-define-from-file=lib/configuration/env/dev.json
 ```
 
-Para rodar a aplicação com o Back End de produção local:
+Para rodar a aplicação com o Back End de produção:
 
 ```bash
 flutter run --dart-define-from-file=lib/configuration/env/prod.json
