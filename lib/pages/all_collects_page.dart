@@ -265,6 +265,9 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                           );
                         }),
                   ),
+                  const SizedBox(
+                    height: 15,
+                  ),
                 ],
               ),
             );
