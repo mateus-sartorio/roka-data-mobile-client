@@ -21,6 +21,25 @@ Map<String, double> totalWeightByDate(List<Collect> collects) {
   return totalWeightByCollectedOnDate;
 }
 
+Map<String, double> totalWeightByMonth(List<Collect> collects) {
+  Map<String, double> totalWeightByMonth = <String, double>{};
+
+  for (int i = 0; i < collects.length; i++) {
+    if (totalWeightByMonth
+        .containsKey(toMonthString(collects[i].collectedOn))) {
+      double currentSum =
+          totalWeightByMonth[toMonthString(collects[i].collectedOn)]!;
+      double newSum = collects[i].ammount + currentSum;
+      totalWeightByMonth[toMonthString(collects[i].collectedOn)] = newSum;
+    } else {
+      totalWeightByMonth[toMonthString(collects[i].collectedOn)] =
+          collects[i].ammount;
+    }
+  }
+
+  return totalWeightByMonth;
+}
+
 double totalWeight(List<Collect> collects) {
   double total = 0;
   for (Collect c in collects) {
