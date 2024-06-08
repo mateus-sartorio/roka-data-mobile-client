@@ -21,7 +21,7 @@ class AllCollectsPage extends StatefulWidget {
 class _AllCollectsPageState extends State<AllCollectsPage> {
   GlobalDatabase db = GlobalDatabase();
 
-  void deleteCollect(int collectId) {
+  void deleteCollect(Collect collect) {
     showDialog(
       context: context,
       builder: (context) {
@@ -29,7 +29,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
           title:
               "Tem certeza que deseja remover esta coleta? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
           onSave: () {
-            db.deleteOldCollect(collectId);
+            db.deleteOldCollect(collect);
             Navigator.of(context).pop(true);
 
             showDialog(
@@ -204,7 +204,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                                     children: [
                                       SlidableAction(
                                         onPressed: (context) =>
-                                            deleteCollect(collects[index].id),
+                                            deleteCollect(collects[index]),
                                         icon: Icons.delete,
                                         backgroundColor: Colors.red,
                                         borderRadius: BorderRadius.circular(10),

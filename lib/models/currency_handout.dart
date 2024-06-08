@@ -42,4 +42,15 @@ class CurrencyHandout extends HiveObject {
 
     return "$displayTitle - ${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
   }
+
+  void deepCopy(CurrencyHandout currencyHandout) {
+    id = currencyHandout.id;
+    title = currencyHandout.title;
+    startDate = currencyHandout.startDate;
+    isNew = currencyHandout.isNew;
+    wasModified = currencyHandout.wasModified;
+    isMarkedForRemoval = currencyHandout.isMarkedForRemoval;
+    wasSuccessfullySentToBackendOnLastSync =
+        currencyHandout.wasSuccessfullySentToBackendOnLastSync;
+  }
 }
