@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/data/database.dart';
+import 'package:mobile_client/enums/shift.dart';
 import 'package:mobile_client/enums/situation.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/currency_handout.dart';
@@ -24,6 +26,7 @@ class _ResidentsThatNeedCollectOnTheHousePageState
     extends State<ResidentsThatNeedCollectOnTheHousePage> {
   GlobalDatabase db = GlobalDatabase();
   List<Resident> filteredResidents = [];
+  Shift? selectedShift;
 
   final TextEditingController _searchController = TextEditingController();
 
@@ -75,6 +78,9 @@ class _ResidentsThatNeedCollectOnTheHousePageState
               dynamicListToTList(allResidentsDynamicList);
           filteredResidents = residentFilterForPeopleThatNeedCollectOnTheHouse(
               residents, _searchController.text);
+          filteredResidents =
+              residentFilterForPeopleWithShiftForCollectOnTheHouse(
+                  filteredResidents, selectedShift);
 
           Widget body;
 
@@ -98,12 +104,49 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                         filteredResidents =
                             residentFilterForPeopleThatNeedCollectOnTheHouse(
                                 residents, value);
+                        filteredResidents =
+                            residentFilterForPeopleWithShiftForCollectOnTheHouse(
+                                filteredResidents, selectedShift);
                       });
                     },
                   ),
                 ),
                 const SizedBox(
                   height: 10,
+                ),
+                IntrinsicWidth(
+                  child: DropdownButtonFormField<Shift>(
+                    decoration: const InputDecoration(
+                      // filled: true,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    onChanged: (item) {
+                      selectedShift = item;
+
+                      setState(() {
+                        filteredResidents =
+                            residentFilterForPeopleThatNeedCollectOnTheHouse(
+                                residents, _searchController.text);
+                        filteredResidents =
+                            residentFilterForPeopleWithShiftForCollectOnTheHouse(
+                                filteredResidents, item);
+                      });
+                    },
+                    value: selectedShift,
+                    items: const [
+                      DropdownMenuItem(value: null, child: Text("Todos")),
+                      DropdownMenuItem(
+                        value: Shift.morning,
+                        child: Text("Manhã"),
+                      ),
+                      DropdownMenuItem(
+                        value: Shift.afternoon,
+                        child: Text("Tarde"),
+                      ),
+                    ],
+                  ),
                 ),
                 filteredResidents.isEmpty
                     ? const Center(

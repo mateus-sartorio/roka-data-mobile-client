@@ -1,40 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'situation.dart';
+part of 'shift.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SituationAdapter extends TypeAdapter<Situation> {
+class ShiftAdapter extends TypeAdapter<Shift> {
   @override
-  final int typeId = 5;
+  final int typeId = 6;
 
   @override
-  Situation read(BinaryReader reader) {
+  Shift read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return Situation.active;
+        return Shift.morning;
       case 1:
-        return Situation.inactive;
-      case 2:
-        return Situation.noContact;
+        return Shift.afternoon;
       default:
-        return Situation.active;
+        return Shift.morning;
     }
   }
 
   @override
-  void write(BinaryWriter writer, Situation obj) {
+  void write(BinaryWriter writer, Shift obj) {
     switch (obj) {
-      case Situation.active:
+      case Shift.morning:
         writer.writeByte(0);
         break;
-      case Situation.inactive:
+      case Shift.afternoon:
         writer.writeByte(1);
-        break;
-      case Situation.noContact:
-        writer.writeByte(2);
         break;
     }
   }
@@ -45,7 +40,7 @@ class SituationAdapter extends TypeAdapter<Situation> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SituationAdapter &&
+      other is ShiftAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

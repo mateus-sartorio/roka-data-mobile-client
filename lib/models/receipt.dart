@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'receipt.g.dart';
 
-@HiveType(typeId: 5, adapterName: "ReceiptAdapter")
+@HiveType(typeId: 4, adapterName: "ReceiptAdapter")
 class Receipt extends HiveObject {
   @HiveField(0)
   int id;

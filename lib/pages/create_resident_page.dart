@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:mobile_client/components/big_button_tile.dart';
 import 'package:mobile_client/data/database.dart';
+import 'package:mobile_client/enums/shift.dart';
 import 'package:mobile_client/enums/situation.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/resident.dart';
@@ -32,8 +34,9 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
   bool isOnWhatsappGroup = false;
   bool hasPlaque = false;
   bool needsCollectOnTheHouse = false;
+  Shift? selectedShift;
   String selectedSituation = "Ativo";
-  String _previousPhoneNumberString = "";
+  String previousPhoneNumberString = "";
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _neighborhoodController = TextEditingController();
@@ -69,6 +72,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
 
       livesInJN = widget.resident?.livesInJN ?? false;
       needsCollectOnTheHouse = widget.resident?.needsCollectOnTheHouse ?? false;
+      selectedShift = widget.resident?.shiftForCollectionOnTheHouse;
 
       _referencePointController.text = widget.resident?.referencePoint ?? "";
       _phoneController.text = widget.resident?.phone ?? "";
@@ -126,7 +130,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
   void onPhoneChange(String value) {
     String newValue = "";
 
-    if (value.length < _previousPhoneNumberString.length) {
+    if (value.length < previousPhoneNumberString.length) {
       newValue = value;
     } else if (value.length == 1) {
       newValue = "($value";
@@ -135,14 +139,14 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     } else if (value.length == 10) {
       newValue = "$value-";
     } else if (value.length > 15) {
-      newValue = _previousPhoneNumberString;
+      newValue = previousPhoneNumberString;
     } else {
       newValue = value;
     }
 
     setState(() {
       _phoneController.text = newValue;
-      _previousPhoneNumberString = newValue;
+      previousPhoneNumberString = newValue;
     });
   }
 
@@ -208,6 +212,9 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     } else if (!isNumberPattern.hasMatch(_houseNumberController.text)) {
       warnInvalidRegistrationData(
           "Formato inválido para o número da residência.");
+    } else if (needsCollectOnTheHouse == true && selectedShift == null) {
+      warnInvalidRegistrationData("Selecione um turno de coleta.");
+      return false;
     } else if (_rokaIdController.text.isNotEmpty &&
         !isNumberPattern.hasMatch(_rokaIdController.text)) {
       if (zeroPattern.hasMatch(_rokaIdController.text)) {
@@ -252,6 +259,10 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
       situation = Situation.noContact;
     }
 
+    if (needsCollectOnTheHouse == false) {
+      selectedShift = null;
+    }
+
     Resident newResident = Resident(
         id: id,
         address:
@@ -273,6 +284,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
         situation: situation,
         birthdate: selectedDate ?? DateTime.now(),
         needsCollectOnTheHouse: needsCollectOnTheHouse,
+        shiftForCollectionOnTheHouse: selectedShift,
         isNew: widget.resident?.isNew ?? isNewResident,
         isMarkedForRemoval: false,
         wasModified: isNewResident ? false : true,
@@ -584,6 +596,13 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                 const SizedBox(
                   height: 15,
                 ),
+                const Text(
+                  "Informações internas da Roka",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
                 CheckboxListTile(
                   title: const Text("Precisa de coleta na casa?"),
                   value: needsCollectOnTheHouse,
@@ -591,12 +610,26 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                     needsCollectOnTheHouse = newValue ?? true;
                   }),
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
-                const Text(
-                  "Informações internas da Roka",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                Visibility(
+                  visible: needsCollectOnTheHouse,
+                  child: DropdownButtonFormField<Shift>(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "Turno da coleta na casa",
+                    ),
+                    onChanged: (item) => selectedShift = item,
+                    value: selectedShift,
+                    items: const [
+                      DropdownMenuItem(
+                        value: Shift.morning,
+                        child: Text("Manhã"),
+                      ),
+                      DropdownMenuItem(
+                        value: Shift.afternoon,
+                        child: Text("Tarde"),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 15,

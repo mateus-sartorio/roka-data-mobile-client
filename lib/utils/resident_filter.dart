@@ -1,3 +1,4 @@
+import 'package:mobile_client/enums/shift.dart';
 import 'package:mobile_client/models/resident.dart';
 
 List<Resident> residentFilter(List<Resident> residents, String filter) {
@@ -24,4 +25,16 @@ List<Resident> residentFilterForPeopleThatNeedCollectOnTheHouse(
               (resident.observations.toLowerCase().contains(filter)) ||
               resident.referencePoint.toLowerCase().contains(filter)))
       .toList();
+}
+
+List<Resident> residentFilterForPeopleWithShiftForCollectOnTheHouse(
+    List<Resident> residents, Shift? shiftForCollectOnTheHouse) {
+  if (shiftForCollectOnTheHouse == null) {
+    return residents;
+  } else {
+    return residents
+        .where((resident) =>
+            resident.shiftForCollectionOnTheHouse == shiftForCollectOnTheHouse)
+        .toList();
+  }
 }
