@@ -469,7 +469,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
           scrolledUnderElevation: 0,
           centerTitle: true,
           title: Text(
-            "$widget.text",
+            widget.text,
             style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.transparent,
