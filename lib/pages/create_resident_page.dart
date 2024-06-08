@@ -509,7 +509,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                   ],
                 ),
                 Visibility(
-                  visible: showTags && widget.showCoin,
+                  visible: showTags && (widget.showCoin || widget.showBag),
                   child: const SizedBox(
                     height: 15,
                   ),
@@ -589,7 +589,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                       ],
                     )),
                 const SizedBox(
-                  height: 15,
+                  height: 30,
                 ),
                 const Text(
                   "Informações básicas",

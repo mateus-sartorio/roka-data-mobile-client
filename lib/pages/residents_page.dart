@@ -254,7 +254,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
 
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 15.0),
+                                    vertical: 5, horizontal: 20),
                                 child: Slidable(
                                   endActionPane: ActionPane(
                                     motion: const StretchMotion(),
@@ -316,12 +316,6 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                                 Row(children: tags),
                                               ],
                                             )),
-                                        Visibility(
-                                            visible: index ==
-                                                filteredResidents.length - 1,
-                                            child: const SizedBox(
-                                              height: 20,
-                                            ))
                                       ],
                                     ),
                                     onTap: () {
@@ -350,6 +344,9 @@ class _ResidentsPageState extends State<ResidentsPage> {
                               );
                             }),
                       ),
+                const SizedBox(
+                  height: 20,
+                )
               ],
             ),
           );

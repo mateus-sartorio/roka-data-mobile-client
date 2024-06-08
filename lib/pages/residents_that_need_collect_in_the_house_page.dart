@@ -304,7 +304,7 @@ class _ResidentsThatNeedCollectOnTheHousePageState
 
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 15.0),
+                                    vertical: 5, horizontal: 20.0),
                                 child: Slidable(
                                   endActionPane: ActionPane(
                                     motion: const StretchMotion(),
@@ -366,12 +366,6 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                                                 Row(children: tags),
                                               ],
                                             )),
-                                        Visibility(
-                                            visible: index ==
-                                                filteredResidents.length - 1,
-                                            child: const SizedBox(
-                                              height: 20,
-                                            ))
                                       ],
                                     ),
                                     onTap: () {
@@ -400,6 +394,9 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                               );
                             }),
                       ),
+                const SizedBox(
+                  height: 20,
+                )
               ],
             ),
           );
