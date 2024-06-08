@@ -9,6 +9,7 @@ import 'package:mobile_client/models/currency_handout.dart';
 import 'package:mobile_client/models/resident.dart';
 import 'package:mobile_client/pages/create_resident_page.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:mobile_client/utils/dates/compare.dart';
 import 'package:mobile_client/utils/list_conversions.dart';
 import 'package:mobile_client/utils/resident_filter.dart';
 
@@ -129,6 +130,21 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                           .currencyHandoutId ==
                                       lastCurrencyHandout?.id) {
                                 displayCoin = true;
+                              }
+
+                              bool displayBag = false;
+                              if (filteredResidents[index]
+                                      .collects
+                                      .isNotEmpty &&
+                                  isSameDay(
+                                      filteredResidents[index]
+                                          .collects[0]
+                                          .collectedOn,
+                                      DateTime.now()) &&
+                                  !filteredResidents[index]
+                                      .collects[0]
+                                      .isMarkedForRemoval) {
+                                displayBag = true;
                               }
 
                               List<Widget> tags = <Widget>[];
@@ -260,14 +276,24 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Visibility(
-                                            visible: displayCoin,
-                                            child: const Icon(
-                                              Icons.monetization_on_rounded,
-                                              color: Color.fromARGB(
-                                                  255, 255, 215, 0),
-                                              size: 20,
-                                            )),
+                                        Row(
+                                          children: [
+                                            Visibility(
+                                                visible: displayCoin,
+                                                child: const Icon(
+                                                  Icons.monetization_on_rounded,
+                                                  color: Color.fromARGB(
+                                                      255, 255, 215, 0),
+                                                  size: 20,
+                                                )),
+                                            Visibility(
+                                                visible: displayBag,
+                                                child: const Icon(
+                                                  Icons.shopping_bag,
+                                                  size: 20,
+                                                )),
+                                          ],
+                                        ),
                                         Text(
                                           filteredResidents[index].name,
                                           style: const TextStyle(
@@ -305,6 +331,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                               builder: (context) =>
                                                   CreateResidentPage(
                                                       showCoin: displayCoin,
+                                                      showBag: displayBag,
                                                       text:
                                                           "Dados do residente",
                                                       resident:
@@ -352,6 +379,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                       MaterialPageRoute(
                           builder: (context) => const CreateResidentPage(
                                 showCoin: false,
+                                showBag: false,
                                 text: "Cadastrar novo residente",
                               )));
                 },

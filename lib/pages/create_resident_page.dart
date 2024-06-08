@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mobile_client/components/big_button_tile.dart';
 import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/enums/shift.dart';
@@ -12,9 +11,14 @@ class CreateResidentPage extends StatefulWidget {
   final Resident? resident;
   final String text;
   final bool showCoin;
+  final bool showBag;
 
   const CreateResidentPage(
-      {Key? key, this.resident, required this.text, required this.showCoin})
+      {Key? key,
+      this.resident,
+      required this.text,
+      required this.showCoin,
+      required this.showBag})
       : super(key: key);
 
   @override
@@ -484,12 +488,23 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Visibility(
-                  visible: widget.showCoin,
-                  child: const Icon(
-                    Icons.monetization_on_rounded,
-                    color: Color.fromARGB(255, 255, 215, 0),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Visibility(
+                      visible: widget.showCoin,
+                      child: const Icon(
+                        Icons.monetization_on_rounded,
+                        color: Color.fromARGB(255, 255, 215, 0),
+                      ),
+                    ),
+                    Visibility(
+                        visible: widget.showBag,
+                        child: const Icon(
+                          Icons.shopping_bag,
+                          size: 20,
+                        )),
+                  ],
                 ),
                 Visibility(
                   visible: showTags && widget.showCoin,

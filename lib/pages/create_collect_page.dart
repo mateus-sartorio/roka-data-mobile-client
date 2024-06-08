@@ -294,9 +294,9 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
               : "Tem certeza que deseja remover esta coleta?",
           onSave: () {
             if (widget.isOldCollect) {
-              db.deleteOldCollect(widget.collect?.id ?? -1);
+              db.deleteOldCollect(widget.collect!);
             } else {
-              db.deleteCollect(widget.collect?.id ?? -1);
+              db.deleteCollect(widget.collect!);
             }
 
             Navigator.of(context).pop(true);
