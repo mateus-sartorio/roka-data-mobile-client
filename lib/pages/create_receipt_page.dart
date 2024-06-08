@@ -348,7 +348,7 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
           scrolledUnderElevation: 0,
           centerTitle: true,
           title: const Text(
-            "♻️ Dados da entrega",
+            "Dados da entrega",
             style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.transparent,

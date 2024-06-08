@@ -7,7 +7,7 @@ import 'package:mobile_client/models/receipt.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mobile_client/models/resident.dart';
 import 'package:mobile_client/pages/create_receipt_page.dart';
-import 'package:mobile_client/utils/collects/total_rokas.dart';
+import 'package:mobile_client/utils/receipts/total_rokas.dart';
 import 'package:mobile_client/utils/dates/to_date_string.dart';
 
 class AllReceiptsOfResidentPage extends StatefulWidget {
@@ -269,7 +269,7 @@ class _AllReceiptsOfResidentPageState extends State<AllReceiptsOfResidentPage> {
                   scrolledUnderElevation: 0,
                   centerTitle: true,
                   title: const Text(
-                    "♻️ Entregas de moeda",
+                    "Entregas de moeda",
                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                   backgroundColor: Colors.transparent,

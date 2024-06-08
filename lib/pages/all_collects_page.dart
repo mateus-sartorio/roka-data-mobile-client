@@ -278,7 +278,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                   scrolledUnderElevation: 0,
                   centerTitle: true,
                   title: const Text(
-                    "♻️ Todas coletas",
+                    "Todas coletas",
                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                   backgroundColor: Colors.transparent,

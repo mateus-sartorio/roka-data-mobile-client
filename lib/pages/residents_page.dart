@@ -11,7 +11,7 @@ import 'package:mobile_client/pages/create_resident_page.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mobile_client/utils/dates/compare.dart';
 import 'package:mobile_client/utils/list_conversions.dart';
-import 'package:mobile_client/utils/resident_filter.dart';
+import 'package:mobile_client/utils/residents/resident_filter.dart';
 
 class ResidentsPage extends StatefulWidget {
   const ResidentsPage({Key? key}) : super(key: key);
@@ -359,7 +359,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                   scrolledUnderElevation: 0,
                   centerTitle: true,
                   title: const Text(
-                    "♻️ Residentes",
+                    "Residentes",
                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                   backgroundColor: Colors.transparent,
