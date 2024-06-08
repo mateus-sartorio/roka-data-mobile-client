@@ -285,7 +285,7 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
                   scrolledUnderElevation: 0,
                   centerTitle: true,
                   title: const Text(
-                    "♻️ Todas entregas",
+                    "Todas entregas",
                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                   backgroundColor: Colors.transparent,

@@ -11,6 +11,7 @@ import 'package:mobile_client/pages/receipts_page.dart';
 import 'package:mobile_client/pages/residents_page.dart';
 import 'package:mobile_client/pages/cloud_sync_page.dart';
 import 'package:mobile_client/pages/residents_that_need_collect_in_the_house_page.dart';
+import 'package:mobile_client/pages/statistics_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -77,9 +78,9 @@ class _HomePageState extends State<HomePage> {
     ];
 
     final List<String> titles = [
-      "♻️ Coletas",
-      "♻️ Sincronizar dados",
-      "♻️ Entregas",
+      "Coletas",
+      "Sincronizar dados",
+      "Entregas",
     ];
 
     return Scaffold(
@@ -162,6 +163,21 @@ class _HomePageState extends State<HomePage> {
                     MaterialPageRoute(
                         builder: (context) =>
                             const ResidentsThatNeedCollectOnTheHousePage()));
+              },
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            child: ListTile(
+              leading: const Icon(Icons.insert_chart),
+              title: const Text("Estatísticas"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const StatisticsPage()));
               },
             ),
           ),

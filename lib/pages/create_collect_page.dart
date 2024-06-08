@@ -428,7 +428,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
       appBar: AppBar(
           centerTitle: true,
           title: const Text(
-            "♻️ Dados de coleta",
+            "Dados de coleta",
             style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.transparent,

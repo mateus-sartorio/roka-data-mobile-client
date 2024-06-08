@@ -284,7 +284,7 @@ class _AllCollectsOfResidentPageState extends State<AllCollectsOfResidentPage> {
                   scrolledUnderElevation: 0,
                   centerTitle: true,
                   title: const Text(
-                    "♻️ Coletas",
+                    "Coletas",
                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                   backgroundColor: Colors.transparent,

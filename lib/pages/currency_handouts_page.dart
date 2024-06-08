@@ -240,7 +240,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                   scrolledUnderElevation: 0,
                   centerTitle: true,
                   title: const Text(
-                    "♻️ Distribuições da moeda",
+                    "Distribuições da moeda",
                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                   backgroundColor: Colors.transparent,
