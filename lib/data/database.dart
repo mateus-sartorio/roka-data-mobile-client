@@ -3,15 +3,18 @@ import 'dart:convert';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:mobile_client/configuration/endpoints.dart';
-import 'package:mobile_client/data/status_codes.dart';
+import 'package:mobile_client/enums/shift.dart';
+import 'package:mobile_client/enums/status_codes.dart';
 import 'package:mobile_client/enums/situation.dart';
 import 'package:mobile_client/models/collect.dart';
 import 'package:mobile_client/models/currency_handout.dart';
 import 'package:mobile_client/models/receipt.dart';
 import 'package:mobile_client/models/resident.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_client/utils/enum_conversion/shift.dart';
 import 'package:mobile_client/utils/enum_conversion/situation.dart';
 import 'package:mobile_client/utils/list_conversions.dart';
+import 'package:mobile_client/utils/residents/serialize.dart';
 
 class GlobalDatabase {
   final _myBox = Hive.box('globalDatabase');
@@ -38,11 +41,11 @@ class GlobalDatabase {
   Future<void> fetchDataFromBackend() async {
     try {
       await fetchAllResidents();
-      await fetchAllCurrencyHandouts();
-      await fetchAllCollects();
-      await fetchAllReceipts();
-      await _myBox.put("COLLECTS", []);
-      await _myBox.put("RECEIPTS", []);
+      // await fetchAllCurrencyHandouts();
+      // await fetchAllCollects();
+      // await fetchAllReceipts();
+      // await _myBox.put("COLLECTS", []);
+      // await _myBox.put("RECEIPTS", []);
     } catch (e) {
       throw Exception(e);
     }
@@ -65,6 +68,12 @@ class GlobalDatabase {
       }
 
       Situation situation = integerToSituation(residentMapObject["situation"]);
+
+      Shift? shiftForCollectionOnTheHouse =
+          (residentMapObject["shift_for_collection_on_the_house"] != null)
+              ? getShiftFromInt(
+                  residentMapObject["shift_for_collection_on_the_house"])
+              : null;
 
       final receiptsResponse = residentMapObject["receipts"];
       List<Receipt> receipts = [];
@@ -103,6 +112,7 @@ class GlobalDatabase {
           birthdate: birthdate,
           needsCollectOnTheHouse:
               residentMapObject["needs_collect_on_the_house"],
+          shiftForCollectionOnTheHouse: shiftForCollectionOnTheHouse,
           receipts: receipts,
           isNew: false,
           isMarkedForRemoval: false,
@@ -472,27 +482,7 @@ class GlobalDatabase {
     String backendRoute = "${Endpoints.baseUrl}/residents";
     Uri uri = Uri.parse(backendRoute);
 
-    int situation = situationToInteger(resident.situation);
-
-    Map data = {
-      "id": resident.id,
-      "name": resident.name,
-      "roka_id": resident.rokaId,
-      "has_plaque": resident.hasPlaque,
-      "registration_year": resident.registrationYear,
-      "address": resident.address,
-      "reference_point": resident.referencePoint,
-      "lives_in_jn": resident.livesInJN,
-      "phone": resident.phone,
-      "is_on_whatsapp_group": resident.isOnWhatsappGroup,
-      "birthdate": resident.birthdate.toString(),
-      "profession": resident.profession,
-      "residents_in_the_house": resident.residentsInTheHouse,
-      "observations": resident.observations,
-      "situation": situation,
-      "needs_collect_on_the_house": resident.needsCollectOnTheHouse
-    };
-
+    Map data = residentToMap(resident);
     var body = json.encode(data);
 
     try {
@@ -511,27 +501,7 @@ class GlobalDatabase {
     String backendRoute = "${Endpoints.baseUrl}/residents/${resident.id}";
     Uri uri = Uri.parse(backendRoute);
 
-    int situation = situationToInteger(resident.situation);
-
-    Map data = {
-      "id": resident.id,
-      "name": resident.name,
-      "roka_id": resident.rokaId,
-      "situation": situation,
-      "has_plaque": resident.hasPlaque,
-      "registration_year": resident.registrationYear,
-      "address": resident.address,
-      "reference_point": resident.referencePoint,
-      "lives_in_jn": resident.livesInJN,
-      "phone": resident.phone,
-      "is_on_whatsapp_group": resident.isOnWhatsappGroup,
-      "birthdate": resident.birthdate.toString(),
-      "profession": resident.profession,
-      "residents_in_the_house": resident.residentsInTheHouse,
-      "observations": resident.observations,
-      "needs_collect_on_the_house": resident.needsCollectOnTheHouse
-    };
-
+    Map data = residentToMap(resident);
     var body = json.encode(data);
 
     try {
@@ -664,29 +634,7 @@ class GlobalDatabase {
 
     for (Resident r in residentsList) {
       if (r.id == resident.id) {
-        r.address = resident.address;
-        r.collects = resident.collects;
-        r.hasPlaque = resident.hasPlaque;
-        r.isOnWhatsappGroup = resident.isOnWhatsappGroup;
-        r.livesInJN = resident.livesInJN;
-        r.name = resident.name;
-        r.observations = resident.observations;
-        r.phone = resident.phone;
-        r.profession = resident.profession;
-        r.referencePoint = resident.referencePoint;
-        r.registrationYear = resident.registrationYear;
-        r.residentsInTheHouse = resident.residentsInTheHouse;
-        r.rokaId = resident.rokaId;
-        r.situation = resident.situation;
-        r.birthdate = resident.birthdate;
-        r.isMarkedForRemoval = resident.isMarkedForRemoval;
-        r.wasModified = resident.wasModified;
-        r.isNew = resident.isNew;
-        r.needsCollectOnTheHouse = resident.needsCollectOnTheHouse;
-        r.receipts = resident.receipts;
-        r.collects = resident.collects;
-        r.wasSuccessfullySentToBackendOnLastSync =
-            resident.wasSuccessfullySentToBackendOnLastSync;
+        r.deepCopy(resident);
         break;
       }
     }
@@ -727,6 +675,7 @@ class GlobalDatabase {
             wasModified: resident.wasModified,
             isNew: resident.isNew,
             needsCollectOnTheHouse: resident.needsCollectOnTheHouse,
+            shiftForCollectionOnTheHouse: resident.shiftForCollectionOnTheHouse,
             wasSuccessfullySentToBackendOnLastSync:
                 resident.wasSuccessfullySentToBackendOnLastSync);
       }

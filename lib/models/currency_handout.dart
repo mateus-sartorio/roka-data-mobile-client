@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'currency_handout.g.dart';
 
-@HiveType(typeId: 4, adapterName: "CurrencyHandoutAdapter")
+@HiveType(typeId: 3, adapterName: "CurrencyHandoutAdapter")
 class CurrencyHandout extends HiveObject {
   @HiveField(0)
   int id;

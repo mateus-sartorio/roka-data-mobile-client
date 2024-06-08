@@ -19,7 +19,7 @@ class ResidentAdapter extends TypeAdapter<Resident> {
     return Resident(
       id: fields[0] as int,
       address: fields[2] as String,
-      collects: (fields[19] as List).cast<Collect>(),
+      collects: (fields[20] as List).cast<Collect>(),
       hasPlaque: fields[9] as bool,
       isOnWhatsappGroup: fields[8] as bool,
       livesInJN: fields[4] as bool,
@@ -33,19 +33,20 @@ class ResidentAdapter extends TypeAdapter<Resident> {
       rokaId: fields[12] as int,
       situation: fields[13] as Situation,
       needsCollectOnTheHouse: fields[15] as bool,
-      isNew: fields[16] as bool,
+      shiftForCollectionOnTheHouse: fields[16] as Shift?,
+      isNew: fields[17] as bool,
       birthdate: fields[6] as DateTime,
-      isMarkedForRemoval: fields[18] as bool,
-      wasModified: fields[17] as bool,
-      receipts: (fields[20] as List).cast<Receipt>(),
-      wasSuccessfullySentToBackendOnLastSync: fields[21] as bool,
+      isMarkedForRemoval: fields[19] as bool,
+      wasModified: fields[18] as bool,
+      receipts: (fields[21] as List).cast<Receipt>(),
+      wasSuccessfullySentToBackendOnLastSync: fields[22] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Resident obj) {
     writer
-      ..writeByte(22)
+      ..writeByte(23)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -79,16 +80,18 @@ class ResidentAdapter extends TypeAdapter<Resident> {
       ..writeByte(15)
       ..write(obj.needsCollectOnTheHouse)
       ..writeByte(16)
-      ..write(obj.isNew)
+      ..write(obj.shiftForCollectionOnTheHouse)
       ..writeByte(17)
-      ..write(obj.wasModified)
+      ..write(obj.isNew)
       ..writeByte(18)
-      ..write(obj.isMarkedForRemoval)
+      ..write(obj.wasModified)
       ..writeByte(19)
-      ..write(obj.collects)
+      ..write(obj.isMarkedForRemoval)
       ..writeByte(20)
-      ..write(obj.receipts)
+      ..write(obj.collects)
       ..writeByte(21)
+      ..write(obj.receipts)
+      ..writeByte(22)
       ..write(obj.wasSuccessfullySentToBackendOnLastSync);
   }
 

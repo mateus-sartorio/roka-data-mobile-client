@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:mobile_client/enums/shift.dart';
 import 'package:mobile_client/enums/situation.dart';
 import 'package:mobile_client/models/collect.dart';
 import 'package:mobile_client/models/currency_handout.dart';
@@ -11,6 +12,7 @@ void main() async {
   await Hive.initFlutter();
 
   Hive.registerAdapter(SituationAdapter());
+  Hive.registerAdapter(ShiftAdapter());
   Hive.registerAdapter(CollectAdapter());
   Hive.registerAdapter(ResidentAdapter());
   Hive.registerAdapter(CurrencyHandoutAdapter());
