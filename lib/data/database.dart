@@ -968,11 +968,7 @@ class GlobalDatabase {
 
     try {
       Resident resident = getResidentById(collect.residentId)!;
-      List<Collect> newCollectsOfResident =
-          collectsList.where((c) => c.residentId == resident.id).toList();
-
-      resident.collects = newCollectsOfResident;
-
+      resident.collects.add(collect);
       updateResident(resident);
     } catch (e) {
       throw Exception("Resident does not exist!");
@@ -991,11 +987,7 @@ class GlobalDatabase {
 
         try {
           Resident resident = getResidentById(collect.residentId)!;
-          List<Collect> newCollectsOfResident =
-              collectsList.where((c) => c.residentId == resident.id).toList();
-
-          resident.collects = newCollectsOfResident;
-
+          resident.collects.add(collect);
           updateResident(resident);
         } catch (e) {
           throw Exception("Resident does not exist!");
@@ -1017,11 +1009,7 @@ class GlobalDatabase {
 
     try {
       Resident resident = getResidentById(collect.residentId)!;
-      List<Collect> newCollectsOfResident =
-          filteredList.where((c) => c.residentId == resident.id).toList();
-
-      resident.collects = newCollectsOfResident;
-
+      resident.collects.add(collect);
       updateResident(resident);
     } catch (e) {
       throw Exception("Resident does not exist!");
@@ -1054,11 +1042,7 @@ class GlobalDatabase {
 
     try {
       Resident resident = getResidentById(collect.residentId)!;
-      List<Collect> newCollectsOfResident =
-          filteredList.where((c) => c.residentId == resident.id).toList();
-
-      resident.collects = newCollectsOfResident;
-
+      resident.collects.add(collect);
       updateResident(resident);
     } catch (e) {
       throw Exception("Resident does not exist!");
@@ -1081,11 +1065,7 @@ class GlobalDatabase {
 
     try {
       Resident resident = getResidentById(collect.residentId)!;
-      List<Collect> newCollectsOfResident =
-          collectsList.where((c) => c.residentId == resident.id).toList();
-
-      resident.collects = newCollectsOfResident;
-
+      resident.collects.add(collect);
       updateResident(resident);
     } catch (e) {
       throw Exception("Resident does not exist!");

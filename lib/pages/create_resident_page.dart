@@ -5,6 +5,7 @@ import 'package:mobile_client/enums/shift.dart';
 import 'package:mobile_client/enums/situation.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/resident.dart';
+import 'package:mobile_client/pages/all_collects_of_resident_page.dart';
 import 'package:mobile_client/utils/integer_id_generator.dart';
 
 class CreateResidentPage extends StatefulWidget {
@@ -517,6 +518,48 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: tags)),
+                const SizedBox(
+                  height: 15,
+                ),
+                Visibility(
+                    visible: !isBeingCreated,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 12.0),
+                              // Adjust padding to remove any extra space around the icon
+                              minimumSize: const Size(
+                                  0, 0), // Optional: Adjust button minimum size
+                            ),
+                            onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        AllCollectsOfResidentPage(
+                                          resident: widget.resident!,
+                                        ))),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Coletas",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                Icon(
+                                  Icons.chevron_right,
+                                  color: Colors.black,
+                                ),
+                              ],
+                            )),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        const Text("Entrega de moedas")
+                      ],
+                    )),
                 const SizedBox(
                   height: 15,
                 ),
