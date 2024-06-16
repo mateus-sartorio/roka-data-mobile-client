@@ -20,14 +20,14 @@ class CollectsPage extends StatefulWidget {
 class _CollectsPageState extends State<CollectsPage> {
   GlobalDatabase db = GlobalDatabase();
 
-  void deleteCollect(int collectId) {
+  void deleteCollect(Collect collect) {
     showDialog(
       context: context,
       builder: (context) {
         return DialogBox(
           title: "Tem certeza que deseja remover esta coleta?",
           onSave: () {
-            db.deleteCollect(collectId);
+            db.deleteCollect(collect);
             Navigator.of(context).pop(true);
 
             showDialog(
@@ -202,7 +202,7 @@ class _CollectsPageState extends State<CollectsPage> {
                                     children: [
                                       SlidableAction(
                                         onPressed: (context) =>
-                                            deleteCollect(collects[index].id),
+                                            deleteCollect(collects[index]),
                                         icon: Icons.delete,
                                         backgroundColor: Colors.red,
                                         borderRadius: BorderRadius.circular(10),

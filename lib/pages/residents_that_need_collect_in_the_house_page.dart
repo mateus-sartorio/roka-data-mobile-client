@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/data/database.dart';
+import 'package:mobile_client/enums/shift.dart';
 import 'package:mobile_client/enums/situation.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/currency_handout.dart';
 import 'package:mobile_client/models/resident.dart';
 import 'package:mobile_client/pages/create_resident_page.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:mobile_client/utils/dates/compare.dart';
 import 'package:mobile_client/utils/list_conversions.dart';
-import 'package:mobile_client/utils/resident_filter.dart';
+import 'package:mobile_client/utils/residents/resident_filter.dart';
 
 class ResidentsThatNeedCollectOnTheHousePage extends StatefulWidget {
   const ResidentsThatNeedCollectOnTheHousePage({Key? key}) : super(key: key);
@@ -24,6 +26,7 @@ class _ResidentsThatNeedCollectOnTheHousePageState
     extends State<ResidentsThatNeedCollectOnTheHousePage> {
   GlobalDatabase db = GlobalDatabase();
   List<Resident> filteredResidents = [];
+  Shift? selectedShift;
 
   final TextEditingController _searchController = TextEditingController();
 
@@ -75,6 +78,9 @@ class _ResidentsThatNeedCollectOnTheHousePageState
               dynamicListToTList(allResidentsDynamicList);
           filteredResidents = residentFilterForPeopleThatNeedCollectOnTheHouse(
               residents, _searchController.text);
+          filteredResidents =
+              residentFilterForPeopleWithShiftForCollectOnTheHouse(
+                  filteredResidents, selectedShift);
 
           Widget body;
 
@@ -98,12 +104,49 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                         filteredResidents =
                             residentFilterForPeopleThatNeedCollectOnTheHouse(
                                 residents, value);
+                        filteredResidents =
+                            residentFilterForPeopleWithShiftForCollectOnTheHouse(
+                                filteredResidents, selectedShift);
                       });
                     },
                   ),
                 ),
                 const SizedBox(
                   height: 10,
+                ),
+                IntrinsicWidth(
+                  child: DropdownButtonFormField<Shift>(
+                    decoration: const InputDecoration(
+                      // filled: true,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    onChanged: (item) {
+                      selectedShift = item;
+
+                      setState(() {
+                        filteredResidents =
+                            residentFilterForPeopleThatNeedCollectOnTheHouse(
+                                residents, _searchController.text);
+                        filteredResidents =
+                            residentFilterForPeopleWithShiftForCollectOnTheHouse(
+                                filteredResidents, item);
+                      });
+                    },
+                    value: selectedShift,
+                    items: const [
+                      DropdownMenuItem(value: null, child: Text("Todos")),
+                      DropdownMenuItem(
+                        value: Shift.morning,
+                        child: Text("Manhã"),
+                      ),
+                      DropdownMenuItem(
+                        value: Shift.afternoon,
+                        child: Text("Tarde"),
+                      ),
+                    ],
+                  ),
                 ),
                 filteredResidents.isEmpty
                     ? const Center(
@@ -137,6 +180,21 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                                           .currencyHandoutId ==
                                       lastCurrencyHandout?.id) {
                                 displayCoin = true;
+                              }
+
+                              bool displayBag = false;
+                              if (filteredResidents[index]
+                                      .collects
+                                      .isNotEmpty &&
+                                  isSameDay(
+                                      filteredResidents[index]
+                                          .collects[0]
+                                          .collectedOn,
+                                      DateTime.now()) &&
+                                  !filteredResidents[index]
+                                      .collects[0]
+                                      .isMarkedForRemoval) {
+                                displayBag = true;
                               }
 
                               List<Widget> tags = <Widget>[];
@@ -246,7 +304,7 @@ class _ResidentsThatNeedCollectOnTheHousePageState
 
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 15.0),
+                                    vertical: 5, horizontal: 20.0),
                                 child: Slidable(
                                   endActionPane: ActionPane(
                                     motion: const StretchMotion(),
@@ -268,14 +326,24 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Visibility(
-                                            visible: displayCoin,
-                                            child: const Icon(
-                                              Icons.monetization_on_rounded,
-                                              color: Color.fromARGB(
-                                                  255, 255, 215, 0),
-                                              size: 20,
-                                            )),
+                                        Row(
+                                          children: [
+                                            Visibility(
+                                                visible: displayCoin,
+                                                child: const Icon(
+                                                  Icons.monetization_on_rounded,
+                                                  color: Color.fromARGB(
+                                                      255, 255, 215, 0),
+                                                  size: 20,
+                                                )),
+                                            Visibility(
+                                                visible: displayBag,
+                                                child: const Icon(
+                                                  Icons.shopping_bag,
+                                                  size: 20,
+                                                )),
+                                          ],
+                                        ),
                                         Text(
                                           filteredResidents[index].name,
                                           style: const TextStyle(
@@ -298,12 +366,6 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                                                 Row(children: tags),
                                               ],
                                             )),
-                                        Visibility(
-                                            visible: index ==
-                                                filteredResidents.length - 1,
-                                            child: const SizedBox(
-                                              height: 20,
-                                            ))
                                       ],
                                     ),
                                     onTap: () {
@@ -313,6 +375,7 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                                               builder: (context) =>
                                                   CreateResidentPage(
                                                       showCoin: displayCoin,
+                                                      showBag: displayBag,
                                                       text:
                                                           "Dados do residente",
                                                       resident:
@@ -331,6 +394,9 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                               );
                             }),
                       ),
+                const SizedBox(
+                  height: 20,
+                )
               ],
             ),
           );
@@ -340,7 +406,7 @@ class _ResidentsThatNeedCollectOnTheHousePageState
                   scrolledUnderElevation: 0,
                   centerTitle: true,
                   title: const Text(
-                    "♻️ Rota",
+                    "Rota",
                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                   backgroundColor: Colors.transparent,

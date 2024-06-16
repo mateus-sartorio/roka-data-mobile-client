@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'situation.g.dart';
 
-@HiveType(typeId: 3)
+@HiveType(typeId: 5)
 enum Situation {
   @HiveField(0)
   active,

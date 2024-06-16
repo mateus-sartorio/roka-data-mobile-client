@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'currency_handout.g.dart';
 
-@HiveType(typeId: 4, adapterName: "CurrencyHandoutAdapter")
+@HiveType(typeId: 3, adapterName: "CurrencyHandoutAdapter")
 class CurrencyHandout extends HiveObject {
   @HiveField(0)
   int id;
@@ -41,5 +41,16 @@ class CurrencyHandout extends HiveObject {
     String displayTitle = title.length >= 15 ? title.substring(0, 15) : title;
 
     return "$displayTitle - ${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+  }
+
+  void deepCopy(CurrencyHandout currencyHandout) {
+    id = currencyHandout.id;
+    title = currencyHandout.title;
+    startDate = currencyHandout.startDate;
+    isNew = currencyHandout.isNew;
+    wasModified = currencyHandout.wasModified;
+    isMarkedForRemoval = currencyHandout.isMarkedForRemoval;
+    wasSuccessfullySentToBackendOnLastSync =
+        currencyHandout.wasSuccessfullySentToBackendOnLastSync;
   }
 }

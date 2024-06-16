@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_client/components/big_button_tile.dart';
 import 'package:mobile_client/data/database.dart';
+import 'package:mobile_client/enums/shift.dart';
 import 'package:mobile_client/enums/situation.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/resident.dart';
+import 'package:mobile_client/pages/all_collects_of_resident_page.dart';
+import 'package:mobile_client/pages/all_receipts_of_resident_page.dart';
 import 'package:mobile_client/utils/integer_id_generator.dart';
 
 class CreateResidentPage extends StatefulWidget {
   final Resident? resident;
   final String text;
   final bool showCoin;
+  final bool showBag;
 
   const CreateResidentPage(
-      {Key? key, this.resident, required this.text, required this.showCoin})
+      {Key? key,
+      this.resident,
+      required this.text,
+      required this.showCoin,
+      required this.showBag})
       : super(key: key);
 
   @override
@@ -32,8 +40,9 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
   bool isOnWhatsappGroup = false;
   bool hasPlaque = false;
   bool needsCollectOnTheHouse = false;
+  Shift? selectedShift;
   String selectedSituation = "Ativo";
-  String _previousPhoneNumberString = "";
+  String previousPhoneNumberString = "";
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _neighborhoodController = TextEditingController();
@@ -69,6 +78,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
 
       livesInJN = widget.resident?.livesInJN ?? false;
       needsCollectOnTheHouse = widget.resident?.needsCollectOnTheHouse ?? false;
+      selectedShift = widget.resident?.shiftForCollectionOnTheHouse;
 
       _referencePointController.text = widget.resident?.referencePoint ?? "";
       _phoneController.text = widget.resident?.phone ?? "";
@@ -126,7 +136,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
   void onPhoneChange(String value) {
     String newValue = "";
 
-    if (value.length < _previousPhoneNumberString.length) {
+    if (value.length < previousPhoneNumberString.length) {
       newValue = value;
     } else if (value.length == 1) {
       newValue = "($value";
@@ -135,14 +145,14 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     } else if (value.length == 10) {
       newValue = "$value-";
     } else if (value.length > 15) {
-      newValue = _previousPhoneNumberString;
+      newValue = previousPhoneNumberString;
     } else {
       newValue = value;
     }
 
     setState(() {
       _phoneController.text = newValue;
-      _previousPhoneNumberString = newValue;
+      previousPhoneNumberString = newValue;
     });
   }
 
@@ -208,6 +218,9 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     } else if (!isNumberPattern.hasMatch(_houseNumberController.text)) {
       warnInvalidRegistrationData(
           "Formato inválido para o número da residência.");
+    } else if (needsCollectOnTheHouse == true && selectedShift == null) {
+      warnInvalidRegistrationData("Selecione um turno de coleta.");
+      return false;
     } else if (_rokaIdController.text.isNotEmpty &&
         !isNumberPattern.hasMatch(_rokaIdController.text)) {
       if (zeroPattern.hasMatch(_rokaIdController.text)) {
@@ -252,6 +265,10 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
       situation = Situation.noContact;
     }
 
+    if (needsCollectOnTheHouse == false) {
+      selectedShift = null;
+    }
+
     Resident newResident = Resident(
         id: id,
         address:
@@ -273,6 +290,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
         situation: situation,
         birthdate: selectedDate ?? DateTime.now(),
         needsCollectOnTheHouse: needsCollectOnTheHouse,
+        shiftForCollectionOnTheHouse: selectedShift,
         isNew: widget.resident?.isNew ?? isNewResident,
         isMarkedForRemoval: false,
         wasModified: isNewResident ? false : true,
@@ -451,7 +469,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
           scrolledUnderElevation: 0,
           centerTitle: true,
           title: Text(
-            "♻️ ${widget.text}",
+            widget.text,
             style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.transparent,
@@ -472,15 +490,26 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Visibility(
-                  visible: widget.showCoin,
-                  child: const Icon(
-                    Icons.monetization_on_rounded,
-                    color: Color.fromARGB(255, 255, 215, 0),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Visibility(
+                      visible: widget.showCoin,
+                      child: const Icon(
+                        Icons.monetization_on_rounded,
+                        color: Color.fromARGB(255, 255, 215, 0),
+                      ),
+                    ),
+                    Visibility(
+                        visible: widget.showBag,
+                        child: const Icon(
+                          Icons.shopping_bag,
+                          size: 20,
+                        )),
+                  ],
                 ),
                 Visibility(
-                  visible: showTags && widget.showCoin,
+                  visible: showTags && (widget.showCoin || widget.showBag),
                   child: const SizedBox(
                     height: 15,
                   ),
@@ -492,6 +521,75 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                         children: tags)),
                 const SizedBox(
                   height: 15,
+                ),
+                Visibility(
+                    visible: !isBeingCreated,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 12.0),
+                              // Adjust padding to remove any extra space around the icon
+                              minimumSize: const Size(
+                                  0, 0), // Optional: Adjust button minimum size
+                            ),
+                            onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        AllCollectsOfResidentPage(
+                                          resident: widget.resident!,
+                                        ))),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Coletas",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                Icon(
+                                  Icons.chevron_right,
+                                  color: Colors.black,
+                                ),
+                              ],
+                            )),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 12.0),
+                              // Adjust padding to remove any extra space around the icon
+                              minimumSize: const Size(
+                                  0, 0), // Optional: Adjust button minimum size
+                            ),
+                            onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        AllReceiptsOfResidentPage(
+                                          resident: widget.resident!,
+                                        ))),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Entregas de moeda",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                Icon(
+                                  Icons.chevron_right,
+                                  color: Colors.black,
+                                ),
+                              ],
+                            )),
+                      ],
+                    )),
+                const SizedBox(
+                  height: 30,
                 ),
                 const Text(
                   "Informações básicas",
@@ -584,6 +682,13 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                 const SizedBox(
                   height: 15,
                 ),
+                const Text(
+                  "Informações internas da Roka",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
                 CheckboxListTile(
                   title: const Text("Precisa de coleta na casa?"),
                   value: needsCollectOnTheHouse,
@@ -591,12 +696,26 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                     needsCollectOnTheHouse = newValue ?? true;
                   }),
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
-                const Text(
-                  "Informações internas da Roka",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                Visibility(
+                  visible: needsCollectOnTheHouse,
+                  child: DropdownButtonFormField<Shift>(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "Turno da coleta na casa",
+                    ),
+                    onChanged: (item) => selectedShift = item,
+                    value: selectedShift,
+                    items: const [
+                      DropdownMenuItem(
+                        value: Shift.morning,
+                        child: Text("Manhã"),
+                      ),
+                      DropdownMenuItem(
+                        value: Shift.afternoon,
+                        child: Text("Tarde"),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 15,

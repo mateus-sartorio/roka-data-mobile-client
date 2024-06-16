@@ -237,7 +237,7 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
           scrolledUnderElevation: 0,
           centerTitle: true,
           title: const Text(
-            "♻️ Dados da entrega da moeda",
+            "Dados da entrega da moeda",
             style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.transparent,

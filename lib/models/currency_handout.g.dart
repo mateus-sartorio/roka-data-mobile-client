@@ -8,7 +8,7 @@ part of 'currency_handout.dart';
 
 class CurrencyHandoutAdapter extends TypeAdapter<CurrencyHandout> {
   @override
-  final int typeId = 4;
+  final int typeId = 3;
 
   @override
   CurrencyHandout read(BinaryReader reader) {

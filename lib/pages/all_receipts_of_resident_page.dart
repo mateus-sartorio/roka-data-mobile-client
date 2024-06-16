@@ -3,30 +3,60 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
+import 'package:mobile_client/models/receipt.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:mobile_client/models/currency_handout.dart';
-import 'package:mobile_client/pages/create_currency_handout_page.dart';
-import 'package:mobile_client/utils/list_conversions.dart';
+import 'package:mobile_client/models/resident.dart';
+import 'package:mobile_client/pages/create_receipt_page.dart';
+import 'package:mobile_client/utils/receipts/total_rokas.dart';
+import 'package:mobile_client/utils/dates/to_date_string.dart';
 
-class CurrencyHandoutsPage extends StatefulWidget {
-  const CurrencyHandoutsPage({Key? key}) : super(key: key);
+class AllReceiptsOfResidentPage extends StatefulWidget {
+  final Resident resident;
+
+  const AllReceiptsOfResidentPage({Key? key, required this.resident})
+      : super(key: key);
 
   @override
-  State<CurrencyHandoutsPage> createState() => _CurrencyHandoutsPageState();
+  State<AllReceiptsOfResidentPage> createState() =>
+      _AllReceiptsOfResidentPageState();
 }
 
-class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
+class _AllReceiptsOfResidentPageState extends State<AllReceiptsOfResidentPage> {
   GlobalDatabase db = GlobalDatabase();
 
-  void deleteCurrencyHandout(int id) {
+  void showUnavailableOldReceiptsModificationMessage() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+            title: const Text(
+              "Não é possível modificar entregas de moeda antigas por enquanto.",
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            contentPadding:
+                const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
+            children: [
+              MaterialButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: const Text(
+                    "Ok",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  )),
+            ]);
+      },
+    );
+  }
+
+  void deleteReceipt(Receipt receipt) {
     showDialog(
       context: context,
       builder: (context) {
         return DialogBox(
           title:
-              "Tem certeza que deseja remover esta entrega de moeda? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
+              "Tem certeza que deseja remover esta entrega? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
           onSave: () {
-            db.deleteCurrencyHandout(id);
+            db.deleteOldReceipt(receipt);
             Navigator.of(context).pop(true);
 
             showDialog(
@@ -38,7 +68,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
 
                   return AlertDialog(
                     title: const Text(
-                      "Distribuição de moeda removida com sucesso",
+                      "Entrega removida com sucesso",
                       style: TextStyle(fontSize: 14),
                     ),
                     surfaceTintColor: Colors.transparent,
@@ -60,61 +90,65 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
     return ValueListenableBuilder(
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
-          final currencyHandoutsDynamicList = box.get("CURRENCY_HANDOUTS");
+          List<Receipt> receipts = widget.resident.receipts;
 
-          List<CurrencyHandout> currencyHandouts =
-              dynamicListToTList(currencyHandoutsDynamicList);
+          receipts.sort(
+              (Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
 
-          currencyHandouts.sort((CurrencyHandout a, CurrencyHandout b) =>
-              b.startDate.compareTo(a.startDate));
+          final String totalRokasAmmount =
+              totalRokasValue(receipts).toStringAsFixed(2).replaceAll(".", ",");
 
           Widget body;
-          if (currencyHandouts.isEmpty) {
+          if (receipts.isEmpty) {
             body = Animate(
               effects: const [
                 SlideEffect(
-                  begin: Offset(1, 0),
+                  begin: Offset(-1, 0),
                   end: Offset(0, 0),
                   duration: Duration(milliseconds: 200),
                 )
               ],
               child: const Center(
-                  child: Padding(
-                padding: EdgeInsets.all(25.0),
-                child: Text(
-                  "Nenhuma distribuição de moeda ainda :(",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
+                  child: Text(
+                "Nenhuma entrega ainda :(",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               )),
             );
           } else {
             body = Animate(
               effects: const [
                 SlideEffect(
-                  begin: Offset(1, 0),
+                  begin: Offset(-1, 0),
                   end: Offset(0, 0),
                   duration: Duration(milliseconds: 200),
                 )
               ],
               child: Column(
                 children: [
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    "Total: RK\$ $totalRokasAmmount",
+                    style: const TextStyle(
+                        fontSize: 19, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
                   Expanded(
                     child: ListView.builder(
-                        itemCount: currencyHandouts.length,
+                        itemCount: receipts.length,
                         itemBuilder: (context, index) {
-                          List<String> dayMonthYear = currencyHandouts[index]
-                              .startDate
-                              .toString()
-                              .split(" ")[0]
-                              .split("-");
+                          String value =
+                              "RK\$ ${receipts[index].value.toStringAsFixed(2).replaceAll(".", ",")}";
 
                           String date =
-                              "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+                              toDateString(receipts[index].handoutDate);
 
                           Widget tag = Container();
                           bool showTag = false;
-                          if (currencyHandouts[index].isMarkedForRemoval) {
+                          if (receipts[index].isMarkedForRemoval) {
                             tag = Container(
                               decoration: BoxDecoration(
                                   color: Colors.red,
@@ -129,7 +163,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                             );
 
                             showTag = true;
-                          } else if (currencyHandouts[index].isNew) {
+                          } else if (receipts[index].isNew) {
                             tag = Container(
                               decoration: BoxDecoration(
                                   color: Theme.of(context).primaryColorLight,
@@ -144,7 +178,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                             );
 
                             showTag = true;
-                          } else if (currencyHandouts[index].wasModified) {
+                          } else if (receipts[index].wasModified) {
                             tag = Container(
                               decoration: BoxDecoration(
                                   color: Colors.green[300],
@@ -170,9 +204,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                                 children: [
                                   SlidableAction(
                                     onPressed: (context) =>
-                                        deleteCurrencyHandout(
-                                      currencyHandouts[index].id,
-                                    ),
+                                        deleteReceipt(receipts[index]),
                                     icon: Icons.delete,
                                     backgroundColor: Colors.red,
                                     borderRadius: BorderRadius.circular(10),
@@ -186,24 +218,22 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      currencyHandouts[index].title,
+                                      date,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 17),
                                       textAlign: TextAlign.left,
                                     ),
-                                    Text(date,
-                                        style: const TextStyle(fontSize: 13)),
-                                    Visibility(
-                                        visible: showTag,
-                                        child: Column(
-                                          children: [
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            tag,
-                                          ],
-                                        )),
+                                    Text(
+                                      value,
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Visibility(visible: showTag, child: tag),
                                   ],
                                 ),
                                 onTap: () {
@@ -211,15 +241,14 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              CreateCurrencyHandoutPage(
+                                              CreateReceiptPage(
+                                                  isOldReceipt: true,
                                                   text:
-                                                      "Alterar dados da distribuição de moeda",
-                                                  currencyHandout:
-                                                      currencyHandouts[
-                                                          index])));
+                                                      "Alterar dados da entrega",
+                                                  receipt: receipts[index])));
                                 },
                                 leading: const Icon(
-                                  Icons.wallet,
+                                  Icons.shopping_bag,
                                   size: 30,
                                 ),
                                 trailing: const Icon(
@@ -240,7 +269,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                   scrolledUnderElevation: 0,
                   centerTitle: true,
                   title: const Text(
-                    "Distribuições da moeda",
+                    "Entregas de moeda",
                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                   backgroundColor: Colors.transparent,
@@ -253,17 +282,6 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                       icon: const Icon(Icons.arrow_back_outlined),
                     ),
                   )),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CreateCurrencyHandoutPage(
-                                text: "Cadastrar nova entrega da moeda",
-                              )));
-                },
-                child: const Icon(Icons.add),
-              ),
               body: body);
         });
   }

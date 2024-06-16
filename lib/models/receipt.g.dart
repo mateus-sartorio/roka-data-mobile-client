@@ -8,7 +8,7 @@ part of 'receipt.dart';
 
 class ReceiptAdapter extends TypeAdapter<Receipt> {
   @override
-  final int typeId = 5;
+  final int typeId = 4;
 
   @override
   Receipt read(BinaryReader reader) {

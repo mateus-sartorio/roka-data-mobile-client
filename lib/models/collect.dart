@@ -37,4 +37,16 @@ class Collect extends HiveObject {
       required this.wasModified,
       required this.isMarkedForRemoval,
       required this.wasSuccessfullySentToBackendOnLastSync});
+
+  void deepCopy(Collect collect) {
+    ammount = collect.ammount;
+    collectedOn = collect.collectedOn;
+    id = collect.id;
+    residentId = collect.residentId;
+    isNew = collect.isNew;
+    wasModified = collect.wasModified;
+    isMarkedForRemoval = collect.isMarkedForRemoval;
+    wasSuccessfullySentToBackendOnLastSync =
+        collect.wasSuccessfullySentToBackendOnLastSync;
+  }
 }

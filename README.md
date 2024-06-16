@@ -46,7 +46,7 @@ Este projeto destina-se a ser simples e fácil de usar. As funcionalidades são 
 ### Pré-requisitos:
 
 - Flutter ([Instruções de instalação](https://docs.flutter.dev/get-started/install))
-- Android SDK (`>= 34`) ([Instruções de instalação](https://developer.android.com/studio))
+- Android SDK (`>= 33`) ([Instruções de instalação](https://developer.android.com/studio))
 - Emulador de Android ([Instruções de instalação](https://developer.android.com/studio/run/emulator))
 - Servidor Back End local, caso queira usar um banco de dados de desenvolvimento ([Instruções de configuração](https://github.com/mateus-sartorio/roka-data-backend))
 

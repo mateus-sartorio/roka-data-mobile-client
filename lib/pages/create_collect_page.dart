@@ -32,15 +32,22 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
 
   final focusNode = FocusNode();
 
-  final TextEditingController _weightController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
+
+  final List<TextEditingController> _weightControllers = [
+    TextEditingController()
+  ];
+
+  final List<Widget> _weightColumnTextFields = [];
 
   @override
   void initState() {
     if (widget.collect != null) {
       selectedDate = widget.collect?.collectedOn;
       selectedResident = db.getResidentById(widget.collect?.residentId ?? 0);
-      _weightController.text = widget.collect?.ammount.toString() ?? "";
+      _weightControllers[0].text =
+          (widget.collect?.ammount.toStringAsFixed(2) ?? "")
+              .replaceAll(".", ",");
       isNewCollect = false;
     } else {
       selectedDate = DateTime.now();
@@ -50,6 +57,18 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
         selectedDate.toString().split(" ")[0].split("-");
     _dateController.text =
         "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+
+    _weightColumnTextFields.add(
+      TextField(
+        controller: _weightControllers[0],
+        keyboardType: TextInputType.number,
+        decoration: const InputDecoration(
+          hintText: "Peso [kg]",
+          border: OutlineInputBorder(),
+          labelText: "Peso [kg]",
+        ),
+      ),
+    );
 
     super.initState();
   }
@@ -102,13 +121,30 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
     if (selectedResident == null) {
       warnInvalidRegistrationData("Selecione um residente.");
       return false;
-    } else if (!decimalPattern.hasMatch(_weightController.text)) {
-      warnInvalidRegistrationData(
-          "Peso inválido (deve ser um número decimal com no máximo duas casas decimais, separado por \".\" ou \",\").");
+    }
+
+    if (_weightControllers[0].text.isEmpty) {
+      warnInvalidRegistrationData("O primeiro peso não pode estar vazio");
       return false;
-    } else if (zeroPattern.hasMatch(_weightController.text)) {
-      warnInvalidRegistrationData("O peso deve ser maior que zero.");
+    } else if (zeroPattern.hasMatch(_weightControllers[0].text)) {
+      warnInvalidRegistrationData("O primeiro peso deve ser maior que zero.");
       return false;
+    }
+
+    for (var weightController in _weightControllers) {
+      if (weightController.text.isNotEmpty) {
+        if (!decimalPattern.hasMatch(weightController.text)) {
+          warnInvalidRegistrationData(
+              "Peso inválido (deve ser um número decimal com no máximo duas casas decimais, separado por \".\" ou \",\").");
+          return false;
+        } else if ((double.tryParse(
+                    weightController.text.replaceAll(",", ".")) ??
+                0) <
+            0) {
+          warnInvalidRegistrationData("Não podem haver pesos negativos.");
+          return false;
+        }
+      }
     }
 
     return true;
@@ -119,9 +155,15 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
       return;
     }
 
+    double totalWeight = 0;
+    for (var weightController in _weightControllers) {
+      totalWeight +=
+          double.tryParse(weightController.text.replaceAll(",", ".")) ?? 0;
+    }
+
     Collect newCollect = Collect(
         id: widget.collect?.id ?? generateIntegerId(),
-        ammount: double.parse(_weightController.text.replaceAll(",", ".")),
+        ammount: totalWeight,
         collectedOn: selectedDate!,
         residentId: (selectedResident?.id)!,
         isNew: widget.collect?.isNew ?? isNewCollect,
@@ -130,13 +172,22 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
         wasSuccessfullySentToBackendOnLastSync: false);
 
     var box = Hive.box('globalDatabase');
-    final dynamicCollectsList1 = box.get("COLLECTS") ?? [];
-    final dynamicCollectsList2 = box.get("ALL_DATABASE_COLLECTS") ?? [];
-    List<Collect> collects =
-        dynamicListToTList(dynamicCollectsList1 + dynamicCollectsList2);
+
+    final List<dynamic> dynamicCollectsList1 = box.get("COLLECTS") ?? [];
+    final List<Collect> collectsList1 =
+        dynamicListToTList(dynamicCollectsList1);
+
+    final List<dynamic> dynamicCollectsList2 =
+        box.get("ALL_DATABASE_COLLECTS") ?? [];
+    final List<Collect> collectsList2 =
+        dynamicListToTList(dynamicCollectsList2);
+
+    List<Collect> collects = collectsList1 + collectsList2;
+
     for (Collect c in collects) {
       if (DateUtils.isSameDay(c.collectedOn, newCollect.collectedOn) &&
-          c.residentId == newCollect.residentId) {
+          c.residentId == newCollect.residentId &&
+          c.id != newCollect.id) {
         warnInvalidRegistrationData(
             "Este morador já possui uma coleta cadastrada neste dia.");
         return;
@@ -243,9 +294,9 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
               : "Tem certeza que deseja remover esta coleta?",
           onSave: () {
             if (widget.isOldCollect) {
-              db.deleteOldCollect(widget.collect?.id ?? -1);
+              db.deleteOldCollect(widget.collect!);
             } else {
-              db.deleteCollect(widget.collect?.id ?? -1);
+              db.deleteCollect(widget.collect!);
             }
 
             Navigator.of(context).pop(true);
@@ -274,6 +325,49 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
         );
       },
     );
+  }
+
+  // Tombstone method of deletion
+  void deleteWeightField(int index) {
+    setState(() {
+      _weightColumnTextFields[index] = const Visibility(
+          visible: false, child: Text("This text is not visible"));
+      _weightControllers[index].text = "0";
+    });
+  }
+
+  void createNewWeightField() {
+    setState(() {
+      _weightControllers.add(TextEditingController());
+      int length = _weightControllers.length;
+      _weightColumnTextFields.add(
+        Column(
+          children: [
+            const SizedBox(
+              height: 15,
+            ),
+            Row(
+              children: [
+                Flexible(
+                  child: TextField(
+                    controller: _weightControllers[length - 1],
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      hintText: "Peso [kg]",
+                      border: OutlineInputBorder(),
+                      labelText: "Peso [kg]",
+                    ),
+                  ),
+                ),
+                IconButton(
+                    onPressed: () => deleteWeightField(length - 1),
+                    icon: const Icon(Icons.remove)),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   @override
@@ -334,7 +428,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
       appBar: AppBar(
           centerTitle: true,
           title: const Text(
-            "♻️ Dados de coleta",
+            "Dados de coleta",
             style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.transparent,
@@ -356,119 +450,124 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
           return Center(
             child: FractionallySizedBox(
               widthFactor: 0.8,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Visibility(
-                      visible: showTag,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [tag])),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 15),
-                    child: Text(widget.text,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w700, fontSize: 22)),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextField(
-                    controller: _dateController,
-                    readOnly: true,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Data",
-                        prefix: Padding(
-                          padding: EdgeInsets.only(
-                              left: 0, right: 10, bottom: 0, top: 0),
-                          child: Icon(
-                            Icons.calendar_month,
-                          ),
-                        ),
-                        prefixStyle: TextStyle()),
-                    onTap: _selectDate,
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  SearchField(
-                    focusNode: focusNode,
-                    suggestions: residents
-                        .map((r) => SearchFieldListItem<Resident>(r.name,
-                            child: Text(r.name), item: r))
-                        .toList(),
-                    hint: "Morador",
-                    initialValue: (selectedResident != null)
-                        ? SearchFieldListItem<Resident>(
-                            (selectedResident?.name)!,
-                            child: Text((selectedResident?.name)!),
-                            item: selectedResident)
-                        : null,
-                    searchInputDecoration: const InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black)),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black))),
-                    maxSuggestionsInViewPort: 6,
-                    onSuggestionTap: (value) {
-                      if (value.item != null) {
-                        setState(() {
-                          selectedResident = value.item;
-                        });
-                      }
-                      focusNode.unfocus();
-                    },
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  TextField(
-                    controller: _weightController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      hintText: "Peso [kg]",
-                      border: OutlineInputBorder(),
-                      labelText: "Peso [kg]",
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Visibility(
+                        visible: showTag,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [tag])),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 15),
+                      child: Text(widget.text,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 22)),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  BigButtonTile(
-                      color: Colors.black,
-                      content: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.save, color: Colors.white),
-                          Text("  Salvar localmente",
-                              style: TextStyle(color: Colors.white)),
-                        ],
-                      ),
-                      onPressed: saveNewCollect,
-                      isSolid: true),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Visibility(
-                    visible: !isNewCollect,
-                    child: BigButtonTile(
-                        color: Colors.red,
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                      controller: _dateController,
+                      readOnly: true,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Data",
+                          prefix: Padding(
+                            padding: EdgeInsets.only(
+                                left: 0, right: 10, bottom: 0, top: 0),
+                            child: Icon(
+                              Icons.calendar_month,
+                            ),
+                          ),
+                          prefixStyle: TextStyle()),
+                      onTap: _selectDate,
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    SearchField(
+                      focusNode: focusNode,
+                      suggestions: residents
+                          .map((r) => SearchFieldListItem<Resident>(r.name,
+                              child: Text(r.name), item: r))
+                          .toList(),
+                      hint: "Morador",
+                      initialValue: (selectedResident != null)
+                          ? SearchFieldListItem<Resident>(
+                              (selectedResident?.name)!,
+                              child: Text((selectedResident?.name)!),
+                              item: selectedResident)
+                          : null,
+                      searchInputDecoration: const InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black))),
+                      maxSuggestionsInViewPort: 6,
+                      onSuggestionTap: (value) {
+                        if (value.item != null) {
+                          setState(() {
+                            selectedResident = value.item;
+                          });
+                        }
+                        focusNode.unfocus();
+                      },
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Column(children: _weightColumnTextFields),
+                    IconButton(
+                      onPressed: createNewWeightField,
+                      icon: const Icon(Icons.add),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    BigButtonTile(
+                        color: Colors.black,
                         content: const Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.delete, color: Colors.white),
-                            Text("  Remover",
+                            Icon(Icons.save, color: Colors.white),
+                            Text("  Salvar localmente",
                                 style: TextStyle(color: Colors.white)),
                           ],
                         ),
-                        onPressed: deleteCollect,
+                        onPressed: saveNewCollect,
                         isSolid: true),
-                  ),
-                ],
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Visibility(
+                      visible: !isNewCollect,
+                      child: Column(
+                        children: [
+                          BigButtonTile(
+                              color: Colors.red,
+                              content: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.delete, color: Colors.white),
+                                  Text("  Remover",
+                                      style: TextStyle(color: Colors.white)),
+                                ],
+                              ),
+                              onPressed: deleteCollect,
+                              isSolid: true),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

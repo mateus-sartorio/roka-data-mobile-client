@@ -4,21 +4,25 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/collect.dart';
+import 'package:mobile_client/models/resident.dart';
 import 'package:mobile_client/pages/create_collect_page.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mobile_client/utils/collects/total_weight.dart';
 import 'package:mobile_client/utils/dates/compare.dart';
 import 'package:mobile_client/utils/dates/to_date_string.dart';
-import 'package:mobile_client/utils/list_conversions.dart';
 
-class AllCollectsPage extends StatefulWidget {
-  const AllCollectsPage({Key? key}) : super(key: key);
+class AllCollectsOfResidentPage extends StatefulWidget {
+  final Resident resident;
+
+  const AllCollectsOfResidentPage({Key? key, required this.resident})
+      : super(key: key);
 
   @override
-  State<AllCollectsPage> createState() => _AllCollectsPageState();
+  State<AllCollectsOfResidentPage> createState() =>
+      _AllCollectsOfResidentPageState();
 }
 
-class _AllCollectsPageState extends State<AllCollectsPage> {
+class _AllCollectsOfResidentPageState extends State<AllCollectsOfResidentPage> {
   GlobalDatabase db = GlobalDatabase();
 
   void deleteCollect(Collect collect) {
@@ -63,14 +67,16 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
     return ValueListenableBuilder(
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
-          var dynamicCollects = box.get("ALL_DATABASE_COLLECTS") ?? [];
-          List<Collect> collects = dynamicListToTList(dynamicCollects);
+          List<Collect> collects = widget.resident.collects;
 
           collects.sort(
               (Collect a, Collect b) => b.collectedOn.compareTo(a.collectedOn));
 
+          final String totalWeightAmmount =
+              totalWeight(collects).toStringAsFixed(2).replaceAll(".", ",");
+
           Map<String, double> totalWeightByCollectedOnDate =
-              totalWeightByDate(collects);
+              totalWeightByMonth(collects);
 
           Widget body;
           if (collects.isEmpty) {
@@ -99,26 +105,26 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
               ],
               child: Column(
                 children: [
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    "Total: $totalWeightAmmount kg",
+                    style: const TextStyle(
+                        fontSize: 19, fontWeight: FontWeight.bold),
+                  ),
                   Expanded(
                     child: ListView.builder(
                         itemCount: collects.length,
                         itemBuilder: (context, index) {
-                          String residentName = db
-                                  .getResidentById(collects[index].residentId)
-                                  ?.name ??
-                              "";
+                          String day =
+                              toDateString(collects[index].collectedOn);
 
                           String weight =
                               collects[index].ammount.toStringAsFixed(2);
 
-                          List<String> dayMonthYear = collects[index]
-                              .collectedOn
-                              .toString()
-                              .split(" ")[0]
-                              .split("-");
-
-                          String date =
-                              "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+                          String month =
+                              toMonthString(collects[index].collectedOn);
 
                           Widget tag = Container();
                           bool showTag = false;
@@ -174,7 +180,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                             children: [
                               Visibility(
                                   visible: index == 0 ||
-                                      !isSameDay(collects[index].collectedOn,
+                                      !isSameMonth(collects[index].collectedOn,
                                           collects[index - 1].collectedOn),
                                   child: Padding(
                                     padding: EdgeInsets.only(
@@ -184,14 +190,14 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          date,
+                                          month,
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18),
                                           textAlign: TextAlign.left,
                                         ),
                                         Text(
-                                            "${totalWeightByCollectedOnDate[toDateString(collects[index].collectedOn)]?.toStringAsFixed(2).replaceAll(".", ",")} kg")
+                                            "${totalWeightByCollectedOnDate[toMonthString(collects[index].collectedOn)]?.toStringAsFixed(2).replaceAll(".", ",")} kg")
                                       ],
                                     ),
                                   )),
@@ -220,7 +226,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          residentName,
+                                          day,
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 17),
@@ -278,7 +284,7 @@ class _AllCollectsPageState extends State<AllCollectsPage> {
                   scrolledUnderElevation: 0,
                   centerTitle: true,
                   title: const Text(
-                    "Todas coletas",
+                    "Coletas",
                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                   backgroundColor: Colors.transparent,

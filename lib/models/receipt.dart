@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'receipt.g.dart';
 
-@HiveType(typeId: 5, adapterName: "ReceiptAdapter")
+@HiveType(typeId: 4, adapterName: "ReceiptAdapter")
 class Receipt extends HiveObject {
   @HiveField(0)
   int id;
@@ -41,4 +41,17 @@ class Receipt extends HiveObject {
       required this.wasModified,
       required this.isMarkedForRemoval,
       required this.wasSuccessfullySentToBackendOnLastSync});
+
+  void deepCopy(Receipt receipt) {
+    id = receipt.id;
+    handoutDate = receipt.handoutDate;
+    residentId = receipt.residentId;
+    currencyHandoutId = receipt.currencyHandoutId;
+    value = receipt.value;
+    wasModified = receipt.wasModified;
+    isMarkedForRemoval = receipt.isMarkedForRemoval;
+    isNew = receipt.isNew;
+    wasSuccessfullySentToBackendOnLastSync =
+        receipt.wasSuccessfullySentToBackendOnLastSync;
+  }
 }

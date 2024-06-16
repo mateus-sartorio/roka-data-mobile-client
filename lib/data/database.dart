@@ -3,15 +3,18 @@ import 'dart:convert';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:mobile_client/configuration/endpoints.dart';
-import 'package:mobile_client/data/status_codes.dart';
+import 'package:mobile_client/enums/shift.dart';
+import 'package:mobile_client/enums/status_codes.dart';
 import 'package:mobile_client/enums/situation.dart';
 import 'package:mobile_client/models/collect.dart';
 import 'package:mobile_client/models/currency_handout.dart';
 import 'package:mobile_client/models/receipt.dart';
 import 'package:mobile_client/models/resident.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_client/utils/enum_conversion/shift.dart';
 import 'package:mobile_client/utils/enum_conversion/situation.dart';
 import 'package:mobile_client/utils/list_conversions.dart';
+import 'package:mobile_client/utils/residents/serialize.dart';
 
 class GlobalDatabase {
   final _myBox = Hive.box('globalDatabase');
@@ -66,6 +69,29 @@ class GlobalDatabase {
 
       Situation situation = integerToSituation(residentMapObject["situation"]);
 
+      Shift? shiftForCollectionOnTheHouse =
+          (residentMapObject["shift_for_collection_on_the_house"] != null)
+              ? getShiftFromInt(
+                  residentMapObject["shift_for_collection_on_the_house"])
+              : null;
+
+      final collectsResponse = residentMapObject["collect"];
+      List<Collect> collects = [];
+      for (dynamic c in collectsResponse) {
+        collects.add(Collect(
+            ammount: double.tryParse(c["ammount"]) ?? 0,
+            collectedOn: DateTime.tryParse(c["collected_on"]) ?? DateTime.now(),
+            id: c["id"],
+            residentId: c["resident_id"],
+            isNew: false,
+            wasModified: false,
+            isMarkedForRemoval: false,
+            wasSuccessfullySentToBackendOnLastSync: false));
+      }
+
+      collects.sort(
+          (Collect a, Collect b) => b.collectedOn.compareTo(a.collectedOn));
+
       final receiptsResponse = residentMapObject["receipts"];
       List<Receipt> receipts = [];
       for (dynamic r in receiptsResponse) {
@@ -87,7 +113,7 @@ class GlobalDatabase {
       Resident resident = Resident(
           id: residentMapObject["id"],
           address: residentMapObject["address"],
-          collects: [],
+          collects: collects,
           hasPlaque: residentMapObject["has_plaque"],
           isOnWhatsappGroup: residentMapObject["is_on_whatsapp_group"],
           livesInJN: residentMapObject["lives_in_jn"],
@@ -103,6 +129,7 @@ class GlobalDatabase {
           birthdate: birthdate,
           needsCollectOnTheHouse:
               residentMapObject["needs_collect_on_the_house"],
+          shiftForCollectionOnTheHouse: shiftForCollectionOnTheHouse,
           receipts: receipts,
           isNew: false,
           isMarkedForRemoval: false,
@@ -472,27 +499,7 @@ class GlobalDatabase {
     String backendRoute = "${Endpoints.baseUrl}/residents";
     Uri uri = Uri.parse(backendRoute);
 
-    int situation = situationToInteger(resident.situation);
-
-    Map data = {
-      "id": resident.id,
-      "name": resident.name,
-      "roka_id": resident.rokaId,
-      "has_plaque": resident.hasPlaque,
-      "registration_year": resident.registrationYear,
-      "address": resident.address,
-      "reference_point": resident.referencePoint,
-      "lives_in_jn": resident.livesInJN,
-      "phone": resident.phone,
-      "is_on_whatsapp_group": resident.isOnWhatsappGroup,
-      "birthdate": resident.birthdate.toString(),
-      "profession": resident.profession,
-      "residents_in_the_house": resident.residentsInTheHouse,
-      "observations": resident.observations,
-      "situation": situation,
-      "needs_collect_on_the_house": resident.needsCollectOnTheHouse
-    };
-
+    Map data = residentToMap(resident);
     var body = json.encode(data);
 
     try {
@@ -511,27 +518,7 @@ class GlobalDatabase {
     String backendRoute = "${Endpoints.baseUrl}/residents/${resident.id}";
     Uri uri = Uri.parse(backendRoute);
 
-    int situation = situationToInteger(resident.situation);
-
-    Map data = {
-      "id": resident.id,
-      "name": resident.name,
-      "roka_id": resident.rokaId,
-      "situation": situation,
-      "has_plaque": resident.hasPlaque,
-      "registration_year": resident.registrationYear,
-      "address": resident.address,
-      "reference_point": resident.referencePoint,
-      "lives_in_jn": resident.livesInJN,
-      "phone": resident.phone,
-      "is_on_whatsapp_group": resident.isOnWhatsappGroup,
-      "birthdate": resident.birthdate.toString(),
-      "profession": resident.profession,
-      "residents_in_the_house": resident.residentsInTheHouse,
-      "observations": resident.observations,
-      "needs_collect_on_the_house": resident.needsCollectOnTheHouse
-    };
-
+    Map data = residentToMap(resident);
     var body = json.encode(data);
 
     try {
@@ -662,31 +649,12 @@ class GlobalDatabase {
     resident.receipts
         .sort((Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
 
+    resident.collects
+        .sort((Collect a, Collect b) => b.collectedOn.compareTo(a.collectedOn));
+
     for (Resident r in residentsList) {
       if (r.id == resident.id) {
-        r.address = resident.address;
-        r.collects = resident.collects;
-        r.hasPlaque = resident.hasPlaque;
-        r.isOnWhatsappGroup = resident.isOnWhatsappGroup;
-        r.livesInJN = resident.livesInJN;
-        r.name = resident.name;
-        r.observations = resident.observations;
-        r.phone = resident.phone;
-        r.profession = resident.profession;
-        r.referencePoint = resident.referencePoint;
-        r.registrationYear = resident.registrationYear;
-        r.residentsInTheHouse = resident.residentsInTheHouse;
-        r.rokaId = resident.rokaId;
-        r.situation = resident.situation;
-        r.birthdate = resident.birthdate;
-        r.isMarkedForRemoval = resident.isMarkedForRemoval;
-        r.wasModified = resident.wasModified;
-        r.isNew = resident.isNew;
-        r.needsCollectOnTheHouse = resident.needsCollectOnTheHouse;
-        r.receipts = resident.receipts;
-        r.collects = resident.collects;
-        r.wasSuccessfullySentToBackendOnLastSync =
-            resident.wasSuccessfullySentToBackendOnLastSync;
+        r.deepCopy(resident);
         break;
       }
     }
@@ -727,6 +695,7 @@ class GlobalDatabase {
             wasModified: resident.wasModified,
             isNew: resident.isNew,
             needsCollectOnTheHouse: resident.needsCollectOnTheHouse,
+            shiftForCollectionOnTheHouse: resident.shiftForCollectionOnTheHouse,
             wasSuccessfullySentToBackendOnLastSync:
                 resident.wasSuccessfullySentToBackendOnLastSync);
       }
@@ -763,13 +732,7 @@ class GlobalDatabase {
 
     for (CurrencyHandout c in currencyHandoutsList) {
       if (c.id == currencyHandout.id) {
-        c.title = currencyHandout.title;
-        c.startDate = currencyHandout.startDate;
-        c.isNew = currencyHandout.isNew;
-        c.isMarkedForRemoval = currencyHandout.isMarkedForRemoval;
-        c.wasModified = currencyHandout.wasModified;
-        c.wasSuccessfullySentToBackendOnLastSync =
-            currencyHandout.wasSuccessfullySentToBackendOnLastSync;
+        c.deepCopy(currencyHandout);
         break;
       }
     }
@@ -856,16 +819,7 @@ class GlobalDatabase {
 
     for (Receipt r in receiptsList) {
       if (r.id == receipt.id) {
-        r.handoutDate = receipt.handoutDate;
-        r.residentId = receipt.residentId;
-        r.currencyHandoutId = receipt.currencyHandoutId;
-        r.value = receipt.value;
-        r.wasModified = receipt.wasModified;
-        r.isMarkedForRemoval = receipt.isMarkedForRemoval;
-        r.isNew = receipt.isNew;
-        r.wasSuccessfullySentToBackendOnLastSync =
-            receipt.wasSuccessfullySentToBackendOnLastSync;
-
+        r.deepCopy(receipt);
         break;
       }
     }
@@ -874,15 +828,7 @@ class GlobalDatabase {
     List<Receipt> residentReceipts = resident.receipts;
     for (Receipt r in residentReceipts) {
       if (r.id == receipt.id) {
-        r.handoutDate = receipt.handoutDate;
-        r.value = receipt.value;
-        r.residentId = receipt.residentId;
-        r.currencyHandoutId = receipt.currencyHandoutId;
-        r.isNew = receipt.isNew;
-        r.wasModified = receipt.wasModified;
-        r.isMarkedForRemoval = receipt.isMarkedForRemoval;
-        r.wasSuccessfullySentToBackendOnLastSync =
-            receipt.wasSuccessfullySentToBackendOnLastSync;
+        r.deepCopy(receipt);
       }
     }
     residentReceipts.sort((Receipt a, Receipt b) {
@@ -939,15 +885,7 @@ class GlobalDatabase {
 
     for (Receipt r in receiptsList) {
       if (r.id == receipt.id) {
-        r.handoutDate = receipt.handoutDate;
-        r.value = receipt.value;
-        r.residentId = receipt.residentId;
-        r.currencyHandoutId = receipt.currencyHandoutId;
-        r.isNew = receipt.isNew;
-        r.wasModified = receipt.wasModified;
-        r.isMarkedForRemoval = receipt.isMarkedForRemoval;
-        r.wasSuccessfullySentToBackendOnLastSync =
-            receipt.wasSuccessfullySentToBackendOnLastSync;
+        r.deepCopy(receipt);
         break;
       }
     }
@@ -956,15 +894,8 @@ class GlobalDatabase {
     List<Receipt> residentReceipts = resident.receipts;
     for (Receipt r in residentReceipts) {
       if (r.id == receipt.id) {
-        r.handoutDate = receipt.handoutDate;
-        r.value = receipt.value;
-        r.residentId = receipt.residentId;
-        r.currencyHandoutId = receipt.currencyHandoutId;
-        r.isNew = receipt.isNew;
-        r.wasModified = receipt.wasModified;
-        r.isMarkedForRemoval = receipt.isMarkedForRemoval;
-        r.wasSuccessfullySentToBackendOnLastSync =
-            receipt.wasSuccessfullySentToBackendOnLastSync;
+        r.deepCopy(receipt);
+        break;
       }
     }
     residentReceipts.sort((Receipt a, Receipt b) {
@@ -1030,8 +961,19 @@ class GlobalDatabase {
   }
 
   Future<void> saveNewCollect(Collect collect) async {
-    List<dynamic> collectsList = _myBox.get("COLLECTS") ?? [];
+    List<dynamic> collectsListDynamic = _myBox.get("COLLECTS") ?? [];
+    List<Collect> collectsList = dynamicListToTList(collectsListDynamic);
+
     collectsList.add(collect);
+
+    try {
+      Resident resident = getResidentById(collect.residentId)!;
+      resident.collects.add(collect);
+      updateResident(resident);
+    } catch (e) {
+      throw Exception("Resident does not exist!");
+    }
+
     await _myBox.put("COLLECTS", collectsList);
   }
 
@@ -1041,14 +983,16 @@ class GlobalDatabase {
 
     for (Collect c in collectsList) {
       if (c.id == collect.id) {
-        c.collectedOn = collect.collectedOn;
-        c.residentId = collect.residentId;
-        c.ammount = collect.ammount;
-        c.isNew = collect.isNew;
-        c.wasModified = collect.wasModified;
-        c.isMarkedForRemoval = collect.isMarkedForRemoval;
-        c.wasSuccessfullySentToBackendOnLastSync =
-            collect.wasSuccessfullySentToBackendOnLastSync;
+        c.deepCopy(collect);
+
+        try {
+          Resident resident = getResidentById(collect.residentId)!;
+          resident.collects.add(collect);
+          updateResident(resident);
+        } catch (e) {
+          throw Exception("Resident does not exist!");
+        }
+
         break;
       }
     }
@@ -1056,37 +1000,53 @@ class GlobalDatabase {
     await _myBox.put("COLLECTS", collectsList);
   }
 
-  Future<void> deleteCollect(int collectId) async {
+  Future<void> deleteCollect(Collect collect) async {
     List<dynamic> collectsListDynamic = _myBox.get("COLLECTS") ?? [];
     List<Collect> collectsList = dynamicListToTList(collectsListDynamic);
 
     List<Collect> filteredList =
-        collectsList.where((collect) => collect.id != collectId).toList();
+        collectsList.where((c) => c.id != collect.id).toList();
+
+    try {
+      Resident resident = getResidentById(collect.residentId)!;
+      resident.collects.add(collect);
+      updateResident(resident);
+    } catch (e) {
+      throw Exception("Resident does not exist!");
+    }
 
     await _myBox.put("COLLECTS", filteredList);
   }
 
-  Future<void> deleteOldCollect(int collectId) async {
+  Future<void> deleteOldCollect(Collect collect) async {
     List<dynamic> collectsListDynamic =
         _myBox.get("ALL_DATABASE_COLLECTS") ?? [];
     List<Collect> collectsList = dynamicListToTList(collectsListDynamic);
 
-    List<Collect> filteredList = collectsList.map((collect) {
-      if (collect.id != collectId) {
-        return collect;
+    List<Collect> filteredList = collectsList.map((c) {
+      if (c.id != collect.id) {
+        return c;
       } else {
         return Collect(
-            id: collectId,
-            ammount: collect.ammount,
-            collectedOn: collect.collectedOn,
-            residentId: collect.residentId,
+            id: c.id,
+            ammount: c.ammount,
+            collectedOn: c.collectedOn,
+            residentId: c.residentId,
             isMarkedForRemoval: true,
-            wasModified: collect.wasModified,
-            isNew: collect.isNew,
+            wasModified: c.wasModified,
+            isNew: c.isNew,
             wasSuccessfullySentToBackendOnLastSync:
-                collect.wasSuccessfullySentToBackendOnLastSync);
+                c.wasSuccessfullySentToBackendOnLastSync);
       }
     }).toList();
+
+    try {
+      Resident resident = getResidentById(collect.residentId)!;
+      resident.collects.add(collect);
+      updateResident(resident);
+    } catch (e) {
+      throw Exception("Resident does not exist!");
+    }
 
     await _myBox.put("ALL_DATABASE_COLLECTS", filteredList);
   }
@@ -1098,16 +1058,17 @@ class GlobalDatabase {
 
     for (Collect c in collectsList) {
       if (c.id == collect.id) {
-        c.collectedOn = collect.collectedOn;
-        c.residentId = collect.residentId;
-        c.ammount = collect.ammount;
-        c.isNew = collect.isNew;
-        c.wasModified = collect.wasModified;
-        c.isMarkedForRemoval = collect.isMarkedForRemoval;
-        c.wasSuccessfullySentToBackendOnLastSync =
-            collect.wasSuccessfullySentToBackendOnLastSync;
+        c.deepCopy(collect);
         break;
       }
+    }
+
+    try {
+      Resident resident = getResidentById(collect.residentId)!;
+      resident.collects.add(collect);
+      updateResident(resident);
+    } catch (e) {
+      throw Exception("Resident does not exist!");
     }
 
     await _myBox.put("ALL_DATABASE_COLLECTS", collectsList);
