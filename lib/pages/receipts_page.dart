@@ -7,6 +7,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mobile_client/models/receipt.dart';
 import 'package:mobile_client/pages/all_receipts_page.dart';
 import 'package:mobile_client/pages/create_receipt_page.dart';
+import 'package:mobile_client/utils/list_conversions.dart';
+import 'package:mobile_client/utils/receipts/total_rokas.dart';
 
 class ReceiptsPage extends StatefulWidget {
   const ReceiptsPage({Key? key}) : super(key: key);
@@ -43,8 +45,7 @@ class _ReceiptsPageState extends State<ReceiptsPage> {
                     surfaceTintColor: Colors.transparent,
                     elevation: 0.0,
                     alignment: Alignment.bottomCenter,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   );
                 });
           },
@@ -59,7 +60,10 @@ class _ReceiptsPageState extends State<ReceiptsPage> {
     return ValueListenableBuilder(
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
-          final receipts = box.get("RECEIPTS");
+          final List<dynamic> receiptsDynamic = box.get("RECEIPTS");
+          final List<Receipt> receipts = dynamicListToTList(receiptsDynamic);
+
+          final double totalRokas = totalRokasValue(receipts);
 
           return Animate(
             effects: const [
@@ -78,28 +82,31 @@ class _ReceiptsPageState extends State<ReceiptsPage> {
                     children: [
                       const Text(
                         "Salvas localmente",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w800, fontSize: 20),
+                        style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
                         textAlign: TextAlign.center,
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const AllReceiptsPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const AllReceiptsPage()));
                         },
                         child: const Text(
                           "Ver todas",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w900, fontSize: 12),
+                          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12),
                         ),
                       )
                     ],
                   ),
                 ),
-                (receipts?.length ?? 0) == 0
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 6),
+                  child: Visibility(
+                      visible: receipts.isNotEmpty,
+                      child: Text(
+                        "Total: RK\$ ${totalRokas.toStringAsFixed(2).replaceAll(".", ",")}",
+                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      )),
+                ),
+                receipts.isEmpty
                     ? const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -108,38 +115,25 @@ class _ReceiptsPageState extends State<ReceiptsPage> {
                           ),
                           Text(
                             "Nenhuma entrega ainda :(",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ],
                       )
                     : Expanded(
                         child: ListView.builder(
-                            itemCount: receipts?.length ?? 0,
+                            itemCount: receipts.length,
                             itemBuilder: (context, index) {
-                              String residentName = db
-                                      .getResidentById(
-                                          receipts?[index].residentId ?? -1)
-                                      ?.name ??
-                                  "";
+                              String residentName = db.getResidentById(receipts[index].residentId)?.name ?? "";
 
-                              String value =
-                                  "RK\$ ${receipts[index].value.toStringAsFixed(2).replaceAll(".", ",")}";
+                              String value = "RK\$ ${receipts[index].value.toStringAsFixed(2).replaceAll(".", ",")}";
 
-                              List<String> dayMonthYear = receipts?[index]
-                                      ?.handoutDate
-                                      .toString()
-                                      .split(" ")[0]
-                                      .split("-") ??
-                                  ["", "", ""];
+                              List<String> dayMonthYear = receipts[index].handoutDate.toString().split(" ")[0].split("-");
 
-                              String date =
-                                  "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+                              String date = "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
 
                               Widget tag = Container();
                               bool showTag = false;
-                              if (receipts[index]?.isMarkedForRemoval ??
-                                  false) {
+                              if (receipts[index].isMarkedForRemoval) {
                                 tag = const Text(
                                   "MARCADO PARA REMOÇÃO",
                                   style: TextStyle(
@@ -148,12 +142,9 @@ class _ReceiptsPageState extends State<ReceiptsPage> {
                                 );
 
                                 showTag = true;
-                              } else if (receipts[index]?.isNew ?? false) {
+                              } else if (receipts[index].isNew) {
                                 tag = Container(
-                                  decoration: BoxDecoration(
-                                      color:
-                                          Theme.of(context).primaryColorLight,
-                                      borderRadius: BorderRadius.circular(8)),
+                                  decoration: BoxDecoration(color: Theme.of(context).primaryColorLight, borderRadius: BorderRadius.circular(8)),
                                   padding: const EdgeInsets.all(5.0),
                                   child: const Text(
                                     "SALVO LOCALMENTE",
@@ -164,12 +155,9 @@ class _ReceiptsPageState extends State<ReceiptsPage> {
                                 );
 
                                 showTag = true;
-                              } else if (receipts[index]?.wasModified ??
-                                  false) {
+                              } else if (receipts[index].wasModified) {
                                 tag = Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.green[300],
-                                      borderRadius: BorderRadius.circular(8)),
+                                  decoration: BoxDecoration(color: Colors.green[300], borderRadius: BorderRadius.circular(8)),
                                   padding: const EdgeInsets.all(5.0),
                                   child: const Text(
                                     "MODIFICADO",
@@ -183,15 +171,13 @@ class _ReceiptsPageState extends State<ReceiptsPage> {
                               }
 
                               return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 15.0),
+                                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
                                 child: Slidable(
                                   endActionPane: ActionPane(
                                     motion: const StretchMotion(),
                                     children: [
                                       SlidableAction(
-                                        onPressed: (context) =>
-                                            deleteReceipt(receipts?[index]!),
+                                        onPressed: (context) => deleteReceipt(receipts[index]),
                                         icon: Icons.delete,
                                         backgroundColor: Colors.red,
                                         borderRadius: BorderRadius.circular(10),
@@ -199,48 +185,29 @@ class _ReceiptsPageState extends State<ReceiptsPage> {
                                     ],
                                   ),
                                   child: ListTile(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0)),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
                                     // tileColor: Theme.of(context).highlightColor,
                                     title: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           residentName,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 17),
+                                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                                           textAlign: TextAlign.left,
                                         ),
-                                        Text(date,
-                                            style:
-                                                const TextStyle(fontSize: 13)),
+                                        Text(date, style: const TextStyle(fontSize: 13)),
                                         Text(
                                           value,
-                                          style: const TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500),
+                                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                                         ),
                                         const SizedBox(
                                           height: 5,
                                         ),
-                                        Visibility(
-                                            visible: showTag, child: tag),
+                                        Visibility(visible: showTag, child: tag),
                                       ],
                                     ),
                                     onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CreateReceiptPage(
-                                                      isOldReceipt: false,
-                                                      text:
-                                                          "Alterar dados da entrega",
-                                                      receipt:
-                                                          receipts?[index])));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => CreateReceiptPage(isOldReceipt: false, text: "Alterar dados da entrega", receipt: receipts[index])));
                                     },
                                     leading: const Icon(
                                       Icons.monetization_on_rounded,

@@ -45,8 +45,7 @@ class _CollectsPageState extends State<CollectsPage> {
                     surfaceTintColor: Colors.transparent,
                     elevation: 0.0,
                     alignment: Alignment.bottomCenter,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   );
                 });
           },
@@ -64,8 +63,7 @@ class _CollectsPageState extends State<CollectsPage> {
           final List<dynamic> collectsDynamic = box.get("COLLECTS") ?? [];
           final List<Collect> collects = dynamicListToTList(collectsDynamic);
 
-          final String totalWeightAmmount =
-              totalWeight(collects).toStringAsFixed(2).replaceAll(".", ",");
+          final String totalWeightAmmount = totalWeight(collects).toStringAsFixed(2).replaceAll(".", ",");
 
           return Animate(
             effects: const [
@@ -84,22 +82,16 @@ class _CollectsPageState extends State<CollectsPage> {
                     children: [
                       const Text(
                         "Salvas localmente",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w800, fontSize: 20),
+                        style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
                         textAlign: TextAlign.center,
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const AllCollectsPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const AllCollectsPage()));
                         },
                         child: const Text(
                           "Ver todas",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w900, fontSize: 12),
+                          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12),
                         ),
                       )
                     ],
@@ -111,8 +103,7 @@ class _CollectsPageState extends State<CollectsPage> {
                       visible: collects.isNotEmpty,
                       child: Text(
                         "Total: $totalWeightAmmount kg",
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       )),
                 ),
                 // ignore: prefer_is_empty
@@ -125,8 +116,7 @@ class _CollectsPageState extends State<CollectsPage> {
                           ),
                           Text(
                             "Nenhuma coleta ainda :(",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ],
                       )
@@ -134,23 +124,13 @@ class _CollectsPageState extends State<CollectsPage> {
                         child: ListView.builder(
                             itemCount: collects.length,
                             itemBuilder: (context, index) {
-                              String residentName = db
-                                      .getResidentById(
-                                          collects[index].residentId)
-                                      ?.name ??
-                                  "";
+                              String residentName = db.getResidentById(collects[index].residentId)?.name ?? "";
 
-                              String weight =
-                                  collects[index].ammount.toString();
+                              String weight = collects[index].ammount.toString();
 
-                              List<String> dayMonthYear = collects[index]
-                                  .collectedOn
-                                  .toString()
-                                  .split(" ")[0]
-                                  .split("-");
+                              List<String> dayMonthYear = collects[index].collectedOn.toString().split(" ")[0].split("-");
 
-                              String date =
-                                  "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+                              String date = "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
 
                               Widget tag = Container();
                               bool showTag = false;
@@ -164,10 +144,7 @@ class _CollectsPageState extends State<CollectsPage> {
                                 showTag = true;
                               } else if (collects[index].isNew) {
                                 tag = Container(
-                                  decoration: BoxDecoration(
-                                      color:
-                                          Theme.of(context).primaryColorLight,
-                                      borderRadius: BorderRadius.circular(8)),
+                                  decoration: BoxDecoration(color: Theme.of(context).primaryColorLight, borderRadius: BorderRadius.circular(8)),
                                   padding: const EdgeInsets.all(5.0),
                                   child: const Text(
                                     "SALVO LOCALMENTE",
@@ -179,9 +156,7 @@ class _CollectsPageState extends State<CollectsPage> {
                                 showTag = true;
                               } else if (collects[index].wasModified) {
                                 tag = Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.green[300],
-                                      borderRadius: BorderRadius.circular(8)),
+                                  decoration: BoxDecoration(color: Colors.green[300], borderRadius: BorderRadius.circular(8)),
                                   padding: const EdgeInsets.all(5.0),
                                   child: const Text(
                                     "MODIFICADO",
@@ -194,15 +169,13 @@ class _CollectsPageState extends State<CollectsPage> {
                               }
 
                               return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 15.0),
+                                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15.0),
                                 child: Slidable(
                                   endActionPane: ActionPane(
                                     motion: const StretchMotion(),
                                     children: [
                                       SlidableAction(
-                                        onPressed: (context) =>
-                                            deleteCollect(collects[index]),
+                                        onPressed: (context) => deleteCollect(collects[index]),
                                         icon: Icons.delete,
                                         backgroundColor: Colors.red,
                                         borderRadius: BorderRadius.circular(10),
@@ -210,23 +183,16 @@ class _CollectsPageState extends State<CollectsPage> {
                                     ],
                                   ),
                                   child: ListTile(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0)),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
                                     // tileColor: Theme.of(context).highlightColor,
                                     title: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           residentName,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
+                                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                                         ),
-                                        Text(date,
-                                            style:
-                                                const TextStyle(fontSize: 13)),
+                                        Text(date, style: const TextStyle(fontSize: 13)),
                                         Text(
                                           "${weight.toString().replaceAll(".", ",")} kg",
                                           style: const TextStyle(
@@ -236,21 +202,11 @@ class _CollectsPageState extends State<CollectsPage> {
                                         const SizedBox(
                                           height: 5,
                                         ),
-                                        Visibility(
-                                            visible: showTag, child: tag),
+                                        Visibility(visible: showTag, child: tag),
                                       ],
                                     ),
                                     onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CreateCollectPage(
-                                                      isOldCollect: false,
-                                                      text:
-                                                          "Alterar dados da coleta",
-                                                      collect:
-                                                          collects[index])));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => CreateCollectPage(isOldCollect: false, text: "Alterar dados da coleta", collect: collects[index])));
                                     },
                                     leading: const Icon(
                                       Icons.shopping_bag,

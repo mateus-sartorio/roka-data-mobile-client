@@ -6,7 +6,9 @@ import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/receipt.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mobile_client/pages/create_receipt_page.dart';
+import 'package:mobile_client/utils/dates/to_date_string.dart';
 import 'package:mobile_client/utils/list_conversions.dart';
+import 'package:mobile_client/utils/receipts/total_rokas.dart';
 
 class AllReceiptsPage extends StatefulWidget {
   const AllReceiptsPage({Key? key}) : super(key: key);
@@ -28,8 +30,7 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            contentPadding:
-                const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
+            contentPadding: const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
             children: [
               MaterialButton(
                   onPressed: () => Navigator.of(context).pop(true),
@@ -47,8 +48,7 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
       context: context,
       builder: (context) {
         return DialogBox(
-          title:
-              "Tem certeza que deseja remover esta entrega? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
+          title: "Tem certeza que deseja remover esta entrega? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
           onSave: () {
             db.deleteOldReceipt(receipt);
             Navigator.of(context).pop(true);
@@ -68,8 +68,7 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
                     surfaceTintColor: Colors.transparent,
                     elevation: 0.0,
                     alignment: Alignment.bottomCenter,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   );
                 });
           },
@@ -87,8 +86,9 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
           var dynamicReceipts = box.get("ALL_DATABASE_RECEIPTS") ?? [];
           List<Receipt> receipts = dynamicListToTList(dynamicReceipts);
 
-          receipts.sort(
-              (Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
+          receipts.sort((Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
+
+          Map<String, double> totalRokasByDate = totalRokasValueByDate(receipts);
 
           Widget body;
           if (receipts.isEmpty) {
@@ -121,30 +121,19 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
                     child: ListView.builder(
                         itemCount: receipts.length,
                         itemBuilder: (context, index) {
-                          String residentName = db
-                                  .getResidentById(receipts[index].residentId)
-                                  ?.name ??
-                              "";
+                          String residentName = db.getResidentById(receipts[index].residentId)?.name ?? "";
 
-                          String value =
-                              "RK\$ ${receipts[index].value.toStringAsFixed(2).replaceAll(".", ",")}";
+                          String value = "RK\$ ${receipts[index].value.toStringAsFixed(2).replaceAll(".", ",")}";
 
-                          List<String> dayMonthYear = receipts[index]
-                              .handoutDate
-                              .toString()
-                              .split(" ")[0]
-                              .split("-");
+                          List<String> dayMonthYear = receipts[index].handoutDate.toString().split(" ")[0].split("-");
 
-                          String date =
-                              "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+                          String date = "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
 
                           Widget tag = Container();
                           bool showTag = false;
                           if (receipts[index].isMarkedForRemoval) {
                             tag = Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(8)),
                               padding: const EdgeInsets.all(5.0),
                               child: const Text(
                                 "MARCADO PARA REMOÇÃO",
@@ -157,9 +146,7 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
                             showTag = true;
                           } else if (receipts[index].isNew) {
                             tag = Container(
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColorLight,
-                                  borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(color: Theme.of(context).primaryColorLight, borderRadius: BorderRadius.circular(8)),
                               padding: const EdgeInsets.all(5.0),
                               child: const Text(
                                 "SALVO LOCALMENTE",
@@ -172,9 +159,7 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
                             showTag = true;
                           } else if (receipts[index].wasModified) {
                             tag = Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.green[300],
-                                  borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(color: Colors.green[300], borderRadius: BorderRadius.circular(8)),
                               padding: const EdgeInsets.all(5.0),
                               child: const Text(
                                 "MODIFICADO",
@@ -191,30 +176,31 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Visibility(
-                                  visible: index == 0 ||
-                                      receipts[index].handoutDate !=
-                                          receipts[index - 1].handoutDate,
+                                  visible: index == 0 || receipts[index].handoutDate != receipts[index - 1].handoutDate,
                                   child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 25, top: (index == 0 ? 10 : 25)),
-                                    child: Text(
-                                      date,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18),
-                                      textAlign: TextAlign.left,
+                                    padding: EdgeInsets.only(left: 25, top: (index == 0 ? 10 : 25)),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          date,
+                                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        Text(
+                                          "RK\$ ${totalRokasByDate[toDateString(receipts[index].handoutDate)]?.toStringAsFixed(2).replaceAll(".", ",") ?? "0,00"}",
+                                        )
+                                      ],
                                     ),
                                   )),
                               Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 15.0),
+                                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15.0),
                                 child: Slidable(
                                   endActionPane: ActionPane(
                                     motion: const StretchMotion(),
                                     children: [
                                       SlidableAction(
-                                        onPressed: (context) =>
-                                            deleteReceipt(receipts[index]),
+                                        onPressed: (context) => deleteReceipt(receipts[index]),
                                         icon: Icons.delete,
                                         backgroundColor: Colors.red,
                                         borderRadius: BorderRadius.circular(10),
@@ -222,44 +208,27 @@ class _AllReceiptsPageState extends State<AllReceiptsPage> {
                                     ],
                                   ),
                                   child: ListTile(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0)),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
                                     title: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           residentName,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 17),
+                                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                                           textAlign: TextAlign.left,
                                         ),
                                         Text(
                                           value,
-                                          style: const TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500),
+                                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                                         ),
                                         const SizedBox(
                                           height: 5,
                                         ),
-                                        Visibility(
-                                            visible: showTag, child: tag),
+                                        Visibility(visible: showTag, child: tag),
                                       ],
                                     ),
                                     onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CreateReceiptPage(
-                                                      isOldReceipt: true,
-                                                      text:
-                                                          "Alterar dados da entrega",
-                                                      receipt:
-                                                          receipts[index])));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => CreateReceiptPage(isOldReceipt: true, text: "Alterar dados da entrega", receipt: receipts[index])));
                                     },
                                     leading: const Icon(
                                       Icons.monetization_on_rounded,
