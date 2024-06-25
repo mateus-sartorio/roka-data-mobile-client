@@ -175,28 +175,16 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     if (_nameController.text.isEmpty) {
       warnInvalidRegistrationData("Nome completo do morador é obrigatório");
       return false;
-    } else if (_phoneController.text.isEmpty) {
-      warnInvalidRegistrationData("Número de telefone é obrigatório.");
-      return false;
-    } else if (!phoneNumberPattern.hasMatch(_phoneController.text)) {
+    } else if (_phoneController.text.isNotEmpty && !phoneNumberPattern.hasMatch(_phoneController.text)) {
       warnInvalidRegistrationData("Formato inválido para número de telofone ( (XX) XXXXX-XX ).");
       return false;
-    } else if (_neighborhoodController.text.isEmpty) {
-      warnInvalidRegistrationData("Bairro é obrigatório.");
-      return false;
-    } else if (neighborhoodPattern1.hasMatch(_neighborhoodController.text)) {
+    } else if (_neighborhoodController.text.isNotEmpty && neighborhoodPattern1.hasMatch(_neighborhoodController.text)) {
       warnInvalidRegistrationData("Não precisa digitar \"${_neighborhoodController.text.split(" ")[0]}\" antes do nome do bairro.");
       return false;
-    } else if (_streetController.text.isEmpty) {
-      warnInvalidRegistrationData("Rua é obrigatória.");
-      return false;
-    } else if (streetPattern1.hasMatch(_streetController.text)) {
+    } else if (_streetController.text.isNotEmpty && streetPattern1.hasMatch(_streetController.text)) {
       warnInvalidRegistrationData("Não precisa digitar \"${_streetController.text.split(" ")[0]}\" antes do nome da rua.");
       return false;
-    } else if (_houseNumberController.text.isEmpty) {
-      warnInvalidRegistrationData("Número da residência é obrigatório.");
-      return false;
-    } else if (!isNumberPattern.hasMatch(_houseNumberController.text)) {
+    } else if (_houseNumberController.text.isNotEmpty && !isNumberPattern.hasMatch(_houseNumberController.text)) {
       warnInvalidRegistrationData("Formato inválido para o número da residência.");
     } else if (needsCollectOnTheHouse == true && selectedShift == null) {
       warnInvalidRegistrationData("Selecione um turno de coleta.");
