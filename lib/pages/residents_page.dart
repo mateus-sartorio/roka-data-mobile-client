@@ -31,8 +31,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
       context: context,
       builder: (context) {
         return DialogBox(
-          title:
-              "Tem certeza que deseja remover este residente? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
+          title: "Tem certeza que deseja remover este residente? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
           onSave: () {
             db.deleteResident(residentId);
             Navigator.of(context).pop(true);
@@ -53,8 +52,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                     surfaceTintColor: Colors.transparent,
                     elevation: 0.0,
                     alignment: Alignment.bottomCenter,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   );
                 });
           },
@@ -108,8 +106,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                             ),
                             Text(
                               "Nenhum residente :(",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
@@ -118,43 +115,22 @@ class _ResidentsPageState extends State<ResidentsPage> {
                         child: ListView.builder(
                             itemCount: filteredResidents.length,
                             itemBuilder: (context, index) {
-                              final CurrencyHandout? lastCurrencyHandout =
-                                  box.get("LAST_ACTIVE_CURRENCY_HANDOUT")
-                                      as CurrencyHandout?;
+                              final CurrencyHandout? lastCurrencyHandout = box.get("LAST_ACTIVE_CURRENCY_HANDOUT") as CurrencyHandout?;
                               bool displayCoin = false;
-                              if (filteredResidents[index]
-                                      .receipts
-                                      .isNotEmpty &&
-                                  filteredResidents[index]
-                                          .receipts[0]
-                                          .currencyHandoutId ==
-                                      lastCurrencyHandout?.id) {
+                              if (filteredResidents[index].receipts.isNotEmpty && filteredResidents[index].receipts[0].currencyHandoutId == lastCurrencyHandout?.id) {
                                 displayCoin = true;
                               }
 
                               bool displayBag = false;
-                              if (filteredResidents[index]
-                                      .collects
-                                      .isNotEmpty &&
-                                  isSameDay(
-                                      filteredResidents[index]
-                                          .collects[0]
-                                          .collectedOn,
-                                      DateTime.now()) &&
-                                  !filteredResidents[index]
-                                      .collects[0]
-                                      .isMarkedForRemoval) {
+                              if (filteredResidents[index].collects.isNotEmpty && isSameDay(filteredResidents[index].collects[0].collectedOn, DateTime.now()) && !filteredResidents[index].collects[0].isMarkedForRemoval) {
                                 displayBag = true;
                               }
 
                               List<Widget> tags = <Widget>[];
                               bool showTag = false;
-                              if (filteredResidents[index].situation ==
-                                  Situation.inactive) {
+                              if (filteredResidents[index].situation == Situation.inactive) {
                                 tags.add(Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.orange,
-                                      borderRadius: BorderRadius.circular(8)),
+                                  decoration: BoxDecoration(color: Colors.orange, borderRadius: BorderRadius.circular(8)),
                                   padding: const EdgeInsets.all(5.0),
                                   child: const Text(
                                     "INATIVO",
@@ -167,12 +143,9 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                   width: 5,
                                 ));
                                 showTag = true;
-                              } else if (filteredResidents[index].situation ==
-                                  Situation.noContact) {
+                              } else if (filteredResidents[index].situation == Situation.noContact) {
                                 tags.add(Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.orange,
-                                      borderRadius: BorderRadius.circular(8)),
+                                  decoration: BoxDecoration(color: Colors.orange, borderRadius: BorderRadius.circular(8)),
                                   padding: const EdgeInsets.all(5.0),
                                   child: const Text(
                                     "SEM CONTATO",
@@ -189,9 +162,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
 
                               if (filteredResidents[index].isMarkedForRemoval) {
                                 tags.add(Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius: BorderRadius.circular(8)),
+                                  decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(8)),
                                   padding: const EdgeInsets.all(5.0),
                                   child: const Text(
                                     "MARCADO PARA REMOÇÃO",
@@ -206,10 +177,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                 showTag = true;
                               } else if (filteredResidents[index].isNew) {
                                 tags.add(Container(
-                                  decoration: BoxDecoration(
-                                      color:
-                                          Theme.of(context).primaryColorLight,
-                                      borderRadius: BorderRadius.circular(8)),
+                                  decoration: BoxDecoration(color: Theme.of(context).primaryColorLight, borderRadius: BorderRadius.circular(8)),
                                   padding: const EdgeInsets.all(5.0),
                                   child: const Text(
                                     "SALVO LOCALMENTE",
@@ -224,9 +192,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                 showTag = true;
                               } else if (filteredResidents[index].wasModified) {
                                 tags.add(Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.green[300],
-                                      borderRadius: BorderRadius.circular(8)),
+                                  decoration: BoxDecoration(color: Colors.green[300], borderRadius: BorderRadius.circular(8)),
                                   padding: const EdgeInsets.all(5.0),
                                   child: const Text(
                                     "MODIFICADO",
@@ -241,27 +207,22 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                 showTag = true;
                               }
 
-                              int roketeDisplayNumber =
-                                  filteredResidents[index].rokaId;
+                              int roketeDisplayNumber = filteredResidents[index].rokaId;
                               String roketeDisplayNumberString = "";
                               if (roketeDisplayNumber > 0) {
-                                roketeDisplayNumberString =
-                                    "ROKETE Nº ${filteredResidents[index].rokaId}";
+                                roketeDisplayNumberString = "ROKETE Nº ${filteredResidents[index].rokaId}";
                               } else {
-                                roketeDisplayNumberString =
-                                    "ROKETE SEM IDENTIFICAÇÃO";
+                                roketeDisplayNumberString = "ROKETE SEM IDENTIFICAÇÃO";
                               }
 
                               return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 20),
+                                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
                                 child: Slidable(
                                   endActionPane: ActionPane(
                                     motion: const StretchMotion(),
                                     children: [
                                       SlidableAction(
-                                        onPressed: (context) => deleteResident(
-                                            filteredResidents[index].id),
+                                        onPressed: (context) => deleteResident(filteredResidents[index].id),
                                         icon: Icons.delete,
                                         backgroundColor: Colors.red,
                                         borderRadius: BorderRadius.circular(10),
@@ -269,12 +230,9 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                     ],
                                   ),
                                   child: ListTile(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0)),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
                                     title: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           children: [
@@ -282,8 +240,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                                 visible: displayCoin,
                                                 child: const Icon(
                                                   Icons.monetization_on_rounded,
-                                                  color: Color.fromARGB(
-                                                      255, 255, 215, 0),
+                                                  color: Color.fromARGB(255, 255, 215, 0),
                                                   size: 20,
                                                 )),
                                             Visibility(
@@ -296,15 +253,11 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                         ),
                                         Text(
                                           filteredResidents[index].name,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
+                                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                                         ),
                                         Text(
                                           roketeDisplayNumberString,
-                                          style: const TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400),
+                                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
                                         ),
                                         Visibility(
                                             visible: showTag,
@@ -319,18 +272,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                       ],
                                     ),
                                     onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CreateResidentPage(
-                                                      showCoin: displayCoin,
-                                                      showBag: displayBag,
-                                                      text:
-                                                          "Dados do residente",
-                                                      resident:
-                                                          filteredResidents[
-                                                              index])));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => CreateResidentPage(showCoin: displayCoin, showBag: displayBag, text: "Dados do residente", resident: filteredResidents[index])));
                                     },
                                     leading: const Icon(
                                       Icons.person,
