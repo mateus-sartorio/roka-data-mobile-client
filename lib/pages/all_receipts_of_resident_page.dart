@@ -248,7 +248,7 @@ class _AllReceiptsOfResidentPageState extends State<AllReceiptsOfResidentPage> {
                                                   receipt: receipts[index])));
                                 },
                                 leading: const Icon(
-                                  Icons.shopping_bag,
+                                  Icons.monetization_on_rounded,
                                   size: 30,
                                 ),
                                 trailing: const Icon(
