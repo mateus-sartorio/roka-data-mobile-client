@@ -202,8 +202,11 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     } else if (_registrationYearController.text.isNotEmpty && !registrationYearPattern.hasMatch(_registrationYearController.text)) {
       warnInvalidRegistrationData("Ano de cadastro inválido (20XX).");
       return false;
-    } else if (_residentsInTheHouseController.text.isNotEmpty && !isNumberPattern.hasMatch(_residentsInTheHouseController.text)) {
-      warnInvalidRegistrationData("Quantidade de residentes na casa inválido.");
+    } else if (_residentsInTheHouseController.text.isEmpty) {
+      warnInvalidRegistrationData("Quantidade de residentes na casa é obrigatório.");
+      return false;
+    } else if (!isNumberPattern.hasMatch(_residentsInTheHouseController.text)) {
+      warnInvalidRegistrationData("Quantidade de residentes na casa deve ser um número.");
       return false;
     }
 
