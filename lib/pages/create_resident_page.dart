@@ -479,8 +479,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                              // Adjust padding to remove any extra space around the icon
-                              minimumSize: const Size(0, 0), // Optional: Adjust button minimum size
+                              minimumSize: const Size(0, 0),
                             ),
                             onPressed: () => Navigator.push(
                                 context,

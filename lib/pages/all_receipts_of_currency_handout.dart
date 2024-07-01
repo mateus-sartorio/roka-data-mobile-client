@@ -5,21 +5,20 @@ import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/receipt.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:mobile_client/models/resident.dart';
 import 'package:mobile_client/pages/create_receipt_page.dart';
-import 'package:mobile_client/utils/receipts/total_rokas.dart';
 import 'package:mobile_client/utils/dates/to_date_string.dart';
+import 'package:mobile_client/utils/receipts/total_rokas.dart';
 
-class AllReceiptsOfResidentPage extends StatefulWidget {
-  final Resident resident;
+class AllReceiptsOfCurrencyHandoutPage extends StatefulWidget {
+  final List<Receipt> receipts;
 
-  const AllReceiptsOfResidentPage({Key? key, required this.resident}) : super(key: key);
+  const AllReceiptsOfCurrencyHandoutPage({Key? key, required this.receipts}) : super(key: key);
 
   @override
-  State<AllReceiptsOfResidentPage> createState() => _AllReceiptsOfResidentPageState();
+  State<AllReceiptsOfCurrencyHandoutPage> createState() => _AllReceiptsOfCurrencyHandoutPageState();
 }
 
-class _AllReceiptsOfResidentPageState extends State<AllReceiptsOfResidentPage> {
+class _AllReceiptsOfCurrencyHandoutPageState extends State<AllReceiptsOfCurrencyHandoutPage> {
   GlobalDatabase db = GlobalDatabase();
 
   void showUnavailableOldReceiptsModificationMessage() {
@@ -85,10 +84,9 @@ class _AllReceiptsOfResidentPageState extends State<AllReceiptsOfResidentPage> {
     return ValueListenableBuilder(
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
-          List<Receipt> receipts = widget.resident.receipts;
+          final List<Receipt> receipts = widget.receipts;
 
-          receipts.sort((Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
-
+          Map<String, double> totalRokasByDate = totalRokasValueByDate(receipts);
           final String totalRokasAmmount = totalRokasValue(receipts).toStringAsFixed(2).replaceAll(".", ",");
 
           Widget body;
@@ -118,23 +116,21 @@ class _AllReceiptsOfResidentPageState extends State<AllReceiptsOfResidentPage> {
               ],
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 15,
-                  ),
                   Text(
                     "Total: RK\$ $totalRokasAmmount",
                     style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 15,
                   ),
                   Expanded(
                     child: ListView.builder(
                         itemCount: receipts.length,
                         itemBuilder: (context, index) {
+                          String residentName = db.getResidentById(receipts[index].residentId)?.name ?? "";
+
                           String value = "RK\$ ${receipts[index].value.toStringAsFixed(2).replaceAll(".", ",")}";
 
-                          String date = toDateString(receipts[index].handoutDate);
+                          List<String> dayMonthYear = receipts[index].handoutDate.toString().split(" ")[0].split("-");
+
+                          String date = "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
 
                           Widget tag = Container();
                           bool showTag = false;
@@ -179,52 +175,75 @@ class _AllReceiptsOfResidentPageState extends State<AllReceiptsOfResidentPage> {
                             showTag = true;
                           }
 
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15.0),
-                            child: Slidable(
-                              endActionPane: ActionPane(
-                                motion: const StretchMotion(),
-                                children: [
-                                  SlidableAction(
-                                    onPressed: (context) => deleteReceipt(receipts[index]),
-                                    icon: Icons.delete,
-                                    backgroundColor: Colors.red,
-                                    borderRadius: BorderRadius.circular(10),
-                                  )
-                                ],
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Visibility(
+                                  visible: index == 0 || receipts[index].handoutDate != receipts[index - 1].handoutDate,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 25, top: (index == 0 ? 10 : 25)),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          date,
+                                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        Text(
+                                          "RK\$ ${totalRokasByDate[toDateString(receipts[index].handoutDate)]?.toStringAsFixed(2).replaceAll(".", ",") ?? "0,00"}",
+                                        )
+                                      ],
+                                    ),
+                                  )),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15.0),
+                                child: Slidable(
+                                  endActionPane: ActionPane(
+                                    motion: const StretchMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        onPressed: (context) => deleteReceipt(receipts[index]),
+                                        icon: Icons.delete,
+                                        backgroundColor: Colors.red,
+                                        borderRadius: BorderRadius.circular(10),
+                                      )
+                                    ],
+                                  ),
+                                  child: ListTile(
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+                                    title: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          residentName,
+                                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        Text(
+                                          value,
+                                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Visibility(visible: showTag, child: tag),
+                                      ],
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => CreateReceiptPage(isOldReceipt: true, text: "Alterar dados da entrega", receipt: receipts[index])));
+                                    },
+                                    leading: const Icon(
+                                      Icons.monetization_on_rounded,
+                                      size: 30,
+                                    ),
+                                    trailing: const Icon(
+                                      Icons.chevron_right,
+                                    ),
+                                  ),
+                                ),
                               ),
-                              child: ListTile(
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-                                title: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      date,
-                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                    Text(
-                                      value,
-                                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Visibility(visible: showTag, child: tag),
-                                  ],
-                                ),
-                                onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => CreateReceiptPage(isOldReceipt: true, text: "Alterar dados da entrega", receipt: receipts[index])));
-                                },
-                                leading: const Icon(
-                                  Icons.monetization_on_rounded,
-                                  size: 30,
-                                ),
-                                trailing: const Icon(
-                                  Icons.chevron_right,
-                                ),
-                              ),
-                            ),
+                            ],
                           );
                         }),
                   ),
@@ -238,7 +257,7 @@ class _AllReceiptsOfResidentPageState extends State<AllReceiptsOfResidentPage> {
                   scrolledUnderElevation: 0,
                   centerTitle: true,
                   title: const Text(
-                    "Entregas de moeda",
+                    "Todas entregas",
                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                   backgroundColor: Colors.transparent,
