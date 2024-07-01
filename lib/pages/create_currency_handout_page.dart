@@ -4,19 +4,19 @@ import 'package:mobile_client/components/big_button_tile.dart';
 import 'package:mobile_client/data/database.dart';
 import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/currency_handout.dart';
+import 'package:mobile_client/models/receipt.dart';
+import 'package:mobile_client/pages/all_receipts_of_currency_handout.dart';
 import 'package:mobile_client/utils/integer_id_generator.dart';
+import 'package:mobile_client/utils/list_conversions.dart';
 
 class CreateCurrencyHandoutPage extends StatefulWidget {
   final CurrencyHandout? currencyHandout;
   final String text;
 
-  const CreateCurrencyHandoutPage(
-      {Key? key, this.currencyHandout, required this.text})
-      : super(key: key);
+  const CreateCurrencyHandoutPage({Key? key, this.currencyHandout, required this.text}) : super(key: key);
 
   @override
-  State<CreateCurrencyHandoutPage> createState() =>
-      _CreateCurrencyHandoutPageState();
+  State<CreateCurrencyHandoutPage> createState() => _CreateCurrencyHandoutPageState();
 }
 
 class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
@@ -38,26 +38,19 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
       selectedDate = DateTime.now();
     }
 
-    List<String> dayMonthYear =
-        selectedDate.toString().split(" ")[0].split("-");
-    _dateController.text =
-        "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+    List<String> dayMonthYear = selectedDate.toString().split(" ")[0].split("-");
+    _dateController.text = "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
 
     super.initState();
   }
 
   Future<void> _selectDate() async {
-    DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2100));
+    DateTime? picked = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2100));
 
     if (picked != null) {
       setState(() {
         List<String> dayMonthYear = picked.toString().split(" ")[0].split("-");
-        _dateController.text =
-            "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+        _dateController.text = "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
         selectedDate = picked;
       });
     }
@@ -73,8 +66,7 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
               style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            contentPadding:
-                const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
+            contentPadding: const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
             children: [
               MaterialButton(
                   onPressed: () => Navigator.of(context).pop(true),
@@ -101,14 +93,7 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
       return;
     }
 
-    CurrencyHandout newCurrencyHandout = CurrencyHandout(
-        id: widget.currencyHandout?.id ?? generateIntegerId(),
-        title: _titleController.text,
-        startDate: selectedDate!,
-        isNew: widget.currencyHandout?.isNew ?? isNewHandout,
-        wasModified: isNewHandout ? false : true,
-        isMarkedForRemoval: false,
-        wasSuccessfullySentToBackendOnLastSync: false);
+    CurrencyHandout newCurrencyHandout = CurrencyHandout(id: widget.currencyHandout?.id ?? generateIntegerId(), title: _titleController.text, startDate: selectedDate!, isNew: widget.currencyHandout?.isNew ?? isNewHandout, wasModified: isNewHandout ? false : true, isMarkedForRemoval: false, wasSuccessfullySentToBackendOnLastSync: false);
 
     if (isNewHandout) {
       db.saveNewCurrencyHandout(newCurrencyHandout);
@@ -133,8 +118,7 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
             surfaceTintColor: Colors.transparent,
             elevation: 0.0,
             alignment: Alignment.bottomCenter,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           );
         });
   }
@@ -144,8 +128,7 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
       context: context,
       builder: (context) {
         return DialogBox(
-          title:
-              "Tem certeza que deseja remover esta entrega de moeda? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
+          title: "Tem certeza que deseja remover esta entrega de moeda? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
           onSave: () {
             db.deleteCurrencyHandout((widget.currencyHandout?.id)!);
             Navigator.of(context).pop(true);
@@ -165,8 +148,7 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
                     surfaceTintColor: Colors.transparent,
                     elevation: 0.0,
                     alignment: Alignment.bottomCenter,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   );
                 });
           },
@@ -184,8 +166,7 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
       tag = Row(
         children: [
           Container(
-            decoration: BoxDecoration(
-                color: Colors.red, borderRadius: BorderRadius.circular(8)),
+            decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(8)),
             padding: const EdgeInsets.all(5.0),
             child: const Text(
               "MARCADO PARA REMOÇÃO",
@@ -194,18 +175,14 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
               ),
             ),
           ),
-          IconButton(
-              onPressed: saveNewCurrencyHandout,
-              icon: const Icon(Icons.restore))
+          IconButton(onPressed: saveNewCurrencyHandout, icon: const Icon(Icons.restore))
         ],
       );
 
       showTag = true;
     } else if (widget.currencyHandout?.isNew ?? false) {
       tag = Container(
-        decoration: BoxDecoration(
-            color: Theme.of(context).primaryColorLight,
-            borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(color: Theme.of(context).primaryColorLight, borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.all(5.0),
         child: const Text(
           "SALVO LOCALMENTE",
@@ -218,8 +195,7 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
       showTag = true;
     } else if (widget.currencyHandout?.wasModified ?? false) {
       tag = Container(
-        decoration: BoxDecoration(
-            color: Colors.green[300], borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(color: Colors.green[300], borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.all(5.0),
         child: const Text(
           "MODIFICADO",
@@ -253,6 +229,11 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
       body: ValueListenableBuilder(
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
+          final dynamicReceiptsList1 = box.get("RECEIPTS");
+          final dynamicReceiptsList2 = box.get("ALL_DATABASE_RECEIPTS");
+          final List<Receipt> receipts = dynamicListToTList(dynamicReceiptsList1 + dynamicReceiptsList2);
+          final List<Receipt> filteredReceipts = receipts.where((r) => r.currencyHandoutId == widget.currencyHandout?.id).toList();
+
           return Center(
             child: FractionallySizedBox(
               widthFactor: 0.8,
@@ -260,19 +241,52 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Visibility(visible: showTag, child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [tag])),
                   Visibility(
-                      visible: showTag,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [tag])),
+                      visible: !isNewHandout,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          FractionallySizedBox(
+                            widthFactor: 0.5,
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                                  minimumSize: const Size(0, 0),
+                                ),
+                                onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AllReceiptsOfCurrencyHandoutPage(
+                                              receipts: filteredReceipts,
+                                            ))),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Entregas",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    Icon(
+                                      Icons.chevron_right,
+                                      color: Colors.black,
+                                    ),
+                                  ],
+                                )),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                        ],
+                      )),
                   Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                     child: Text(
                       widget.text,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w800, fontSize: 22),
+                      style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 22),
                     ),
                   ),
                   const SizedBox(
@@ -297,8 +311,7 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
                         border: OutlineInputBorder(),
                         labelText: "Data de início",
                         prefix: Padding(
-                          padding: EdgeInsets.only(
-                              left: 0, right: 10, bottom: 0, top: 0),
+                          padding: EdgeInsets.only(left: 0, right: 10, bottom: 0, top: 0),
                           child: Icon(
                             Icons.calendar_month,
                           ),
@@ -315,8 +328,7 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(Icons.save, color: Colors.white),
-                          Text("  Salvar localmente",
-                              style: TextStyle(color: Colors.white)),
+                          Text("  Salvar localmente", style: TextStyle(color: Colors.white)),
                         ],
                       ),
                       onPressed: saveNewCurrencyHandout,
@@ -332,9 +344,7 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.delete, color: Colors.white),
-                            Text("  Remover",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 12)),
+                            Text("  Remover", style: TextStyle(color: Colors.white, fontSize: 12)),
                           ],
                         ),
                         onPressed: deleteCurrencyHandout,
