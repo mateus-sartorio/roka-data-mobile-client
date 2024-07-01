@@ -15,9 +15,7 @@ class CreateCollectPage extends StatefulWidget {
   final String text;
   final bool isOldCollect;
 
-  const CreateCollectPage(
-      {Key? key, this.collect, required this.text, required this.isOldCollect})
-      : super(key: key);
+  const CreateCollectPage({Key? key, this.collect, required this.text, required this.isOldCollect}) : super(key: key);
 
   @override
   State<CreateCollectPage> createState() => _CreateCollectPageState();
@@ -34,9 +32,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
 
   final TextEditingController _dateController = TextEditingController();
 
-  final List<TextEditingController> _weightControllers = [
-    TextEditingController()
-  ];
+  final List<TextEditingController> _weightControllers = [TextEditingController()];
 
   final List<Widget> _weightColumnTextFields = [];
 
@@ -45,18 +41,14 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
     if (widget.collect != null) {
       selectedDate = widget.collect?.collectedOn;
       selectedResident = db.getResidentById(widget.collect?.residentId ?? 0);
-      _weightControllers[0].text =
-          (widget.collect?.ammount.toStringAsFixed(2) ?? "")
-              .replaceAll(".", ",");
+      _weightControllers[0].text = (widget.collect?.ammount.toStringAsFixed(2) ?? "").replaceAll(".", ",");
       isNewCollect = false;
     } else {
       selectedDate = DateTime.now();
     }
 
-    List<String> dayMonthYear =
-        selectedDate.toString().split(" ")[0].split("-");
-    _dateController.text =
-        "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+    List<String> dayMonthYear = selectedDate.toString().split(" ")[0].split("-");
+    _dateController.text = "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
 
     _weightColumnTextFields.add(
       TextField(
@@ -74,17 +66,12 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
   }
 
   Future<void> _selectDate() async {
-    DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2100));
+    DateTime? picked = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2100));
 
     if (picked != null) {
       setState(() {
         List<String> dayMonthYear = picked.toString().split(" ")[0].split("-");
-        _dateController.text =
-            "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+        _dateController.text = "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
         selectedDate = picked;
       });
     }
@@ -100,8 +87,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
               style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            contentPadding:
-                const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
+            contentPadding: const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
             children: [
               MaterialButton(
                   onPressed: () => Navigator.of(context).pop(true),
@@ -134,13 +120,9 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
     for (var weightController in _weightControllers) {
       if (weightController.text.isNotEmpty) {
         if (!decimalPattern.hasMatch(weightController.text)) {
-          warnInvalidRegistrationData(
-              "Peso inválido (deve ser um número decimal com no máximo duas casas decimais, separado por \".\" ou \",\").");
+          warnInvalidRegistrationData("Peso inválido (deve ser um número decimal com no máximo duas casas decimais, separado por \".\" ou \",\").");
           return false;
-        } else if ((double.tryParse(
-                    weightController.text.replaceAll(",", ".")) ??
-                0) <
-            0) {
+        } else if ((double.tryParse(weightController.text.replaceAll(",", ".")) ?? 0) < 0) {
           warnInvalidRegistrationData("Não podem haver pesos negativos.");
           return false;
         }
@@ -157,39 +139,24 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
 
     double totalWeight = 0;
     for (var weightController in _weightControllers) {
-      totalWeight +=
-          double.tryParse(weightController.text.replaceAll(",", ".")) ?? 0;
+      totalWeight += double.tryParse(weightController.text.replaceAll(",", ".")) ?? 0;
     }
 
-    Collect newCollect = Collect(
-        id: widget.collect?.id ?? generateIntegerId(),
-        ammount: totalWeight,
-        collectedOn: selectedDate!,
-        residentId: (selectedResident?.id)!,
-        isNew: widget.collect?.isNew ?? isNewCollect,
-        isMarkedForRemoval: false,
-        wasModified: isNewCollect ? false : true,
-        wasSuccessfullySentToBackendOnLastSync: false);
+    Collect newCollect = Collect(id: widget.collect?.id ?? generateIntegerId(), ammount: totalWeight, collectedOn: selectedDate!, residentId: (selectedResident?.id)!, isNew: widget.collect?.isNew ?? isNewCollect, isMarkedForRemoval: false, wasModified: isNewCollect ? false : true, wasSuccessfullySentToBackendOnLastSync: false);
 
     var box = Hive.box('globalDatabase');
 
     final List<dynamic> dynamicCollectsList1 = box.get("COLLECTS") ?? [];
-    final List<Collect> collectsList1 =
-        dynamicListToTList(dynamicCollectsList1);
+    final List<Collect> collectsList1 = dynamicListToTList(dynamicCollectsList1);
 
-    final List<dynamic> dynamicCollectsList2 =
-        box.get("ALL_DATABASE_COLLECTS") ?? [];
-    final List<Collect> collectsList2 =
-        dynamicListToTList(dynamicCollectsList2);
+    final List<dynamic> dynamicCollectsList2 = box.get("ALL_DATABASE_COLLECTS") ?? [];
+    final List<Collect> collectsList2 = dynamicListToTList(dynamicCollectsList2);
 
     List<Collect> collects = collectsList1 + collectsList2;
 
     for (Collect c in collects) {
-      if (DateUtils.isSameDay(c.collectedOn, newCollect.collectedOn) &&
-          c.residentId == newCollect.residentId &&
-          c.id != newCollect.id) {
-        warnInvalidRegistrationData(
-            "Este morador já possui uma coleta cadastrada neste dia.");
+      if (DateUtils.isSameDay(c.collectedOn, newCollect.collectedOn) && c.residentId == newCollect.residentId && c.id != newCollect.id) {
+        warnInvalidRegistrationData("Este morador já possui uma coleta cadastrada neste dia.");
         return;
       }
     }
@@ -197,12 +164,10 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
     String message = "";
     bool isInactiveResident = false;
     if (selectedResident?.situation == Situation.inactive) {
-      message =
-          "Este residente está inativo, ao registrar uma coleta em seu nome, ele se tornará ativo novamente. Deseja continuar?";
+      message = "Este residente está inativo, ao registrar uma coleta em seu nome, ele se tornará ativo novamente. Deseja continuar?";
       isInactiveResident = true;
     } else if (selectedResident?.situation == Situation.noContact) {
-      message =
-          "Este residente está sem contato, ao registrar uma coleta em seu nome, ele se tornará ativo novamente. Deseja continuar?";
+      message = "Este residente está sem contato, ao registrar uma coleta em seu nome, ele se tornará ativo novamente. Deseja continuar?";
       isInactiveResident = true;
     }
 
@@ -242,8 +207,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                       surfaceTintColor: Colors.transparent,
                       elevation: 0.0,
                       alignment: Alignment.bottomCenter,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     );
                   });
             },
@@ -277,8 +241,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
               surfaceTintColor: Colors.transparent,
               elevation: 0.0,
               alignment: Alignment.bottomCenter,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             );
           });
     }
@@ -289,9 +252,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
       context: context,
       builder: (context) {
         return DialogBox(
-          title: widget.isOldCollect
-              ? "Tem certeza que deseja remover esta coleta? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)"
-              : "Tem certeza que deseja remover esta coleta?",
+          title: widget.isOldCollect ? "Tem certeza que deseja remover esta coleta? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)" : "Tem certeza que deseja remover esta coleta?",
           onSave: () {
             if (widget.isOldCollect) {
               db.deleteOldCollect(widget.collect!);
@@ -316,8 +277,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                     surfaceTintColor: Colors.transparent,
                     elevation: 0.0,
                     alignment: Alignment.bottomCenter,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   );
                 });
           },
@@ -330,8 +290,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
   // Tombstone method of deletion
   void deleteWeightField(int index) {
     setState(() {
-      _weightColumnTextFields[index] = const Visibility(
-          visible: false, child: Text("This text is not visible"));
+      _weightColumnTextFields[index] = const Visibility(visible: false, child: Text("This text is not visible"));
       _weightControllers[index].text = "0";
     });
   }
@@ -340,6 +299,8 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
     setState(() {
       _weightControllers.add(TextEditingController());
       int length = _weightControllers.length;
+      FocusNode f = FocusNode();
+
       _weightColumnTextFields.add(
         Column(
           children: [
@@ -350,6 +311,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
               children: [
                 Flexible(
                   child: TextField(
+                    focusNode: f,
                     controller: _weightControllers[length - 1],
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
@@ -359,14 +321,16 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                     ),
                   ),
                 ),
-                IconButton(
-                    onPressed: () => deleteWeightField(length - 1),
-                    icon: const Icon(Icons.remove)),
+                IconButton(onPressed: () => deleteWeightField(length - 1), icon: const Icon(Icons.remove)),
               ],
             ),
           ],
         ),
       );
+
+      Future.delayed(const Duration(milliseconds: 100), () {
+        f.requestFocus(); // Focus again to open keyboard
+      });
     });
   }
 
@@ -378,8 +342,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
       tag = Row(
         children: [
           Container(
-            decoration: BoxDecoration(
-                color: Colors.red, borderRadius: BorderRadius.circular(8)),
+            decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(8)),
             padding: const EdgeInsets.all(5.0),
             child: const Text(
               "MARCADO PARA REMOÇÃO",
@@ -395,9 +358,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
       showTag = true;
     } else if (widget.collect?.isNew ?? false) {
       tag = Container(
-        decoration: BoxDecoration(
-            color: Theme.of(context).primaryColorLight,
-            borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(color: Theme.of(context).primaryColorLight, borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.all(5.0),
         child: const Text(
           "SALVO LOCALMENTE",
@@ -410,8 +371,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
       showTag = true;
     } else if (widget.collect?.wasModified ?? false) {
       tag = Container(
-        decoration: BoxDecoration(
-            color: Colors.green[300], borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(color: Colors.green[300], borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.all(5.0),
         child: const Text(
           "MODIFICADO",
@@ -455,18 +415,10 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Visibility(
-                        visible: showTag,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [tag])),
+                    Visibility(visible: showTag, child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [tag])),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 15),
-                      child: Text(widget.text,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 22)),
+                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
+                      child: Text(widget.text, textAlign: TextAlign.center, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 22)),
                     ),
                     const SizedBox(
                       height: 20,
@@ -478,8 +430,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                           border: OutlineInputBorder(),
                           labelText: "Data",
                           prefix: Padding(
-                            padding: EdgeInsets.only(
-                                left: 0, right: 10, bottom: 0, top: 0),
+                            padding: EdgeInsets.only(left: 0, right: 10, bottom: 0, top: 0),
                             child: Icon(
                               Icons.calendar_month,
                             ),
@@ -492,22 +443,10 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                     ),
                     SearchField(
                       focusNode: focusNode,
-                      suggestions: residents
-                          .map((r) => SearchFieldListItem<Resident>(r.name,
-                              child: Text(r.name), item: r))
-                          .toList(),
+                      suggestions: residents.map((r) => SearchFieldListItem<Resident>(r.name, child: Text(r.name), item: r)).toList(),
                       hint: "Morador",
-                      initialValue: (selectedResident != null)
-                          ? SearchFieldListItem<Resident>(
-                              (selectedResident?.name)!,
-                              child: Text((selectedResident?.name)!),
-                              item: selectedResident)
-                          : null,
-                      searchInputDecoration: const InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black)),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black))),
+                      initialValue: (selectedResident != null) ? SearchFieldListItem<Resident>((selectedResident?.name)!, child: Text((selectedResident?.name)!), item: selectedResident) : null,
+                      searchInputDecoration: const InputDecoration(focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)), enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black))),
                       maxSuggestionsInViewPort: 6,
                       onSuggestionTap: (value) {
                         if (value.item != null) {
@@ -535,8 +474,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.save, color: Colors.white),
-                            Text("  Salvar localmente",
-                                style: TextStyle(color: Colors.white)),
+                            Text("  Salvar localmente", style: TextStyle(color: Colors.white)),
                           ],
                         ),
                         onPressed: saveNewCollect,
@@ -554,8 +492,7 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(Icons.delete, color: Colors.white),
-                                  Text("  Remover",
-                                      style: TextStyle(color: Colors.white)),
+                                  Text("  Remover", style: TextStyle(color: Colors.white)),
                                 ],
                               ),
                               onPressed: deleteCollect,
