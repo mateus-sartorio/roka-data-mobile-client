@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_client/enums/shift.dart';
 import 'package:mobile_client/enums/situation.dart';
@@ -33,6 +34,17 @@ class _MainState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', 'US'), // English
+        Locale('pt', 'BR'), // Portuguese (Brazil)
+        // Add more locales as needed
+      ],
+      locale: Locale('pt', 'BR'), // Set default locale
+      // other MaterialApp configurations
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
       theme: ThemeData.light(),
