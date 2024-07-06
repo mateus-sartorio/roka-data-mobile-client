@@ -15,72 +15,100 @@ class Resident extends HiveObject {
   String name;
 
   @HiveField(2)
-  String address;
+  String description;
 
   @HiveField(3)
-  String referencePoint;
+  String address;
 
   @HiveField(4)
-  bool livesInJN;
+  String referencePoint;
 
   @HiveField(5)
-  String profession;
+  bool livesInJN;
 
   @HiveField(6)
-  DateTime birthdate;
+  String profession;
 
   @HiveField(7)
-  String phone;
+  DateTime birthdate;
 
   @HiveField(8)
-  bool isOnWhatsappGroup;
+  String phone;
 
   @HiveField(9)
-  bool hasPlaque;
+  bool isOnWhatsappGroup;
 
   @HiveField(10)
-  int registrationYear;
+  bool hasPlaque;
 
   @HiveField(11)
-  DateTime registrationDate;
+  int registrationYear;
 
   @HiveField(12)
-  int residentsInTheHouse;
+  DateTime registrationDate;
 
   @HiveField(13)
-  int rokaId;
+  int residentsInTheHouse;
 
   @HiveField(14)
-  Situation situation;
+  int rokaId;
 
   @HiveField(15)
-  String observations;
+  Situation situation;
 
   @HiveField(16)
-  bool needsCollectOnTheHouse;
+  String observations;
 
   @HiveField(17)
-  Shift? shiftForCollectionOnTheHouse;
+  bool needsCollectOnTheHouse;
 
   @HiveField(18)
-  bool isNew;
+  Shift? shiftForCollectionOnTheHouse;
 
   @HiveField(19)
-  bool wasModified;
+  bool isNew;
 
   @HiveField(20)
-  bool isMarkedForRemoval;
+  bool wasModified;
 
   @HiveField(21)
-  List<Collect> collects;
+  bool isMarkedForRemoval;
 
   @HiveField(22)
-  List<Receipt> receipts;
+  List<Collect> collects;
 
   @HiveField(23)
+  List<Receipt> receipts;
+
+  @HiveField(24)
   bool wasSuccessfullySentToBackendOnLastSync;
 
-  Resident({required this.id, required this.address, required this.collects, required this.hasPlaque, required this.isOnWhatsappGroup, required this.livesInJN, required this.name, required this.observations, required this.phone, required this.profession, required this.referencePoint, required this.registrationYear, required this.registrationDate, required this.residentsInTheHouse, required this.rokaId, required this.situation, required this.needsCollectOnTheHouse, required this.shiftForCollectionOnTheHouse, required this.isNew, required this.birthdate, required this.isMarkedForRemoval, required this.wasModified, required this.receipts, required this.wasSuccessfullySentToBackendOnLastSync});
+  Resident(
+      {required this.id,
+      required this.address,
+      required this.collects,
+      required this.hasPlaque,
+      required this.isOnWhatsappGroup,
+      required this.livesInJN,
+      required this.name,
+      required this.description,
+      required this.observations,
+      required this.phone,
+      required this.profession,
+      required this.referencePoint,
+      required this.registrationYear,
+      required this.registrationDate,
+      required this.residentsInTheHouse,
+      required this.rokaId,
+      required this.situation,
+      required this.needsCollectOnTheHouse,
+      required this.shiftForCollectionOnTheHouse,
+      required this.isNew,
+      required this.birthdate,
+      required this.isMarkedForRemoval,
+      required this.wasModified,
+      required this.receipts,
+      required this.wasSuccessfullySentToBackendOnLastSync});
 
   // Copies resident to this resident instance
   void deepCopy(Resident resident) {
@@ -90,6 +118,7 @@ class Resident extends HiveObject {
     isOnWhatsappGroup = resident.isOnWhatsappGroup;
     livesInJN = resident.livesInJN;
     name = resident.name;
+    description = resident.description;
     observations = resident.observations;
     phone = resident.phone;
     profession = resident.profession;
@@ -110,6 +139,31 @@ class Resident extends HiveObject {
   }
 
   static Resident createCopy(Resident resident) {
-    return Resident(id: resident.id, address: resident.address, collects: resident.collects, hasPlaque: resident.hasPlaque, isOnWhatsappGroup: resident.isOnWhatsappGroup, livesInJN: resident.livesInJN, name: resident.name, observations: resident.observations, phone: resident.phone, profession: resident.profession, referencePoint: resident.referencePoint, registrationYear: resident.registrationYear, registrationDate: resident.registrationDate, residentsInTheHouse: resident.residentsInTheHouse, rokaId: resident.rokaId, situation: resident.situation, birthdate: resident.birthdate, isMarkedForRemoval: resident.isMarkedForRemoval, wasModified: resident.wasModified, isNew: resident.isNew, needsCollectOnTheHouse: resident.needsCollectOnTheHouse, shiftForCollectionOnTheHouse: resident.shiftForCollectionOnTheHouse, receipts: resident.receipts, wasSuccessfullySentToBackendOnLastSync: resident.wasSuccessfullySentToBackendOnLastSync);
+    return Resident(
+        id: resident.id,
+        address: resident.address,
+        collects: resident.collects,
+        hasPlaque: resident.hasPlaque,
+        isOnWhatsappGroup: resident.isOnWhatsappGroup,
+        livesInJN: resident.livesInJN,
+        name: resident.name,
+        description: resident.description,
+        observations: resident.observations,
+        phone: resident.phone,
+        profession: resident.profession,
+        referencePoint: resident.referencePoint,
+        registrationYear: resident.registrationYear,
+        registrationDate: resident.registrationDate,
+        residentsInTheHouse: resident.residentsInTheHouse,
+        rokaId: resident.rokaId,
+        situation: resident.situation,
+        birthdate: resident.birthdate,
+        isMarkedForRemoval: resident.isMarkedForRemoval,
+        wasModified: resident.wasModified,
+        isNew: resident.isNew,
+        needsCollectOnTheHouse: resident.needsCollectOnTheHouse,
+        shiftForCollectionOnTheHouse: resident.shiftForCollectionOnTheHouse,
+        receipts: resident.receipts,
+        wasSuccessfullySentToBackendOnLastSync: resident.wasSuccessfullySentToBackendOnLastSync);
   }
 }

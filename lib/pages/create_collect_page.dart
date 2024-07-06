@@ -142,7 +142,15 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
       totalWeight += double.tryParse(weightController.text.replaceAll(",", ".")) ?? 0;
     }
 
-    Collect newCollect = Collect(id: widget.collect?.id ?? generateIntegerId(), ammount: totalWeight, collectedOn: selectedDate!, residentId: (selectedResident?.id)!, isNew: widget.collect?.isNew ?? isNewCollect, isMarkedForRemoval: false, wasModified: isNewCollect ? false : true, wasSuccessfullySentToBackendOnLastSync: false);
+    Collect newCollect = Collect(
+        id: widget.collect?.id ?? generateIntegerId(),
+        ammount: totalWeight,
+        collectedOn: selectedDate!,
+        residentId: (selectedResident?.id)!,
+        isNew: widget.collect?.isNew ?? isNewCollect,
+        isMarkedForRemoval: false,
+        wasModified: isNewCollect ? false : true,
+        wasSuccessfullySentToBackendOnLastSync: false);
 
     var box = Hive.box('globalDatabase');
 

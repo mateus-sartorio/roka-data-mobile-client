@@ -16,9 +16,7 @@ class CreateReceiptPage extends StatefulWidget {
   final String text;
   final bool isOldReceipt;
 
-  const CreateReceiptPage(
-      {Key? key, this.receipt, required this.text, required this.isOldReceipt})
-      : super(key: key);
+  const CreateReceiptPage({Key? key, this.receipt, required this.text, required this.isOldReceipt}) : super(key: key);
 
   @override
   State<CreateReceiptPage> createState() => _CreateReceiptPageState();
@@ -43,34 +41,26 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
     if (widget.receipt != null) {
       selectedDate = widget.receipt?.handoutDate;
       selectedResident = db.getResidentById(widget.receipt?.residentId ?? 0);
-      selectedCurrencyHandout =
-          db.getCurrencyHandoutById(widget.receipt?.currencyHandoutId ?? -1);
+      selectedCurrencyHandout = db.getCurrencyHandoutById(widget.receipt?.currencyHandoutId ?? -1);
       _valueController.text = widget.receipt?.value.toString() ?? "";
       isNewReceipt = false;
     } else {
       selectedDate = DateTime.now();
     }
 
-    List<String> dayMonthYear =
-        selectedDate.toString().split(" ")[0].split("-");
-    _dateController.text =
-        "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+    List<String> dayMonthYear = selectedDate.toString().split(" ")[0].split("-");
+    _dateController.text = "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
 
     super.initState();
   }
 
   Future<void> _selectDate() async {
-    DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2100));
+    DateTime? picked = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2100));
 
     if (picked != null) {
       setState(() {
         List<String> dayMonthYear = picked.toString().split(" ")[0].split("-");
-        _dateController.text =
-            "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+        _dateController.text = "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
         selectedDate = picked;
       });
     }
@@ -86,8 +76,7 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
               style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            contentPadding:
-                const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
+            contentPadding: const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
             children: [
               MaterialButton(
                   onPressed: () => Navigator.of(context).pop(true),
@@ -111,12 +100,10 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
       warnInvalidRegistrationData("Selecione uma distribuição de moeda.");
       return false;
     } else if (selectedCurrencyHandout?.isMarkedForRemoval ?? false) {
-      warnInvalidRegistrationData(
-          "Distribuição de moeda marcada para remoção.");
+      warnInvalidRegistrationData("Distribuição de moeda marcada para remoção.");
       return false;
     } else if (!decimalPattern.hasMatch(_valueController.text)) {
-      warnInvalidRegistrationData(
-          "Valor inválido (deve ser um número decimal com no máximo duas casas decimais, separado por \".\" ou \",\").");
+      warnInvalidRegistrationData("Valor inválido (deve ser um número decimal com no máximo duas casas decimais, separado por \".\" ou \",\").");
       return false;
     } else if (zeroPattern.hasMatch(_valueController.text)) {
       warnInvalidRegistrationData("O valor deve ser maior que zero.");
@@ -145,13 +132,10 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
     var box = Hive.box('globalDatabase');
     final dynamicReceiptsList1 = box.get("RECEIPTS");
     final dynamicReceiptsList2 = box.get("ALL_DATABASE_RECEIPTS");
-    List<Receipt> receipts =
-        dynamicListToTList(dynamicReceiptsList1 + dynamicReceiptsList2);
+    List<Receipt> receipts = dynamicListToTList(dynamicReceiptsList1 + dynamicReceiptsList2);
     for (Receipt r in receipts) {
-      if (r.currencyHandoutId == newReceipt.currencyHandoutId &&
-          r.residentId == newReceipt.residentId) {
-        warnInvalidRegistrationData(
-            "Este morador já recebeu uma entrega cadastrada neste distribuição de moeda.");
+      if (r.currencyHandoutId == newReceipt.currencyHandoutId && r.residentId == newReceipt.residentId) {
+        warnInvalidRegistrationData("Este morador já recebeu uma entrega cadastrada neste distribuição de moeda.");
         return;
       }
     }
@@ -159,12 +143,10 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
     String message = "";
     bool isInactiveResident = false;
     if (selectedResident?.situation == Situation.inactive) {
-      message =
-          "Este residente está inativo, ao registrar uma entrega em seu nome, ele se tornará ativo novamente. Deseja continuar?";
+      message = "Este residente está inativo, ao registrar uma entrega em seu nome, ele se tornará ativo novamente. Deseja continuar?";
       isInactiveResident = true;
     } else if (selectedResident?.situation == Situation.noContact) {
-      message =
-          "Este residente está sem contato, ao registrar uma entrega em seu nome, ele se tornará ativo novamente. Deseja continuar?";
+      message = "Este residente está sem contato, ao registrar uma entrega em seu nome, ele se tornará ativo novamente. Deseja continuar?";
       isInactiveResident = true;
     }
 
@@ -204,8 +186,7 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
                       surfaceTintColor: Colors.transparent,
                       elevation: 0.0,
                       alignment: Alignment.bottomCenter,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     );
                   });
             },
@@ -239,8 +220,7 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
               surfaceTintColor: Colors.transparent,
               elevation: 0.0,
               alignment: Alignment.bottomCenter,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             );
           });
     }
@@ -251,9 +231,7 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
       context: context,
       builder: (context) {
         return DialogBox(
-          title: widget.isOldReceipt
-              ? "Tem certeza que deseja remover esta entrega? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)"
-              : "Tem certeza que deseja remover esta entrega?",
+          title: widget.isOldReceipt ? "Tem certeza que deseja remover esta entrega? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)" : "Tem certeza que deseja remover esta entrega?",
           onSave: () {
             if (widget.isOldReceipt) {
               db.deleteOldReceipt(widget.receipt!);
@@ -278,8 +256,7 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
                     surfaceTintColor: Colors.transparent,
                     elevation: 0.0,
                     alignment: Alignment.bottomCenter,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   );
                 });
           },
@@ -297,8 +274,7 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
       tag = Row(
         children: [
           Container(
-            decoration: BoxDecoration(
-                color: Colors.red, borderRadius: BorderRadius.circular(8)),
+            decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(8)),
             padding: const EdgeInsets.all(5.0),
             child: const Text(
               "MARCADO PARA REMOÇÃO",
@@ -314,9 +290,7 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
       showTag = true;
     } else if (widget.receipt?.isNew ?? false) {
       tag = Container(
-        decoration: BoxDecoration(
-            color: Theme.of(context).primaryColorLight,
-            borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(color: Theme.of(context).primaryColorLight, borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.all(5.0),
         child: const Text(
           "SALVO LOCALMENTE",
@@ -329,8 +303,7 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
       showTag = true;
     } else if (widget.receipt?.wasModified ?? false) {
       tag = Container(
-        decoration: BoxDecoration(
-            color: Colors.green[300], borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(color: Colors.green[300], borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.all(5.0),
         child: const Text(
           "MODIFICADO",
@@ -367,10 +340,8 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
           final List<dynamic> residentsDynamic = box.get("RESIDENTS") ?? [];
           final List<Resident> residents = dynamicListToTList(residentsDynamic);
 
-          final List<dynamic> currencyHandoutsDynamic =
-              box.get("CURRENCY_HANDOUTS") ?? [];
-          final List<CurrencyHandout> currencyHandouts =
-              dynamicListToTList(currencyHandoutsDynamic);
+          final List<dynamic> currencyHandoutsDynamic = box.get("CURRENCY_HANDOUTS") ?? [];
+          final List<CurrencyHandout> currencyHandouts = dynamicListToTList(currencyHandoutsDynamic);
 
           return Center(
             child: FractionallySizedBox(
@@ -387,13 +358,11 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
                     height: 15,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 15),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
                     child: Text(
                       widget.text,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w700, fontSize: 20),
+                      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
                     ),
                   ),
                   const SizedBox(
@@ -406,8 +375,7 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
                         border: OutlineInputBorder(),
                         labelText: "Data da entrega",
                         prefix: Padding(
-                          padding: EdgeInsets.only(
-                              left: 0, right: 10, bottom: 0, top: 0),
+                          padding: EdgeInsets.only(left: 0, right: 10, bottom: 0, top: 0),
                           child: Icon(
                             Icons.calendar_month,
                           ),
@@ -420,22 +388,10 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
                   ),
                   SearchField(
                     focusNode: focusNode1,
-                    suggestions: residents
-                        .map((r) => SearchFieldListItem<Resident>(r.name,
-                            child: Text(r.name), item: r))
-                        .toList(),
+                    suggestions: residents.map((r) => SearchFieldListItem<Resident>(r.name, child: Text(r.name), item: r)).toList(),
                     hint: "Morador",
-                    searchInputDecoration: const InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black)),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black))),
-                    initialValue: (selectedResident != null)
-                        ? SearchFieldListItem<Resident>(
-                            (selectedResident?.name)!,
-                            child: Text((selectedResident?.name)!),
-                            item: selectedResident)
-                        : null,
+                    searchInputDecoration: const InputDecoration(focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)), enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black))),
+                    initialValue: (selectedResident != null) ? SearchFieldListItem<Resident>((selectedResident?.name)!, child: Text((selectedResident?.name)!), item: selectedResident) : null,
                     maxSuggestionsInViewPort: 6,
                     onSuggestionTap: (value) {
                       if (value.item != null) {
@@ -451,25 +407,10 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
                   ),
                   SearchField(
                     focusNode: focusNode2,
-                    suggestions: currencyHandouts
-                        .map((c) => SearchFieldListItem<CurrencyHandout>(
-                            c.title,
-                            child: Text(c.toStringFormat()),
-                            item: c))
-                        .toList(),
+                    suggestions: currencyHandouts.map((c) => SearchFieldListItem<CurrencyHandout>(c.title, child: Text(c.toStringFormat()), item: c)).toList(),
                     hint: "Entrega de moeda",
-                    initialValue: (selectedCurrencyHandout != null)
-                        ? SearchFieldListItem<CurrencyHandout>(
-                            (selectedCurrencyHandout?.title)!,
-                            child: Text(
-                                (selectedCurrencyHandout?.toStringFormat())!),
-                            item: selectedCurrencyHandout)
-                        : null,
-                    searchInputDecoration: const InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black)),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black))),
+                    initialValue: (selectedCurrencyHandout != null) ? SearchFieldListItem<CurrencyHandout>((selectedCurrencyHandout?.title)!, child: Text((selectedCurrencyHandout?.toStringFormat())!), item: selectedCurrencyHandout) : null,
+                    searchInputDecoration: const InputDecoration(focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)), enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black))),
                     maxSuggestionsInViewPort: 6,
                     onSuggestionTap: (value) {
                       if (value.item != null) {
@@ -501,8 +442,7 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(Icons.save, color: Colors.white),
-                          Text("  Salvar localmente",
-                              style: TextStyle(color: Colors.white)),
+                          Text("  Salvar localmente", style: TextStyle(color: Colors.white)),
                         ],
                       ),
                       onPressed: saveNewReceipt,
@@ -518,8 +458,7 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.delete, color: Colors.white),
-                            Text("  Remover",
-                                style: TextStyle(color: Colors.white)),
+                            Text("  Remover", style: TextStyle(color: Colors.white)),
                           ],
                         ),
                         onPressed: deleteReceipt,

@@ -72,7 +72,15 @@ class GlobalDatabase {
       final collectsResponse = residentMapObject["collect"];
       List<Collect> collects = [];
       for (dynamic c in collectsResponse) {
-        collects.add(Collect(ammount: double.tryParse(c["ammount"]) ?? 0, collectedOn: DateTime.tryParse(c["collected_on"]) ?? DateTime.now(), id: c["id"], residentId: c["resident_id"], isNew: false, wasModified: false, isMarkedForRemoval: false, wasSuccessfullySentToBackendOnLastSync: false));
+        collects.add(Collect(
+            ammount: double.tryParse(c["ammount"]) ?? 0,
+            collectedOn: DateTime.tryParse(c["collected_on"]) ?? DateTime.now(),
+            id: c["id"],
+            residentId: c["resident_id"],
+            isNew: false,
+            wasModified: false,
+            isMarkedForRemoval: false,
+            wasSuccessfullySentToBackendOnLastSync: false));
       }
 
       collects.sort((Collect a, Collect b) => b.collectedOn.compareTo(a.collectedOn));
@@ -80,12 +88,46 @@ class GlobalDatabase {
       final receiptsResponse = residentMapObject["receipts"];
       List<Receipt> receipts = [];
       for (dynamic r in receiptsResponse) {
-        receipts.add(Receipt(id: r["id"], value: double.tryParse(r["value"]) ?? 0, handoutDate: DateTime.tryParse(r["handout_date"]) ?? DateTime.now(), residentId: r["resident_id"], currencyHandoutId: r["currency_handout_id"], isNew: false, wasModified: false, isMarkedForRemoval: false, wasSuccessfullySentToBackendOnLastSync: false));
+        receipts.add(Receipt(
+            id: r["id"],
+            value: double.tryParse(r["value"]) ?? 0,
+            handoutDate: DateTime.tryParse(r["handout_date"]) ?? DateTime.now(),
+            residentId: r["resident_id"],
+            currencyHandoutId: r["currency_handout_id"],
+            isNew: false,
+            wasModified: false,
+            isMarkedForRemoval: false,
+            wasSuccessfullySentToBackendOnLastSync: false));
       }
 
       receipts.sort((Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
 
-      Resident resident = Resident(id: residentMapObject["id"], address: residentMapObject["address"], collects: collects, hasPlaque: residentMapObject["has_plaque"], isOnWhatsappGroup: residentMapObject["is_on_whatsapp_group"], livesInJN: residentMapObject["lives_in_jn"], name: residentMapObject["name"], observations: residentMapObject["observations"], phone: residentMapObject["phone"], profession: residentMapObject["profession"], referencePoint: residentMapObject["reference_point"], registrationYear: residentMapObject["registration_year"], registrationDate: registrationDate, residentsInTheHouse: residentMapObject["residents_in_the_house"], rokaId: residentMapObject["roka_id"], situation: situation, birthdate: birthdate, needsCollectOnTheHouse: residentMapObject["needs_collect_on_the_house"], shiftForCollectionOnTheHouse: shiftForCollectionOnTheHouse, receipts: receipts, isNew: false, isMarkedForRemoval: false, wasModified: false, wasSuccessfullySentToBackendOnLastSync: false);
+      Resident resident = Resident(
+          id: residentMapObject["id"],
+          address: residentMapObject["address"],
+          collects: collects,
+          hasPlaque: residentMapObject["has_plaque"],
+          isOnWhatsappGroup: residentMapObject["is_on_whatsapp_group"],
+          livesInJN: residentMapObject["lives_in_jn"],
+          name: residentMapObject["name"],
+          description: residentMapObject["description"] ?? "",
+          observations: residentMapObject["observations"],
+          phone: residentMapObject["phone"],
+          profession: residentMapObject["profession"],
+          referencePoint: residentMapObject["reference_point"],
+          registrationYear: residentMapObject["registration_year"],
+          registrationDate: registrationDate,
+          residentsInTheHouse: residentMapObject["residents_in_the_house"],
+          rokaId: residentMapObject["roka_id"],
+          situation: situation,
+          birthdate: birthdate,
+          needsCollectOnTheHouse: residentMapObject["needs_collect_on_the_house"],
+          shiftForCollectionOnTheHouse: shiftForCollectionOnTheHouse,
+          receipts: receipts,
+          isNew: false,
+          isMarkedForRemoval: false,
+          wasModified: false,
+          wasSuccessfullySentToBackendOnLastSync: false);
 
       residents.add(resident);
     }
@@ -111,7 +153,8 @@ class GlobalDatabase {
         startDate = DateTime.now();
       }
 
-      CurrencyHandout currencyHandout = CurrencyHandout(id: currencyHandoutMapObject["id"], title: currencyHandoutMapObject["title"], startDate: startDate, isNew: false, isMarkedForRemoval: false, wasModified: false, wasSuccessfullySentToBackendOnLastSync: false);
+      CurrencyHandout currencyHandout =
+          CurrencyHandout(id: currencyHandoutMapObject["id"], title: currencyHandoutMapObject["title"], startDate: startDate, isNew: false, isMarkedForRemoval: false, wasModified: false, wasSuccessfullySentToBackendOnLastSync: false);
 
       currencyHandouts.add(currencyHandout);
     }
@@ -135,7 +178,15 @@ class GlobalDatabase {
 
       List<Collect> collects = [];
       for (dynamic collectsMapObject in responseBody) {
-        Collect collect = Collect(id: collectsMapObject["id"], ammount: double.tryParse(collectsMapObject["ammount"]) ?? 0.0, collectedOn: DateTime.parse(collectsMapObject["collected_on"]), residentId: collectsMapObject["resident_id"], isNew: false, isMarkedForRemoval: false, wasModified: false, wasSuccessfullySentToBackendOnLastSync: false);
+        Collect collect = Collect(
+            id: collectsMapObject["id"],
+            ammount: double.tryParse(collectsMapObject["ammount"]) ?? 0.0,
+            collectedOn: DateTime.parse(collectsMapObject["collected_on"]),
+            residentId: collectsMapObject["resident_id"],
+            isNew: false,
+            isMarkedForRemoval: false,
+            wasModified: false,
+            wasSuccessfullySentToBackendOnLastSync: false);
 
         collects.add(collect);
       }
@@ -156,7 +207,16 @@ class GlobalDatabase {
 
       List<Receipt> receipts = [];
       for (dynamic receiptsMapObject in responseBody) {
-        Receipt receipt = Receipt(id: receiptsMapObject["id"], handoutDate: DateTime.parse(receiptsMapObject["handout_date"]), value: double.tryParse(receiptsMapObject["value"]) ?? 0.0, residentId: receiptsMapObject["resident_id"], currencyHandoutId: receiptsMapObject["currency_handout_id"], isNew: false, isMarkedForRemoval: false, wasModified: false, wasSuccessfullySentToBackendOnLastSync: false);
+        Receipt receipt = Receipt(
+            id: receiptsMapObject["id"],
+            handoutDate: DateTime.parse(receiptsMapObject["handout_date"]),
+            value: double.tryParse(receiptsMapObject["value"]) ?? 0.0,
+            residentId: receiptsMapObject["resident_id"],
+            currencyHandoutId: receiptsMapObject["currency_handout_id"],
+            isNew: false,
+            isMarkedForRemoval: false,
+            wasModified: false,
+            wasSuccessfullySentToBackendOnLastSync: false);
 
         receipts.add(receipt);
       }
@@ -595,7 +655,14 @@ class GlobalDatabase {
       if (currencyHandout.id != id) {
         return currencyHandout;
       } else {
-        return CurrencyHandout(id: id, title: currencyHandout.title, startDate: currencyHandout.startDate, isNew: currencyHandout.isNew, wasModified: currencyHandout.wasModified, isMarkedForRemoval: true, wasSuccessfullySentToBackendOnLastSync: currencyHandout.wasSuccessfullySentToBackendOnLastSync);
+        return CurrencyHandout(
+            id: id,
+            title: currencyHandout.title,
+            startDate: currencyHandout.startDate,
+            isNew: currencyHandout.isNew,
+            wasModified: currencyHandout.wasModified,
+            isMarkedForRemoval: true,
+            wasSuccessfullySentToBackendOnLastSync: currencyHandout.wasSuccessfullySentToBackendOnLastSync);
       }
     }).toList();
 
@@ -746,7 +813,16 @@ class GlobalDatabase {
       if (r.id != receipt.id) {
         return r;
       } else {
-        return Receipt(id: receipt.id, value: receipt.value, handoutDate: receipt.handoutDate, residentId: receipt.residentId, currencyHandoutId: receipt.currencyHandoutId, isMarkedForRemoval: true, wasModified: receipt.wasModified, isNew: receipt.isNew, wasSuccessfullySentToBackendOnLastSync: receipt.wasSuccessfullySentToBackendOnLastSync);
+        return Receipt(
+            id: receipt.id,
+            value: receipt.value,
+            handoutDate: receipt.handoutDate,
+            residentId: receipt.residentId,
+            currencyHandoutId: receipt.currencyHandoutId,
+            isMarkedForRemoval: true,
+            wasModified: receipt.wasModified,
+            isNew: receipt.isNew,
+            wasSuccessfullySentToBackendOnLastSync: receipt.wasSuccessfullySentToBackendOnLastSync);
       }
     }).toList();
 
@@ -835,7 +911,8 @@ class GlobalDatabase {
       if (c.id != collect.id) {
         return c;
       } else {
-        return Collect(id: c.id, ammount: c.ammount, collectedOn: c.collectedOn, residentId: c.residentId, isMarkedForRemoval: true, wasModified: c.wasModified, isNew: c.isNew, wasSuccessfullySentToBackendOnLastSync: c.wasSuccessfullySentToBackendOnLastSync);
+        return Collect(
+            id: c.id, ammount: c.ammount, collectedOn: c.collectedOn, residentId: c.residentId, isMarkedForRemoval: true, wasModified: c.wasModified, isNew: c.isNew, wasSuccessfullySentToBackendOnLastSync: c.wasSuccessfullySentToBackendOnLastSync);
       }
     }).toList();
 

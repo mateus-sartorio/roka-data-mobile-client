@@ -23,8 +23,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
       context: context,
       builder: (context) {
         return DialogBox(
-          title:
-              "Tem certeza que deseja remover esta entrega de moeda? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
+          title: "Tem certeza que deseja remover esta entrega de moeda? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
           onSave: () {
             db.deleteCurrencyHandout(id);
             Navigator.of(context).pop(true);
@@ -44,8 +43,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                     surfaceTintColor: Colors.transparent,
                     elevation: 0.0,
                     alignment: Alignment.bottomCenter,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   );
                 });
           },
@@ -62,11 +60,9 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
         builder: (context, Box box, _) {
           final currencyHandoutsDynamicList = box.get("CURRENCY_HANDOUTS");
 
-          List<CurrencyHandout> currencyHandouts =
-              dynamicListToTList(currencyHandoutsDynamicList);
+          List<CurrencyHandout> currencyHandouts = dynamicListToTList(currencyHandoutsDynamicList);
 
-          currencyHandouts.sort((CurrencyHandout a, CurrencyHandout b) =>
-              b.startDate.compareTo(a.startDate));
+          currencyHandouts.sort((CurrencyHandout a, CurrencyHandout b) => b.startDate.compareTo(a.startDate));
 
           Widget body;
           if (currencyHandouts.isEmpty) {
@@ -103,22 +99,15 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                     child: ListView.builder(
                         itemCount: currencyHandouts.length,
                         itemBuilder: (context, index) {
-                          List<String> dayMonthYear = currencyHandouts[index]
-                              .startDate
-                              .toString()
-                              .split(" ")[0]
-                              .split("-");
+                          List<String> dayMonthYear = currencyHandouts[index].startDate.toString().split(" ")[0].split("-");
 
-                          String date =
-                              "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+                          String date = "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
 
                           Widget tag = Container();
                           bool showTag = false;
                           if (currencyHandouts[index].isMarkedForRemoval) {
                             tag = Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(8)),
                               padding: const EdgeInsets.all(5.0),
                               child: const Text(
                                 "MARCADO PARA REMOÇÃO",
@@ -131,9 +120,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                             showTag = true;
                           } else if (currencyHandouts[index].isNew) {
                             tag = Container(
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColorLight,
-                                  borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(color: Theme.of(context).primaryColorLight, borderRadius: BorderRadius.circular(8)),
                               padding: const EdgeInsets.all(5.0),
                               child: const Text(
                                 "SALVO LOCALMENTE",
@@ -146,9 +133,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                             showTag = true;
                           } else if (currencyHandouts[index].wasModified) {
                             tag = Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.green[300],
-                                  borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(color: Colors.green[300], borderRadius: BorderRadius.circular(8)),
                               padding: const EdgeInsets.all(5.0),
                               child: const Text(
                                 "MODIFICADO",
@@ -162,15 +147,13 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                           }
 
                           return Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 0, horizontal: 15.0),
+                            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15.0),
                             child: Slidable(
                               endActionPane: ActionPane(
                                 motion: const StretchMotion(),
                                 children: [
                                   SlidableAction(
-                                    onPressed: (context) =>
-                                        deleteCurrencyHandout(
+                                    onPressed: (context) => deleteCurrencyHandout(
                                       currencyHandouts[index].id,
                                     ),
                                     icon: Icons.delete,
@@ -180,20 +163,16 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                                 ],
                               ),
                               child: ListTile(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0)),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       currencyHandouts[index].title,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17),
+                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                                       textAlign: TextAlign.left,
                                     ),
-                                    Text(date,
-                                        style: const TextStyle(fontSize: 13)),
+                                    Text(date, style: const TextStyle(fontSize: 13)),
                                     Visibility(
                                         visible: showTag,
                                         child: Column(
@@ -207,16 +186,7 @@ class _CurrencyHandoutsPageState extends State<CurrencyHandoutsPage> {
                                   ],
                                 ),
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              CreateCurrencyHandoutPage(
-                                                  text:
-                                                      "Alterar dados da distribuição de moeda",
-                                                  currencyHandout:
-                                                      currencyHandouts[
-                                                          index])));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => CreateCurrencyHandoutPage(text: "Alterar dados da distribuição de moeda", currencyHandout: currencyHandouts[index])));
                                 },
                                 leading: const Icon(
                                   Icons.wallet,

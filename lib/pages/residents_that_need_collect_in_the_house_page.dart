@@ -291,6 +291,13 @@ class _ResidentsThatNeedCollectOnTheHousePageState extends State<ResidentsThatNe
                                           filteredResidents[index].name,
                                           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                                         ),
+                                        Visibility(
+                                          visible: filteredResidents[index].description.isNotEmpty,
+                                          child: Text(
+                                            filteredResidents[index].description,
+                                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                                          ),
+                                        ),
                                         Text(
                                           roketeDisplayNumberString,
                                           style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w400),

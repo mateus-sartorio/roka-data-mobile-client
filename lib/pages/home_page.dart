@@ -84,8 +84,7 @@ class _HomePageState extends State<HomePage> {
     ];
 
     return Scaffold(
-      bottomNavigationBar:
-          BottomNavbar(onTabChange: (index) => navigateBottomBar(index)),
+      bottomNavigationBar: BottomNavbar(onTabChange: (index) => navigateBottomBar(index)),
       body: SafeArea(child: pages[_selectedIndex]),
       appBar: AppBar(
           scrolledUnderElevation: 0,
@@ -115,8 +114,7 @@ class _HomePageState extends State<HomePage> {
               title: const Text("Início"),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const HomePage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
               },
             ),
           ),
@@ -128,10 +126,7 @@ class _HomePageState extends State<HomePage> {
               title: const Text("Residentes"),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ResidentsPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const ResidentsPage()));
               },
             ),
           ),
@@ -143,10 +138,7 @@ class _HomePageState extends State<HomePage> {
               title: const Text("Entregas da moeda"),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const CurrencyHandoutsPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const CurrencyHandoutsPage()));
               },
             ),
           ),
@@ -158,11 +150,7 @@ class _HomePageState extends State<HomePage> {
               title: const Text("Rota"),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const ResidentsThatNeedCollectOnTheHousePage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const ResidentsThatNeedCollectOnTheHousePage()));
               },
             ),
           ),
@@ -174,10 +162,7 @@ class _HomePageState extends State<HomePage> {
               title: const Text("Estatísticas"),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const StatisticsPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const StatisticsPage()));
               },
             ),
           ),
@@ -189,8 +174,7 @@ class _HomePageState extends State<HomePage> {
               title: const Text("Sobre"),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const About()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const About()));
               },
             ),
           ),

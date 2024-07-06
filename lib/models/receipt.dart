@@ -51,7 +51,6 @@ class Receipt extends HiveObject {
     wasModified = receipt.wasModified;
     isMarkedForRemoval = receipt.isMarkedForRemoval;
     isNew = receipt.isNew;
-    wasSuccessfullySentToBackendOnLastSync =
-        receipt.wasSuccessfullySentToBackendOnLastSync;
+    wasSuccessfullySentToBackendOnLastSync = receipt.wasSuccessfullySentToBackendOnLastSync;
   }
 }
