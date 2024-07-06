@@ -103,83 +103,85 @@ class _HomePageState extends State<HomePage> {
             ),
           )),
       drawer: Drawer(
-        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          // logo
-          DrawerHeader(child: Image.asset("assets/images/logo.png")),
+        child: SingleChildScrollView(
+          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            // logo
+            DrawerHeader(child: Image.asset("assets/images/logo.png")),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-            child: ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text("Início"),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
-              },
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              child: ListTile(
+                leading: const Icon(Icons.home),
+                title: const Text("Início"),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+                },
+              ),
             ),
-          ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-            child: ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text("Residentes"),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const ResidentsPage()));
-              },
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              child: ListTile(
+                leading: const Icon(Icons.person),
+                title: const Text("Residentes"),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ResidentsPage()));
+                },
+              ),
             ),
-          ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-            child: ListTile(
-              leading: const Icon(Icons.wallet),
-              title: const Text("Entregas da moeda"),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const CurrencyHandoutsPage()));
-              },
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              child: ListTile(
+                leading: const Icon(Icons.wallet),
+                title: const Text("Entregas da moeda"),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const CurrencyHandoutsPage()));
+                },
+              ),
             ),
-          ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-            child: ListTile(
-              leading: const Icon(Icons.route),
-              title: const Text("Rota"),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const ResidentsThatNeedCollectOnTheHousePage()));
-              },
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              child: ListTile(
+                leading: const Icon(Icons.route),
+                title: const Text("Rota"),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ResidentsThatNeedCollectOnTheHousePage()));
+                },
+              ),
             ),
-          ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-            child: ListTile(
-              leading: const Icon(Icons.insert_chart),
-              title: const Text("Estatísticas"),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const StatisticsPage()));
-              },
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              child: ListTile(
+                leading: const Icon(Icons.insert_chart),
+                title: const Text("Estatísticas"),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const StatisticsPage()));
+                },
+              ),
             ),
-          ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-            child: ListTile(
-              leading: const Icon(Icons.info),
-              title: const Text("Sobre"),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const About()));
-              },
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              child: ListTile(
+                leading: const Icon(Icons.info),
+                title: const Text("Sobre"),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const About()));
+                },
+              ),
             ),
-          ),
-          //other pages
-        ]),
+            //other pages
+          ]),
+        ),
       ),
       floatingActionButton: floatingActionButtons[_selectedIndex],
     );
