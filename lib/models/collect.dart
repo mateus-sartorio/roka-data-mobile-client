@@ -46,7 +46,6 @@ class Collect extends HiveObject {
     isNew = collect.isNew;
     wasModified = collect.wasModified;
     isMarkedForRemoval = collect.isMarkedForRemoval;
-    wasSuccessfullySentToBackendOnLastSync =
-        collect.wasSuccessfullySentToBackendOnLastSync;
+    wasSuccessfullySentToBackendOnLastSync = collect.wasSuccessfullySentToBackendOnLastSync;
   }
 }

@@ -41,6 +41,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
   String previousPhoneNumberString = "";
 
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
   final TextEditingController neighborhoodController = TextEditingController();
   final TextEditingController streetController = TextEditingController();
   final TextEditingController houseNumberController = TextEditingController();
@@ -62,6 +63,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
 
     selectedBirthdayDate = widget.resident?.birthdate ?? DateTime.now();
     nameController.text = widget.resident?.name ?? "";
+    descriptionController.text = widget.resident?.description ?? "";
 
     List<String> addressTokens = widget.resident?.address.split(",") ?? ["", "", ""];
 
@@ -225,9 +227,32 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
       selectedShift = null;
     }
 
-    print(selectedRegistrationDate);
-
-    Resident newResident = Resident(id: id, address: "${neighborhoodController.text},${streetController.text},${houseNumberController.text}", collects: widget.resident?.collects ?? [], receipts: widget.resident?.receipts ?? [], hasPlaque: hasPlaque, isOnWhatsappGroup: isOnWhatsappGroup, livesInJN: livesInJN, name: nameController.text, observations: observationsController.text, phone: phoneController.text, profession: occupationController.text, referencePoint: referencePointController.text, registrationYear: int.tryParse(registrationYearController.text) ?? 0, registrationDate: selectedRegistrationDate ?? DateTime.now(), residentsInTheHouse: int.tryParse(residentsInTheHouseController.text) ?? 0, rokaId: int.tryParse(rokaIdController.text) ?? 0, situation: situation, birthdate: selectedBirthdayDate ?? DateTime.now(), needsCollectOnTheHouse: needsCollectOnTheHouse, shiftForCollectionOnTheHouse: selectedShift, isNew: widget.resident?.isNew ?? isNewResident, isMarkedForRemoval: false, wasModified: isNewResident ? false : true, wasSuccessfullySentToBackendOnLastSync: false);
+    Resident newResident = Resident(
+        id: id,
+        address: "${neighborhoodController.text},${streetController.text},${houseNumberController.text}",
+        collects: widget.resident?.collects ?? [],
+        receipts: widget.resident?.receipts ?? [],
+        hasPlaque: hasPlaque,
+        isOnWhatsappGroup: isOnWhatsappGroup,
+        livesInJN: livesInJN,
+        name: nameController.text,
+        description: descriptionController.text,
+        observations: observationsController.text,
+        phone: phoneController.text,
+        profession: occupationController.text,
+        referencePoint: referencePointController.text,
+        registrationYear: int.tryParse(registrationYearController.text) ?? 0,
+        registrationDate: selectedRegistrationDate ?? DateTime.now(),
+        residentsInTheHouse: int.tryParse(residentsInTheHouseController.text) ?? 0,
+        rokaId: int.tryParse(rokaIdController.text) ?? 0,
+        situation: situation,
+        birthdate: selectedBirthdayDate ?? DateTime.now(),
+        needsCollectOnTheHouse: needsCollectOnTheHouse,
+        shiftForCollectionOnTheHouse: selectedShift,
+        isNew: widget.resident?.isNew ?? isNewResident,
+        isMarkedForRemoval: false,
+        wasModified: isNewResident ? false : true,
+        wasSuccessfullySentToBackendOnLastSync: false);
 
     if (isBeingCreated) {
       db.saveNewResident(newResident);
@@ -519,6 +544,17 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                       hintText: "Nome completo",
                       border: OutlineInputBorder(),
                       labelText: "Nome completo",
+                    )),
+                const SizedBox(
+                  height: 15,
+                ),
+                TextField(
+                    controller: descriptionController,
+                    keyboardType: TextInputType.text,
+                    decoration: const InputDecoration(
+                      hintText: "Descrição",
+                      border: OutlineInputBorder(),
+                      labelText: "Descrição",
                     )),
                 const SizedBox(
                   height: 15,

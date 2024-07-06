@@ -10,8 +10,7 @@ void showWarning(context, String message) {
             message,
             style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
           ),
-          contentPadding:
-              const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
+          contentPadding: const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
           children: [
             MaterialButton(
                 onPressed: () => Navigator.of(context).pop(true),
@@ -34,8 +33,7 @@ void showSyncingAnimation(context) {
           style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
-        contentPadding:
-            const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
+        contentPadding: const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
         children: [
           Center(
             child: LoadingAnimationWidget.newtonCradle(

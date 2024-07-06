@@ -93,7 +93,14 @@ class _CreateCurrencyHandoutPageState extends State<CreateCurrencyHandoutPage> {
       return;
     }
 
-    CurrencyHandout newCurrencyHandout = CurrencyHandout(id: widget.currencyHandout?.id ?? generateIntegerId(), title: _titleController.text, startDate: selectedDate!, isNew: widget.currencyHandout?.isNew ?? isNewHandout, wasModified: isNewHandout ? false : true, isMarkedForRemoval: false, wasSuccessfullySentToBackendOnLastSync: false);
+    CurrencyHandout newCurrencyHandout = CurrencyHandout(
+        id: widget.currencyHandout?.id ?? generateIntegerId(),
+        title: _titleController.text,
+        startDate: selectedDate!,
+        isNew: widget.currencyHandout?.isNew ?? isNewHandout,
+        wasModified: isNewHandout ? false : true,
+        isMarkedForRemoval: false,
+        wasSuccessfullySentToBackendOnLastSync: false);
 
     if (isNewHandout) {
       db.saveNewCurrencyHandout(newCurrencyHandout);

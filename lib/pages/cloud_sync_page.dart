@@ -32,8 +32,7 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
               "Erro ao enviar dados para o servidor, com mensagem de erro: \"$parsedExceptionMessage\".  Verifique sua conexão com a internet e a validade dos dados preenchidos e tente novamente mais tarde.",
               style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
             ),
-            contentPadding:
-                const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
+            contentPadding: const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
             children: [
               MaterialButton(
                   onPressed: () => Navigator.of(context).pop(true),
@@ -56,8 +55,7 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
             style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
-          contentPadding:
-              const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
+          contentPadding: const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
           children: [
             Center(
               child: LoadingAnimationWidget.newtonCradle(
@@ -82,8 +80,7 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            contentPadding:
-                const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
+            contentPadding: const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
             children: [
               MaterialButton(
                   onPressed: () => Navigator.of(context).pop(true),
