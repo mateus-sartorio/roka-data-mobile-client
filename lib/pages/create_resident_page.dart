@@ -7,6 +7,7 @@ import 'package:mobile_client/modals/dialog_box.dart';
 import 'package:mobile_client/models/resident.dart';
 import 'package:mobile_client/pages/all_collects_of_resident_page.dart';
 import 'package:mobile_client/pages/all_receipts_of_resident_page.dart';
+import 'package:mobile_client/utils/enum_conversion/situation.dart';
 import 'package:mobile_client/utils/integer_id_generator.dart';
 
 class CreateResidentPage extends StatefulWidget {
@@ -15,13 +16,7 @@ class CreateResidentPage extends StatefulWidget {
   final bool showCoin;
   final bool showBag;
 
-  const CreateResidentPage(
-      {Key? key,
-      this.resident,
-      required this.text,
-      required this.showCoin,
-      required this.showBag})
-      : super(key: key);
+  const CreateResidentPage({Key? key, this.resident, required this.text, required this.showCoin, required this.showBag}) : super(key: key);
 
   @override
   State<CreateResidentPage> createState() => _CreateResidentPageState();
@@ -30,7 +25,8 @@ class CreateResidentPage extends StatefulWidget {
 class _CreateResidentPageState extends State<CreateResidentPage> {
   GlobalDatabase db = GlobalDatabase();
 
-  DateTime? selectedDate;
+  DateTime? selectedBirthdayDate;
+  DateTime? selectedRegistrationDate;
   bool isNewResident = true;
   bool wasModified = false;
   bool isMarkedForRemoval = false;
@@ -44,91 +40,75 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
   String selectedSituation = "Ativo";
   String previousPhoneNumberString = "";
 
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _neighborhoodController = TextEditingController();
-  final TextEditingController _streetController = TextEditingController();
-  final TextEditingController _houseNumberController = TextEditingController();
-  final TextEditingController _referencePointController =
-      TextEditingController();
-  final TextEditingController _occupationController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _registrationYearController =
-      TextEditingController();
-  final TextEditingController _residentsInTheHouseController =
-      TextEditingController();
-  final TextEditingController _observationsController = TextEditingController();
-  final TextEditingController _rokaIdController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController neighborhoodController = TextEditingController();
+  final TextEditingController streetController = TextEditingController();
+  final TextEditingController houseNumberController = TextEditingController();
+  final TextEditingController referencePointController = TextEditingController();
+  final TextEditingController occupationController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController residentsInTheHouseController = TextEditingController();
+  final TextEditingController observationsController = TextEditingController();
+  final TextEditingController rokaIdController = TextEditingController();
+  final TextEditingController birthdayDateController = TextEditingController();
+  final TextEditingController registrationDateController = TextEditingController();
 
   @override
   void initState() {
     if (widget.resident != null) {
-      selectedDate = widget.resident?.birthdate;
-      _nameController.text = widget.resident?.name ?? "";
-
-      List<String> addressTokens =
-          widget.resident?.address.split(",") ?? ["", "", ""];
-
-      _neighborhoodController.text = addressTokens[0];
-      _streetController.text = addressTokens[1];
-      _houseNumberController.text = addressTokens[2];
-
-      _referencePointController.text = widget.resident?.referencePoint ?? "";
-      _referencePointController.text = widget.resident?.referencePoint ?? "";
-
-      livesInJN = widget.resident?.livesInJN ?? false;
-      needsCollectOnTheHouse = widget.resident?.needsCollectOnTheHouse ?? false;
-      selectedShift = widget.resident?.shiftForCollectionOnTheHouse;
-
-      _referencePointController.text = widget.resident?.referencePoint ?? "";
-      _phoneController.text = widget.resident?.phone ?? "";
-
-      isOnWhatsappGroup = widget.resident?.isOnWhatsappGroup ?? false;
-
-      Situation residentSituation =
-          widget.resident?.situation ?? Situation.active;
-      if (residentSituation == Situation.active) {
-        selectedSituation = "Ativo";
-      } else if (residentSituation == Situation.inactive) {
-        selectedSituation = "Inativo";
-      } else if (residentSituation == Situation.noContact) {
-        selectedSituation = "Sem contato";
-      }
-
-      hasPlaque = widget.resident?.hasPlaque ?? false;
-
-      _registrationYearController.text =
-          widget.resident?.registrationYear.toString() ?? "";
-      if (_registrationYearController.text == "0") {
-        _registrationYearController.text = "";
-      }
-
-      _residentsInTheHouseController.text =
-          widget.resident?.residentsInTheHouse.toString() ?? "";
-      if (_residentsInTheHouseController.text == "0") {
-        _residentsInTheHouseController.text = "";
-      }
-
-      _rokaIdController.text = widget.resident?.rokaId.toString() ?? "";
-      if (_rokaIdController.text == "0") {
-        _rokaIdController.text = "";
-      }
-
-      _observationsController.text = widget.resident?.observations ?? "";
-      _occupationController.text = widget.resident?.profession ?? "";
-
-      isNewResident = false;
-      wasModified = widget.resident?.wasModified ?? false;
-      isMarkedForRemoval = widget.resident?.isMarkedForRemoval ?? false;
       isBeingCreated = false;
-    } else {
-      selectedDate = DateTime.now();
     }
 
-    List<String> dayMonthYear =
-        selectedDate.toString().split(" ")[0].split("-");
-    _dateController.text =
-        "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+    selectedBirthdayDate = widget.resident?.birthdate ?? DateTime.now();
+    nameController.text = widget.resident?.name ?? "";
+    descriptionController.text = widget.resident?.description ?? "";
+
+    List<String> addressTokens = widget.resident?.address.split(",") ?? ["", "", ""];
+
+    neighborhoodController.text = addressTokens[0];
+    streetController.text = addressTokens[1];
+    houseNumberController.text = addressTokens[2];
+
+    referencePointController.text = widget.resident?.referencePoint ?? "";
+
+    livesInJN = widget.resident?.livesInJN ?? false;
+    needsCollectOnTheHouse = widget.resident?.needsCollectOnTheHouse ?? false;
+    selectedShift = widget.resident?.shiftForCollectionOnTheHouse;
+
+    referencePointController.text = widget.resident?.referencePoint ?? "";
+    phoneController.text = widget.resident?.phone ?? "";
+
+    isOnWhatsappGroup = widget.resident?.isOnWhatsappGroup ?? false;
+
+    selectedSituation = situationToString(widget.resident?.situation ?? Situation.active);
+
+    hasPlaque = widget.resident?.hasPlaque ?? false;
+
+    selectedRegistrationDate = widget.resident?.registrationDate ?? DateTime.now();
+
+    residentsInTheHouseController.text = widget.resident?.residentsInTheHouse.toString() ?? "";
+    if (residentsInTheHouseController.text == "0") {
+      residentsInTheHouseController.text = "";
+    }
+
+    rokaIdController.text = widget.resident?.rokaId.toString() ?? "";
+    if (rokaIdController.text == "0") {
+      rokaIdController.text = "";
+    }
+
+    observationsController.text = widget.resident?.observations ?? "";
+    occupationController.text = widget.resident?.profession ?? "";
+
+    isNewResident = widget.resident?.isNew ?? true;
+    wasModified = widget.resident?.wasModified ?? false;
+    isMarkedForRemoval = widget.resident?.isMarkedForRemoval ?? false;
+
+    List<String> dayMonthYear = selectedBirthdayDate.toString().split(" ")[0].split("-");
+    birthdayDateController.text = "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+
+    dayMonthYear = selectedRegistrationDate.toString().split(" ")[0].split("-");
+    registrationDateController.text = "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
 
     super.initState();
   }
@@ -151,7 +131,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     }
 
     setState(() {
-      _phoneController.text = newValue;
+      phoneController.text = newValue;
       previousPhoneNumberString = newValue;
     });
   }
@@ -166,8 +146,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
               style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            contentPadding:
-                const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
+            contentPadding: const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
             children: [
               MaterialButton(
                   onPressed: () => Navigator.of(context).pop(true),
@@ -184,65 +163,41 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     RegExp phoneNumberPattern = RegExp(r'\(\d{2}\) \d{5}-\d{4}');
     RegExp isNumberPattern = RegExp(r'^[1-9]\d*$');
     RegExp zeroPattern = RegExp(r'^0+');
-    RegExp registrationYearPattern = RegExp(r'20\d{2}');
     RegExp neighborhoodPattern1 = RegExp(r'^bairro ', caseSensitive: false);
     RegExp streetPattern1 = RegExp(r'^rua ', caseSensitive: false);
 
-    if (_nameController.text.isEmpty) {
+    if (nameController.text.isEmpty) {
       warnInvalidRegistrationData("Nome completo do morador é obrigatório");
       return false;
-    } else if (_phoneController.text.isEmpty) {
-      warnInvalidRegistrationData("Número de telefone é obrigatório.");
+    } else if (phoneController.text.isNotEmpty && !phoneNumberPattern.hasMatch(phoneController.text)) {
+      warnInvalidRegistrationData("Formato inválido para número de telofone ( (XX) XXXXX-XX ).");
       return false;
-    } else if (!phoneNumberPattern.hasMatch(_phoneController.text)) {
-      warnInvalidRegistrationData(
-          "Formato inválido para número de telofone ( (XX) XXXXX-XX ).");
+    } else if (neighborhoodController.text.isNotEmpty && neighborhoodPattern1.hasMatch(neighborhoodController.text)) {
+      warnInvalidRegistrationData("Não precisa digitar \"${neighborhoodController.text.split(" ")[0]}\" antes do nome do bairro.");
       return false;
-    } else if (_neighborhoodController.text.isEmpty) {
-      warnInvalidRegistrationData("Bairro é obrigatório.");
+    } else if (streetController.text.isNotEmpty && streetPattern1.hasMatch(streetController.text)) {
+      warnInvalidRegistrationData("Não precisa digitar \"${streetController.text.split(" ")[0]}\" antes do nome da rua.");
       return false;
-    } else if (neighborhoodPattern1.hasMatch(_neighborhoodController.text)) {
-      warnInvalidRegistrationData(
-          "Não precisa digitar \"${_neighborhoodController.text.split(" ")[0]}\" antes do nome do bairro.");
-      return false;
-    } else if (_streetController.text.isEmpty) {
-      warnInvalidRegistrationData("Rua é obrigatória.");
-      return false;
-    } else if (streetPattern1.hasMatch(_streetController.text)) {
-      warnInvalidRegistrationData(
-          "Não precisa digitar \"${_streetController.text.split(" ")[0]}\" antes do nome da rua.");
-      return false;
-    } else if (_houseNumberController.text.isEmpty) {
-      warnInvalidRegistrationData("Número da residência é obrigatório.");
-      return false;
-    } else if (!isNumberPattern.hasMatch(_houseNumberController.text)) {
-      warnInvalidRegistrationData(
-          "Formato inválido para o número da residência.");
+    } else if (houseNumberController.text.isNotEmpty && !isNumberPattern.hasMatch(houseNumberController.text)) {
+      warnInvalidRegistrationData("Formato inválido para o número da residência.");
     } else if (needsCollectOnTheHouse == true && selectedShift == null) {
       warnInvalidRegistrationData("Selecione um turno de coleta.");
       return false;
-    } else if (_rokaIdController.text.isNotEmpty &&
-        !isNumberPattern.hasMatch(_rokaIdController.text)) {
-      if (zeroPattern.hasMatch(_rokaIdController.text)) {
+    } else if (rokaIdController.text.isNotEmpty && !isNumberPattern.hasMatch(rokaIdController.text)) {
+      if (zeroPattern.hasMatch(rokaIdController.text)) {
         warnInvalidRegistrationData("Id da Roka não pode ser zero.");
       } else {
         warnInvalidRegistrationData("Id da Roka inválido.");
       }
       return false;
-    } else if (db
-        .isRokaIdTakenByAnotherResident(widget.resident?.id ?? -1,
-            int.tryParse(_rokaIdController.text) ?? -1)
-        .$1) {
-      warnInvalidRegistrationData(
-          "Id da Roka ${int.parse(_rokaIdController.text)} já está sendo usado por ${db.isRokaIdTakenByAnotherResident(widget.resident?.id ?? -1, int.parse(_rokaIdController.text)).$2}.");
+    } else if (db.isRokaIdTakenByAnotherResident(widget.resident?.id ?? -1, int.tryParse(rokaIdController.text) ?? -1).$1) {
+      warnInvalidRegistrationData("Id da Roka ${int.parse(rokaIdController.text)} já está sendo usado por ${db.isRokaIdTakenByAnotherResident(widget.resident?.id ?? -1, int.parse(rokaIdController.text)).$2}.");
       return false;
-    } else if (_registrationYearController.text.isNotEmpty &&
-        !registrationYearPattern.hasMatch(_registrationYearController.text)) {
-      warnInvalidRegistrationData("Ano de cadastro inválido (20XX).");
+    } else if (residentsInTheHouseController.text.isEmpty) {
+      warnInvalidRegistrationData("Quantidade de residentes na casa é obrigatório.");
       return false;
-    } else if (_residentsInTheHouseController.text.isNotEmpty &&
-        !isNumberPattern.hasMatch(_residentsInTheHouseController.text)) {
-      warnInvalidRegistrationData("Quantidade de residentes na casa inválido.");
+    } else if (!isNumberPattern.hasMatch(residentsInTheHouseController.text)) {
+      warnInvalidRegistrationData("Quantidade de residentes na casa deve ser um número.");
       return false;
     }
 
@@ -256,14 +211,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
 
     int id = widget.resident?.id ?? generateIntegerId();
 
-    Situation situation = Situation.active;
-    if (selectedSituation == "Ativo") {
-      situation = Situation.active;
-    } else if (selectedSituation == "Inativo") {
-      situation = Situation.inactive;
-    } else if (selectedSituation == "Sem contato") {
-      situation = Situation.noContact;
-    }
+    Situation situation = stringToSituation(selectedSituation);
 
     if (needsCollectOnTheHouse == false) {
       selectedShift = null;
@@ -271,24 +219,23 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
 
     Resident newResident = Resident(
         id: id,
-        address:
-            "${_neighborhoodController.text},${_streetController.text},${_houseNumberController.text}",
+        address: "${neighborhoodController.text},${streetController.text},${houseNumberController.text}",
         collects: widget.resident?.collects ?? [],
         receipts: widget.resident?.receipts ?? [],
         hasPlaque: hasPlaque,
         isOnWhatsappGroup: isOnWhatsappGroup,
         livesInJN: livesInJN,
-        name: _nameController.text,
-        observations: _observationsController.text,
-        phone: _phoneController.text,
-        profession: _occupationController.text,
-        referencePoint: _referencePointController.text,
-        registrationYear: int.tryParse(_registrationYearController.text) ?? 0,
-        residentsInTheHouse:
-            int.tryParse(_residentsInTheHouseController.text) ?? 0,
-        rokaId: int.tryParse(_rokaIdController.text) ?? 0,
+        name: nameController.text,
+        description: descriptionController.text,
+        observations: observationsController.text,
+        phone: phoneController.text,
+        profession: occupationController.text,
+        referencePoint: referencePointController.text,
+        registrationDate: selectedRegistrationDate ?? DateTime.now(),
+        residentsInTheHouse: int.tryParse(residentsInTheHouseController.text) ?? 0,
+        rokaId: int.tryParse(rokaIdController.text) ?? 0,
         situation: situation,
-        birthdate: selectedDate ?? DateTime.now(),
+        birthdate: selectedBirthdayDate ?? DateTime.now(),
         needsCollectOnTheHouse: needsCollectOnTheHouse,
         shiftForCollectionOnTheHouse: selectedShift,
         isNew: widget.resident?.isNew ?? isNewResident,
@@ -296,7 +243,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
         wasModified: isNewResident ? false : true,
         wasSuccessfullySentToBackendOnLastSync: false);
 
-    if (isNewResident) {
+    if (isBeingCreated) {
       db.saveNewResident(newResident);
     } else {
       db.updateResident(newResident);
@@ -320,8 +267,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
             surfaceTintColor: Colors.transparent,
             elevation: 0.0,
             alignment: Alignment.bottomCenter,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           );
         });
   }
@@ -331,8 +277,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
       context: context,
       builder: (context) {
         return DialogBox(
-          title:
-              "Tem certeza que deseja remover este residente? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
+          title: "Tem certeza que deseja remover este residente? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
           onSave: () {
             db.deleteResident((widget.resident?.id)!);
             Navigator.of(context).pop(true);
@@ -353,8 +298,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                     surfaceTintColor: Colors.transparent,
                     elevation: 0.0,
                     alignment: Alignment.bottomCenter,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   );
                 });
           },
@@ -364,17 +308,15 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     );
   }
 
-  Future<void> _selectDate() async {
-    DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1900),
-        lastDate: DateTime(2100));
+  Future<void> selectDate(TextEditingController controller, void Function(DateTime) setDateVariable) async {
+    DateTime? picked = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2100));
 
     if (picked != null) {
       setState(() {
-        _dateController.text = picked.toString().split(" ")[0];
-        selectedDate = picked;
+        List<String> date = picked.toString().split(" ")[0].split("-");
+        controller.text = "${date[2]}/${date[1]}/${date[0]}";
+
+        setDateVariable(picked);
       });
     }
   }
@@ -385,8 +327,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     bool showTags = false;
     if (widget.resident?.situation == Situation.inactive) {
       tags.add(Container(
-        decoration: BoxDecoration(
-            color: Colors.orange, borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(color: Colors.orange, borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.all(5.0),
         child: const Text(
           "INATIVO",
@@ -401,8 +342,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
       showTags = true;
     } else if (widget.resident?.situation == Situation.noContact) {
       tags.add(Container(
-        decoration: BoxDecoration(
-            color: Colors.orange, borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(color: Colors.orange, borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.all(5.0),
         child: const Text(
           "SEM CONTATO",
@@ -420,8 +360,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
       tags.add(Row(
         children: [
           Container(
-            decoration: BoxDecoration(
-                color: Colors.red, borderRadius: BorderRadius.circular(8)),
+            decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(8)),
             padding: const EdgeInsets.all(5.0),
             child: const Text(
               "MARCADO PARA REMOÇÃO",
@@ -430,16 +369,13 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
               ),
             ),
           ),
-          IconButton(
-              onPressed: saveNewResident, icon: const Icon(Icons.restore))
+          IconButton(onPressed: saveNewResident, icon: const Icon(Icons.restore))
         ],
       ));
       showTags = true;
     } else if (widget.resident?.isNew ?? false) {
       tags.add(Container(
-        decoration: BoxDecoration(
-            color: Theme.of(context).primaryColorLight,
-            borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(color: Theme.of(context).primaryColorLight, borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.all(5.0),
         child: const Text(
           "SALVO LOCALMENTE",
@@ -451,8 +387,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
       showTags = true;
     } else if (wasModified) {
       tags.add(Container(
-        decoration: BoxDecoration(
-            color: Colors.green[300], borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(color: Colors.green[300], borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.all(5.0),
         child: const Text(
           "MODIFICADO",
@@ -514,78 +449,71 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                     height: 15,
                   ),
                 ),
-                Visibility(
-                    visible: showTags,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: tags)),
-                const SizedBox(
-                  height: 15,
-                ),
+                Visibility(visible: showTags, child: Row(mainAxisAlignment: MainAxisAlignment.center, children: tags)),
                 Visibility(
                     visible: !isBeingCreated,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: Column(
                       children: [
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0, vertical: 12.0),
-                              // Adjust padding to remove any extra space around the icon
-                              minimumSize: const Size(
-                                  0, 0), // Optional: Adjust button minimum size
-                            ),
-                            onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        AllCollectsOfResidentPage(
-                                          resident: widget.resident!,
-                                        ))),
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Coletas",
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                                Icon(
-                                  Icons.chevron_right,
-                                  color: Colors.black,
-                                ),
-                              ],
-                            )),
                         const SizedBox(
-                          width: 15,
+                          height: 15,
                         ),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0, vertical: 12.0),
-                              // Adjust padding to remove any extra space around the icon
-                              minimumSize: const Size(
-                                  0, 0), // Optional: Adjust button minimum size
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                                  // Adjust padding to remove any extra space around the icon
+                                  minimumSize: const Size(0, 0), // Optional: Adjust button minimum size
+                                ),
+                                onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AllCollectsOfResidentPage(
+                                              resident: widget.resident!,
+                                            ))),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Coletas",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    Icon(
+                                      Icons.chevron_right,
+                                      color: Colors.black,
+                                    ),
+                                  ],
+                                )),
+                            const SizedBox(
+                              width: 15,
                             ),
-                            onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        AllReceiptsOfResidentPage(
-                                          resident: widget.resident!,
-                                        ))),
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Entregas de moeda",
-                                  style: TextStyle(color: Colors.black),
+                            ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                                  minimumSize: const Size(0, 0),
                                 ),
-                                Icon(
-                                  Icons.chevron_right,
-                                  color: Colors.black,
-                                ),
-                              ],
-                            )),
+                                onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AllReceiptsOfResidentPage(
+                                              resident: widget.resident!,
+                                            ))),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Entregas de moeda",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    Icon(
+                                      Icons.chevron_right,
+                                      color: Colors.black,
+                                    ),
+                                  ],
+                                )),
+                          ],
+                        ),
                       ],
                     )),
                 const SizedBox(
@@ -599,7 +527,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                   height: 15,
                 ),
                 TextField(
-                    controller: _nameController,
+                    controller: nameController,
                     keyboardType: TextInputType.name,
                     decoration: const InputDecoration(
                       hintText: "Nome completo",
@@ -610,7 +538,18 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                   height: 15,
                 ),
                 TextField(
-                    controller: _phoneController,
+                    controller: descriptionController,
+                    keyboardType: TextInputType.text,
+                    decoration: const InputDecoration(
+                      hintText: "Descrição",
+                      border: OutlineInputBorder(),
+                      labelText: "Descrição",
+                    )),
+                const SizedBox(
+                  height: 15,
+                ),
+                TextField(
+                    controller: phoneController,
                     keyboardType: TextInputType.phone,
                     onChanged: (String value) => onPhoneChange(value),
                     decoration: const InputDecoration(
@@ -629,7 +568,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                   height: 15,
                 ),
                 TextField(
-                    controller: _neighborhoodController,
+                    controller: neighborhoodController,
                     keyboardType: TextInputType.streetAddress,
                     decoration: const InputDecoration(
                       hintText: "Bairro",
@@ -640,7 +579,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                   height: 15,
                 ),
                 TextField(
-                    controller: _streetController,
+                    controller: streetController,
                     keyboardType: TextInputType.streetAddress,
                     decoration: const InputDecoration(
                       hintText: "Rua",
@@ -651,8 +590,8 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                   height: 15,
                 ),
                 TextField(
-                    controller: _houseNumberController,
-                    keyboardType: TextInputType.streetAddress,
+                    controller: houseNumberController,
+                    keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       hintText: "Número da residência",
                       border: OutlineInputBorder(),
@@ -662,7 +601,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                   height: 15,
                 ),
                 TextField(
-                    controller: _referencePointController,
+                    controller: referencePointController,
                     keyboardType: TextInputType.text,
                     decoration: const InputDecoration(
                       hintText: "Ponto de referência",
@@ -721,7 +660,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                   height: 15,
                 ),
                 TextField(
-                    controller: _rokaIdController,
+                    controller: rokaIdController,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       hintText: "Id da Roka",
@@ -774,18 +713,25 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                   height: 15,
                 ),
                 TextField(
-                    controller: _registrationYearController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      hintText: "Ano de cadastro",
+                  controller: registrationDateController,
+                  readOnly: true,
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: "Ano de cadastro",
-                    )),
+                      labelText: "Data de cadastro",
+                      prefix: Padding(
+                        padding: EdgeInsets.only(left: 0, right: 10, bottom: 0, top: 0),
+                        child: Icon(
+                          Icons.calendar_month,
+                        ),
+                      ),
+                      prefixStyle: TextStyle()),
+                  onTap: () => selectDate(registrationDateController, (DateTime picked) => selectedRegistrationDate = picked),
+                ),
                 const SizedBox(
                   height: 15,
                 ),
                 TextField(
-                    controller: _observationsController,
+                    controller: observationsController,
                     keyboardType: TextInputType.text,
                     decoration: const InputDecoration(
                       hintText: "Observações",
@@ -803,7 +749,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                   height: 15,
                 ),
                 TextField(
-                    controller: _occupationController,
+                    controller: occupationController,
                     keyboardType: TextInputType.text,
                     decoration: const InputDecoration(
                       hintText: "Ocupação",
@@ -814,26 +760,25 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                   height: 15,
                 ),
                 TextField(
-                  controller: _dateController,
+                  controller: birthdayDateController,
                   readOnly: true,
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Data de nascimento",
                       prefix: Padding(
-                        padding: EdgeInsets.only(
-                            left: 0, right: 10, bottom: 0, top: 0),
+                        padding: EdgeInsets.only(left: 0, right: 10, bottom: 0, top: 0),
                         child: Icon(
                           Icons.calendar_month,
                         ),
                       ),
                       prefixStyle: TextStyle()),
-                  onTap: _selectDate,
+                  onTap: () => selectDate(birthdayDateController, (DateTime picked) => selectedBirthdayDate = picked),
                 ),
                 const SizedBox(
                   height: 15,
                 ),
                 TextField(
-                    controller: _residentsInTheHouseController,
+                    controller: residentsInTheHouseController,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       hintText: "Quantidade de residentes na casa",
@@ -850,8 +795,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(Icons.save, color: Colors.white),
-                          Text("  Salvar localmente",
-                              style: TextStyle(color: Colors.white)),
+                          Text("  Salvar localmente", style: TextStyle(color: Colors.white)),
                         ],
                       ),
                       onPressed: saveNewResident,
@@ -869,9 +813,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.delete, color: Colors.white),
-                            Text("  Remover",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 12)),
+                            Text("  Remover", style: TextStyle(color: Colors.white, fontSize: 12)),
                           ],
                         ),
                         onPressed: deleteResident,

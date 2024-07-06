@@ -7,10 +7,11 @@ Map residentToMap(Resident resident) {
   return {
     "id": resident.id,
     "name": resident.name,
+    "description": resident.description,
     "roka_id": resident.rokaId,
     "situation": situation,
     "has_plaque": resident.hasPlaque,
-    "registration_year": resident.registrationYear,
+    "registration_date": resident.registrationDate.toString(),
     "address": resident.address,
     "reference_point": resident.referencePoint,
     "lives_in_jn": resident.livesInJN,
@@ -21,7 +22,6 @@ Map residentToMap(Resident resident) {
     "residents_in_the_house": resident.residentsInTheHouse,
     "observations": resident.observations,
     "needs_collect_on_the_house": resident.needsCollectOnTheHouse,
-    "shift_for_collection_on_the_house":
-        resident.shiftForCollectionOnTheHouse?.value
+    "shift_for_collection_on_the_house": resident.shiftForCollectionOnTheHouse?.value
   };
 }

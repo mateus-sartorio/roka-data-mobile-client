@@ -50,7 +50,6 @@ class CurrencyHandout extends HiveObject {
     isNew = currencyHandout.isNew;
     wasModified = currencyHandout.wasModified;
     isMarkedForRemoval = currencyHandout.isMarkedForRemoval;
-    wasSuccessfullySentToBackendOnLastSync =
-        currencyHandout.wasSuccessfullySentToBackendOnLastSync;
+    wasSuccessfullySentToBackendOnLastSync = currencyHandout.wasSuccessfullySentToBackendOnLastSync;
   }
 }

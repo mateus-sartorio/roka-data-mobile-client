@@ -14,12 +14,10 @@ import 'package:mobile_client/utils/dates/to_date_string.dart';
 class AllCollectsOfResidentPage extends StatefulWidget {
   final Resident resident;
 
-  const AllCollectsOfResidentPage({Key? key, required this.resident})
-      : super(key: key);
+  const AllCollectsOfResidentPage({Key? key, required this.resident}) : super(key: key);
 
   @override
-  State<AllCollectsOfResidentPage> createState() =>
-      _AllCollectsOfResidentPageState();
+  State<AllCollectsOfResidentPage> createState() => _AllCollectsOfResidentPageState();
 }
 
 class _AllCollectsOfResidentPageState extends State<AllCollectsOfResidentPage> {
@@ -30,8 +28,7 @@ class _AllCollectsOfResidentPageState extends State<AllCollectsOfResidentPage> {
       context: context,
       builder: (context) {
         return DialogBox(
-          title:
-              "Tem certeza que deseja remover esta coleta? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
+          title: "Tem certeza que deseja remover esta coleta? (esta operação não poderá ser revertida caso os dados sejam sincronizados com o servidor!)",
           onSave: () {
             db.deleteOldCollect(collect);
             Navigator.of(context).pop(true);
@@ -51,8 +48,7 @@ class _AllCollectsOfResidentPageState extends State<AllCollectsOfResidentPage> {
                     surfaceTintColor: Colors.transparent,
                     elevation: 0.0,
                     alignment: Alignment.bottomCenter,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   );
                 });
           },
@@ -69,14 +65,11 @@ class _AllCollectsOfResidentPageState extends State<AllCollectsOfResidentPage> {
         builder: (context, Box box, _) {
           List<Collect> collects = widget.resident.collects;
 
-          collects.sort(
-              (Collect a, Collect b) => b.collectedOn.compareTo(a.collectedOn));
+          collects.sort((Collect a, Collect b) => b.collectedOn.compareTo(a.collectedOn));
 
-          final String totalWeightAmmount =
-              totalWeight(collects).toStringAsFixed(2).replaceAll(".", ",");
+          final String totalWeightAmmount = totalWeight(collects).toStringAsFixed(2).replaceAll(".", ",");
 
-          Map<String, double> totalWeightByCollectedOnDate =
-              totalWeightByMonth(collects);
+          Map<String, double> totalWeightByCollectedOnDate = totalWeightByMonth(collects);
 
           Widget body;
           if (collects.isEmpty) {
@@ -110,29 +103,23 @@ class _AllCollectsOfResidentPageState extends State<AllCollectsOfResidentPage> {
                   ),
                   Text(
                     "Total: $totalWeightAmmount kg",
-                    style: const TextStyle(
-                        fontSize: 19, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                   Expanded(
                     child: ListView.builder(
                         itemCount: collects.length,
                         itemBuilder: (context, index) {
-                          String day =
-                              toDateString(collects[index].collectedOn);
+                          String day = toDateString(collects[index].collectedOn);
 
-                          String weight =
-                              collects[index].ammount.toStringAsFixed(2);
+                          String weight = collects[index].ammount.toStringAsFixed(2);
 
-                          String month =
-                              toMonthString(collects[index].collectedOn);
+                          String month = toMonthString(collects[index].collectedOn);
 
                           Widget tag = Container();
                           bool showTag = false;
                           if (collects[index].isMarkedForRemoval) {
                             tag = Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(8)),
                               padding: const EdgeInsets.all(5.0),
                               child: const Text(
                                 "MARCADO PARA REMOÇÃO",
@@ -145,9 +132,7 @@ class _AllCollectsOfResidentPageState extends State<AllCollectsOfResidentPage> {
                             showTag = true;
                           } else if (collects[index].isNew) {
                             tag = Container(
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColorLight,
-                                  borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(color: Theme.of(context).primaryColorLight, borderRadius: BorderRadius.circular(8)),
                               padding: const EdgeInsets.all(5.0),
                               child: const Text(
                                 "SALVO LOCALMENTE",
@@ -160,9 +145,7 @@ class _AllCollectsOfResidentPageState extends State<AllCollectsOfResidentPage> {
                             showTag = true;
                           } else if (collects[index].wasModified) {
                             tag = Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.green[300],
-                                  borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(color: Colors.green[300], borderRadius: BorderRadius.circular(8)),
                               padding: const EdgeInsets.all(5.0),
                               child: const Text(
                                 "MODIFICADO",
@@ -179,38 +162,29 @@ class _AllCollectsOfResidentPageState extends State<AllCollectsOfResidentPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Visibility(
-                                  visible: index == 0 ||
-                                      !isSameMonth(collects[index].collectedOn,
-                                          collects[index - 1].collectedOn),
+                                  visible: index == 0 || !isSameMonth(collects[index].collectedOn, collects[index - 1].collectedOn),
                                   child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 25, top: (index == 0 ? 10 : 25)),
+                                    padding: EdgeInsets.only(left: 25, top: (index == 0 ? 10 : 25)),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           month,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
+                                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                                           textAlign: TextAlign.left,
                                         ),
-                                        Text(
-                                            "${totalWeightByCollectedOnDate[toMonthString(collects[index].collectedOn)]?.toStringAsFixed(2).replaceAll(".", ",")} kg")
+                                        Text("${totalWeightByCollectedOnDate[toMonthString(collects[index].collectedOn)]?.toStringAsFixed(2).replaceAll(".", ",")} kg")
                                       ],
                                     ),
                                   )),
                               Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15.0),
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                 child: Slidable(
                                   endActionPane: ActionPane(
                                     motion: const StretchMotion(),
                                     children: [
                                       SlidableAction(
-                                        onPressed: (context) =>
-                                            deleteCollect(collects[index]),
+                                        onPressed: (context) => deleteCollect(collects[index]),
                                         icon: Icons.delete,
                                         backgroundColor: Colors.red,
                                         borderRadius: BorderRadius.circular(10),
@@ -218,44 +192,27 @@ class _AllCollectsOfResidentPageState extends State<AllCollectsOfResidentPage> {
                                     ],
                                   ),
                                   child: ListTile(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0)),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
                                     title: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           day,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 17),
+                                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                                           textAlign: TextAlign.left,
                                         ),
                                         Text(
                                           "${weight.toString().replaceAll(".", ",")} kg",
-                                          style: const TextStyle(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w500),
+                                          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                                         ),
                                         const SizedBox(
                                           height: 5,
                                         ),
-                                        Visibility(
-                                            visible: showTag, child: tag),
+                                        Visibility(visible: showTag, child: tag),
                                       ],
                                     ),
                                     onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CreateCollectPage(
-                                                      isOldCollect: true,
-                                                      text:
-                                                          "Alterar dados da coleta",
-                                                      collect:
-                                                          collects[index])));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => CreateCollectPage(isOldCollect: true, text: "Alterar dados da coleta", collect: collects[index])));
                                     },
                                     leading: const Icon(
                                       Icons.shopping_bag,

@@ -23,16 +23,7 @@ class GlobalDatabase {
     await _myBox.put("RESIDENTS", []);
     await _myBox.put("COLLECTS", []);
     await _myBox.put("RECEIPTS", []);
-    await _myBox.put(
-        "LAST_ACTIVE_CURRENCY_HANDOUT",
-        CurrencyHandout(
-            id: 0,
-            title: "",
-            startDate: DateTime.now(),
-            isNew: false,
-            wasModified: false,
-            isMarkedForRemoval: false,
-            wasSuccessfullySentToBackendOnLastSync: false));
+    await _myBox.put("LAST_ACTIVE_CURRENCY_HANDOUT", CurrencyHandout(id: 0, title: "", startDate: DateTime.now(), isNew: false, wasModified: false, isMarkedForRemoval: false, wasSuccessfullySentToBackendOnLastSync: false));
     await _myBox.put("CURRENCY_HANDOUTS", []);
     await _myBox.put("ALL_DATABASE_COLLECTS", []);
     await _myBox.put("ALL_DATABASE_RECEIPTS", []);
@@ -67,13 +58,16 @@ class GlobalDatabase {
         birthdate = DateTime.now();
       }
 
+      DateTime registrationDate = DateTime.now();
+      try {
+        registrationDate = DateTime.parse(residentMapObject["registration_date"]);
+      } catch (e) {
+        registrationDate = DateTime.now();
+      }
+
       Situation situation = integerToSituation(residentMapObject["situation"]);
 
-      Shift? shiftForCollectionOnTheHouse =
-          (residentMapObject["shift_for_collection_on_the_house"] != null)
-              ? getShiftFromInt(
-                  residentMapObject["shift_for_collection_on_the_house"])
-              : null;
+      Shift? shiftForCollectionOnTheHouse = (residentMapObject["shift_for_collection_on_the_house"] != null) ? getShiftFromInt(residentMapObject["shift_for_collection_on_the_house"]) : null;
 
       final collectsResponse = residentMapObject["collect"];
       List<Collect> collects = [];
@@ -89,8 +83,7 @@ class GlobalDatabase {
             wasSuccessfullySentToBackendOnLastSync: false));
       }
 
-      collects.sort(
-          (Collect a, Collect b) => b.collectedOn.compareTo(a.collectedOn));
+      collects.sort((Collect a, Collect b) => b.collectedOn.compareTo(a.collectedOn));
 
       final receiptsResponse = residentMapObject["receipts"];
       List<Receipt> receipts = [];
@@ -107,8 +100,7 @@ class GlobalDatabase {
             wasSuccessfullySentToBackendOnLastSync: false));
       }
 
-      receipts.sort(
-          (Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
+      receipts.sort((Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
 
       Resident resident = Resident(
           id: residentMapObject["id"],
@@ -118,17 +110,17 @@ class GlobalDatabase {
           isOnWhatsappGroup: residentMapObject["is_on_whatsapp_group"],
           livesInJN: residentMapObject["lives_in_jn"],
           name: residentMapObject["name"],
+          description: residentMapObject["description"] ?? "",
           observations: residentMapObject["observations"],
           phone: residentMapObject["phone"],
           profession: residentMapObject["profession"],
           referencePoint: residentMapObject["reference_point"],
-          registrationYear: residentMapObject["registration_year"],
+          registrationDate: registrationDate,
           residentsInTheHouse: residentMapObject["residents_in_the_house"],
           rokaId: residentMapObject["roka_id"],
           situation: situation,
           birthdate: birthdate,
-          needsCollectOnTheHouse:
-              residentMapObject["needs_collect_on_the_house"],
+          needsCollectOnTheHouse: residentMapObject["needs_collect_on_the_house"],
           shiftForCollectionOnTheHouse: shiftForCollectionOnTheHouse,
           receipts: receipts,
           isNew: false,
@@ -139,21 +131,17 @@ class GlobalDatabase {
       residents.add(resident);
     }
 
-    residents.sort((Resident a, Resident b) =>
-        a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    residents.sort((Resident a, Resident b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
     await _myBox.put("RESIDENTS", residents);
   }
 
   Future<void> fetchAllCurrencyHandouts() async {
-    String currencyHandoutsBackendRoute =
-        "${Endpoints.baseUrl}/currency_handouts.json";
+    String currencyHandoutsBackendRoute = "${Endpoints.baseUrl}/currency_handouts.json";
     Uri currencyHandoutsUri = Uri.parse(currencyHandoutsBackendRoute);
 
-    final Response currencyHandoutsResponse =
-        await http.get(currencyHandoutsUri);
-    List<dynamic> currencyHandoutsResponseBody =
-        jsonDecode(currencyHandoutsResponse.body);
+    final Response currencyHandoutsResponse = await http.get(currencyHandoutsUri);
+    List<dynamic> currencyHandoutsResponseBody = jsonDecode(currencyHandoutsResponse.body);
 
     List<CurrencyHandout> currencyHandouts = [];
     for (dynamic currencyHandoutMapObject in currencyHandoutsResponseBody) {
@@ -164,20 +152,13 @@ class GlobalDatabase {
         startDate = DateTime.now();
       }
 
-      CurrencyHandout currencyHandout = CurrencyHandout(
-          id: currencyHandoutMapObject["id"],
-          title: currencyHandoutMapObject["title"],
-          startDate: startDate,
-          isNew: false,
-          isMarkedForRemoval: false,
-          wasModified: false,
-          wasSuccessfullySentToBackendOnLastSync: false);
+      CurrencyHandout currencyHandout =
+          CurrencyHandout(id: currencyHandoutMapObject["id"], title: currencyHandoutMapObject["title"], startDate: startDate, isNew: false, isMarkedForRemoval: false, wasModified: false, wasSuccessfullySentToBackendOnLastSync: false);
 
       currencyHandouts.add(currencyHandout);
     }
 
-    currencyHandouts.sort((CurrencyHandout a, CurrencyHandout b) =>
-        b.startDate.compareTo(a.startDate));
+    currencyHandouts.sort((CurrencyHandout a, CurrencyHandout b) => b.startDate.compareTo(a.startDate));
 
     if (currencyHandouts.isNotEmpty) {
       await _myBox.put("LAST_ACTIVE_CURRENCY_HANDOUT", currencyHandouts[0]);
@@ -250,10 +231,7 @@ class GlobalDatabase {
       List<dynamic> residentsListDynamic = _myBox.get("RESIDENTS") ?? [];
       List<Resident> residentsList = dynamicListToTList(residentsListDynamic);
       for (Resident r in residentsList) {
-        if (r.wasModified &&
-            !r.isNew &&
-            !r.isMarkedForRemoval &&
-            !r.wasSuccessfullySentToBackendOnLastSync) {
+        if (r.wasModified && !r.isNew && !r.isMarkedForRemoval && !r.wasSuccessfullySentToBackendOnLastSync) {
           await updateResidentOnBackend(r);
 
           r.wasSuccessfullySentToBackendOnLastSync = true;
@@ -282,21 +260,15 @@ class GlobalDatabase {
         }
       }
 
-      List<dynamic> oldCollectsListDynamic =
-          _myBox.get("ALL_DATABASE_COLLECTS") ?? [];
-      List<Collect> oldCollectsList =
-          dynamicListToTList(oldCollectsListDynamic);
+      List<dynamic> oldCollectsListDynamic = _myBox.get("ALL_DATABASE_COLLECTS") ?? [];
+      List<Collect> oldCollectsList = dynamicListToTList(oldCollectsListDynamic);
       for (Collect c in oldCollectsList) {
-        if (c.wasModified &&
-            !c.isNew &&
-            !c.isMarkedForRemoval &&
-            !c.wasSuccessfullySentToBackendOnLastSync) {
+        if (c.wasModified && !c.isNew && !c.isMarkedForRemoval && !c.wasSuccessfullySentToBackendOnLastSync) {
           await updateOldCollectOnBackend(c);
 
           c.wasSuccessfullySentToBackendOnLastSync = true;
           await updateOldCollect(c);
-        } else if (c.isMarkedForRemoval &&
-            !c.wasSuccessfullySentToBackendOnLastSync) {
+        } else if (c.isMarkedForRemoval && !c.wasSuccessfullySentToBackendOnLastSync) {
           await deleteOldCollectOnBackend(c);
 
           c.wasSuccessfullySentToBackendOnLastSync = true;
@@ -304,29 +276,21 @@ class GlobalDatabase {
         }
       }
 
-      List<dynamic> currencyHandoutsListDynamic =
-          _myBox.get("CURRENCY_HANDOUTS") ?? [];
-      List<CurrencyHandout> currencyHandoutsList =
-          dynamicListToTList(currencyHandoutsListDynamic);
+      List<dynamic> currencyHandoutsListDynamic = _myBox.get("CURRENCY_HANDOUTS") ?? [];
+      List<CurrencyHandout> currencyHandoutsList = dynamicListToTList(currencyHandoutsListDynamic);
 
       for (CurrencyHandout ch in currencyHandoutsList) {
-        if (ch.wasModified &&
-            !ch.isNew &&
-            !ch.isMarkedForRemoval &&
-            !ch.wasSuccessfullySentToBackendOnLastSync) {
+        if (ch.wasModified && !ch.isNew && !ch.isMarkedForRemoval && !ch.wasSuccessfullySentToBackendOnLastSync) {
           await updateCurrencyHandoutOnBackend(ch);
 
           ch.wasSuccessfullySentToBackendOnLastSync = true;
           await updateCurrencyHandout(ch);
-        } else if (ch.isNew &&
-            !ch.isMarkedForRemoval &&
-            !ch.wasSuccessfullySentToBackendOnLastSync) {
+        } else if (ch.isNew && !ch.isMarkedForRemoval && !ch.wasSuccessfullySentToBackendOnLastSync) {
           await createNewCurrencyHandoutOnBackend(ch);
 
           ch.wasSuccessfullySentToBackendOnLastSync = true;
           await updateCurrencyHandout(ch);
-        } else if (ch.isMarkedForRemoval &&
-            !ch.wasSuccessfullySentToBackendOnLastSync) {
+        } else if (ch.isMarkedForRemoval && !ch.wasSuccessfullySentToBackendOnLastSync) {
           await deleteCurrencyHandoutOnBackend(ch);
 
           ch.wasSuccessfullySentToBackendOnLastSync = true;
@@ -334,21 +298,15 @@ class GlobalDatabase {
         }
       }
 
-      List<dynamic> oldReceiptsListDynamic =
-          _myBox.get("ALL_DATABASE_RECEIPTS") ?? [];
-      List<Receipt> oldReceiptsList =
-          dynamicListToTList(oldReceiptsListDynamic);
+      List<dynamic> oldReceiptsListDynamic = _myBox.get("ALL_DATABASE_RECEIPTS") ?? [];
+      List<Receipt> oldReceiptsList = dynamicListToTList(oldReceiptsListDynamic);
       for (Receipt r in oldReceiptsList) {
-        if (r.wasModified &&
-            !r.isNew &&
-            !r.isMarkedForRemoval &&
-            !r.wasSuccessfullySentToBackendOnLastSync) {
+        if (r.wasModified && !r.isNew && !r.isMarkedForRemoval && !r.wasSuccessfullySentToBackendOnLastSync) {
           await updateOldReceiptOnBackend(r);
 
           r.wasSuccessfullySentToBackendOnLastSync = true;
           updateOldReceipt(r);
-        } else if (r.isMarkedForRemoval &&
-            !r.wasSuccessfullySentToBackendOnLastSync) {
+        } else if (r.isMarkedForRemoval && !r.wasSuccessfullySentToBackendOnLastSync) {
           await deleteOldReceiptOnBackend(r);
 
           r.wasSuccessfullySentToBackendOnLastSync = true;
@@ -371,8 +329,7 @@ class GlobalDatabase {
     }
   }
 
-  Future<void> createNewCurrencyHandoutOnBackend(
-      CurrencyHandout currencyHandout) async {
+  Future<void> createNewCurrencyHandoutOnBackend(CurrencyHandout currencyHandout) async {
     String backendRoute = "${Endpoints.baseUrl}/currency_handouts";
     Uri uri = Uri.parse(backendRoute);
 
@@ -385,22 +342,18 @@ class GlobalDatabase {
     var body = json.encode(data);
 
     try {
-      final Response response = await http.post(uri,
-          headers: {"Content-Type": "application/json"}, body: body);
+      final Response response = await http.post(uri, headers: {"Content-Type": "application/json"}, body: body);
 
       if (response.statusCode != StatusCodes.create.value) {
-        throw Exception(
-            "Erro ao criar nova distribuição de moeda: ${currencyHandout.title}");
+        throw Exception("Erro ao criar nova distribuição de moeda: ${currencyHandout.title}");
       }
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<void> updateCurrencyHandoutOnBackend(
-      CurrencyHandout currencyHandout) async {
-    String backendRoute =
-        "${Endpoints.baseUrl}/currency_handouts/${currencyHandout.id}";
+  Future<void> updateCurrencyHandoutOnBackend(CurrencyHandout currencyHandout) async {
+    String backendRoute = "${Endpoints.baseUrl}/currency_handouts/${currencyHandout.id}";
     Uri uri = Uri.parse(backendRoute);
 
     Map data = {
@@ -412,30 +365,25 @@ class GlobalDatabase {
     var body = json.encode(data);
 
     try {
-      final Response response = await http.put(uri,
-          headers: {"Content-Type": "application/json"}, body: body);
+      final Response response = await http.put(uri, headers: {"Content-Type": "application/json"}, body: body);
 
       if (response.statusCode != StatusCodes.update.value) {
-        throw Exception(
-            "Erro ao atualizar distribuição de moeda: ${currencyHandout.title}");
+        throw Exception("Erro ao atualizar distribuição de moeda: ${currencyHandout.title}");
       }
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<void> deleteCurrencyHandoutOnBackend(
-      CurrencyHandout currencyHandout) async {
-    String backendRoute =
-        "${Endpoints.baseUrl}/currency_handouts/${currencyHandout.id}";
+  Future<void> deleteCurrencyHandoutOnBackend(CurrencyHandout currencyHandout) async {
+    String backendRoute = "${Endpoints.baseUrl}/currency_handouts/${currencyHandout.id}";
     Uri uri = Uri.parse(backendRoute);
 
     try {
       final Response response = await http.delete(uri);
 
       if (response.statusCode != StatusCodes.delete.value) {
-        throw Exception(
-            "Erro ao apagar distribuição de moeda: ${currencyHandout.title}");
+        throw Exception("Erro ao apagar distribuição de moeda: ${currencyHandout.title}");
       }
     } catch (e) {
       throw Exception(e);
@@ -446,23 +394,15 @@ class GlobalDatabase {
     String backendRoute = "${Endpoints.baseUrl}/receipts/";
     Uri uri = Uri.parse(backendRoute);
 
-    Map data = {
-      "id": receipt.id,
-      "handout_date": receipt.handoutDate.toIso8601String(),
-      "value": receipt.value,
-      "resident_id": receipt.residentId,
-      "currency_handout_id": receipt.currencyHandoutId
-    };
+    Map data = {"id": receipt.id, "handout_date": receipt.handoutDate.toIso8601String(), "value": receipt.value, "resident_id": receipt.residentId, "currency_handout_id": receipt.currencyHandoutId};
 
     var body = json.encode(data);
 
     try {
-      final Response response = await http.post(uri,
-          headers: {"Content-Type": "application/json"}, body: body);
+      final Response response = await http.post(uri, headers: {"Content-Type": "application/json"}, body: body);
 
       if (response.statusCode != StatusCodes.create.value) {
-        throw Exception(
-            "Erro ao criar nova entrega de moeda para morador ${getResidentById(receipt.residentId)?.name ?? "[Desconhecido]"} com valor de ${receipt.value.toStringAsFixed(2)}");
+        throw Exception("Erro ao criar nova entrega de moeda para morador ${getResidentById(receipt.residentId)?.name ?? "[Desconhecido]"} com valor de ${receipt.value.toStringAsFixed(2)}");
       }
     } catch (e) {
       throw Exception(e);
@@ -473,22 +413,15 @@ class GlobalDatabase {
     String backendRoute = "${Endpoints.baseUrl}/collects";
     Uri uri = Uri.parse(backendRoute);
 
-    Map data = {
-      "id": collect.id,
-      "collected_on": collect.collectedOn.toIso8601String(),
-      "resident_id": collect.residentId,
-      "ammount": collect.ammount
-    };
+    Map data = {"id": collect.id, "collected_on": collect.collectedOn.toIso8601String(), "resident_id": collect.residentId, "ammount": collect.ammount};
 
     var body = json.encode(data);
 
     try {
-      final Response response = await http.post(uri,
-          headers: {"Content-Type": "application/json"}, body: body);
+      final Response response = await http.post(uri, headers: {"Content-Type": "application/json"}, body: body);
 
       if (response.statusCode != StatusCodes.create.value) {
-        throw Exception(
-            "Erro ao criar nova coleta do morador ${getResidentById(collect.residentId)?.name ?? "[Desconhecido]"} com peso de ${collect.ammount.toStringAsFixed(2)} kg.");
+        throw Exception("Erro ao criar nova coleta do morador ${getResidentById(collect.residentId)?.name ?? "[Desconhecido]"} com peso de ${collect.ammount.toStringAsFixed(2)} kg.");
       }
     } catch (e) {
       throw Exception(e);
@@ -503,8 +436,7 @@ class GlobalDatabase {
     var body = json.encode(data);
 
     try {
-      final Response response = await http.post(uri,
-          headers: {"Content-Type": "application/json"}, body: body);
+      final Response response = await http.post(uri, headers: {"Content-Type": "application/json"}, body: body);
 
       if (response.statusCode != StatusCodes.create.value) {
         throw Exception("Erro ao criar novo residente: ${resident.name}");
@@ -522,8 +454,7 @@ class GlobalDatabase {
     var body = json.encode(data);
 
     try {
-      final Response response = await http.put(uri,
-          headers: {"Content-Type": "application/json"}, body: body);
+      final Response response = await http.put(uri, headers: {"Content-Type": "application/json"}, body: body);
 
       if (response.statusCode != StatusCodes.update.value) {
         throw Exception("Erro atualizar dados do residente: ${resident.name}");
@@ -563,12 +494,10 @@ class GlobalDatabase {
     var body = json.encode(data);
 
     try {
-      final Response response = await http.put(uri,
-          headers: {"Content-Type": "application/json"}, body: body);
+      final Response response = await http.put(uri, headers: {"Content-Type": "application/json"}, body: body);
 
       if (response.statusCode != StatusCodes.update.value) {
-        throw Exception(
-            "Erro ao atualizar dados da entrega de moeda para morador ${getResidentById(receipt.residentId)?.name ?? "[Desconhecido]"} com valor de ${receipt.value.toStringAsFixed(2)}");
+        throw Exception("Erro ao atualizar dados da entrega de moeda para morador ${getResidentById(receipt.residentId)?.name ?? "[Desconhecido]"} com valor de ${receipt.value.toStringAsFixed(2)}");
       }
     } catch (e) {
       throw Exception(e);
@@ -582,8 +511,7 @@ class GlobalDatabase {
     try {
       final Response response = await http.delete(uri);
       if (response.statusCode != StatusCodes.delete.value) {
-        throw Exception(
-            "Erro ao apagar dados da entrega de moeda para morador ${getResidentById(receipt.residentId)?.name ?? "[Desconhecido]"} com valor de ${receipt.value.toStringAsFixed(2)}");
+        throw Exception("Erro ao apagar dados da entrega de moeda para morador ${getResidentById(receipt.residentId)?.name ?? "[Desconhecido]"} com valor de ${receipt.value.toStringAsFixed(2)}");
       }
     } catch (e) {
       throw Exception(e);
@@ -604,12 +532,10 @@ class GlobalDatabase {
     var body = json.encode(data);
 
     try {
-      final Response response = await http.put(uri,
-          headers: {"Content-Type": "application/json"}, body: body);
+      final Response response = await http.put(uri, headers: {"Content-Type": "application/json"}, body: body);
 
       if (response.statusCode != StatusCodes.update.value) {
-        throw Exception(
-            "Erro ao atualizar dados da coleta do morador ${getResidentById(collect.residentId)?.name ?? "[Desconhecido]"} com peso de ${collect.ammount.toStringAsFixed(2)} kg.");
+        throw Exception("Erro ao atualizar dados da coleta do morador ${getResidentById(collect.residentId)?.name ?? "[Desconhecido]"} com peso de ${collect.ammount.toStringAsFixed(2)} kg.");
       }
     } catch (e) {
       throw Exception(e);
@@ -624,8 +550,7 @@ class GlobalDatabase {
       final Response response = await http.delete(uri);
 
       if (response.statusCode != StatusCodes.delete.value) {
-        throw Exception(
-            "Erro ao apagar dados da coleta do morador ${getResidentById(collect.residentId)?.name ?? "[Desconhecido]"} com peso de ${collect.ammount.toStringAsFixed(2)} kg.");
+        throw Exception("Erro ao apagar dados da coleta do morador ${getResidentById(collect.residentId)?.name ?? "[Desconhecido]"} com peso de ${collect.ammount.toStringAsFixed(2)} kg.");
       }
     } catch (e) {
       throw Exception(e);
@@ -633,11 +558,12 @@ class GlobalDatabase {
   }
 
   Future<void> saveNewResident(Resident resident) async {
-    List<dynamic> residentsList = _myBox.get("RESIDENTS") ?? [];
+    List<dynamic> residentsListDynamic = _myBox.get("RESIDENTS") ?? [];
+    List<Resident> residentsList = dynamicListToTList(residentsListDynamic);
+
     residentsList.add(resident);
 
-    residentsList.sort((dynamic a, dynamic b) =>
-        a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    residentsList.sort((Resident a, Resident b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
     await _myBox.put("RESIDENTS", residentsList);
   }
@@ -646,11 +572,9 @@ class GlobalDatabase {
     List<dynamic> residentsListDynamic = _myBox.get("RESIDENTS") ?? [];
     List<Resident> residentsList = dynamicListToTList(residentsListDynamic);
 
-    resident.receipts
-        .sort((Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
+    resident.receipts.sort((Receipt a, Receipt b) => b.handoutDate.compareTo(a.handoutDate));
 
-    resident.collects
-        .sort((Collect a, Collect b) => b.collectedOn.compareTo(a.collectedOn));
+    resident.collects.sort((Collect a, Collect b) => b.collectedOn.compareTo(a.collectedOn));
 
     for (Resident r in residentsList) {
       if (r.id == resident.id) {
@@ -659,8 +583,7 @@ class GlobalDatabase {
       }
     }
 
-    residentsList.sort((Resident a, Resident b) =>
-        a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    residentsList.sort((Resident a, Resident b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
     await _myBox.put("RESIDENTS", residentsList);
   }
@@ -673,36 +596,13 @@ class GlobalDatabase {
       if (resident.id != id) {
         return resident;
       } else {
-        return Resident(
-            id: id,
-            address: resident.address,
-            collects: resident.collects,
-            receipts: resident.receipts,
-            hasPlaque: resident.hasPlaque,
-            isOnWhatsappGroup: resident.isOnWhatsappGroup,
-            livesInJN: resident.livesInJN,
-            name: resident.name,
-            observations: resident.observations,
-            phone: resident.phone,
-            profession: resident.profession,
-            referencePoint: resident.referencePoint,
-            registrationYear: resident.registrationYear,
-            residentsInTheHouse: resident.residentsInTheHouse,
-            rokaId: resident.rokaId,
-            situation: resident.situation,
-            birthdate: resident.birthdate,
-            isMarkedForRemoval: true,
-            wasModified: resident.wasModified,
-            isNew: resident.isNew,
-            needsCollectOnTheHouse: resident.needsCollectOnTheHouse,
-            shiftForCollectionOnTheHouse: resident.shiftForCollectionOnTheHouse,
-            wasSuccessfullySentToBackendOnLastSync:
-                resident.wasSuccessfullySentToBackendOnLastSync);
+        Resident residentCopy = Resident.createCopy(resident);
+        residentCopy.isMarkedForRemoval = true;
+        return residentCopy;
       }
     }).toList();
 
-    residentsList.sort((dynamic a, dynamic b) =>
-        a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    residentsList.sort((Resident a, Resident b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
     await _myBox.put("RESIDENTS", filteredList);
   }
@@ -711,8 +611,7 @@ class GlobalDatabase {
     List<dynamic> currencyHandoutsList = _myBox.get("CURRENCY_HANDOUTS") ?? [];
     currencyHandoutsList.add(currencyHandout);
 
-    currencyHandoutsList
-        .sort((dynamic a, dynamic b) => b.startDate.compareTo(a.startDate));
+    currencyHandoutsList.sort((dynamic a, dynamic b) => b.startDate.compareTo(a.startDate));
 
     await _myBox.put("CURRENCY_HANDOUTS", currencyHandoutsList);
 
@@ -725,10 +624,8 @@ class GlobalDatabase {
   }
 
   Future<void> updateCurrencyHandout(CurrencyHandout currencyHandout) async {
-    List<dynamic> currencyHandoutsListDynamic =
-        _myBox.get("CURRENCY_HANDOUTS") ?? [];
-    List<CurrencyHandout> currencyHandoutsList =
-        dynamicListToTList(currencyHandoutsListDynamic);
+    List<dynamic> currencyHandoutsListDynamic = _myBox.get("CURRENCY_HANDOUTS") ?? [];
+    List<CurrencyHandout> currencyHandoutsList = dynamicListToTList(currencyHandoutsListDynamic);
 
     for (CurrencyHandout c in currencyHandoutsList) {
       if (c.id == currencyHandout.id) {
@@ -737,8 +634,7 @@ class GlobalDatabase {
       }
     }
 
-    currencyHandoutsList.sort((CurrencyHandout a, CurrencyHandout b) =>
-        b.startDate.compareTo(a.startDate));
+    currencyHandoutsList.sort((CurrencyHandout a, CurrencyHandout b) => b.startDate.compareTo(a.startDate));
 
     await _myBox.put("CURRENCY_HANDOUTS", currencyHandoutsList);
 
@@ -751,13 +647,10 @@ class GlobalDatabase {
   }
 
   Future<void> deleteCurrencyHandout(int id) async {
-    List<dynamic> currencyHandoutsListDynamic =
-        _myBox.get("CURRENCY_HANDOUTS") ?? [];
-    List<CurrencyHandout> currencyHandoutsList =
-        dynamicListToTList(currencyHandoutsListDynamic);
+    List<dynamic> currencyHandoutsListDynamic = _myBox.get("CURRENCY_HANDOUTS") ?? [];
+    List<CurrencyHandout> currencyHandoutsList = dynamicListToTList(currencyHandoutsListDynamic);
 
-    List<CurrencyHandout> filteredList =
-        currencyHandoutsList.map((currencyHandout) {
+    List<CurrencyHandout> filteredList = currencyHandoutsList.map((currencyHandout) {
       if (currencyHandout.id != id) {
         return currencyHandout;
       } else {
@@ -768,13 +661,11 @@ class GlobalDatabase {
             isNew: currencyHandout.isNew,
             wasModified: currencyHandout.wasModified,
             isMarkedForRemoval: true,
-            wasSuccessfullySentToBackendOnLastSync:
-                currencyHandout.wasSuccessfullySentToBackendOnLastSync);
+            wasSuccessfullySentToBackendOnLastSync: currencyHandout.wasSuccessfullySentToBackendOnLastSync);
       }
     }).toList();
 
-    filteredList.sort((CurrencyHandout a, CurrencyHandout b) =>
-        b.startDate.compareTo(a.startDate));
+    filteredList.sort((CurrencyHandout a, CurrencyHandout b) => b.startDate.compareTo(a.startDate));
 
     await _myBox.put("CURRENCY_HANDOUTS", filteredList);
 
@@ -853,13 +744,11 @@ class GlobalDatabase {
     List<dynamic> receiptsListDynamic = _myBox.get("RECEIPTS") ?? [];
     List<Receipt> receiptsList = dynamicListToTList(receiptsListDynamic);
 
-    List<Receipt> filteredList =
-        receiptsList.where((r) => r.id != receipt.id).toList();
+    List<Receipt> filteredList = receiptsList.where((r) => r.id != receipt.id).toList();
 
     Resident resident = getResidentById(receipt.residentId)!;
     List<Receipt> residentReceipts = resident.receipts;
-    residentReceipts =
-        residentReceipts.where((Receipt r) => r.id != receipt.id).toList();
+    residentReceipts = residentReceipts.where((Receipt r) => r.id != receipt.id).toList();
     residentReceipts.sort((Receipt a, Receipt b) {
       var currencyHandoutA = getCurrencyHandoutById(a.currencyHandoutId);
       var currencyHandoutB = getCurrencyHandoutById(b.currencyHandoutId);
@@ -879,8 +768,7 @@ class GlobalDatabase {
   }
 
   Future<void> updateOldReceipt(Receipt receipt) async {
-    List<dynamic> receiptsListDyanmic =
-        _myBox.get("ALL_DATABASE_RECEIPTS") ?? [];
+    List<dynamic> receiptsListDyanmic = _myBox.get("ALL_DATABASE_RECEIPTS") ?? [];
     List<Receipt> receiptsList = dynamicListToTList(receiptsListDyanmic);
 
     for (Receipt r in receiptsList) {
@@ -917,8 +805,7 @@ class GlobalDatabase {
   }
 
   Future<void> deleteOldReceipt(Receipt receipt) async {
-    List<dynamic> receiptsListDynamic =
-        _myBox.get("ALL_DATABASE_RECEIPTS") ?? [];
+    List<dynamic> receiptsListDynamic = _myBox.get("ALL_DATABASE_RECEIPTS") ?? [];
     List<Receipt> receiptsList = dynamicListToTList(receiptsListDynamic);
 
     List<Receipt> filteredList = receiptsList.map((r) {
@@ -934,15 +821,13 @@ class GlobalDatabase {
             isMarkedForRemoval: true,
             wasModified: receipt.wasModified,
             isNew: receipt.isNew,
-            wasSuccessfullySentToBackendOnLastSync:
-                receipt.wasSuccessfullySentToBackendOnLastSync);
+            wasSuccessfullySentToBackendOnLastSync: receipt.wasSuccessfullySentToBackendOnLastSync);
       }
     }).toList();
 
     Resident resident = getResidentById(receipt.residentId)!;
     List<Receipt> residentReceipts = resident.receipts;
-    residentReceipts =
-        residentReceipts.where((Receipt r) => r.id != receipt.id).toList();
+    residentReceipts = residentReceipts.where((Receipt r) => r.id != receipt.id).toList();
     residentReceipts.sort((Receipt a, Receipt b) {
       var currencyHandoutA = getCurrencyHandoutById(a.currencyHandoutId);
       var currencyHandoutB = getCurrencyHandoutById(b.currencyHandoutId);
@@ -1004,8 +889,7 @@ class GlobalDatabase {
     List<dynamic> collectsListDynamic = _myBox.get("COLLECTS") ?? [];
     List<Collect> collectsList = dynamicListToTList(collectsListDynamic);
 
-    List<Collect> filteredList =
-        collectsList.where((c) => c.id != collect.id).toList();
+    List<Collect> filteredList = collectsList.where((c) => c.id != collect.id).toList();
 
     try {
       Resident resident = getResidentById(collect.residentId)!;
@@ -1019,8 +903,7 @@ class GlobalDatabase {
   }
 
   Future<void> deleteOldCollect(Collect collect) async {
-    List<dynamic> collectsListDynamic =
-        _myBox.get("ALL_DATABASE_COLLECTS") ?? [];
+    List<dynamic> collectsListDynamic = _myBox.get("ALL_DATABASE_COLLECTS") ?? [];
     List<Collect> collectsList = dynamicListToTList(collectsListDynamic);
 
     List<Collect> filteredList = collectsList.map((c) {
@@ -1028,15 +911,7 @@ class GlobalDatabase {
         return c;
       } else {
         return Collect(
-            id: c.id,
-            ammount: c.ammount,
-            collectedOn: c.collectedOn,
-            residentId: c.residentId,
-            isMarkedForRemoval: true,
-            wasModified: c.wasModified,
-            isNew: c.isNew,
-            wasSuccessfullySentToBackendOnLastSync:
-                c.wasSuccessfullySentToBackendOnLastSync);
+            id: c.id, ammount: c.ammount, collectedOn: c.collectedOn, residentId: c.residentId, isMarkedForRemoval: true, wasModified: c.wasModified, isNew: c.isNew, wasSuccessfullySentToBackendOnLastSync: c.wasSuccessfullySentToBackendOnLastSync);
       }
     }).toList();
 
@@ -1052,8 +927,7 @@ class GlobalDatabase {
   }
 
   Future<void> updateOldCollect(Collect collect) async {
-    List<dynamic> collectsListDynamic =
-        _myBox.get("ALL_DATABASE_COLLECTS") ?? [];
+    List<dynamic> collectsListDynamic = _myBox.get("ALL_DATABASE_COLLECTS") ?? [];
     List<Collect> collectsList = dynamicListToTList(collectsListDynamic);
 
     for (Collect c in collectsList) {
@@ -1076,10 +950,7 @@ class GlobalDatabase {
 
   Resident? getResidentById(int id) {
     List<dynamic> residentsDynamicList = _myBox.get("RESIDENTS") ?? [];
-    List<Resident> residentsList = [];
-    for (dynamic resident in residentsDynamicList) {
-      residentsList.add(resident as Resident);
-    }
+    List<Resident> residentsList = dynamicListToTList(residentsDynamicList);
 
     for (Resident resident in residentsList) {
       if (resident.id == id) {
@@ -1091,12 +962,8 @@ class GlobalDatabase {
   }
 
   CurrencyHandout? getCurrencyHandoutById(int id) {
-    List<dynamic> currencyHandoutsDynamicList =
-        _myBox.get("CURRENCY_HANDOUTS") ?? [];
-    List<CurrencyHandout> currencyHandoutsList = [];
-    for (dynamic currencyHandout in currencyHandoutsDynamicList) {
-      currencyHandoutsList.add(currencyHandout as CurrencyHandout);
-    }
+    List<dynamic> currencyHandoutsDynamicList = _myBox.get("CURRENCY_HANDOUTS") ?? [];
+    List<CurrencyHandout> currencyHandoutsList = dynamicListToTList(currencyHandoutsDynamicList);
 
     for (CurrencyHandout currencyHandout in currencyHandoutsList) {
       if (currencyHandout.id == id) {
@@ -1108,9 +975,10 @@ class GlobalDatabase {
   }
 
   (bool, String?) isRokaIdTakenByAnotherResident(int residentId, int rokaId) {
-    List<dynamic> residentsList = _myBox.get("RESIDENTS") ?? [];
+    List<dynamic> residentsListDynamic = _myBox.get("RESIDENTS") ?? [];
+    List<Resident> residentsList = dynamicListToTList(residentsListDynamic);
 
-    for (dynamic resident in residentsList) {
+    for (Resident resident in residentsList) {
       if (resident.rokaId == rokaId && resident.id != residentId) {
         return (true, resident.name);
       }

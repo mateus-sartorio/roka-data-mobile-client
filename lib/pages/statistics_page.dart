@@ -22,27 +22,20 @@ class _StatisticsState extends State<StatisticsPage> {
         valueListenable: Hive.box('globalDatabase').listenable(),
         builder: (context, Box box, _) {
           final dynamicResisentsList = box.get("RESIDENTS");
-          final List<Resident> residents =
-              dynamicListToTList(dynamicResisentsList);
+          final List<Resident> residents = dynamicListToTList(dynamicResisentsList);
 
           final List<dynamic> collectsListDynamic = box.get("COLLECTS") ?? [];
-          final List<Collect> collectsList =
-              dynamicListToTList(collectsListDynamic);
+          final List<Collect> collectsList = dynamicListToTList(collectsListDynamic);
 
-          final List<dynamic> oldCollectsListDynamic =
-              box.get("ALL_DATABASE_COLLECTS") ?? [];
-          final List<Collect> oldCollectsList =
-              dynamicListToTList(oldCollectsListDynamic);
+          final List<dynamic> oldCollectsListDynamic = box.get("ALL_DATABASE_COLLECTS") ?? [];
+          final List<Collect> oldCollectsList = dynamicListToTList(oldCollectsListDynamic);
 
           final List<Collect> collects = [...collectsList, ...oldCollectsList];
 
-          final List<dynamic> oldReceiptsListDynamic =
-              box.get("ALL_DATABASE_RECEIPTS") ?? [];
-          final List<Receipt> oldReceiptsList =
-              dynamicListToTList(oldReceiptsListDynamic);
+          final List<dynamic> oldReceiptsListDynamic = box.get("ALL_DATABASE_RECEIPTS") ?? [];
+          final List<Receipt> oldReceiptsList = dynamicListToTList(oldReceiptsListDynamic);
           final List<dynamic> receiptsListDynamic = box.get("RECEIPTS") ?? [];
-          final List<Receipt> receiptsList =
-              dynamicListToTList(receiptsListDynamic);
+          final List<Receipt> receiptsList = dynamicListToTList(receiptsListDynamic);
 
           final List<Receipt> receipts = [...receiptsList, ...oldReceiptsList];
 
@@ -78,52 +71,44 @@ class _StatisticsState extends State<StatisticsPage> {
                     ),
                     const Text(
                       "Total de casas cadastradas",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "$registeredHouses",
-                      style: const TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 15,
                     ),
                     const Text(
                       "Total de vidas impactadas",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "$impactedLives",
-                      style: const TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 15,
                     ),
                     const Text(
                       "Total de resíduo coletado",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "${totalOfCollectedPlastic.toStringAsFixed(2).replaceAll(".", ",")} kg",
-                      style: const TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 15,
                     ),
                     const Text(
                       "Total de rokas distribuídas",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "RK\$ ${totalOfDistributedRokas.toStringAsFixed(2).replaceAll(".", ",")}",
-                      style: const TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 15,
