@@ -42,65 +42,45 @@ class Resident extends HiveObject {
   int registrationYear;
 
   @HiveField(11)
-  int residentsInTheHouse;
+  DateTime registrationDate;
 
   @HiveField(12)
-  int rokaId;
+  int residentsInTheHouse;
 
   @HiveField(13)
-  Situation situation;
+  int rokaId;
 
   @HiveField(14)
-  String observations;
+  Situation situation;
 
   @HiveField(15)
-  bool needsCollectOnTheHouse;
+  String observations;
 
   @HiveField(16)
-  Shift? shiftForCollectionOnTheHouse;
+  bool needsCollectOnTheHouse;
 
   @HiveField(17)
-  bool isNew;
+  Shift? shiftForCollectionOnTheHouse;
 
   @HiveField(18)
-  bool wasModified;
+  bool isNew;
 
   @HiveField(19)
-  bool isMarkedForRemoval;
+  bool wasModified;
 
   @HiveField(20)
-  List<Collect> collects;
+  bool isMarkedForRemoval;
 
   @HiveField(21)
-  List<Receipt> receipts;
+  List<Collect> collects;
 
   @HiveField(22)
+  List<Receipt> receipts;
+
+  @HiveField(23)
   bool wasSuccessfullySentToBackendOnLastSync;
 
-  Resident(
-      {required this.id,
-      required this.address,
-      required this.collects,
-      required this.hasPlaque,
-      required this.isOnWhatsappGroup,
-      required this.livesInJN,
-      required this.name,
-      required this.observations,
-      required this.phone,
-      required this.profession,
-      required this.referencePoint,
-      required this.registrationYear,
-      required this.residentsInTheHouse,
-      required this.rokaId,
-      required this.situation,
-      required this.needsCollectOnTheHouse,
-      required this.shiftForCollectionOnTheHouse,
-      required this.isNew,
-      required this.birthdate,
-      required this.isMarkedForRemoval,
-      required this.wasModified,
-      required this.receipts,
-      required this.wasSuccessfullySentToBackendOnLastSync});
+  Resident({required this.id, required this.address, required this.collects, required this.hasPlaque, required this.isOnWhatsappGroup, required this.livesInJN, required this.name, required this.observations, required this.phone, required this.profession, required this.referencePoint, required this.registrationYear, required this.registrationDate, required this.residentsInTheHouse, required this.rokaId, required this.situation, required this.needsCollectOnTheHouse, required this.shiftForCollectionOnTheHouse, required this.isNew, required this.birthdate, required this.isMarkedForRemoval, required this.wasModified, required this.receipts, required this.wasSuccessfullySentToBackendOnLastSync});
 
   // Copies resident to this resident instance
   void deepCopy(Resident resident) {
@@ -115,6 +95,7 @@ class Resident extends HiveObject {
     profession = resident.profession;
     referencePoint = resident.referencePoint;
     registrationYear = resident.registrationYear;
+    registrationDate = resident.registrationDate;
     residentsInTheHouse = resident.residentsInTheHouse;
     rokaId = resident.rokaId;
     situation = resident.situation;
@@ -125,8 +106,10 @@ class Resident extends HiveObject {
     needsCollectOnTheHouse = resident.needsCollectOnTheHouse;
     shiftForCollectionOnTheHouse = resident.shiftForCollectionOnTheHouse;
     receipts = resident.receipts;
-    collects = resident.collects;
-    wasSuccessfullySentToBackendOnLastSync =
-        resident.wasSuccessfullySentToBackendOnLastSync;
+    wasSuccessfullySentToBackendOnLastSync = resident.wasSuccessfullySentToBackendOnLastSync;
+  }
+
+  static Resident createCopy(Resident resident) {
+    return Resident(id: resident.id, address: resident.address, collects: resident.collects, hasPlaque: resident.hasPlaque, isOnWhatsappGroup: resident.isOnWhatsappGroup, livesInJN: resident.livesInJN, name: resident.name, observations: resident.observations, phone: resident.phone, profession: resident.profession, referencePoint: resident.referencePoint, registrationYear: resident.registrationYear, registrationDate: resident.registrationDate, residentsInTheHouse: resident.residentsInTheHouse, rokaId: resident.rokaId, situation: resident.situation, birthdate: resident.birthdate, isMarkedForRemoval: resident.isMarkedForRemoval, wasModified: resident.wasModified, isNew: resident.isNew, needsCollectOnTheHouse: resident.needsCollectOnTheHouse, shiftForCollectionOnTheHouse: resident.shiftForCollectionOnTheHouse, receipts: resident.receipts, wasSuccessfullySentToBackendOnLastSync: resident.wasSuccessfullySentToBackendOnLastSync);
   }
 }
