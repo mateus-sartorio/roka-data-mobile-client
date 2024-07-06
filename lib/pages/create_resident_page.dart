@@ -48,7 +48,6 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
   final TextEditingController referencePointController = TextEditingController();
   final TextEditingController occupationController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  final TextEditingController registrationYearController = TextEditingController();
   final TextEditingController residentsInTheHouseController = TextEditingController();
   final TextEditingController observationsController = TextEditingController();
   final TextEditingController rokaIdController = TextEditingController();
@@ -85,11 +84,6 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     selectedSituation = situationToString(widget.resident?.situation ?? Situation.active);
 
     hasPlaque = widget.resident?.hasPlaque ?? false;
-
-    registrationYearController.text = widget.resident?.registrationYear.toString() ?? "";
-    if (registrationYearController.text == "0") {
-      registrationYearController.text = "";
-    }
 
     selectedRegistrationDate = widget.resident?.registrationDate ?? DateTime.now();
 
@@ -169,7 +163,6 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     RegExp phoneNumberPattern = RegExp(r'\(\d{2}\) \d{5}-\d{4}');
     RegExp isNumberPattern = RegExp(r'^[1-9]\d*$');
     RegExp zeroPattern = RegExp(r'^0+');
-    RegExp registrationYearPattern = RegExp(r'20\d{2}');
     RegExp neighborhoodPattern1 = RegExp(r'^bairro ', caseSensitive: false);
     RegExp streetPattern1 = RegExp(r'^rua ', caseSensitive: false);
 
@@ -199,9 +192,6 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
       return false;
     } else if (db.isRokaIdTakenByAnotherResident(widget.resident?.id ?? -1, int.tryParse(rokaIdController.text) ?? -1).$1) {
       warnInvalidRegistrationData("Id da Roka ${int.parse(rokaIdController.text)} já está sendo usado por ${db.isRokaIdTakenByAnotherResident(widget.resident?.id ?? -1, int.parse(rokaIdController.text)).$2}.");
-      return false;
-    } else if (registrationYearController.text.isNotEmpty && !registrationYearPattern.hasMatch(registrationYearController.text)) {
-      warnInvalidRegistrationData("Ano de cadastro inválido (20XX).");
       return false;
     } else if (residentsInTheHouseController.text.isEmpty) {
       warnInvalidRegistrationData("Quantidade de residentes na casa é obrigatório.");
@@ -241,7 +231,6 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
         phone: phoneController.text,
         profession: occupationController.text,
         referencePoint: referencePointController.text,
-        registrationYear: int.tryParse(registrationYearController.text) ?? 0,
         registrationDate: selectedRegistrationDate ?? DateTime.now(),
         residentsInTheHouse: int.tryParse(residentsInTheHouseController.text) ?? 0,
         rokaId: int.tryParse(rokaIdController.text) ?? 0,
@@ -720,17 +709,6 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                     )
                   ],
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
-                TextField(
-                    controller: registrationYearController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      hintText: "Ano de cadastro",
-                      border: OutlineInputBorder(),
-                      labelText: "Ano de cadastro",
-                    )),
                 const SizedBox(
                   height: 15,
                 ),

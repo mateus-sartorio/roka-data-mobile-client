@@ -115,7 +115,6 @@ class GlobalDatabase {
           phone: residentMapObject["phone"],
           profession: residentMapObject["profession"],
           referencePoint: residentMapObject["reference_point"],
-          registrationYear: residentMapObject["registration_year"],
           registrationDate: registrationDate,
           residentsInTheHouse: residentMapObject["residents_in_the_house"],
           rokaId: residentMapObject["roka_id"],

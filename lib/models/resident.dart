@@ -42,45 +42,42 @@ class Resident extends HiveObject {
   bool hasPlaque;
 
   @HiveField(11)
-  int registrationYear;
-
-  @HiveField(12)
   DateTime registrationDate;
 
-  @HiveField(13)
+  @HiveField(12)
   int residentsInTheHouse;
 
-  @HiveField(14)
+  @HiveField(13)
   int rokaId;
 
-  @HiveField(15)
+  @HiveField(14)
   Situation situation;
 
-  @HiveField(16)
+  @HiveField(15)
   String observations;
 
-  @HiveField(17)
+  @HiveField(16)
   bool needsCollectOnTheHouse;
 
-  @HiveField(18)
+  @HiveField(17)
   Shift? shiftForCollectionOnTheHouse;
 
-  @HiveField(19)
+  @HiveField(18)
   bool isNew;
 
-  @HiveField(20)
+  @HiveField(19)
   bool wasModified;
 
-  @HiveField(21)
+  @HiveField(20)
   bool isMarkedForRemoval;
 
-  @HiveField(22)
+  @HiveField(21)
   List<Collect> collects;
 
-  @HiveField(23)
+  @HiveField(22)
   List<Receipt> receipts;
 
-  @HiveField(24)
+  @HiveField(23)
   bool wasSuccessfullySentToBackendOnLastSync;
 
   Resident(
@@ -96,7 +93,6 @@ class Resident extends HiveObject {
       required this.phone,
       required this.profession,
       required this.referencePoint,
-      required this.registrationYear,
       required this.registrationDate,
       required this.residentsInTheHouse,
       required this.rokaId,
@@ -123,7 +119,6 @@ class Resident extends HiveObject {
     phone = resident.phone;
     profession = resident.profession;
     referencePoint = resident.referencePoint;
-    registrationYear = resident.registrationYear;
     registrationDate = resident.registrationDate;
     residentsInTheHouse = resident.residentsInTheHouse;
     rokaId = resident.rokaId;
@@ -152,7 +147,6 @@ class Resident extends HiveObject {
         phone: resident.phone,
         profession: resident.profession,
         referencePoint: resident.referencePoint,
-        registrationYear: resident.registrationYear,
         registrationDate: resident.registrationDate,
         residentsInTheHouse: resident.residentsInTheHouse,
         rokaId: resident.rokaId,

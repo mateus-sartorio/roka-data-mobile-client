@@ -11,7 +11,6 @@ Map residentToMap(Resident resident) {
     "roka_id": resident.rokaId,
     "situation": situation,
     "has_plaque": resident.hasPlaque,
-    "registration_year": resident.registrationYear,
     "registration_date": resident.registrationDate.toString(),
     "address": resident.address,
     "reference_point": resident.referencePoint,
