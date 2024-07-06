@@ -19,36 +19,35 @@ class ResidentAdapter extends TypeAdapter<Resident> {
     return Resident(
       id: fields[0] as int,
       address: fields[3] as String,
-      collects: (fields[22] as List).cast<Collect>(),
+      collects: (fields[21] as List).cast<Collect>(),
       hasPlaque: fields[10] as bool,
       isOnWhatsappGroup: fields[9] as bool,
       livesInJN: fields[5] as bool,
       name: fields[1] as String,
       description: fields[2] as String,
-      observations: fields[16] as String,
+      observations: fields[15] as String,
       phone: fields[8] as String,
       profession: fields[6] as String,
       referencePoint: fields[4] as String,
-      registrationYear: fields[11] as int,
-      registrationDate: fields[12] as DateTime,
-      residentsInTheHouse: fields[13] as int,
-      rokaId: fields[14] as int,
-      situation: fields[15] as Situation,
-      needsCollectOnTheHouse: fields[17] as bool,
-      shiftForCollectionOnTheHouse: fields[18] as Shift?,
-      isNew: fields[19] as bool,
+      registrationDate: fields[11] as DateTime,
+      residentsInTheHouse: fields[12] as int,
+      rokaId: fields[13] as int,
+      situation: fields[14] as Situation,
+      needsCollectOnTheHouse: fields[16] as bool,
+      shiftForCollectionOnTheHouse: fields[17] as Shift?,
+      isNew: fields[18] as bool,
       birthdate: fields[7] as DateTime,
-      isMarkedForRemoval: fields[21] as bool,
-      wasModified: fields[20] as bool,
-      receipts: (fields[23] as List).cast<Receipt>(),
-      wasSuccessfullySentToBackendOnLastSync: fields[24] as bool,
+      isMarkedForRemoval: fields[20] as bool,
+      wasModified: fields[19] as bool,
+      receipts: (fields[22] as List).cast<Receipt>(),
+      wasSuccessfullySentToBackendOnLastSync: fields[23] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Resident obj) {
     writer
-      ..writeByte(25)
+      ..writeByte(24)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -72,32 +71,30 @@ class ResidentAdapter extends TypeAdapter<Resident> {
       ..writeByte(10)
       ..write(obj.hasPlaque)
       ..writeByte(11)
-      ..write(obj.registrationYear)
-      ..writeByte(12)
       ..write(obj.registrationDate)
-      ..writeByte(13)
+      ..writeByte(12)
       ..write(obj.residentsInTheHouse)
-      ..writeByte(14)
+      ..writeByte(13)
       ..write(obj.rokaId)
-      ..writeByte(15)
+      ..writeByte(14)
       ..write(obj.situation)
-      ..writeByte(16)
+      ..writeByte(15)
       ..write(obj.observations)
-      ..writeByte(17)
+      ..writeByte(16)
       ..write(obj.needsCollectOnTheHouse)
-      ..writeByte(18)
+      ..writeByte(17)
       ..write(obj.shiftForCollectionOnTheHouse)
-      ..writeByte(19)
+      ..writeByte(18)
       ..write(obj.isNew)
-      ..writeByte(20)
+      ..writeByte(19)
       ..write(obj.wasModified)
-      ..writeByte(21)
+      ..writeByte(20)
       ..write(obj.isMarkedForRemoval)
-      ..writeByte(22)
+      ..writeByte(21)
       ..write(obj.collects)
-      ..writeByte(23)
+      ..writeByte(22)
       ..write(obj.receipts)
-      ..writeByte(24)
+      ..writeByte(23)
       ..write(obj.wasSuccessfullySentToBackendOnLastSync);
   }
 
