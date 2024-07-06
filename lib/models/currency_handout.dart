@@ -25,20 +25,13 @@ class CurrencyHandout extends HiveObject {
   @HiveField(6)
   bool wasSuccessfullySentToBackendOnLastSync;
 
-  CurrencyHandout(
-      {required this.id,
-      required this.title,
-      required this.startDate,
-      required this.isNew,
-      required this.wasModified,
-      required this.isMarkedForRemoval,
-      required this.wasSuccessfullySentToBackendOnLastSync});
+  CurrencyHandout({required this.id, required this.title, required this.startDate, required this.isNew, required this.wasModified, required this.isMarkedForRemoval, required this.wasSuccessfullySentToBackendOnLastSync});
 
   String toStringFormat() {
     List<String> dayMonthYear = startDate.toString().split(" ")[0].split("-");
     "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
 
-    String displayTitle = title.length >= 15 ? title.substring(0, 15) : title;
+    String displayTitle = title.length >= 20 ? title.substring(0, 20) : title;
 
     return "$displayTitle - ${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
   }
