@@ -19,34 +19,35 @@ class ResidentAdapter extends TypeAdapter<Resident> {
     return Resident(
       id: fields[0] as int,
       address: fields[2] as String,
-      collects: (fields[20] as List).cast<Collect>(),
+      collects: (fields[21] as List).cast<Collect>(),
       hasPlaque: fields[9] as bool,
       isOnWhatsappGroup: fields[8] as bool,
       livesInJN: fields[4] as bool,
       name: fields[1] as String,
-      observations: fields[14] as String,
+      observations: fields[15] as String,
       phone: fields[7] as String,
       profession: fields[5] as String,
       referencePoint: fields[3] as String,
       registrationYear: fields[10] as int,
-      residentsInTheHouse: fields[11] as int,
-      rokaId: fields[12] as int,
-      situation: fields[13] as Situation,
-      needsCollectOnTheHouse: fields[15] as bool,
-      shiftForCollectionOnTheHouse: fields[16] as Shift?,
-      isNew: fields[17] as bool,
+      registrationDate: fields[11] as DateTime,
+      residentsInTheHouse: fields[12] as int,
+      rokaId: fields[13] as int,
+      situation: fields[14] as Situation,
+      needsCollectOnTheHouse: fields[16] as bool,
+      shiftForCollectionOnTheHouse: fields[17] as Shift?,
+      isNew: fields[18] as bool,
       birthdate: fields[6] as DateTime,
-      isMarkedForRemoval: fields[19] as bool,
-      wasModified: fields[18] as bool,
-      receipts: (fields[21] as List).cast<Receipt>(),
-      wasSuccessfullySentToBackendOnLastSync: fields[22] as bool,
+      isMarkedForRemoval: fields[20] as bool,
+      wasModified: fields[19] as bool,
+      receipts: (fields[22] as List).cast<Receipt>(),
+      wasSuccessfullySentToBackendOnLastSync: fields[23] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Resident obj) {
     writer
-      ..writeByte(23)
+      ..writeByte(24)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -70,28 +71,30 @@ class ResidentAdapter extends TypeAdapter<Resident> {
       ..writeByte(10)
       ..write(obj.registrationYear)
       ..writeByte(11)
-      ..write(obj.residentsInTheHouse)
+      ..write(obj.registrationDate)
       ..writeByte(12)
-      ..write(obj.rokaId)
+      ..write(obj.residentsInTheHouse)
       ..writeByte(13)
-      ..write(obj.situation)
+      ..write(obj.rokaId)
       ..writeByte(14)
-      ..write(obj.observations)
+      ..write(obj.situation)
       ..writeByte(15)
-      ..write(obj.needsCollectOnTheHouse)
+      ..write(obj.observations)
       ..writeByte(16)
-      ..write(obj.shiftForCollectionOnTheHouse)
+      ..write(obj.needsCollectOnTheHouse)
       ..writeByte(17)
-      ..write(obj.isNew)
+      ..write(obj.shiftForCollectionOnTheHouse)
       ..writeByte(18)
-      ..write(obj.wasModified)
+      ..write(obj.isNew)
       ..writeByte(19)
-      ..write(obj.isMarkedForRemoval)
+      ..write(obj.wasModified)
       ..writeByte(20)
-      ..write(obj.collects)
+      ..write(obj.isMarkedForRemoval)
       ..writeByte(21)
-      ..write(obj.receipts)
+      ..write(obj.collects)
       ..writeByte(22)
+      ..write(obj.receipts)
+      ..writeByte(23)
       ..write(obj.wasSuccessfullySentToBackendOnLastSync);
   }
 
