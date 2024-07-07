@@ -9,6 +9,7 @@ import 'package:mobile_client/pages/all_collects_of_resident_page.dart';
 import 'package:mobile_client/pages/all_receipts_of_resident_page.dart';
 import 'package:mobile_client/utils/enum_conversion/situation.dart';
 import 'package:mobile_client/utils/integer_id_generator.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 class CreateResidentPage extends StatefulWidget {
   final Resident? resident;
@@ -115,29 +116,6 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     }
 
     super.initState();
-  }
-
-  void onPhoneChange(String value) {
-    String newValue = "";
-
-    if (value.length < previousPhoneNumberString.length) {
-      newValue = value;
-    } else if (value.length == 1) {
-      newValue = "($value";
-    } else if (value.length == 3) {
-      newValue = "$value) ";
-    } else if (value.length == 10) {
-      newValue = "$value-";
-    } else if (value.length > 15) {
-      newValue = previousPhoneNumberString;
-    } else {
-      newValue = value;
-    }
-
-    setState(() {
-      phoneController.text = newValue;
-      previousPhoneNumberString = newValue;
-    });
   }
 
   void warnInvalidRegistrationData(String message) {
@@ -555,7 +533,9 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                 TextField(
                     controller: phoneController,
                     keyboardType: TextInputType.phone,
-                    onChanged: (String value) => onPhoneChange(value),
+                    inputFormatters: [
+                      MaskedInputFormatter('(##) #####-####'),
+                    ],
                     decoration: const InputDecoration(
                       hintText: "Telefone",
                       border: OutlineInputBorder(),

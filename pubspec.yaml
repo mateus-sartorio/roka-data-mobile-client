@@ -51,6 +51,7 @@ dependencies:
   font_awesome_flutter: ^10.7.0
   searchfield: ^1.0.1
   unorm_dart: ^0.3.0
+  flutter_multi_formatter: ^2.12.8
 
 dev_dependencies:
   flutter_test:
