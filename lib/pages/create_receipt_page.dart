@@ -11,6 +11,8 @@ import 'package:mobile_client/utils/integer_id_generator.dart';
 import 'package:mobile_client/utils/list_conversions.dart';
 import 'package:searchfield/searchfield.dart';
 
+import '../utils/residents/resident_filter.dart';
+
 class CreateReceiptPage extends StatefulWidget {
   final Receipt? receipt;
   final String text;
@@ -401,6 +403,14 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
                       }
                       focusNode1.unfocus();
                     },
+                    onSearchTextChanged: (query) {
+                      final normalizedQuery = normalize(query);
+                      final filteredResidents = residents.where((c) {
+                        return normalize(c.name).toLowerCase().contains(normalizedQuery.toLowerCase());
+                      }).toList();
+
+                      return filteredResidents.map((r) => SearchFieldListItem<Resident>(r.name, child: Text(r.name), item: r)).toList();
+                    },
                   ),
                   const SizedBox(
                     height: 15,
@@ -419,6 +429,14 @@ class _CreateReceiptPageState extends State<CreateReceiptPage> {
                         });
                       }
                       focusNode2.unfocus();
+                    },
+                    onSearchTextChanged: (query) {
+                      final normalizedQuery = normalize(query);
+                      final filteredCurrencyHandouts = currencyHandouts.where((c) {
+                        return normalize(c.title).toLowerCase().contains(normalizedQuery.toLowerCase());
+                      }).toList();
+
+                      return filteredCurrencyHandouts.map((c) => SearchFieldListItem<CurrencyHandout>(c.title, child: Text(c.toStringFormat()), item: c)).toList();
                     },
                   ),
                   const SizedBox(

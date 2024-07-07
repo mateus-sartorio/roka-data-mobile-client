@@ -1,16 +1,23 @@
+import 'package:unorm_dart/unorm_dart.dart' as unorm;
+
 import 'package:mobile_client/enums/shift.dart';
 import 'package:mobile_client/models/resident.dart';
 
+String normalize(String input) {
+  return unorm.nfd(input).replaceAll(RegExp(r'[\u0300-\u036f]'), '');
+}
+
 List<Resident> residentFilter(List<Resident> residents, String filter) {
   filter = filter.toLowerCase();
+
   return residents
       .where((resident) =>
-          resident.name.toLowerCase().contains(filter) ||
-          resident.description.toLowerCase().contains(filter) ||
+          normalize(resident.name).toLowerCase().contains(filter) ||
+          normalize(resident.description).toLowerCase().contains(filter) ||
           (resident.rokaId == (int.tryParse(filter) ?? -1)) ||
-          (resident.address.toLowerCase().contains(filter)) ||
-          (resident.observations.toLowerCase().contains(filter)) ||
-          resident.referencePoint.toLowerCase().contains(filter))
+          (normalize(resident.address).toLowerCase().contains(filter)) ||
+          (normalize(resident.observations).toLowerCase().contains(filter)) ||
+          normalize(resident.referencePoint).toLowerCase().contains(filter))
       .toList();
 }
 
@@ -19,12 +26,12 @@ List<Resident> residentFilterForPeopleThatNeedCollectOnTheHouse(List<Resident> r
   return residents
       .where((resident) =>
           resident.needsCollectOnTheHouse &&
-          (resident.name.toLowerCase().contains(filter) ||
-              resident.description.toLowerCase().contains(filter) ||
+          (normalize(resident.name).toLowerCase().contains(filter) ||
+              normalize(resident.description).toLowerCase().contains(filter) ||
               (resident.rokaId == (int.tryParse(filter) ?? -1)) ||
-              resident.address.toLowerCase().contains(filter) ||
-              resident.observations.toLowerCase().contains(filter) ||
-              resident.referencePoint.toLowerCase().contains(filter)))
+              normalize(resident.address).toLowerCase().contains(filter) ||
+              normalize(resident.observations).toLowerCase().contains(filter) ||
+              normalize(resident.referencePoint).toLowerCase().contains(filter)))
       .toList();
 }
 
