@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mobile_client/components/big_button_tile.dart';
 import 'package:mobile_client/data/database.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class CloudSyncPage extends StatefulWidget {
   const CloudSyncPage({Key? key}) : super(key: key);
@@ -58,9 +57,9 @@ class _CloudSyncPageState extends State<CloudSyncPage> {
           contentPadding: const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 5),
           children: [
             Center(
-              child: LoadingAnimationWidget.newtonCradle(
-                color: Colors.black,
-                size: 200,
+              child: Image.asset(
+                "assets/gifs/recycle.gif",
+                width: 100,
               ),
             ),
           ],

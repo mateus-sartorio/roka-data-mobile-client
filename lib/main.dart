@@ -34,17 +34,12 @@ class _MainState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
+      localizationsDelegates: const [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
       supportedLocales: const [
-        Locale('en', 'US'), // English
-        Locale('pt', 'BR'), // Portuguese (Brazil)
-        // Add more locales as needed
+        Locale('en', 'US'),
+        Locale('pt', 'BR'),
       ],
-      locale: Locale('pt', 'BR'), // Set default locale
-      // other MaterialApp configurations
+      locale: const Locale('pt', 'BR'),
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
       theme: ThemeData.light(),
