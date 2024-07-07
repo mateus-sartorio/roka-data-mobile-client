@@ -126,6 +126,11 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                 displayBag = true;
                               }
 
+                              bool displayHasBeenVisited = false;
+                              if (filteredResidents[index].lastVisited != null && isSameDay(filteredResidents[index].lastVisited!, DateTime.now())) {
+                                displayHasBeenVisited = true;
+                              }
+
                               List<Widget> tags = <Widget>[];
                               bool showTag = false;
                               if (filteredResidents[index].situation == Situation.inactive) {
@@ -249,6 +254,12 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                                   Icons.shopping_bag,
                                                   size: 20,
                                                 )),
+                                            Visibility(
+                                                visible: displayHasBeenVisited,
+                                                child: const Icon(
+                                                  Icons.location_on_rounded,
+                                                  size: 20,
+                                                )),
                                           ],
                                         ),
                                         Text(
@@ -279,7 +290,10 @@ class _ResidentsPageState extends State<ResidentsPage> {
                                       ],
                                     ),
                                     onTap: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => CreateResidentPage(showCoin: displayCoin, showBag: displayBag, text: "Dados do residente", resident: filteredResidents[index])));
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => CreateResidentPage(showCoin: displayCoin, showBag: displayBag, showHasBeenVisited: displayHasBeenVisited, text: "Dados do residente", resident: filteredResidents[index])));
                                     },
                                     leading: const Icon(
                                       Icons.person,
@@ -326,6 +340,7 @@ class _ResidentsPageState extends State<ResidentsPage> {
                           builder: (context) => const CreateResidentPage(
                                 showCoin: false,
                                 showBag: false,
+                                showHasBeenVisited: false,
                                 text: "Cadastrar novo residente",
                               )));
                 },

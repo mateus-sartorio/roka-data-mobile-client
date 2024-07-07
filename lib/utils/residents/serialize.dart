@@ -22,6 +22,7 @@ Map residentToMap(Resident resident) {
     "residents_in_the_house": resident.residentsInTheHouse,
     "observations": resident.observations,
     "needs_collect_on_the_house": resident.needsCollectOnTheHouse,
-    "shift_for_collection_on_the_house": resident.shiftForCollectionOnTheHouse?.value
+    "shift_for_collection_on_the_house": resident.shiftForCollectionOnTheHouse?.value,
+    "last_visited": resident.lastVisited?.toString()
   };
 }

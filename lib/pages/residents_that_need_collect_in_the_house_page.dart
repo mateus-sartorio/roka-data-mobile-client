@@ -162,6 +162,11 @@ class _ResidentsThatNeedCollectOnTheHousePageState extends State<ResidentsThatNe
                                 displayBag = true;
                               }
 
+                              bool displayHasBeenVisited = false;
+                              if (filteredResidents[index].lastVisited != null && isSameDay(filteredResidents[index].lastVisited!, DateTime.now())) {
+                                displayHasBeenVisited = true;
+                              }
+
                               List<Widget> tags = <Widget>[];
                               bool showTag = false;
                               if (filteredResidents[index].situation == Situation.inactive) {
@@ -267,55 +272,77 @@ class _ResidentsThatNeedCollectOnTheHousePageState extends State<ResidentsThatNe
                                   ),
                                   child: ListTile(
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-                                    title: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                    title: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Row(
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
+                                            Row(
+                                              children: [
+                                                Visibility(
+                                                    visible: displayCoin,
+                                                    child: const Icon(
+                                                      Icons.monetization_on_rounded,
+                                                      color: Color.fromARGB(255, 255, 215, 0),
+                                                      size: 20,
+                                                    )),
+                                                Visibility(
+                                                    visible: displayBag,
+                                                    child: const Icon(
+                                                      Icons.shopping_bag,
+                                                      size: 20,
+                                                    )),
+                                                Visibility(
+                                                    visible: displayHasBeenVisited,
+                                                    child: const Icon(
+                                                      Icons.location_on_rounded,
+                                                      size: 20,
+                                                    )),
+                                              ],
+                                            ),
+                                            Text(
+                                              filteredResidents[index].name,
+                                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                            ),
                                             Visibility(
-                                                visible: displayCoin,
-                                                child: const Icon(
-                                                  Icons.monetization_on_rounded,
-                                                  color: Color.fromARGB(255, 255, 215, 0),
-                                                  size: 20,
-                                                )),
+                                              visible: filteredResidents[index].description.isNotEmpty,
+                                              child: Text(
+                                                filteredResidents[index].description,
+                                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                                              ),
+                                            ),
+                                            Text(
+                                              roketeDisplayNumberString,
+                                              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w400),
+                                            ),
                                             Visibility(
-                                                visible: displayBag,
-                                                child: const Icon(
-                                                  Icons.shopping_bag,
-                                                  size: 20,
+                                                visible: showTag,
+                                                child: Column(
+                                                  children: [
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Row(children: tags),
+                                                  ],
                                                 )),
                                           ],
                                         ),
-                                        Text(
-                                          filteredResidents[index].name,
-                                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                                        ),
                                         Visibility(
-                                          visible: filteredResidents[index].description.isNotEmpty,
-                                          child: Text(
-                                            filteredResidents[index].description,
-                                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                                          visible: displayBag || displayHasBeenVisited,
+                                          child: const Icon(
+                                            Icons.check_circle_rounded,
+                                            color: Colors.green,
+                                            size: 30.0,
                                           ),
                                         ),
-                                        Text(
-                                          roketeDisplayNumberString,
-                                          style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w400),
-                                        ),
-                                        Visibility(
-                                            visible: showTag,
-                                            child: Column(
-                                              children: [
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Row(children: tags),
-                                              ],
-                                            )),
                                       ],
                                     ),
                                     onTap: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => CreateResidentPage(showCoin: displayCoin, showBag: displayBag, text: "Dados do residente", resident: filteredResidents[index])));
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => CreateResidentPage(showCoin: displayCoin, showBag: displayBag, showHasBeenVisited: displayHasBeenVisited, text: "Dados do residente", resident: filteredResidents[index])));
                                     },
                                     leading: const Icon(
                                       Icons.person,
