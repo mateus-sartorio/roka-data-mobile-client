@@ -60,7 +60,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
       isBeingCreated = false;
     }
 
-    selectedBirthdayDate = widget.resident?.birthdate ?? DateTime.now();
+    selectedBirthdayDate = widget.resident?.birthdate;
     nameController.text = widget.resident?.name ?? "";
     descriptionController.text = widget.resident?.description ?? "";
 
@@ -104,11 +104,15 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     wasModified = widget.resident?.wasModified ?? false;
     isMarkedForRemoval = widget.resident?.isMarkedForRemoval ?? false;
 
-    List<String> dayMonthYear = selectedBirthdayDate.toString().split(" ")[0].split("-");
-    birthdayDateController.text = "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+    if (selectedBirthdayDate != null) {
+      List<String> dayMonthYear = selectedBirthdayDate.toString().split(" ")[0].split("-");
+      birthdayDateController.text = "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+    }
 
-    dayMonthYear = selectedRegistrationDate.toString().split(" ")[0].split("-");
-    registrationDateController.text = "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+    if (selectedRegistrationDate != null) {
+      List<String> dayMonthYear = selectedRegistrationDate.toString().split(" ")[0].split("-");
+      registrationDateController.text = "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
+    }
 
     super.initState();
   }
@@ -231,11 +235,11 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
         phone: phoneController.text,
         profession: occupationController.text,
         referencePoint: referencePointController.text,
-        registrationDate: selectedRegistrationDate ?? DateTime.now(),
+        registrationDate: selectedRegistrationDate,
         residentsInTheHouse: int.tryParse(residentsInTheHouseController.text) ?? 0,
         rokaId: int.tryParse(rokaIdController.text) ?? 0,
         situation: situation,
-        birthdate: selectedBirthdayDate ?? DateTime.now(),
+        birthdate: selectedBirthdayDate,
         needsCollectOnTheHouse: needsCollectOnTheHouse,
         shiftForCollectionOnTheHouse: selectedShift,
         isNew: widget.resident?.isNew ?? isNewResident,

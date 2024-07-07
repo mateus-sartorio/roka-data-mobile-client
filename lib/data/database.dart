@@ -51,19 +51,8 @@ class GlobalDatabase {
 
     List<Resident> residents = [];
     for (dynamic residentMapObject in responseBody) {
-      DateTime birthdate = DateTime.now();
-      try {
-        birthdate = DateTime.parse(residentMapObject["birthdate"]);
-      } catch (e) {
-        birthdate = DateTime.now();
-      }
-
-      DateTime registrationDate = DateTime.now();
-      try {
-        registrationDate = DateTime.parse(residentMapObject["registration_date"]);
-      } catch (e) {
-        registrationDate = DateTime.now();
-      }
+      DateTime? birthdate = DateTime.tryParse(residentMapObject["birthdate"] ?? "");
+      DateTime? registrationDate = DateTime.tryParse(residentMapObject["registration_date"] ?? "");
 
       Situation situation = integerToSituation(residentMapObject["situation"]);
 
