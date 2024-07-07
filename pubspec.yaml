@@ -50,6 +50,7 @@ dependencies:
   loading_animation_widget: ^1.2.1
   font_awesome_flutter: ^10.7.0
   searchfield: ^1.0.1
+  unorm_dart: ^0.3.0
 
 dev_dependencies:
   flutter_test:

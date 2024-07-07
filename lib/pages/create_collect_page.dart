@@ -8,6 +8,7 @@ import 'package:mobile_client/models/collect.dart';
 import 'package:mobile_client/models/resident.dart';
 import 'package:mobile_client/utils/integer_id_generator.dart';
 import 'package:mobile_client/utils/list_conversions.dart';
+import 'package:mobile_client/utils/residents/resident_filter.dart';
 import 'package:searchfield/searchfield.dart';
 
 class CreateCollectPage extends StatefulWidget {
@@ -463,6 +464,14 @@ class _CreateCollectPageState extends State<CreateCollectPage> {
                           });
                         }
                         focusNode.unfocus();
+                      },
+                      onSearchTextChanged: (query) {
+                        final normalizedQuery = normalize(query);
+                        final filteredResidents = residents.where((c) {
+                          return normalize(c.name).toLowerCase().contains(normalizedQuery.toLowerCase());
+                        }).toList();
+
+                        return filteredResidents.map((r) => SearchFieldListItem<Resident>(r.name, child: Text(r.name), item: r)).toList();
                       },
                     ),
                     const SizedBox(
