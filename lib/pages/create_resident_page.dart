@@ -16,8 +16,9 @@ class CreateResidentPage extends StatefulWidget {
   final String text;
   final bool showCoin;
   final bool showBag;
+  final bool showHasBeenVisited;
 
-  const CreateResidentPage({Key? key, this.resident, required this.text, required this.showCoin, required this.showBag}) : super(key: key);
+  const CreateResidentPage({Key? key, this.resident, required this.text, required this.showCoin, required this.showBag, required this.showHasBeenVisited}) : super(key: key);
 
   @override
   State<CreateResidentPage> createState() => _CreateResidentPageState();
@@ -28,6 +29,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
 
   DateTime? selectedBirthdayDate;
   DateTime? selectedRegistrationDate;
+  DateTime? lastVisitedDate;
   bool isNewResident = true;
   bool wasModified = false;
   bool isMarkedForRemoval = false;
@@ -37,6 +39,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
   bool isOnWhatsappGroup = false;
   bool hasPlaque = false;
   bool needsCollectOnTheHouse = false;
+  bool showHasBeenVisitedMutableInternalVariable = false;
   Shift? selectedShift;
   String selectedSituation = "Ativo";
   String previousPhoneNumberString = "";
@@ -87,6 +90,7 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
     hasPlaque = widget.resident?.hasPlaque ?? false;
 
     selectedRegistrationDate = widget.resident?.registrationDate ?? DateTime.now();
+    lastVisitedDate = widget.resident?.lastVisited;
 
     residentsInTheHouseController.text = widget.resident?.residentsInTheHouse.toString() ?? "";
     if (residentsInTheHouseController.text == "0") {
@@ -114,6 +118,8 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
       List<String> dayMonthYear = selectedRegistrationDate.toString().split(" ")[0].split("-");
       registrationDateController.text = "${dayMonthYear[2]}/${dayMonthYear[1]}/${dayMonthYear[0]}";
     }
+
+    showHasBeenVisitedMutableInternalVariable = widget.showHasBeenVisited;
 
     super.initState();
   }
@@ -223,7 +229,8 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
         isNew: widget.resident?.isNew ?? isNewResident,
         isMarkedForRemoval: false,
         wasModified: isNewResident ? false : true,
-        wasSuccessfullySentToBackendOnLastSync: false);
+        wasSuccessfullySentToBackendOnLastSync: false,
+        lastVisited: lastVisitedDate);
 
     if (isBeingCreated) {
       db.saveNewResident(newResident);
@@ -423,10 +430,16 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                           Icons.shopping_bag,
                           size: 20,
                         )),
+                    Visibility(
+                        visible: showHasBeenVisitedMutableInternalVariable,
+                        child: const Icon(
+                          Icons.location_on_rounded,
+                          size: 20,
+                        )),
                   ],
                 ),
                 Visibility(
-                  visible: showTags && (widget.showCoin || widget.showBag),
+                  visible: showTags && (widget.showCoin || widget.showBag || showHasBeenVisitedMutableInternalVariable),
                   child: const SizedBox(
                     height: 15,
                   ),
@@ -498,6 +511,28 @@ class _CreateResidentPageState extends State<CreateResidentPage> {
                         ),
                       ],
                     )),
+                Column(
+                  children: [
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    CheckboxListTile(
+                      title: const Text("Já foi visitado hoje?"),
+                      value: showHasBeenVisitedMutableInternalVariable,
+                      onChanged: (bool? newValue) => setState(() {
+                        showHasBeenVisitedMutableInternalVariable = newValue ?? false;
+
+                        if (showHasBeenVisitedMutableInternalVariable) {
+                          lastVisitedDate = DateTime.now();
+                        } else {
+                          lastVisitedDate = null;
+                        }
+
+                        saveNewResident();
+                      }),
+                    ),
+                  ],
+                ),
                 const SizedBox(
                   height: 30,
                 ),

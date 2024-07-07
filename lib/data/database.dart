@@ -53,6 +53,7 @@ class GlobalDatabase {
     for (dynamic residentMapObject in responseBody) {
       DateTime? birthdate = DateTime.tryParse(residentMapObject["birthdate"] ?? "");
       DateTime? registrationDate = DateTime.tryParse(residentMapObject["registration_date"] ?? "");
+      DateTime? lastVisited = DateTime.tryParse(residentMapObject["last_visited"] ?? "");
 
       Situation situation = integerToSituation(residentMapObject["situation"]);
 
@@ -115,7 +116,8 @@ class GlobalDatabase {
           isNew: false,
           isMarkedForRemoval: false,
           wasModified: false,
-          wasSuccessfullySentToBackendOnLastSync: false);
+          wasSuccessfullySentToBackendOnLastSync: false,
+          lastVisited: lastVisited);
 
       residents.add(resident);
     }

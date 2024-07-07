@@ -80,6 +80,9 @@ class Resident extends HiveObject {
   @HiveField(23)
   bool wasSuccessfullySentToBackendOnLastSync;
 
+  @HiveField(24)
+  DateTime? lastVisited;
+
   Resident(
       {required this.id,
       required this.address,
@@ -104,7 +107,8 @@ class Resident extends HiveObject {
       required this.isMarkedForRemoval,
       required this.wasModified,
       required this.receipts,
-      required this.wasSuccessfullySentToBackendOnLastSync});
+      required this.wasSuccessfullySentToBackendOnLastSync,
+      required this.lastVisited});
 
   // Copies resident to this resident instance
   void deepCopy(Resident resident) {
@@ -131,6 +135,7 @@ class Resident extends HiveObject {
     shiftForCollectionOnTheHouse = resident.shiftForCollectionOnTheHouse;
     receipts = resident.receipts;
     wasSuccessfullySentToBackendOnLastSync = resident.wasSuccessfullySentToBackendOnLastSync;
+    lastVisited = resident.lastVisited;
   }
 
   static Resident createCopy(Resident resident) {
@@ -158,6 +163,7 @@ class Resident extends HiveObject {
         needsCollectOnTheHouse: resident.needsCollectOnTheHouse,
         shiftForCollectionOnTheHouse: resident.shiftForCollectionOnTheHouse,
         receipts: resident.receipts,
-        wasSuccessfullySentToBackendOnLastSync: resident.wasSuccessfullySentToBackendOnLastSync);
+        wasSuccessfullySentToBackendOnLastSync: resident.wasSuccessfullySentToBackendOnLastSync,
+        lastVisited: resident.lastVisited);
   }
 }
