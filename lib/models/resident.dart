@@ -30,7 +30,7 @@ class Resident extends HiveObject {
   String profession;
 
   @HiveField(7)
-  DateTime birthdate;
+  DateTime? birthdate;
 
   @HiveField(8)
   String phone;
@@ -42,7 +42,7 @@ class Resident extends HiveObject {
   bool hasPlaque;
 
   @HiveField(11)
-  DateTime registrationDate;
+  DateTime? registrationDate;
 
   @HiveField(12)
   int residentsInTheHouse;
